@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-
 from django.db import models
+
 
 class Employee(models.Model):
     STANDING_CHOICES = (
@@ -20,6 +20,7 @@ class Employee(models.Model):
     delete = models.BooleanField(default=False)
     phone = models.CharField(max_length=12)
     apuid = models.CharField(max_length=11)
+    codename = models.CharField(max_length=20)
     position = models.CharField(max_length=40)
     standing = models.CharField(
         max_length=2,
@@ -29,6 +30,17 @@ class Employee(models.Model):
     favcandy = models.CharField(max_length=30)
     birthday = models.DateField()
     aboutme = models.TextField()
+
+    @property
+    def full_name(self):
+        """Returns employee's full name"""
+        return "%s %s" % (self.fname, self.lname)
+
+    @property
+    def nice_phone(self):
+        """Return a phone number in (XXX) XXX-XXXX format"""
+        return "(%s) %s-%s" % (self.phone[0:2], self.phone[4:6], self.phone[7:10])
+
 
 class Proficiencies(models.Model):
     netid = models.ForeignKey('Employee', on_delete=models.CASCADE)
@@ -41,17 +53,33 @@ class Proficiencies(models.Model):
     refresh = models.IntegerField()
     software = models.IntegerField()
 
+    @property
+    def get_as_list(self):
+        return [
+            self.basic,
+            self.advanced,
+            self.field,
+            self.printer,
+            self.network,
+            self.mobile,
+            self.refresh
+        ]
+
+
 class Passwords(models.Model):
     name = models.CharField(max_length=20)
     passwd = models.TextField()
     description = models.TextField()
     permission = models.IntegerField()
 
+
 class Trophies(models.Model):
     giver = models.ForeignKey('Employee', related_name='trophyGiver', on_delete=models.CASCADE)
     recipient = models.ForeignKey('Employee', related_name='trophyRecipient', on_delete=models.CASCADE)
     reason = models.TextField()
-    item_type = models.CharField(max_length=20)
+    trophy_type = models.CharField(max_length=20)
+    icon = models.CharField(max_length=30)
+
 
 class Announcements(models.Model):
     posted = models.DateTimeField(auto_now_add=True)
@@ -59,12 +87,14 @@ class Announcements(models.Model):
     announcement = models.TextField()
     sticky = models.BooleanField(default=False)
 
+
 class Events(models.Model):
     announcer = models.ForeignKey('Employee', on_delete=models.CASCADE)
     description = models.TextField()
     eventStart = models.DateTimeField()
     eventEnd = models.DateTimeField()
     location = models.TextField()
+
 
 class BrowserStats(models.Model):
     hits = models.IntegerField()
@@ -75,6 +105,7 @@ class BrowserStats(models.Model):
     edge = models.IntegerField()
     ie = models.IntegerField()
 
+
 class Discipline(models.Model):
     time = models.DateTimeField(auto_now_add=True)
     poster = models.ForeignKey('Employee', related_name='disc_poster', on_delete=models.CASCADE)
@@ -82,6 +113,7 @@ class Discipline(models.Model):
     description = models.TextField()
     val = models.DecimalField(max_digits=3, decimal_places=2)
     violation = models.CharField(max_length=15)
+
 
 class EmailSubscriptions(models.Model):
     SHIFT_EMAIL_SUBSCRIPTION_CHOICES = (
@@ -93,7 +125,7 @@ class EmailSubscriptions(models.Model):
     )
     BIO_EMAIL_SUBSCRIPTION_CHOICES = (
         ('none', 'No Emails'),
-        ('lab', 'Lab Emails'), #for lead lab tech
+        ('lab', 'Lab Emails'),  # for lead lab tech
         ('all', 'All Emails')
     )
 
@@ -106,15 +138,17 @@ class EmailSubscriptions(models.Model):
 
     bio_sub = models.CharField(
         max_length=5,
-        choices = BIO_EMAIL_SUBSCRIPTION_CHOICES,
+        choices=BIO_EMAIL_SUBSCRIPTION_CHOICES,
         default='none'
     )
+
 
 class Subscriptions(models.Model):
     netid = models.ForeignKey('Employee', on_delete=models.CASCADE)
     sub_type = models.CharField(max_length=5, default='both')
     sub_level = models.CharField(max_length=5, default='none')
     delete = models.BooleanField(default=False)
+
 
 class FailBoard(models.Model):
     FAIL_CATEGORIES = (
@@ -132,13 +166,15 @@ class FailBoard(models.Model):
     )
 
     fail_holder = models.ForeignKey('Employee', on_delete=models.CASCADE)
-    fail_type = models.CharField(max_length=30,choices=FAIL_CATEGORIES)
+    fail_type = models.CharField(max_length=30, choices=FAIL_CATEGORIES)
     fail_val = models.CharField(max_length=20)
     date = models.DateField()
+
 
 class MessageFromThePast(models.Model):
     message = models.TextField()
     posted = models.DateField(auto_now_add=True)
+
 
 class ServicePrices(models.Model):
     service = models.CharField(max_length=30)
@@ -146,6 +182,7 @@ class ServicePrices(models.Model):
     inuse = models.IntegerField(default=0)
     description = models.CharField(max_length=255)
     placement_order = models.IntegerField()
+
 
 class Shifts(models.Model):
     LOCATION_CHOICES = (
@@ -173,6 +210,7 @@ class Shifts(models.Model):
     google_id = models.TextField()
     g_perm_id = models.TextField()
 
+
 class Access(models.Model):
     netid = models.ForeignKey('Employee', on_delete=models.CASCADE)
-    #TODO: Define here? Or maybe modify Django's auth system?
+    # TODO: Define here? Or maybe modify Django's auth system?
