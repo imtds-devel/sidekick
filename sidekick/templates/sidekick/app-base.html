@@ -9,6 +9,10 @@
             <meta name="keywords" content="sidekick, imt, device solutions">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1">
+<<<<<<< HEAD
+=======
+            <link rel="sidekick icon" type="image/png" href="{% static 'favicon.ico' %}"/>
+>>>>>>> 6f497bd194456c3872f208f4946486f020daf75e
         {% endblock %}
 
         {% block head-css %}
@@ -16,6 +20,7 @@
                 rel="stylesheet" media="screen">
         {% endblock %}
     </head>
+<<<<<<< HEAD
 <header>
 
 <!-- Where we define our wonderful navbelt -->    
@@ -47,6 +52,23 @@
     {% block content %}<!-- PUT YOUR CONTENT HERE -->{% endblock %}
 
     {% block head-javascript %}
+=======
+<!-- The base of the page -->
+<div class='container-fluid'>
+    <!-- Where we define our wonderful navbelt -->
+    {% include 'sidekick/navigation.html' %} 
+    <div class='row'>
+        <div class='col-sm-3 col-lg-2'>
+            <!-- Side Panel (Alfred) -->
+            {% include 'sidekick/sidebar.html' %} 
+        </div>
+        <div class='col-sm-9 col-lg-10'>
+    {% block content %}<!-- PUT YOUR CONTENT HERE -->{% endblock %}
+        </div>
+    </div>
+</div>
+    {% block load-javascript %}
+>>>>>>> 6f497bd194456c3872f208f4946486f020daf75e
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     {% endblock %}
 </html>
