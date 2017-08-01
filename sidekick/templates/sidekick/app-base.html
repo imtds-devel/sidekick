@@ -9,6 +9,7 @@
             <meta name="keywords" content="sidekick, imt, device solutions">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1">
+            <link rel="sidekick icon" type="image/png" href="{% static 'favicon.ico' %}"/>
         {% endblock %}
 
         {% block head-css %}
@@ -16,37 +17,21 @@
                 rel="stylesheet" media="screen">
         {% endblock %}
     </head>
-<header>
-
-<!-- Where we define our wonderful navbelt -->    
-<nav class = "navbar navbar-default navbar-static-top" role = "navigation">
-    <div class = "container-fluid">
-        <div class = "navbar-header">
-		      <button type = "button" class = "navbar-toggle collapsed" data-toggle = "collapse" data-target = "#nav-belt" aria-expanded="false" aria-controls="navbar">
-		        <span class = "icon-bar"></span>
-		        <span class = "icon-bar"></span>
-		        <span class = "icon-bar"></span>
-		      </button>
-            <a class = "navbar-brand navbar-brand-centered" href = "homebase">Sidekick</a>
+<!-- The base of the page -->
+<div class='container-fluid'>
+    <!-- Where we define our wonderful navbelt -->
+    {% include 'sidekick/navigation.html' %} 
+    <div class='row'>
+        <div class='col-sm-3 col-lg-2'>
+            <!-- Side Panel (Alfred) -->
+            {% include 'sidekick/sidebar.html' %} 
         </div>
-        <div class = "navbar-collapse collapse" id = "nav-belt">
-            <ul class = "nav navbar-nav">
-                <li><a href = "homebase">Homebase</a></li>
-                <li><a href = "passwords">Passwords</a></li>
-                <li><a href = "shifts">Shifts</a></li>
-            </ul>
-            <ul class = "nav navbar-nav navbar-right">
-                <li><a href = "roster">Roster</a></li>
-                <li><a href = "quotes">Quotes</a></li>
-                <li><a href = "dbtest">DBTest</a></li>
-            </ul>
+        <div class='col-sm-9 col-lg-10'>
+    {% block content %}<!-- PUT YOUR CONTENT HERE -->{% endblock %}
         </div>
     </div>
-</nav>
-</header>
-    {% block content %}<!-- PUT YOUR CONTENT HERE -->{% endblock %}
-
-    {% block head-javascript %}
+</div>
+    {% block load-javascript %}
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     {% endblock %}
 </html>
