@@ -1,2 +1,7 @@
 #ignore config files
 *.ini
+
+#ignore files
+.idea
+
+**/.vscode

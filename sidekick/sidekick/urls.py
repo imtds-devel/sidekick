@@ -18,11 +18,6 @@ from django.contrib import admin
 from django.views.generic import RedirectView
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'^$', RedirectView.as_view(url=('homebase/'))),
+    url(r'^', include('homebase.urls')),
     url(r'^homebase/', include('homebase.urls')),
-    url(r'^printinfo/', include('printinfo.urls')),
-    url(r'^quotes/', include('quotes.urls')),
-    url(r'^roster/', include('roster.urls')),
-    url(r'^shifts/', include('shifts.urls')),
 ]
