@@ -1,17 +1,7 @@
 #ignore config files
-<<<<<<< HEAD
 **/*.ini
 **/*.pyc
-=======
-*.ini
-*.pyc
-
->>>>>>> Basic jpanel homebase setup
 #ignore files
 .idea
 
 **/.vscode
-<<<<<<< HEAD
-
-=======
->>>>>>> Basic jpanel homebase setup
