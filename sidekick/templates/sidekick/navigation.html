@@ -6,18 +6,17 @@
                     <span class = "icon-bar"></span>
                     <span class = "icon-bar"></span>
                 </button>
-                <a class = "navbar-brand navbar-brand-centered" href = "">Sidekick</a>
+                <a class = "navbar-brand navbar-brand-centered" href = "{% url 'homebase:index' %}">Sidekick</a>
             </div>
             <div class = "navbar-collapse collapse" id = "nav-belt">
                 <ul class = "nav navbar-nav">
-                    <li><a href = "">Homebase</a></li>
-                    <li><a href = "passwords">Passwords</a></li>
-                    <li><a href = "shifts">Shifts</a></li>
+                    <li><a href = "{% url 'homebase:index' %}">Homebase</a></li>
+                    <li><a href = "{% url 'passwords:index' %}">Passwords</a></li>
+                    <li><a href = "{% url 'shifts:index' %}">Shifts</a></li>
                 </ul>
                 <ul class = "nav navbar-nav navbar-right">
-                    <li><a href = "roster">Roster</a></li>
-                    <li><a href = "quotes">Quotes</a></li>
-                    <li><a href = "dbtest">DBTest</a></li>
+                    <li><a href = "{% url 'roster:index' %}">Roster</a></li>
+                    <li><a href = "{% url 'quotes:index' %}">Quotes</a></li>
                 </ul>
             </div>
         </div>
