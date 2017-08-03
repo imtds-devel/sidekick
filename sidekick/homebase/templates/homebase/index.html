@@ -1,4 +1,5 @@
 {% extends 'sidekick/app-base.html' %}
+{% load staticfiles %}
 {% block content %}
 <div class = "containter">
   <div class='page-header'>
@@ -25,10 +26,11 @@
     <div class="col-md-12">
       <div class="panel panel-primary">
         <div class="panel-heading">NewsLetter</div>
-        <div class="panel-body">Newsletter</div>
+        <div class="panel-body">
+          <embed src="{% static 'newsletter.pdf'%}" width="100%" height="100%" type='application/pdf'>
+        </div>
       </div>
     </div>
   </div>
-
 </div>
 {% endblock %}
