@@ -1,10 +1,8 @@
 #ignore config files
-*.ini
-*.pyc
-
+**/*.ini
+**/*.pyc
 #ignore files
 .idea
 
 **/.vscode
 
-*.pyc
