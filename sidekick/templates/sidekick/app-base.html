@@ -1,4 +1,4 @@
-<!-- Load our static files, this is for bootstrap :) -->
+<!-- Load our static files, this is for bootstrap, images, and our icon :) -->
 {% load staticfiles %}
 
 <!-- The header, we get bootstrap and do other important neato things :) -->
@@ -13,8 +13,8 @@
         {% endblock %}
 
         {% block head-css %}
-            <link href="{% static 'bootstrap/dist/css/bootstrap.min.css' %}"
-                rel="stylesheet" media="screen">
+            <link rel="stylesheet" href="{% static 'bootstrap/dist/css/bootstrap.min.css' %}" />
+            <link rel="stylesheet" href="{% static 'styles/style.css' %}"/>
         {% endblock %}
     </head>
 
@@ -28,11 +28,12 @@
             {% include 'sidekick/sidebar.html' %} 
         </div>
         <div class='col-sm-9 col-lg-10'>
-    {% block content %}<!-- PUT YOUR CONTENT HERE -->{% endblock %}
+    {% block content %}<!-- PUT YOUR CONTENT HERE :D -->{% endblock %}
         </div>
     </div>
 </div>
     {% block load-javascript %}
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="{% static 'bootstrap/dist/js/bootstrap.min.js' %}"></script>
     {% endblock %}
 </html>
