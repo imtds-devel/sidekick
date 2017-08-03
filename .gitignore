@@ -1,5 +1,6 @@
 #ignore config files
 *.ini
+*.pyc
 
 #ignore files
 .idea
