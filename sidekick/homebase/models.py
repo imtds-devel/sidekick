@@ -60,6 +60,16 @@ class Employee(models.Model):
         """Return a phone number in (XXX) XXX-XXXX format"""
         return "(%s) %s-%s" % (self.phone[0:2], self.phone[4:6], self.phone[7:10])
 
+    @property 
+    def data_target(self):
+        """Returns the netid with a #, for use with data targetting"""
+        return "#%s" % (self.netid)
+    
+    @property
+    def picture(self):
+        """Returns the file path"""
+        return "employees/%s.gif" % (self.netid)
+
 
 class Proficiencies(models.Model):
     netid = models.ForeignKey('Employee', on_delete=models.CASCADE)
