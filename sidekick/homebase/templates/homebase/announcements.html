@@ -1,22 +1,40 @@
-<!-- Creates a list group and calls modal when clicked-->
+{% load staticfiles %}
+<!-- Announcement/Event Modal -->
+<div id="announcementModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
 
+    <!-- Modal content: Just hard coded data for now-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <p class="modal-title">Announcement</p>
+      </div>
+      <div class="modal-body">
+        <p>There is fall training I think</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Creates a list group and calls modal when clicked-->
 <div class="col-md-6">
   <div class="panel panel-default">
     <div class="panel-heading">Announcements</div>
     <div class="panel-body">
       <div class="list-group">
-        <a href="#" class="list-group-item" data-toggle="modal" data-target="#myModal">
-          <h4 class="list-group-item-heading">Announcement</h4>
-          <p class="list-group-item-text">We gotz lots of upcoming stuffff</p>
-        </a>
-        <a href="#" class="list-group-item" data-toggle="modal" data-target="#myModal">
-          <h4 class="list-group-item-heading">Event</h4>
-          <p class="list-group-item-text">Dang cool events</p>
-        </a>
-        <a href="#" class="list-group-item" data-toggle="modal" data-target="#myModal">
-          <h4 class="list-group-item-heading">Training</h4>
-          <p class="list-group-item-text">Oh yah fall 2017 training the 14th</p>
-        </a>
+        <!-- Using employee to verify database working-->
+        {% if employee_list %}
+          {% for employee in employee_list %}
+          <!-- #AnnouncementModal would need to be a def call-->
+            <a href="#" class="list-group-item" data-toggle="modal" data-target="#announcementModal">
+              <p class="list-group-item-heading">Announcement</p>
+              <p class="list-group-item-text">{{employee.fname}}</p>
+            </a>
+          {% endfor %}
+        {% endif %}
       </div>
     </div>
   </div>
