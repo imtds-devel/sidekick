@@ -3,31 +3,42 @@
 {% load staticfiles %}
 <div class='container-fluid'>
     {% if employee_list %}
+    <div class='hero-cards'>
         {% for employee in employee_list %}
-            <div class='col-md-2'>
-            <div class='panel panel-default roster-card'>
-                <button type='button' class='btn roster-card btn-block' data-toggle='modal' data-target={{employee.data_target}}>
+            <div class='panel panel-default hero-card'>
+                <button type='button' class='btn hero-card-button btn-block' data-toggle='modal' data-target={{employee.data_target}}>
                 <div class='panel-body'>
-                        <img src = '{% static employee.picture %}' class='img-responsive img-circle'>
-                        <div><p> {{employee.netid}} </p></div>
-                       
+                        <img src = '{% static employee.picture %}' class='img-circle img-herocard'>
+                        <p> {{employee.full_name}} </p>
+                        <p> {{employee.codename}} </p>
+                        <p> {{employee.nice_phone}} </p>
                 </div>    
                 </button>
             </div>
-            </div>
         {% endfor %}
+    </div>
     {% else %}
     <div class='page-header'>Ain't got none</div>
     {% endif %}
     {% for employee in employee_list %}
         <div id={{employee.netid}} class='modal fade'>
-            <div class='modal-dialog modal-lg'>
+            <div class='modal-dialog modal-md'>
                 <div class='modal-content'>
                     <div class='modal-header'>
                         <button type='button' class='close' data-dismiss='modal'>&times;</button>
                         <h4 class='modal-title'>{{employee.full_name}}</h4>
                     </div>
-                    <div class='modal-body'>{{employee.netid}}</div>
+                    <div class='modal-body hero-bio'>
+                        <img src = '{% static employee.picture %}' class='img-circle img-herobio'>
+                    <div class='hero-bio'>
+                        <p> {{employee.full_name}} </p>
+                        <p> {{employee.netid}} </p>
+                        <p> {{employee.codename}} </p>
+                        <p> {{employee.position}} </p>
+                        <p> {{employee.nice_phone}} </p>
+                        <p> {{employee.birthday}} </p>
+                    </div>
+                    </div>
                     <div class='modal-footer'>
                         <button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
                     </div>
