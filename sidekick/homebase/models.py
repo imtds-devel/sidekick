@@ -14,6 +14,16 @@ class Employee(models.Model):
         ('us', 'Unspecified')
     )
 
+    POSITION_CHOICES = (
+        ('lbt', 'Lab Technician'),
+        ('spt', 'Support Tech'),
+        ('sst', 'Senior Support Tech'),
+        ('llt', 'Lead Lab Tech'),
+        ('man', 'Manager'),
+        ('stt', 'Staff Tech'),
+        ('stm', 'Staff Manager')
+    )
+
     netid = models.CharField(max_length=30, primary_key=True)
     fname = models.CharField(max_length=30, default="")
     lname = models.CharField(max_length=30, default="")
@@ -21,7 +31,12 @@ class Employee(models.Model):
     phone = models.CharField(max_length=12, default="")
     apuid = models.CharField(max_length=11, default="")
     codename = models.CharField(max_length=20, default="")
-    position = models.CharField(max_length=40, default="")
+    position = models.CharField(
+        max_length=40,
+        default='lbt',
+        choices=POSITION_CHOICES
+    )
+    position_desc = models.TextField(default="")
     standing = models.CharField(
         max_length=2,
         choices=STANDING_CHOICES,
@@ -30,6 +45,10 @@ class Employee(models.Model):
     favcandy = models.CharField(max_length=30, default="")
     birthday = models.DateField()
     aboutme = models.TextField(default="")
+    developer = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.fname + " " + self.lname + " (" + self.netid + ")"
 
     @property
     def full_name(self):
@@ -53,6 +72,17 @@ class Proficiencies(models.Model):
     refresh = models.IntegerField(default=0)
     software = models.IntegerField(default=0)
 
+    def __str__(self):
+        return "%s(%s, %s, %s, %s, %s, %s, %s)" % \
+               (self.netid,
+                self.basic,
+                self.advanced,
+                self.field,
+                self.printer,
+                self.network,
+                self.mobile,
+                self.refresh)
+
     @property
     def get_as_list(self):
         return [
@@ -72,13 +102,33 @@ class Passwords(models.Model):
     description = models.TextField(default="")
     permission = models.IntegerField(default=3)
 
+    def __str__(self):
+        return self.name + ": " + self.description
+
 
 class Trophies(models.Model):
+    TROPHY_TYPES = (
+        ('mil', 'Milestone'),
+        ('bdg', 'Badge'),
+        ('udb', 'Under the Bus'),
+        ('str', 'Star'),
+        ('hst', 'Half-Star'),
+        ('mas', 'Mastery')
+    )
+
     giver = models.ForeignKey('Employee', related_name='trophyGiver', on_delete=models.CASCADE)
     recipient = models.ForeignKey('Employee', related_name='trophyRecipient', on_delete=models.CASCADE)
     reason = models.TextField(default="")
-    trophy_type = models.CharField(max_length=20, default="")
+    name = models.TextField(default="")
+    trophy_type = models.CharField(
+        max_length=3,
+        default="",
+        choices=TROPHY_TYPES
+    )
     icon = models.CharField(max_length=30, default="")
+
+    def __str__(self):
+        return "giver: " + str(self.giver) + ", recipient: " + str(self.recipient) + ", type: " + str(self.trophy_type)
 
 
 class Announcements(models.Model):
@@ -87,13 +137,20 @@ class Announcements(models.Model):
     announcement = models.TextField(default="")
     sticky = models.BooleanField(default=False)
 
+    def __str__(self):
+        return str(self.announcement)
+
 
 class Events(models.Model):
     announcer = models.ForeignKey('Employee', on_delete=models.CASCADE)
+    title = models.CharField(max_length=30, default="")
     description = models.TextField(default="")
-    eventStart = models.DateTimeField()
-    eventEnd = models.DateTimeField()
+    event_start = models.DateTimeField()
+    event_end = models.DateTimeField()
     location = models.TextField(default="")
+
+    def __str__(self):
+        return "%s: from %s to %s" % (self.title, self.event_start, self.event_end)
 
 
 class BrowserStats(models.Model):
@@ -105,6 +162,17 @@ class BrowserStats(models.Model):
     edge = models.IntegerField(default=0)
     ie = models.IntegerField(default=0)
 
+    def __str__(self):
+        return "Hits: %s (%s chrome, %s safari, %s firefox, %s opera, %s edge, %s ie)" % (
+            self.hits,
+            self.chrome,
+            self.safari,
+            self.gecko,
+            self.opera,
+            self.edge,
+            self.ie
+        )
+
 
 class Discipline(models.Model):
     time = models.DateTimeField(auto_now_add=True)
@@ -114,33 +182,39 @@ class Discipline(models.Model):
     val = models.DecimalField(max_digits=3, decimal_places=2)
     violation = models.CharField(max_length=15, default="")
 
+    def __str__(self):
+        return "For: %s, Reason: %s, Val: %s" % (self.about, self.description, self.val)
+
 
 class EmailSubscriptions(models.Model):
     SHIFT_EMAIL_SUBSCRIPTION_CHOICES = (
-        ('none', 'No Emails'),
-        ('lab', 'Lab Tech Emails'),
+        ('no', 'No Emails'),
+        ('lb', 'Lab Tech Emails'),
         ('sd', 'Support Desk Emails'),
         ('rc', 'Repair Center Emails'),
-        ('all', 'All Emails!')
+        ('al', 'All Emails!')
     )
     BIO_EMAIL_SUBSCRIPTION_CHOICES = (
-        ('none', 'No Emails'),
-        ('lab', 'Lab Emails'),  # for lead lab tech
-        ('all', 'All Emails')
+        ('no', 'No Emails'),
+        ('lb', 'Lab Emails'),  # for lead lab tech
+        ('al', 'All Emails')
     )
 
     netid = models.ForeignKey('Employee', on_delete=models.CASCADE)
     shift_sub = models.CharField(
-        max_length=5, 
+        max_length=2,
         choices=SHIFT_EMAIL_SUBSCRIPTION_CHOICES,
         default='lab'
     )
 
     bio_sub = models.CharField(
-        max_length=5,
+        max_length=2,
         choices=BIO_EMAIL_SUBSCRIPTION_CHOICES,
         default='none'
     )
+
+    def __str__(self):
+        return "%s: shift=%s, bio=%s" % (self.netid, self.shift_sub, self.bio_sub)
 
 
 class Subscriptions(models.Model):
@@ -199,8 +273,8 @@ class Shifts(models.Model):
     owner = models.ForeignKey('Employee', related_name='shift_owner', on_delete=models.CASCADE)
     coverFor = models.ForeignKey('Employee', related_name='cover_for', on_delete=models.CASCADE)
     shift_date = models.DateField()
-    shiftStart = models.DateTimeField()
-    shiftEnd = models.DateTimeField()
+    shift_start = models.DateTimeField()
+    shift_end = models.DateTimeField()
     location = models.CharField(
         max_length=2,
         choices=LOCATION_CHOICES,
@@ -210,6 +284,10 @@ class Shifts(models.Model):
     sobstory = models.TextField(default="")
     google_id = models.TextField(default="")
     g_perm_id = models.TextField(default="")
+
+    def __str__(self):
+        return "%s: owned by %s, in %s from %s to %s" % (self.title, self.owner, self.location,
+                                                         self.shift_start, self.shift_end)
 
 
 class Access(models.Model):
