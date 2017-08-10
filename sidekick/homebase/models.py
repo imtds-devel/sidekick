@@ -14,22 +14,41 @@ class Employee(models.Model):
         ('us', 'Unspecified')
     )
 
+    POSITION_CHOICES = (
+        ('lbt', 'Lab Technician'),
+        ('spt', 'Support Tech'),
+        ('sst', 'Senior Support Tech'),
+        ('llt', 'Lead Lab Tech'),
+        ('man', 'Manager'),
+        ('stt', 'Staff Tech'),
+        ('stm', 'Staff Manager')
+    )
+
     netid = models.CharField(max_length=30, primary_key=True)
-    fname = models.CharField(max_length=30)
-    lname = models.CharField(max_length=30)
+    fname = models.CharField(max_length=30, default="")
+    lname = models.CharField(max_length=30, default="")
     delete = models.BooleanField(default=False)
-    phone = models.CharField(max_length=12)
-    apuid = models.CharField(max_length=11)
-    codename = models.CharField(max_length=20)
-    position = models.CharField(max_length=40)
+    phone = models.CharField(max_length=12, default="")
+    apuid = models.CharField(max_length=11, default="")
+    codename = models.CharField(max_length=20, default="")
+    position = models.CharField(
+        max_length=40,
+        default='lbt',
+        choices=POSITION_CHOICES
+    )
+    position_desc = models.TextField(default="")
     standing = models.CharField(
         max_length=2,
         choices=STANDING_CHOICES,
         default='us'
     )
-    favcandy = models.CharField(max_length=30)
+    favcandy = models.CharField(max_length=30, default="")
     birthday = models.DateField()
-    aboutme = models.TextField()
+    aboutme = models.TextField(default="")
+    developer = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.fname + " " + self.lname + " (" + self.netid + ")"
 
     @property
     def full_name(self):
@@ -44,14 +63,25 @@ class Employee(models.Model):
 
 class Proficiencies(models.Model):
     netid = models.ForeignKey('Employee', on_delete=models.CASCADE)
-    basic = models.IntegerField()
-    advanced = models.IntegerField()
-    field = models.IntegerField()
-    printer = models.IntegerField()
-    network = models.IntegerField()
-    mobile = models.IntegerField()
-    refresh = models.IntegerField()
-    software = models.IntegerField()
+    basic = models.IntegerField(default=0)
+    advanced = models.IntegerField(default=0)
+    field = models.IntegerField(default=0)
+    printer = models.IntegerField(default=0)
+    network = models.IntegerField(default=0)
+    mobile = models.IntegerField(default=0)
+    refresh = models.IntegerField(default=0)
+    software = models.IntegerField(default=0)
+
+    def __str__(self):
+        return "%s(%s, %s, %s, %s, %s, %s, %s)" % \
+               (self.netid,
+                self.basic,
+                self.advanced,
+                self.field,
+                self.printer,
+                self.network,
+                self.mobile,
+                self.refresh)
 
     @property
     def get_as_list(self):
@@ -67,80 +97,124 @@ class Proficiencies(models.Model):
 
 
 class Passwords(models.Model):
-    name = models.CharField(max_length=20)
-    passwd = models.TextField()
-    description = models.TextField()
-    permission = models.IntegerField()
+    name = models.CharField(max_length=20, default="")
+    passwd = models.TextField(default="")
+    description = models.TextField(default="")
+    permission = models.IntegerField(default=3)
+
+    def __str__(self):
+        return self.name + ": " + self.description
 
 
 class Trophies(models.Model):
+    TROPHY_TYPES = (
+        ('mil', 'Milestone'),
+        ('bdg', 'Badge'),
+        ('udb', 'Under the Bus'),
+        ('str', 'Star'),
+        ('hst', 'Half-Star'),
+        ('mas', 'Mastery')
+    )
+
     giver = models.ForeignKey('Employee', related_name='trophyGiver', on_delete=models.CASCADE)
     recipient = models.ForeignKey('Employee', related_name='trophyRecipient', on_delete=models.CASCADE)
-    reason = models.TextField()
-    trophy_type = models.CharField(max_length=20)
-    icon = models.CharField(max_length=30)
+    reason = models.TextField(default="")
+    name = models.TextField(default="")
+    trophy_type = models.CharField(
+        max_length=3,
+        default="",
+        choices=TROPHY_TYPES
+    )
+    icon = models.CharField(max_length=30, default="")
+
+    def __str__(self):
+        return "giver: " + str(self.giver) + ", recipient: " + str(self.recipient) + ", type: " + str(self.trophy_type)
 
 
 class Announcements(models.Model):
     posted = models.DateTimeField(auto_now_add=True)
     announcer = models.ForeignKey('Employee', on_delete=models.CASCADE)
-    announcement = models.TextField()
+    announcement = models.TextField(default="")
     sticky = models.BooleanField(default=False)
+
+    def __str__(self):
+        return str(self.announcement)
 
 
 class Events(models.Model):
     announcer = models.ForeignKey('Employee', on_delete=models.CASCADE)
-    description = models.TextField()
-    eventStart = models.DateTimeField()
-    eventEnd = models.DateTimeField()
-    location = models.TextField()
+    title = models.CharField(max_length=30, default="")
+    description = models.TextField(default="")
+    event_start = models.DateTimeField()
+    event_end = models.DateTimeField()
+    location = models.TextField(default="")
+
+    def __str__(self):
+        return "%s: from %s to %s" % (self.title, self.event_start, self.event_end)
 
 
 class BrowserStats(models.Model):
-    hits = models.IntegerField()
-    chrome = models.IntegerField()
-    safari = models.IntegerField()
-    gecko = models.IntegerField()
-    opera = models.IntegerField()
-    edge = models.IntegerField()
-    ie = models.IntegerField()
+    hits = models.IntegerField(default=0)
+    chrome = models.IntegerField(default=0)
+    safari = models.IntegerField(default=0)
+    gecko = models.IntegerField(default=0)
+    opera = models.IntegerField(default=0)
+    edge = models.IntegerField(default=0)
+    ie = models.IntegerField(default=0)
+
+    def __str__(self):
+        return "Hits: %s (%s chrome, %s safari, %s firefox, %s opera, %s edge, %s ie)" % (
+            self.hits,
+            self.chrome,
+            self.safari,
+            self.gecko,
+            self.opera,
+            self.edge,
+            self.ie
+        )
 
 
 class Discipline(models.Model):
     time = models.DateTimeField(auto_now_add=True)
     poster = models.ForeignKey('Employee', related_name='disc_poster', on_delete=models.CASCADE)
     about = models.ForeignKey('Employee', related_name='disc_about', on_delete=models.CASCADE)
-    description = models.TextField()
+    description = models.TextField(default="")
     val = models.DecimalField(max_digits=3, decimal_places=2)
-    violation = models.CharField(max_length=15)
+    violation = models.CharField(max_length=15, default="")
+
+    def __str__(self):
+        return "For: %s, Reason: %s, Val: %s" % (self.about, self.description, self.val)
 
 
 class EmailSubscriptions(models.Model):
     SHIFT_EMAIL_SUBSCRIPTION_CHOICES = (
-        ('none', 'No Emails'),
-        ('lab', 'Lab Tech Emails'),
+        ('no', 'No Emails'),
+        ('lb', 'Lab Tech Emails'),
         ('sd', 'Support Desk Emails'),
         ('rc', 'Repair Center Emails'),
-        ('all', 'All Emails!')
+        ('al', 'All Emails!')
     )
     BIO_EMAIL_SUBSCRIPTION_CHOICES = (
-        ('none', 'No Emails'),
-        ('lab', 'Lab Emails'),  # for lead lab tech
-        ('all', 'All Emails')
+        ('no', 'No Emails'),
+        ('lb', 'Lab Emails'),  # for lead lab tech
+        ('al', 'All Emails')
     )
 
     netid = models.ForeignKey('Employee', on_delete=models.CASCADE)
     shift_sub = models.CharField(
-        max_length=5, 
+        max_length=2,
         choices=SHIFT_EMAIL_SUBSCRIPTION_CHOICES,
         default='lab'
     )
 
     bio_sub = models.CharField(
-        max_length=5,
+        max_length=2,
         choices=BIO_EMAIL_SUBSCRIPTION_CHOICES,
         default='none'
     )
+
+    def __str__(self):
+        return "%s: shift=%s, bio=%s" % (self.netid, self.shift_sub, self.bio_sub)
 
 
 class Subscriptions(models.Model):
@@ -167,7 +241,7 @@ class FailBoard(models.Model):
 
     fail_holder = models.ForeignKey('Employee', on_delete=models.CASCADE)
     fail_type = models.CharField(max_length=30, choices=FAIL_CATEGORIES)
-    fail_val = models.CharField(max_length=20)
+    fail_val = models.CharField(max_length=20, default="")
     date = models.DateField()
 
 
@@ -177,11 +251,11 @@ class MessageFromThePast(models.Model):
 
 
 class ServicePrices(models.Model):
-    service = models.CharField(max_length=30)
-    price = models.IntegerField()
+    service = models.CharField(max_length=30, default="")
+    price = models.IntegerField(default=0)
     inuse = models.IntegerField(default=0)
     description = models.CharField(max_length=255)
-    placement_order = models.IntegerField()
+    placement_order = models.IntegerField(default=0)
 
 
 class Shifts(models.Model):
@@ -199,16 +273,21 @@ class Shifts(models.Model):
     owner = models.ForeignKey('Employee', related_name='shift_owner', on_delete=models.CASCADE)
     coverFor = models.ForeignKey('Employee', related_name='cover_for', on_delete=models.CASCADE)
     shift_date = models.DateField()
-    shiftStart = models.DateTimeField()
-    shiftEnd = models.DateTimeField()
+    shift_start = models.DateTimeField()
+    shift_end = models.DateTimeField()
     location = models.CharField(
         max_length=2,
-        choices=LOCATION_CHOICES
+        choices=LOCATION_CHOICES,
+        default='ma'
     )
     is_open = models.BooleanField(default=False)
-    sobstory = models.TextField()
-    google_id = models.TextField()
-    g_perm_id = models.TextField()
+    sobstory = models.TextField(default="")
+    google_id = models.TextField(default="")
+    g_perm_id = models.TextField(default="")
+
+    def __str__(self):
+        return "%s: owned by %s, in %s from %s to %s" % (self.title, self.owner, self.location,
+                                                         self.shift_start, self.shift_end)
 
 
 class Access(models.Model):
