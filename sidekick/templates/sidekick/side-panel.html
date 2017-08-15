@@ -1,23 +1,48 @@
 {% load staticfiles %}
 <div class='panel-group sidebarTools'>
     <div class="panel panel-default">
-        <div class="panel-heading">Current MoD</div>
+        <div class="panel-heading">MoD Tracker</div>
         <div class="panel-body">
-                <div class="media">
-                    <div class="media-left">
-                        <img src='{% static 'employees/nchera13.gif' %}' class='img-circle sideMoDImg'>
+            <div class="carousel slide modTrack" id="modCarousel" data-ride="carousel">
+
+                <div class="carousel-inner" role="listbox">
+                    <div class="item active">
+                        <div class="media curMoD">
+                            <div class="media-left">
+                                <img src='{% static 'employees/nchera13.gif' %}' class='img-circle sideMoDImg'>
+                            </div>
+                            <div class="media-body">
+                                <h4 class='media-heading modName'>Now: Nicholas Chera</h4>
+                                <p>10:00am-2:00pm</p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="media-body">
-                        <h4 class='media-heading modName'>Nicholas Chera</h4>
-                        <p>10:00am-2:00pm</p>
+
+                    <div class="item">
+                        <div class="media nextMoD">
+                            <div class="media-left">
+                                <img src='{% static 'employees/dbartholomew13.gif' %}' class='img-circle sideMoDImg'>
+                            </div>
+                            <div class="media-body">
+                                <h4 class='media-heading modName'>Next: David Bartholomew</h4>
+                                <p>2:00pm-6:00pm</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                <a class="right carousel-control modTrack modNext" href="#modCarousel" role="button" data-slide="next">
+                    <span class="icon-next" id="modNextIcon"> </span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+
         </div>
     </div>
     <div class="panel panel-default">
         <div class='panel-heading'>My Shift</div>
         <div class="panel-body">
-            <!--<div class="shLine shStatus">
+            <!-- Pending shift status in release 1.2
+            <div class="shLine shStatus">
                 <p class="shText">Shift Status: </p>
                 <p class="shText" id="shStatusIn">Checked In</p>
             </div>
