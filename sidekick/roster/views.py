@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from sidekick import views
-
+from homebase.models import Employee
 
 # Create your views here.
 def index(request):
