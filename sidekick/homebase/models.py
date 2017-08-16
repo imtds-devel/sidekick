@@ -58,7 +58,17 @@ class Employee(models.Model):
     @property
     def nice_phone(self):
         """Return a phone number in (XXX) XXX-XXXX format"""
-        return "(%s) %s-%s" % (self.phone[0:2], self.phone[4:6], self.phone[7:10])
+        return "(%s) %s-%s" % (self.phone[0:3], self.phone[4:7], self.phone[8:12])
+
+    @property 
+    def data_target(self):
+        """Returns the netid with a #, for use with data targetting"""
+        return "#%s" % (self.netid)
+    
+    @property
+    def picture(self):
+        """Returns the file path"""
+        return "employees/%s.gif" % (self.netid)
 
 
 class Proficiencies(models.Model):
