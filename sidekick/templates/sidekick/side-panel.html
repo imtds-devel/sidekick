@@ -9,7 +9,7 @@
                     <div class="item active">
                         <div class="media curMoD">
                             <div class="media-left">
-                                <img src='{% static 'employees/nchera13.gif' %}' class='img-circle sideMoDImg'>
+                                <img src="{% static 'employees/nchera13.gif' %}" class='img-circle sideMoDImg'>
                             </div>
                             <div class="media-body">
                                 <h4 class='media-heading modName'>Now: Nicholas Chera</h4>
@@ -21,7 +21,7 @@
                     <div class="item">
                         <div class="media nextMoD">
                             <div class="media-left">
-                                <img src='{% static 'employees/dbartholomew13.gif' %}' class='img-circle sideMoDImg'>
+                                <img src="{% static 'employees/dbartholomew13.gif' %}" class='img-circle sideMoDImg'>
                             </div>
                             <div class="media-body">
                                 <h4 class='media-heading modName'>Next: David Bartholomew</h4>
@@ -67,7 +67,7 @@
     <div class="panel panel-default">
         <div class="panel-heading">Trophy Case</div>
         <div class="panel-body">
-            Trophy Case goes here! Woo hoo!
+            {% include 'trophycase/trophycase.html' with trophy_list=trophy_list%}
         </div>
     </div>
 </div>

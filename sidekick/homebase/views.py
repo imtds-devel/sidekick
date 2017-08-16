@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-from django.shortcuts import render
+from sidekick import views
 
 
 def index(request):
-    return render(request, 'homebase/index.html')
+    context = {}
+    return views.load_page(request, 'homebase/index.html', context)

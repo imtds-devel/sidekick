@@ -116,31 +116,6 @@ class Passwords(models.Model):
         return self.name + ": " + self.description
 
 
-class Trophies(models.Model):
-    TROPHY_TYPES = (
-        ('mil', 'Milestone'),
-        ('bdg', 'Badge'),
-        ('udb', 'Under the Bus'),
-        ('str', 'Star'),
-        ('hst', 'Half-Star'),
-        ('mas', 'Mastery')
-    )
-
-    giver = models.ForeignKey('Employee', related_name='trophyGiver', on_delete=models.CASCADE)
-    recipient = models.ForeignKey('Employee', related_name='trophyRecipient', on_delete=models.CASCADE)
-    reason = models.TextField(default="")
-    name = models.TextField(default="")
-    trophy_type = models.CharField(
-        max_length=3,
-        default="",
-        choices=TROPHY_TYPES
-    )
-    icon = models.CharField(max_length=30, default="")
-
-    def __str__(self):
-        return "giver: " + str(self.giver) + ", recipient: " + str(self.recipient) + ", type: " + str(self.trophy_type)
-
-
 class Announcements(models.Model):
     posted = models.DateTimeField(auto_now_add=True)
     announcer = models.ForeignKey('Employee', on_delete=models.CASCADE)
