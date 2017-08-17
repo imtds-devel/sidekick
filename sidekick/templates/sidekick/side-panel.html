@@ -1,7 +1,7 @@
 {% load staticfiles %}
 <div class='panel-group sidebarTools'>
     <div class="panel panel-default">
-        <div class="panel-heading">MoD Tracker</div>
+        <div class="panel-heading"><h4>MoD Tracker</h4></div>
         <div class="panel-body">
             <div class="carousel slide modTrack" id="modCarousel">
 
@@ -37,38 +37,45 @@
             </div>
             <script type="text/javascript">
                 $("#modCarousel").carousel('pause');
+
             </script>
 
         </div>
     </div>
     <div class="panel panel-default">
-        <div class='panel-heading'>My Shift</div>
+        <div class='panel-heading'><h4>My Shift<br><small> Marshburn: 2:15pm-5:00pm</small></h4></div>
         <div class="panel-body">
-            <!-- Pending shift status in release 1.2
-            <div class="shLine shStatus">
-                <p class="shText">Shift Status: </p>
-                <p class="shText" id="shStatusIn">Checked In</p>
+            <div class="media">
+                <div class="media-body">
+                    <!-- Pending shift status in release 1.2
+                    <div class="shLine shStatus">
+                        <p class="shText">Shift Status: </p>
+                        <p class="shText" id="shStatusIn">Checked In</p>
+                    </div>
+                    -->
+
+                    <div class="shLine shEnd">
+                        <p class="shText">Shift ends in: </p>
+                        <p class="shText" id="shEndsIn">50</p>
+                        <p class="shText">min</p>
+                    </div>
+                    <div class="shLine shRounds">
+                        <p class="shText">Rounds due in:</p>
+                        <p class="shText" id="shRoundsIn">2</p>
+                        <p class="shText">min</p>
+                    </div>
+                    <div class="shLine shBreak">
+                        <p class="shText">Break length: </p>
+                        <p class="shText" id="shBreakIn">15</p>
+                        <p class="shText">min</p>
+                    </div>
+                </div>
             </div>
-            -->
-            <div class="shLine shEnd">
-                <p class="shText">Shift ends in: </p>
-                <p class="shText" id="shEndsIn">50</p>
-                <p class="shText">min</p>
-            </div>
-            <div class="shLine shRounds">
-                <p class="shText">Rounds due in:</p>
-                <p class="shText" id="shRoundsIn">2</p>
-                <p class="shText">min</p>
-            </div>
-            <div class="shLine shBreak">
-                <p class="shText">Break length: </p>
-                <p class="shText" id="shBreakIn">15</p>
-                <p class="shText">min</p>
-            </div>
+
         </div>
     </div>
     <div class="panel panel-default">
-        <div class="panel-heading">Trophy Case</div>
+        <div class="panel-heading"><h4>Trophy Case</h4></div>
         <div class="panel-body">
             {% include 'trophycase/trophycase.html' with trophy_list=trophy_list%}
         </div>
