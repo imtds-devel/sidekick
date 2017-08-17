@@ -19,7 +19,7 @@ class Employee(models.Model):
         ('spt', 'Support Tech'),
         ('sst', 'Senior Support Tech'),
         ('llt', 'Lead Lab Tech'),
-        ('man', 'Manager'),
+        ('mgr', 'Manager'),
         ('stt', 'Staff Tech'),
         ('stm', 'Staff Manager')
     )
@@ -56,19 +56,34 @@ class Employee(models.Model):
         return "%s %s" % (self.fname, self.lname)
 
     @property
+    def short_desc(self):
+        c_name = str(self.codename)
+        return c_name if c_name else str(self.nice_position)
+
+    @property
     def nice_phone(self):
         """Return a phone number in (XXX) XXX-XXXX format"""
         return "(%s) %s-%s" % (self.phone[0:3], self.phone[4:7], self.phone[8:12])
 
+    @property
+    def nice_standing(self):
+        """Format employee's standing nicely"""
+        return dict(self.STANDING_CHOICES)[str(self.standing)]
+
+    @property
+    def nice_position(self):
+        """Format an employee's position nicely"""
+        return dict(self.POSITION_CHOICES)[str(self.position)] if not str(self.position_desc) else str(self.position_desc)
+
     @property 
     def data_target(self):
-        """Returns the netid with a #, for use with data targetting"""
-        return "#%s" % (self.netid)
+        """Returns the netid with a #, for use with data targeting"""
+        return "#%s" % self.netid
     
     @property
     def picture(self):
         """Returns the file path"""
-        return "employees/%s.gif" % (self.netid)
+        return "employees/%s.gif" % self.netid
 
 
 class Proficiencies(models.Model):
