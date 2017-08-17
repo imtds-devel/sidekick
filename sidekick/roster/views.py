@@ -6,6 +6,6 @@ from homebase.models import Employee
 
 # Create your views here.
 def index(request):
-    employee_list = Employee.objects.all()
+    employee_list = Employee.objects.all().order_by('lname')
     context = {'employee_list':employee_list}
     return views.load_page(request, 'roster/index.html', context)

@@ -3,7 +3,7 @@
 <div class="trophy-wrap">
     {% if trophy_list %}
         {% for trophy in trophy_list%}
-            <a href="#" class="trophy" data-toggle="popover" data-placement="auto top" data-trigger="hover" title="{{ trophy.name }}" data-content="{{ trophy.reason }}">
+            <a href="#" class="trophy" data-toggle="popover" data-placement="auto top" data-trigger="hover" title="{{ trophy.name }}" data-content="{{ trophy.reason }} -- {{trophy.giver.full_name}}">
                 <img class="trophy-img" src="{% static trophy.url %}">
             </a>
         {% endfor %}
