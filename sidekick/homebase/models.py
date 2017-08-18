@@ -28,23 +28,23 @@ class Employee(models.Model):
     fname = models.CharField(max_length=30, default="")
     lname = models.CharField(max_length=30, default="")
     delete = models.BooleanField(default=False)
-    phone = models.CharField(max_length=12, default="")
+    phone = models.CharField(max_length=12, default="", blank=True, null=True)
     apuid = models.CharField(max_length=11, default="")
-    codename = models.CharField(max_length=20, default="")
+    codename = models.CharField(max_length=20, default="", blank=True, null=True)
     position = models.CharField(
         max_length=40,
         default='lbt',
         choices=POSITION_CHOICES
     )
-    position_desc = models.TextField(default="")
+    position_desc = models.CharField(max_length=50, default="", blank=True, null=True)
     standing = models.CharField(
         max_length=2,
         choices=STANDING_CHOICES,
         default='us'
     )
-    favcandy = models.CharField(max_length=30, default="")
-    birthday = models.DateField()
-    aboutme = models.TextField(default="")
+    favcandy = models.CharField(max_length=30, default="", blank=True, null=True)
+    birthday = models.DateField(null=True, blank=True)
+    aboutme = models.TextField(default="", null=True, blank=True)
     developer = models.BooleanField(default=False)
 
     def __str__(self):
@@ -57,13 +57,12 @@ class Employee(models.Model):
 
     @property
     def short_desc(self):
-        c_name = str(self.codename)
-        return c_name if c_name else str(self.nice_position)
+        return str(self.codename) if self.codename else self.nice_position
 
     @property
     def nice_phone(self):
         """Return a phone number in (XXX) XXX-XXXX format"""
-        if not str(self.phone):
+        if not self.phone or not str(self.phone):
             return "Number Unknown"
 
         return "(%s) %s-%s" % (self.phone[0:3], self.phone[4:7], self.phone[8:12])
@@ -76,7 +75,11 @@ class Employee(models.Model):
     @property
     def nice_position(self):
         """Format an employee's position nicely"""
-        return dict(self.POSITION_CHOICES)[str(self.position)] if not str(self.position_desc) else str(self.position_desc)
+        if not self.position_desc or not str(self.position_desc):
+            out = dict(self.POSITION_CHOICES)[str(self.position)]
+        else:
+            out = str(self.position_desc)
+        return out
 
     @property 
     def data_target(self):
