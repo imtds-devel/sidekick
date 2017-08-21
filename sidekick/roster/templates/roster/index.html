@@ -16,9 +16,10 @@
                                 <img src='{% static employee.picture|img_exists %}' class='img-circle img-herocard'>
                             </div>
                             <div class="media-body e_desc">
-                                <p class="e_full_name"><b>{{employee.full_name}}</b></p>
-                                <p class="e_short_desc"> {{employee.short_desc}} </p>
-                                <p class="e_phone"> {{employee.nice_phone}} </p>
+                                <p class="e_field"><b>{{employee.full_name}}</b></p>
+                                <p class="e_field"> {{employee.short_desc}} </p>
+                                <p class="e_field"> {{employee.netid}}</p>
+                                <p class="e_field"> {{employee.nice_phone}} </p>
                             </div>
                         </div>
                     </div>
@@ -80,7 +81,16 @@
                 <div class="modal-body">
                     <form method="post" class="form-horizontal">
                         {% csrf_token %}
-                        {{ form.as_p }}
+                        {% for field in form.visible_fields %}
+                        <div class="form-group">
+                            {{ field.errors }}
+                            <label class="control-lavel col-sm-2" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            <div class="col-sm-10">
+                                {{ field }}
+                            </div>
+                        </div>
+
+                        {% endfor %}
                         <button class="btn btn-success">Create</button>
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
                     </form>

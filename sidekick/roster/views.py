@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from django.http import HttpResponseRedirect
 from sidekick import views
-from homebase.models import Employee
+from homebase.models import Employees
 from .forms import EmployeeForm
 
 
@@ -22,7 +22,7 @@ def index(request):
 # Helper Functions
 
 def prep_context():
-    employee_list = Employee.objects.all().order_by('lname')
+    employee_list = Employees.objects.all().order_by('lname')
     form = EmployeeForm()
     return {
         'employee_list': employee_list,
