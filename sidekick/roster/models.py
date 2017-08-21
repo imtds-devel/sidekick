@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 
 from django.db import models
-from homebase.models import Employee
+from homebase.models import Employees
 
 
 # Create your models here.
@@ -19,8 +19,8 @@ class Trophies(models.Model):
         # ('pst', 'Puzzle Star')
     )
 
-    giver = models.ForeignKey(Employee, related_name='trophyGiver', on_delete=models.CASCADE)
-    recipient = models.ForeignKey(Employee, related_name='trophyRecipient', on_delete=models.CASCADE)
+    giver = models.ForeignKey(Employees, related_name='trophyGiver', on_delete=models.CASCADE)
+    recipient = models.ForeignKey(Employees, related_name='trophyRecipient', on_delete=models.CASCADE)
     reason = models.TextField(default="")
     name = models.TextField(default="")
     trophy_type = models.CharField(
