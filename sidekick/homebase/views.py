@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from sidekick import views
 
-from .models import Employee
+#from .models import Employee
 
 def index(request):
     context = {}
