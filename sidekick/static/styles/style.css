@@ -1,0 +1,225 @@
+@media screen and (min-width:768px){
+    .navbar-brand-centered {
+        position: absolute;
+        left: 50%;
+        display: block;
+        width: 160px;
+        text-align: center;
+        font-weight: bolder;
+        font-size: 37px;
+        transition: all ease 0.3s;
+                }
+    .navbar>.container .navbar-brand-centered, 
+    .navbar>.container-fluid .navbar-brand-centered {
+        margin-left: -80px;
+    }
+}
+.navbar-nav a
+{
+    transition: all ease 0.3s;
+}
+.sidebarWrap
+{
+    border-right:1px solid #eee;
+}
+.sidebarTools
+{
+    margin:0px;
+}
+.modTrack
+{
+    border-radius:5px;
+    transition: all ease 0.3s;
+}
+#modCarousel .carousel-control
+{
+    opacity:0;
+}
+#modCarousel:hover .carousel-control
+{
+    opacity: 1;
+}
+.modNext
+{
+    display: flex;
+    flex-direction: column;
+    justify-content:center;
+
+}
+#modNextIcon
+{
+    font-size:40px;
+    margin-top:-20px;
+    margin-right:-15px;
+}
+.modName
+{
+    margin-top:10px;
+}
+.sideMoDImg
+{
+    height:60px;
+    width:60px;
+}
+.sideUserWrap
+{
+    position:fixed;
+    bottom:0px;
+    left:0px;
+    height:10%;
+    border-top: 1px solid #eee;
+    border-right: 1px solid #eee;
+    padding:0px;
+}
+.userStd
+{
+    display:flex;
+    flex-direction:row;
+    justify-content: space-around;
+    align-items:center;
+    height:100%;
+    width:100%;
+    transition: all ease-in-out 0.2s;
+    background-color:white;
+}
+.sideUserWrap:hover > .userStd
+{
+    filter:brightness(40%);
+    
+}
+.sideUserText
+{
+    width: 145px;
+}
+.sideUserText p
+{
+    font-size: 16px;
+    margin: 0px;
+}
+
+.sh-checkin-img
+{
+    height: 50px;
+    width: 50px;
+    border: #A0A0A0 2px solid;
+}
+.shLine
+{
+    display: flex;
+    flex-direction: row;
+    flex-wrap:wrap;
+}
+.shText
+{
+    margin-left:5px;
+}
+
+
+.hero-card
+{
+    max-width: 308px;
+    max-height: 138px;
+    margin-left: 6px;
+    display: inline-block;
+    margin-bottom: 6px;
+}
+.spt
+{
+    background-color: #BEBEBE !important;
+}
+.sst
+{
+    background-color:#AFFFAF !important;
+}
+.llt
+{
+    background-color: #C4ADFF !important;
+}
+.mgr
+{
+    background-color: #AADAFF !important;
+}
+.stt
+{
+    background-color:#FFECA1 !important;
+}
+.stm
+{
+    background-color:#FFB1B1 !important;
+}
+.dev_True
+{
+    border: orange 2px solid !important;
+}
+.hero-bio
+{
+    text-align: right;
+}
+.hero-card-button
+{
+    border-radius: 4px;
+    border: #A0A0A0 2px solid;
+    background-color: white;
+    transition: all linear 0.2s;
+}
+.hero-card-button:hover
+{
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+.img-herocard
+{
+    height: 87px;
+    width: 87px;
+}
+.e_desc
+{
+    text-align:right;
+    width:151px;
+}
+.e_field
+{
+    margin:0 0 2px;
+}
+.img-herobio
+{
+    display: block;
+    margin-bottom: -185px;
+    height: 185px;
+    width: 185px;
+    border: 2px #b3b3b3 solid;
+}
+
+.new-user-btn
+{
+    height: 136px;
+    width: 306px;
+    background-color: #BEBEBE !important;
+    overflow: hidden;
+}
+.plus-wrap
+{
+    display: flex;
+    justify-content: center;
+    align-items:center;
+}
+.new-plus
+{
+    height: 96px;
+    width:96px;
+}
+.trophy-wrap
+{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.trophy
+{
+    margin:3px;
+}
+.trophy-img
+{
+    height: 40px;
+    width: 40px;
+    border-radius: 3px;
+}
