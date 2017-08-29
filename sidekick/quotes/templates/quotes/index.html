@@ -1,6 +1,56 @@
 {% extends 'sidekick/app-base.html' %}
 {% block content %}
-<div class='page-header'>
-    <h2>Quote Tool</h2>
-</div>
+{% if services_list %}
+        <div class = "container-fluid">
+            <div class = "services-selection-container">
+                <div class='page-header'>
+                    <h3>Backup</h3>
+                </div>
+                {% for service in services_list %}
+                    {% if service.category == 'backup' %}
+                        <div class = 'panel panel-default service-card'>
+                            <div class = 'panel-body'>
+                                <div class = 'media'>
+                                    <div class = 'media-top'>
+                                        <div class = 'page-header'>
+                                            <h4>{{service.service}}</h4>
+                                        </div>
+                                    </div>
+                                    <div class = 'media-body'>
+                                        <p><b>{{service.price}}</b></p>
+                                        <p> {{service.description}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div class = "services-selection-container">
+                <div class='page-header'>
+                    <h3>Hardware</h3>
+                </div>
+                {% for ServicePrices in services_list %}
+                {% endfor %}
+            </div>
+            <div class = "services-selection-container">
+                <div class='page-header'>
+                    <h3>Software</h3>
+                </div>
+                {% for ServicePrices in services_list %}
+                {% endfor %}
+            </div>
+            <div class = "services-selection-container">
+                <div class='page-header'>
+                    <h3>Discounts</h3>
+                </div>
+                {% for ServicePrices in services_list %}
+                {% endfor %}
+            </div>
+        </div>
+{% else %}
+    <div class='page-header'>
+        <h3>No services found, contact your local Sidekick representative</h3>
+    </div>
+{% endif %}
 {% endblock %}

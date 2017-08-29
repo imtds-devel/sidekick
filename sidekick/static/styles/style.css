@@ -223,3 +223,11 @@
     width: 40px;
     border-radius: 3px;
 }
+.services-selection-container
+{
+    max-height: 400px;
+    max-width: 600px;
+    display: inline-block;
+    margin-left: 10px;
+    margin-bottom: 10px;
+}
