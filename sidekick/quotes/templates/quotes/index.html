@@ -1,8 +1,9 @@
 {% extends 'sidekick/app-base.html' %}
 {% block content %}
 {% if services_list %}
-        <div class = "container-fluid">
-            <div class = "services-selection-container">
+    <div class= 'col-sm-6 col-lg-7'>
+        <div class = 'container-fluid'>
+            <div class = 'services-selection-container'>
                 <div class='page-header'>
                     <h3>Backup</h3>
                 </div>
@@ -18,7 +19,7 @@
                                     </div>
                                     <div class = 'media-body'>
                                         <p><b>{{service.price}}</b></p>
-                                        <p> {{service.description}}</p>
+                                        <p>{{service.description}}</p>
                                     </div>
                                 </div>
                             </div>
@@ -26,14 +27,14 @@
                     {% endif %}
                 {% endfor %}
             </div>
-            <div class = "services-selection-container">
+            <div class = 'services-selection-container'>
                 <div class='page-header'>
                     <h3>Hardware</h3>
                 </div>
                 {% for ServicePrices in services_list %}
                 {% endfor %}
             </div>
-            <div class = "services-selection-container">
+            <div class = 'services-selection-container'>
                 <div class='page-header'>
                     <h3>Software</h3>
                 </div>
@@ -48,6 +49,14 @@
                 {% endfor %}
             </div>
         </div>
+    </div>
+    <div class='col-sm-3 col-lg-3'>
+        <div class='services-slection-container'>
+            <div class='page-header'>
+                <h3>Quote</h3>
+            </div>
+        </div>
+    </div>
 {% else %}
     <div class='page-header'>
         <h3>No services found, contact your local Sidekick representative</h3>
