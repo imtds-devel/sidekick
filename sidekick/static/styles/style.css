@@ -9,10 +9,14 @@
         font-size: 37px;
         transition: all ease 0.3s;
                 }
-    .navbar>.container .navbar-brand-centered, 
+    .navbar>.container .navbar-brand-centered,
     .navbar>.container-fluid .navbar-brand-centered {
         margin-left: -80px;
     }
+}
+.employee-pic{
+  border-radius: 50%;
+  width: 60px;
 }
 .navbar-nav a
 {
@@ -85,7 +89,7 @@
 .sideUserWrap:hover > .userStd
 {
     filter:brightness(40%);
-    
+
 }
 .sideUserText
 {
