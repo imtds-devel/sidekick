@@ -1,60 +1,82 @@
 {% extends 'sidekick/app-base.html' %}
+{% load staticfiles %}
 {% block content %}
 {% if services_list %}
     <div class= 'col-sm-6 col-lg-7'>
         <div class = 'container-fluid'>
             <div class = 'services-selection-container'>
-                <div class='page-header'>
-                    <h3>Backup</h3>
-                </div>
-                {% for service in services_list %}
-                    {% if service.category == 'backup' %}
-                        <div class = 'panel panel-default service-card'>
-                            <div class = 'panel-body'>
-                                <div class = 'media'>
-                                    <div class = 'media-top'>
-                                        <div class = 'page-header'>
-                                            <h4>{{service.service}}</h4>
-                                        </div>
+                <div class='panel panel-default services-panel'>
+                    <div class='panel-heading'>Backup</div>
+                    {% for service in services_list %}
+                        {% if service.category == 'backup' %}
+                            <button type='button' class='btn btn-block service-btn'>
+                                <div class ='media'>
+                                    <div class ='media-left'>
+                                    {{service.service}}
                                     </div>
-                                    <div class = 'media-body'>
-                                        <p><b>{{service.price}}</b></p>
-                                        <p>{{service.description}}</p>
+                                    <div class ='media-body'>
+                                    {{service.description}}
+                                    </div>
+                                    <div class ='media-right'>
+                                    ${{service.price}}
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    {% endif %}
-                {% endfor %}
+                            </button>
+                        {% endif %}
+                    {% endfor %}
+                </div>
             </div>
             <div class = 'services-selection-container'>
-                <div class='page-header'>
-                    <h3>Hardware</h3>
+                <div class='panel panel-default services-panel'>
+                    <div class='panel-heading'>Hardware</div>
+                    {% for service in services_list %}
+                        {% if service.category == 'hardware' %}
+                            <button type='button' class='btn btn-block'>{{service.service}} ${{service.price}}</button>
+                        {% endif %}
+                    {% endfor %}
                 </div>
-                {% for ServicePrices in services_list %}
-                {% endfor %}
             </div>
             <div class = 'services-selection-container'>
-                <div class='page-header'>
-                    <h3>Software</h3>
+                <div class='panel panel-default services-panel'>
+                    <div class='panel-heading'>Software</div>
+                    {% for service in services_list %}
+                            {% if service.category == 'software' %}
+                                <button type='button' class='btn btn-block'>{{service.service}} ${{service.price}}</button>
+                            {% endif %}
+                        {% endfor %}
                 </div>
-                {% for ServicePrices in services_list %}
-                {% endfor %}
             </div>
-            <div class = "services-selection-container">
-                <div class='page-header'>
-                    <h3>Discounts</h3>
+            <div class = 'services-selection-container'>
+                <div class='panel panel-default services-panel'>
+                    <div class='panel-heading'>Discounts</div>
+                    {% for service in services_list %}
+                        {% if service.category == 'discount' %}
+                            <button type='button' class='btn btn-block'>{{service.service}} ${{service.price}}</button>
+                        {% endif %}
+                    {% endfor %}
                 </div>
-                {% for ServicePrices in services_list %}
-                {% endfor %}
             </div>
         </div>
     </div>
-    <div class='col-sm-3 col-lg-3'>
-        <div class='services-slection-container'>
-            <div class='page-header'>
-                <h3>Quote</h3>
+    <div class='col-sm-5 col-lg-5'>
+        <div class='services-selection-container'>
+            <div class='panel panel-default quote-card'>
+                <div class='panel-heading'>Quote</div>
             </div>
+            <div class='panel panel-default quote-card'>
+                <div class='panel-heading'>Text Quote</div>
+                <div class='panel-body'>
+                        Hard Drive - $50.00
+                        OS Install - $75.00
+                        Medium Backup: 11-50GB - $50.00
+                        Small Labor - $25.00
+                        Shipping - $10.00
+                        Tax - $4.63
+                        **Total - $214.63**
+                </div>
+            </div>
+            <button type='button' class='btn btn-primary btn-lg'>Copy Quote to Clipboard</button>
+            <button type='button' class='btn btn-primary btn-lg'>Reset Quote</button>
         </div>
     </div>
 {% else %}
@@ -62,4 +84,5 @@
         <h3>No services found, contact your local Sidekick representative</h3>
     </div>
 {% endif %}
+<script src="{% static "js/quotes.js" %}"></script>
 {% endblock %}
