@@ -9,7 +9,7 @@
                     <div class='panel-heading'>Backup</div>
                     {% for service in services_list %}
                         {% if service.category == 'backup' %}
-                            <button id='service' type='button' class='btn btn-block service-btn'>
+                            <button id='service' type='button' class='btn btn-block service-btn' onclick="addService('{{service.service}}','{{service.price}}');">
                                 <div class ='media'>
                                     <div class ='media-left'>
                                     {{service.service}}
@@ -31,7 +31,19 @@
                     <div class='panel-heading'>Hardware</div>
                     {% for service in services_list %}
                         {% if service.category == 'hardware' %}
-                            <button id='service' type='button' class='btn btn-block'>{{service.service}} ${{service.price}}</button>
+                            <button id='service' type='button' class='btn btn-block service-btn'>
+                                <div class ='media'>
+                                    <div class ='media-left'>
+                                    {{service.service}}
+                                    </div>
+                                    <div class ='media-body'>
+                                    {{service.description}}
+                                    </div>
+                                    <div class ='media-right'>
+                                    ${{service.price}}
+                                    </div>
+                                </div>
+                            </button>
                         {% endif %}
                     {% endfor %}
                 </div>
@@ -41,7 +53,19 @@
                     <div class='panel-heading'>Software</div>
                     {% for service in services_list %}
                             {% if service.category == 'software' %}
-                                <button type='button' class='btn btn-block'>{{service.service}} ${{service.price}}</button>
+                                <button id='service' type='button' class='btn btn-block service-btn'>
+                                    <div class ='media'>
+                                        <div class ='media-left'>
+                                        {{service.service}}
+                                        </div>
+                                        <div class ='media-body'>
+                                        {{service.description}}
+                                        </div>
+                                        <div class ='media-right'>
+                                        ${{service.price}}
+                                        </div>
+                                    </div>
+                                </button>
                             {% endif %}
                         {% endfor %}
                 </div>
@@ -51,7 +75,19 @@
                     <div class='panel-heading'>Discounts</div>
                     {% for service in services_list %}
                         {% if service.category == 'discount' %}
-                            <button type='button' class='btn btn-block'>{{service.service}} ${{service.price}}</button>
+                            <button id='service' type='button' class='btn btn-block service-btn'>
+                                <div class ='media'>
+                                    <div class ='media-left'>
+                                    {{service.service}}
+                                    </div>
+                                    <div class ='media-body'>
+                                    {{service.description}}
+                                    </div>
+                                    <div class ='media-right'>
+                                    ${{service.price}}
+                                    </div>
+                                </div>
+                            </button>
                         {% endif %}
                     {% endfor %}
                 </div>
@@ -66,7 +102,7 @@
             </div>
             <div class='panel panel-default quote-card'>
                 <div class='panel-heading'>Text Quote</div>
-                <div id='text-quote' class='panel-body'></div>
+                <textarea class='form-control' rows='5' id='text-quote' readonly='true'></textarea>
             </div>
             <button id='clipboard-button' type='button' class='btn btn-primary btn-lg'>Copy Quote to Clipboard</button>
             <button id='reset-button' type='button' class='btn btn-primary btn-lg'>Reset Quote</button>
