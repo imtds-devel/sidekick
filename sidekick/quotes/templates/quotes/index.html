@@ -9,7 +9,7 @@
                     <div class='panel-heading'>Backup</div>
                     {% for service in services_list %}
                         {% if service.category == 'backup' %}
-                            <button type='button' class='btn btn-block service-btn'>
+                            <button id='service' type='button' class='btn btn-block service-btn'>
                                 <div class ='media'>
                                     <div class ='media-left'>
                                     {{service.service}}
@@ -31,7 +31,7 @@
                     <div class='panel-heading'>Hardware</div>
                     {% for service in services_list %}
                         {% if service.category == 'hardware' %}
-                            <button type='button' class='btn btn-block'>{{service.service}} ${{service.price}}</button>
+                            <button id='service' type='button' class='btn btn-block'>{{service.service}} ${{service.price}}</button>
                         {% endif %}
                     {% endfor %}
                 </div>
@@ -62,21 +62,14 @@
         <div class='services-selection-container'>
             <div class='panel panel-default quote-card'>
                 <div class='panel-heading'>Quote</div>
+                    <div id='quote-items' class='btn-group' role='group'></div>
             </div>
             <div class='panel panel-default quote-card'>
                 <div class='panel-heading'>Text Quote</div>
-                <div class='panel-body'>
-                        Hard Drive - $50.00
-                        OS Install - $75.00
-                        Medium Backup: 11-50GB - $50.00
-                        Small Labor - $25.00
-                        Shipping - $10.00
-                        Tax - $4.63
-                        **Total - $214.63**
-                </div>
+                <div id='text-quote' class='panel-body'></div>
             </div>
-            <button type='button' class='btn btn-primary btn-lg'>Copy Quote to Clipboard</button>
-            <button type='button' class='btn btn-primary btn-lg'>Reset Quote</button>
+            <button id='clipboard-button' type='button' class='btn btn-primary btn-lg'>Copy Quote to Clipboard</button>
+            <button id='reset-button' type='button' class='btn btn-primary btn-lg'>Reset Quote</button>
         </div>
     </div>
 {% else %}
