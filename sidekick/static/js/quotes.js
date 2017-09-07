@@ -10,7 +10,7 @@ $(document).ready(function() {
     $('#clipboard-button').click(function(){
         // Select the text in the quote        
         document.querySelector('#text-quote').select();        
-        // The copy is in a try because some browsers do not support the feature to copy this way
+        // The copy is in a try because some browsers do not support the feature to copy this way        
         try {
             document.execCommand('copy');
         } catch (err) {
