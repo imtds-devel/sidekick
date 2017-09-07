@@ -239,3 +239,11 @@
 {   
     border: #A0A0A0 2px solid;
 }
+.quoted-cards
+{
+    width: 100%;
+}
+.quoted-service
+{
+    background-color: white;
+}
