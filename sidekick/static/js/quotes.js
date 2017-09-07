@@ -22,18 +22,14 @@ $(document).ready(function() {
     addService = function(serviceName, servicePrice){
 
         // Adds the selected quote as a button
-        $('#quote-items').append("<button type='button' class='btn btn-block service-btn'>"
+        $('#quote-items').append("<li class='list-group-item quoted-service'>"
         +"<div class ='media'>"
-           +"<div class ='media-left'>"
-            +serviceName
-            +"</div>"
-            +"<div class ='media-center'>"
-            +"$" + servicePrice
+            +"<div class ='media-body'>"
+            +serviceName + " $" + servicePrice
             +"</div>"
             +"<div class ='media-right'>"
-            +"<button id ='remove-service' type='button' class='btn btn-danger'>X</button></div>"
-        +"</div>"
-    +"</button>");
+            +"<button id ='remove-service' type='button' class='btn btn-danger'>X</button></div>"            
+        +"</div></li>");
         
         // Adds the selected quote as text
         $('#text-quote').append(serviceName);
