@@ -1,15 +1,36 @@
 {% extends 'sidekick/app-base.html' %}
 {% block content %}
 {% load staticfiles %}
-<div class='printer-info'>
+{% load printer_extras %}
+<div class='printer-page-title'>
     <h1>Printer Information</h1>
 </div>
 <div class='container-fluid'>
-    <div class='printer-area'>
-            <div class = 'info-area'>
-                    <div class='printer-panel-body'>
+    {% for library in library_list %}
+    <div class='library-info'>library
+        {% for printer in printers_list %}
+        <div class='printer-area'>
+            <div class='printer-panel-body'>
+                <button type='button'
+                        class='btn printer btn-block {{printer.type}}'
+                        data-toggle='modal' data-target={{printer.data_target}}>
+                    <div class='panel-body'>
+                        <div class="media">
+                            <div class="media-left">
+                                <img src='{% static printer.picture|img_exists %}' class='img-circle img-printer'>
+                            </div>
+                            <div class="media-body e_desc">
+                                <p class="e_field"><b>{{printer.health}}</b></p>
+
+                                <p class="e_field"> {{printer.report}} </p>
+                            </div>
                         </div>
                     </div>
+                </button>
             </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endfor %}
 </div>
 {% endblock %}
