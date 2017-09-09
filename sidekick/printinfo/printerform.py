@@ -1,5 +1,5 @@
 from django.forms import forms
-from .models import Printers
+from .models import Library
 
 class PrintInfo(forms.Form):
     def __init__(self, *args, **kwargs):
@@ -10,5 +10,5 @@ class PrintInfo(forms.Form):
             })
 
 class Meta:
-    model= Printers
-    fields=('library', 'libnum' 'printid', 'iplink', 'status', 'description')
+    model = Library
+    fields = ('libid', 'printtype', 'printid', 'iplink', 'status', 'report')

@@ -17,7 +17,7 @@ def index(request):
     return views.load_page(request, 'printinfo/index.html', prep_context())
 
 def prep_context():
-    printer_list = Printers.objects.all().order_by('libnum')
+    library_list = Library.objects.all().order_by('libid')
     form = PrintInfo()
     return {
         'printer_list': printer_list,
