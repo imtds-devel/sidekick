@@ -2,7 +2,7 @@
 {% load staticfiles %}
 {% block content %}
 {% if services_list %}
-    <div class= 'col-sm-6 col-lg-7'>
+    <div class= 'col-sm-7 col-lg-7'>
         <div class = 'container-fluid'>
             <div class = 'services-selection-container'>
                 <div class='panel panel-default services-panel'>
@@ -99,6 +99,26 @@
             <div class='panel panel-default quote-card'>
                 <div class='panel-heading'>Quote</div>
                     <div id='quote-items' class='list-group quoted-cards'></div>
+                    <div id='quote-totals' class='list-group-item quote-total'>
+                        <div class = 'media'>
+                            <div class = 'media-body'>
+                                <form>
+                                    Subtotal:<br>
+                                    <input type='text' name='subtotal' readonly='true'><br>
+                                    Shipping:<br>
+                                    <input type='text' name='shipping' readonly='true'><br>
+                                    Tax:<br>
+                                    <input type='text' name='tax' readonly='true'><br>
+                                </form>
+                            </div>
+                            <div class = 'media-right'>
+                                <form>
+                                    Total:<br>
+                                    <input type='text' name='total' readonly='true'><br>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
             </div>
             <div class='panel panel-default quote-card'>
                 <div class='panel-heading'>Text Quote</div>
