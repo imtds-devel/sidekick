@@ -4,25 +4,27 @@ from __future__ import unicode_literals
 from django.db import models
 
 # Create your models here.
+
+printerip = models.CharField(max_length=12)         # printer IP address
+desc = models.TextField(max_length=300, default="") # short status description
+
+# Types of Printers in the Libraries
 class Print(models.Model):
     PRINTER_CHOICES = (
-        ('bwmar', 'B&W Marshburn'),
-        ('comar', 'Color Marshburn'),
-        ('smmar', 'Small BW Marshburn'),
-        ('bwdar', 'B&W Darling'),
-        ('codar', 'Color Darling'),
-        ('bwstaup', 'B&W Stamps Upstairs'),
-        ('bwstado', 'B&W Stamps Downstairs'),
-        ('bwdome', 'B&W Cougar Dome'),
+        ('larbw', 'Large B&W'),
+        ('larco', 'Large Color'),
+        ('smabw', 'Small BW'),
     )
 
+# Different Status Options of Each Printer
 class Status(models.Model):
     PRINTER_STATUS = (
-        ('healthy', 'Fully Functional'),
-        ('warning', 'Problem!'),
-        ('OoS', 'Not Functional')
+        ('h', 'Fully Functional'),  # printer is healthy
+        ('w', 'Problem!'),          # printer has a warning
+        ('x', 'Not Functional')     # printer is down
     )
 
+# Each Location - ranked busiest to least
 class Library(models.Model):
     LIBRARY_LIST = (
         ('1', 'mar' 'Marshburn'),
@@ -31,20 +33,16 @@ class Library(models.Model):
         ('4', 'dome', 'Cougar Dome')
     )
 
-    printers = models.ForeignKey(Print, related_name='specificPrinter', on_delete=models.CASCADE)
-    r = Report()
-
-class Report(models.Model):
-    date_made = models.DateTimeField('Most Recent Report Time')
-    lib = models.CharField(library)
-    status = models.CharField(health)
-    rep = models.TextField(desc)
-
-
-library = models.CharField(max_length=4, default='', choices=Library.LIBRARY_LIST)
-# printers = models.ForeignKey(Print, related_name='specificPrinter', on_delete=models.CASCADE)
-desc = models.TextField(max_length=140, default="")
 health = models.CharField(max_length=1,
                           default='',
                           choices=Status.PRINTER_STATUS
                           )
+
+# Report Log Idea
+class Report(models.Model):
+    date_made = models.DateTimeField('Most Recent Report Time')
+    lib = Library()
+    status = Status()
+    rep = models.TextField(desc)
+
+printers = models.ForeignKey(Print, related_name='specificPrinter', on_delete=models.CASCADE)

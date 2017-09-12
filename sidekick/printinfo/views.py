@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 from django.http import HttpResponseRedirect
 from sidekick import views
 from .printerform import PrintInfo
-from .models import Printers
+from .models import Library
 
 # Create your views here.
 def index(request):
@@ -20,6 +20,5 @@ def prep_context():
     library_list = Library.objects.all().order_by('libid')
     form = PrintInfo()
     return {
-        'printer_list': printer_list,
         'form': form
     }
