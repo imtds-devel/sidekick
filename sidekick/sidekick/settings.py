@@ -54,11 +54,13 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'cas.middleware.CASMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.auth.middleware.RemoteUserMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -98,6 +100,12 @@ DATABASES = {
     }
 }
 
+# Authentication
+CAS_SERVER_URL = config['cas']['url']
+
+AUTHENTICATION_BACKENDS = [
+    'cas.backends.CASBackend'
+]
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators

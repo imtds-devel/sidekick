@@ -28,4 +28,6 @@ urlpatterns = [
     url(r'^quotes/', include('quotes.urls')),
     url(r'^roster/', include('roster.urls')),
     url(r'^shifts/', include('shifts.urls')),
+    url(r'^accounts/login/$', 'cas.views.login', name='login'),
+    url(r'^accounts/logout/$', 'cas.views.logout', name='logout')
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
