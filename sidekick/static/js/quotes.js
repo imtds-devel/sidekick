@@ -36,24 +36,30 @@ $(document).ready(function() {
         }
     });
         
+    // When a part is filled in and added
+    function addPart(){
+
+    }
+    
+
     // When a service (non part) is clicked
     addService = function(serviceName, servicePrice, serviceCategory){
         // We use this service id to label the element that we create
-        var serviceID = serviceName.replace(" ", "-").toLowerCase();
+        var serviceID = serviceCategory.replace(" ", "-").toLowerCase();
 
-        // If it returns null
+        // If it returns null then the service hasn't been added already 
         if (document.querySelector('#' + serviceID) == null){
             $('#quote-items').append("<li id='" + serviceID + "' class='list-group-item quoted-service'>"
             +"<div class ='media'>"
-                +"<div class ='media-body'>"
-                +serviceName + " $" + servicePrice
+                +"<div class ='media-left'>"
+                + serviceName
+                +"<div id = 'service-price' class ='media-body'>"
+                + "$" + servicePrice
+                +"</div>"
                 +"</div>"
                 +"<div class ='media-right'>"
                 +"<button id ='remove-button' type='button' class='btn btn-danger remove-button'>X</button></div>"            
             +"</div></li>");
-            
-            // Adds the selected quote as text
-            $('#text-quote').append(serviceName);
     
             subTotal += parseFloat(servicePrice);
             total = subTotal + shippingCost + taxPartCost;
@@ -62,6 +68,7 @@ $(document).ready(function() {
             $('input[name=total]').val("$ " + total.toFixed(2));        
     
             checkTotalsDisplay();
+            updateTextQuote();
         }
         else
             {
@@ -72,15 +79,54 @@ $(document).ready(function() {
 
     // Each service added to the quote has a remove button which triggers this function
     $('#quote-items').on("click", "#remove-button", function(){
-        var id = $(this).parent().parent().parent().attr('id');
-        $('#' + id).remove();
+        // We pull the id by with the parents of the remove button, !warning! messing with the HTML will break this :(
+        var id = "#" + $(this).parent().parent().parent().attr('id');
+
+
+        // We need to handle parts a little differently
+        if (id == "#part"){
+
+            }
+
+        else {
+            // A lot happens here, but it allows us to pull the price as a float to a variable :)
+            var servicePrice = parseFloat($(id).find('#service-price').text().slice(1));
+            // Now we subtract the removed item from our total and refresh the totals display
+            subTotal -= servicePrice;
+            total = subTotal + shippingCost + taxPartCost;
+
+            // If the subtotal is now 0, we want to clear the fields
+            if (subTotal == 0){
+                $('#quote-items').empty();
+                $('#text-quote').empty();
+                $('input').val("");
+                }
+            // Else, we just update the value 
+            else {
+                $('input[name=subtotal]').val("$ " + subTotal.toFixed(2));
+                $('input[name=total]').val("$ " + total.toFixed(2));   
+                }
+        }
+
+     
+        // Now we remove the quote item visually
+        $(id).remove();
     })
 
     // This function will generate the card for displaying totals if it doesn't exist
-    checkTotalsDisplay = function(){
+    function checkTotalsDisplay(){
         // Checks if quote totals card doesn't exist, if it doesn't we make it
         if (document.querySelector('#quote-totals') == null)
             {
             }
+    }
+
+    // This function will make a formatted text quote everytime there is a change 
+    // It does this with a 
+    function updateTextQuote(){
+        var quoteText = "";
+        if (any){
+
+        }
     }
 });

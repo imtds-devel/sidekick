@@ -9,10 +9,11 @@
                     <div class='panel-heading'>Backup</div>
                     {% for service in services_list %}
                         {% if service.category == 'backup' %}
-                            <button id='service' type='button' class='btn btn-block service-btn' onclick="addService('{{service.service}}','{{service.price}}');">
+                            <button id='service' type='button' class='btn btn-block service-btn' 
+                            onclick="addService('{{service.service_name}}','{{service.price}}','{{service.category}}');">
                                 <div class ='media'>
                                     <div class ='media-left'>
-                                    {{service.service}}
+                                    {{service.service_name}}
                                     </div>
                                     <div class ='media-body'>
                                     {{service.description}}
@@ -29,12 +30,28 @@
             <div class = 'services-selection-container'>
                 <div class='panel panel-default services-panel'>
                     <div class='panel-heading'>Hardware</div>
+                    <button id='part' type='button' class='btn btn-block part-btn'>
+                        <div class='media'>
+                            <div class='media-left'>Part</div>
+                            <div class='media-body'>
+                                <form>
+                                    Name:<br>
+                                    <input type='text' name='part-name'><br>
+                                    Price:<br>
+                                    <input type='number' name='part-price'><br>
+                                    Shipping:<br>
+                                    <input type='number' name='shipping-price'><br>
+                                </form>
+                            </div>
+                        </div>
+                    </button>
                     {% for service in services_list %}
-                        {% if service.category == 'hardware' %}
-                            <button id='service' type='button' class='btn btn-block service-btn'>
+                        {% if service.category == 'labor' %}
+                            <button id='service' type='button' class='btn btn-block service-btn' 
+                            onclick="addService('{{service.service_name}}','{{service.price}}','{{service.category}}');">
                                 <div class ='media'>
                                     <div class ='media-left'>
-                                    {{service.service}}
+                                    {{service.service_name}}
                                     </div>
                                     <div class ='media-body'>
                                     {{service.description}}
@@ -52,33 +69,35 @@
                 <div class='panel panel-default services-panel'>
                     <div class='panel-heading'>Software</div>
                     {% for service in services_list %}
-                            {% if service.category == 'software' %}
-                                <button id='service' type='button' class='btn btn-block service-btn'>
-                                    <div class ='media'>
-                                        <div class ='media-left'>
-                                        {{service.service}}
-                                        </div>
-                                        <div class ='media-body'>
-                                        {{service.description}}
-                                        </div>
-                                        <div class ='media-right'>
-                                        ${{service.price}}
-                                        </div>
+                        {% if service.category == 'software' %}
+                            <button id='service' type='button' class='btn btn-block service-btn' 
+                            onclick="addService('{{service.service_name}}','{{service.price}}','{{service.category}}');">
+                                <div class ='media'>
+                                    <div class ='media-left'>
+                                    {{service.service_name}}
                                     </div>
-                                </button>
-                            {% endif %}
-                        {% endfor %}
+                                    <div class ='media-body'>
+                                    {{service.description}}
+                                    </div>
+                                    <div class ='media-right'>
+                                    ${{service.price}}
+                                    </div>
+                                </div>
+                            </button>
+                        {% endif %}
+                    {% endfor %}
                 </div>
             </div>
             <div class = 'services-selection-container'>
                 <div class='panel panel-default services-panel'>
-                    <div class='panel-heading'>Discounts</div>
+                    <div class='panel-heading'>Other</div>
                     {% for service in services_list %}
-                        {% if service.category == 'discount' %}
-                            <button id='service' type='button' class='btn btn-block service-btn'>
+                        {% if service.category == 'other' %}
+                            <button id='service' type='button' class='btn btn-block service-btn' 
+                            onclick="addService('{{service.service_name}}','{{service.price}}','{{service.category}}');">
                                 <div class ='media'>
                                     <div class ='media-left'>
-                                    {{service.service}}
+                                    {{service.service_name}}
                                     </div>
                                     <div class ='media-body'>
                                     {{service.description}}
