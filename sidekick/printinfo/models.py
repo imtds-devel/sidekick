@@ -2,47 +2,20 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django.utils.timezone import datetime
 
 # Create your models here.
 
-printerip = models.CharField(max_length=12)         # printer IP address
-desc = models.TextField(max_length=300, default="") # short status description
+class Printer(models.Model):
+    printer_name = models.CharField(max_length=15, default='')          # printer name (external)
+    print_ref = models.CharField(max_length = 6)                        # printer reference name (internal)
+    location = models.CharField(max_length=12, default='')              # location of library printer dwells
+    print_ip = models.URLField(max_length=14)                           # printer IP address
+    print_type = models.CharField(max_length=5)                         # type of printer
+    img_url = models.URLField()                                         # image of printer
 
-# Types of Printers in the Libraries
-class Print(models.Model):
-    PRINTER_CHOICES = (
-        ('larbw', 'Large B&W'),
-        ('larco', 'Large Color'),
-        ('smabw', 'Small BW'),
-    )
-
-# Different Status Options of Each Printer
-class Status(models.Model):
-    PRINTER_STATUS = (
-        ('h', 'Fully Functional'),  # printer is healthy
-        ('w', 'Problem!'),          # printer has a warning
-        ('x', 'Not Functional')     # printer is down
-    )
-
-# Each Location - ranked busiest to least
-class Library(models.Model):
-    LIBRARY_LIST = (
-        ('1', 'mar' 'Marshburn'),
-        ('2', 'dar' 'Darling'),
-        ('3', 'sta', 'Stamps'),
-        ('4', 'dome', 'Cougar Dome')
-    )
-
-health = models.CharField(max_length=1,
-                          default='',
-                          choices=Status.PRINTER_STATUS
-                          )
-
-# Report Log Idea
-class Report(models.Model):
-    date_made = models.DateTimeField('Most Recent Report Time')
-    lib = Library()
-    status = Status()
-    rep = models.TextField(desc)
-
-printers = models.ForeignKey(Print, related_name='specificPrinter', on_delete=models.CASCADE)
+class StatusLog(models.Model):
+    print_id = models.ForeignKey(Printer)                               # printer id in database
+    date = models.DateField("Date", default=datetime.now())             # date of most recent log made
+    print_stat = models.CharField(max_length=12, default='healthy')     # status of printer health
+    desc = models.TextField(max_length=300, default='')                 # brief description of what's wrong

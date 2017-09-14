@@ -2,9 +2,8 @@
 from __future__ import unicode_literals
 
 from django.http import HttpResponseRedirect
-from sidekick import views
 from .printerform import PrintInfo
-from .models import Library
+from .models import Printer
 
 # Create your views here.
 def index(request):
@@ -17,8 +16,7 @@ def index(request):
     return views.load_page(request, 'printinfo/index.html', prep_context())
 
 def prep_context():
-    library_list = Library.objects.all().order_by('libid')
-    form = PrintInfo()
+    form = Printer
     return {
         'form': form
     }
