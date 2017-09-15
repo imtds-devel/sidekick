@@ -6,12 +6,12 @@
 var subTotal = 0; // Will contain the current subtotal (before tax and shipping)
 var total = 0; // Will contain the current quote total
 var partsCost = 0; // Contains the current subtotal of parts in the quote
-var shippingCost = 0; // Contains the current total of all shipping in the quote
+var shippingTotal = 0; // Contains the current total of all shipping in the quote
 var taxRate = .0925 // !! Contains the sales tax rate, update this when sales tax changes !! - 9.25% as of Fall 2017
 var taxPartCost = 0; // Contains the calculated tax on the part
 var addService; // For use with clicking a service
 $(document).ready(function() {
-    // When the "Reset Quotes" button is pressed, 
+    // When the "Reset Quote" button is pressed, 
     $('#reset-button').click(function(){
         $('#quote-items').empty();
         $('#text-quote').empty();
@@ -37,9 +37,26 @@ $(document).ready(function() {
     });
         
     // When a part is filled in and added
-    function addPart(){
+    $('#part').click(function(){
+        // First we must ensure the user didn't leave the name blank
+        if ($('input[name=part-name]').val().length == 0) {
+            // If it was blank we make it clear to the user that the field is required
+            $('#part-name').addClass('required-field');
+        }
+        else{
+            // We clear the required field class so it looks normal again, hopefully our user has learned
+            $('#part-name').removeClass('required-field');
 
-    }
+            var partCost = $('input[name=part-price]').val()
+            var shippingCost = parseFloat($('input[name=shipping-price]').val())
+
+            subTotal += partCost; 
+            partsCost += partCost;
+            taxPartCost = partsCost * taxRate;
+            
+
+        }
+    });
     
 
     // When a service (non part) is clicked
@@ -125,7 +142,7 @@ $(document).ready(function() {
     // It does this with a 
     function updateTextQuote(){
         var quoteText = "";
-        if (any){
+        if (true){
 
         }
     }
