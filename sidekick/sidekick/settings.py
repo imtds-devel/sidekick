@@ -35,7 +35,8 @@ DEBUG = bool(config['prod']['debug'])
 
 ALLOWED_HOSTS = [
 	'192.168.8.33',
-	'sidekick.devel.apu.edu'
+	'sidekick.devel.apu.edu',
+	'127.0.0.1'
 ]
 
 
