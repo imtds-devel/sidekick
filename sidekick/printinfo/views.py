@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-
 from django.http import HttpResponseRedirect
-from .printerform import PrintInfo
+from .models import Library
 from .models import Printer
+from sidekick import views
+from .printerform import PrintInfo
 
 # Create your views here.
 def index(request):
@@ -16,7 +17,34 @@ def index(request):
     return views.load_page(request, 'printinfo/index.html', prep_context())
 
 def prep_context():
-    form = Printer
+    library_list = {
+        "Marshburn":1,
+        "Darling": 2,
+        "Stamps": 3,
+        "Dome": 4
+    }
+    printer_list = {
+        "BW MAR": 1,
+        "COLOR MAR": 1,
+        "SBW MAR": 1,
+        "BW DAR": 2,
+        "COLOR DAR": 2,
+        "UBW STA": 3,
+        "DBW STA": 3,
+        "SBW DOME": 4
+
+    }
+    marshburn = 1
+    darling = 2
+    stamps = 3
+    dome = 4
+    form = PrintInfo()
     return {
+        'marshburn': marshburn,
+        'darling': darling,
+        'stamps': stamps,
+        'dome': dome,
+        'library_list': library_list,
+        'printer_list': printer_list,
         'form': form
     }

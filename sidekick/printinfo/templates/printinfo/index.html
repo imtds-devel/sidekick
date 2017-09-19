@@ -7,26 +7,18 @@
 </div>
 <div class='container-fluid'>
     {% for library in library_list %}
-    <div class='library-info'>library
-        {% for printer in printers_list %}
+    <div class='library-info'><h2>{{library}}<h/>
+        {% for printer in printer_list %}
         <div class='printer-area'>
-            <div class='printer-panel-body'>
+            {% if printer.key == library.key %}
+            <div class='printer-panel-body'> <h3><b>{{printer}}</b></h3>
+
                 <button type='button'
-                        class='btn printer btn-block {{printer.type}}'
-                        data-toggle='modal' data-target={{printer.data_target}}>
-                    <div class='panel-body'>
-                        <div class="media">
-                            <div class="media-left">
-                                <img src='{% static printer.picture|img_exists %}' class='img-circle img-printer'>
-                            </div>
-                            <div class="media-body e_desc">
-                                <p class="e_field"><b>{{printer.health}}</b></p>
-                                <p class="e_field"> {{printer.report}} </p>
-                            </div>
-                        </div>
-                    </div>
+                        class='btn printer btn-block'
+                        data-toggle='modal' data-target={{printer.data_target}}> {{form}}
                 </button>
             </div>
+            {% endif %}
         </div>
         {% endfor %}
     </div>

@@ -1,10 +1,10 @@
-from django import template
-import os
-# from sidekick.settings import STATIC_URL
-# import urllib
+from django.template.defaulttags import register
 
 
-register = template.Library()
+@register.filter
+def get_item(dictionary, key):
+    return dictionary.get(key)
+
 
 @register.filter(name='img_exists')
 def img_exists(filepath):
