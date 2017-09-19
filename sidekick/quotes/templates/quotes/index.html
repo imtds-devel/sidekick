@@ -30,21 +30,24 @@
             <div class = 'services-selection-container'>
                 <div class='panel panel-default services-panel'>
                     <div class='panel-heading'>Hardware</div>
-                    <button id='part' type='button' class='btn btn-block part-btn'>
+                    <panel id='part' class='part-panel'>
                         <div class='media'>
                             <div class='media-left'>Part</div>
                             <div class='media-body'>
                                 <form>
-                                    Name:<br>
+                                    Name:
                                     <input id='part-name'type='text' name='part-name'><br>
-                                    Price:<br>
+                                    Price:
                                     <input type='number' name='part-price'><br>
-                                    Shipping:<br>
+                                    Shipping:
                                     <input type='number' name='shipping-price'><br>
                                 </form>
                             </div>
+                            <div class = 'media-right'>
+                                <button id = 'add-part' type = 'button' class = 'btn btn-primary btn-add-part'>Add Part</button>
+                            </div>
                         </div>
-                    </button>
+                    </panel>
                     {% for service in services_list %}
                         {% if service.category == 'labor' %}
                             <button id='service' type='button' class='btn btn-block service-btn' 
@@ -118,7 +121,7 @@
             <div class='panel panel-default quote-card'>
                 <div class='panel-heading'>Quote</div>
                     <div id='quote-items' class='list-group quoted-cards'></div>
-                    <div id='quote-totals' class='list-group-item quote-total'>
+                    <div id='quote-totals' class='list-group-item quote-total hidden-quote'>
                         <div class = 'media'>
                             <div class = 'media-body'>
                                 <form>
