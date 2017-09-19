@@ -1,43 +1,67 @@
 {% load staticfiles %}
 <!-- Creates a list group and calls modal when clicked-->
-<div class="col-md-6 homebase-group">
-  <div class="panel panel-default">
-    <div class="panel-heading">Announcements</div>
-    <div class="panel-body">
-      <div class="list-group">
-        <!-- Using employee to verify database working-->
-        {% if announcement_list %}
-          {% for Announcements in announcement_list %}
-          <!-- #AnnouncementModal would need to be a def call-->
-            <a href="#" class="list-group-item" data-toggle="modal" data-target="#announcementModal{{Announcements.id}}">
-              <p class="list-group-item-heading">Announcement</p>
-              <p class="list-group-item-text">{{Announcements.announcement}}</p>
-            </a>
-          {% endfor %}
-        {% endif %}
-      </div>
-    </div>
-  </div>
-</div>
+<div class="col-md-6">
+  <div class="panel-group" id="accordion">
+  <div class="panel panel-default homebase-group">
+    <div class="panel-heading">Announcements/Events</div>
 
-<!-- Announcement/Event Modal -->
-{% if announcement_list %}
-{% for Announcements in announcement_list %}
-<div id="announcementModal{{Announcements.id}}" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <p class="modal-title">Announcement from <em>{{Announcements.announcer_id}}</em></p>
+    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+      <ol class="carousel-indicators">
+        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+        <li data-target="#myCarousel" data-slide-to="1"></li>
+      </ol>
+
+      <div class="carousel-inner">
+
+        <div class="item active">
+          <div class="panel-body">
+            <p class="a-subject">Announcement</p>
+            <p class="a-meta">Submitted By: dbartholomew13 on 5/4/32 5:55pm</p>
+            <p class="a-description">This is the announcement. This is what is happeneing. I nned yo help with some of this ish help me rn and I will give you a big ol cookie ok? thnx</p>
+          </div>
+          <div class="panel-body">
+            <p class="a-subject">Announcement</p>
+            <p class="a-meta">Submitted By: dbartholomew13 on 5/4/32 5:55pm</p>
+            <p class="a-description">This is the announcement. This is what is happeneing. blealskdfj alsdjkf aljksdflkja sdflkjl kasdf</p>
+          </div>
+          <div class="panel-body">
+            <p class="a-subject">Announcement</p>
+            <p class="a-meta">Submitted By: dbartholomew13 on 5/4/32 5:55pm</p>
+            <p class="a-description">This is the announcement. This is what is happeneing. blealskdfj alsdjkf aljksdflkja sdflkjl kasdf</p>
+          </div>
+        </div>
+
+        <div class="item">
+
+          <div class="panel-body">
+            <p>Event</p>
+            <p>Submitted By: dbartholomew13 on 5/4/32 5:55pm</p>
+            <p>This is the announcement. This is what is happeneing. blealskdfj alsdjkf aljksdflkja sdflkjl kasdf</p>
+          </div>
+          <div class="panel-body">
+            <p>Event</p>
+            <p>Submitted By: dbartholomew13 on 5/4/32 5:55pm</p>
+            <p>This is the announcement. This is what is happeneing. blealskdfj alsdjkf aljksdflkja sdflkjl kasdf</p>
+          </div>
+          <div class="panel-body">
+            <p>Event</p>
+            <p>Submitted By: dbartholomew13 on 5/4/32 5:55pm</p>
+            <p>This is the announcement. This is what is happeneing. blealskdfj alsdjkf aljksdflkja sdflkjl kasdf</p>
+          </div>
+
+        </div>
       </div>
-      <div class="modal-body">
-        <p>{{Announcements.announcement}}</p>
+
+    </div>
+
+      <div class="newsletter">
+        <div class="panel-body">
+          <button class="btn btn-default btn-block" type="button">Newsletter
+            <span class="open-file"></span>
+          </button>
+        </div>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
+
     </div>
   </div>
 </div>
-{% endfor %}
-{% endif %}

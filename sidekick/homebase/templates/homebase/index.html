@@ -2,9 +2,6 @@
 {% load staticfiles %}
 {% block content %}
 <div class = "containter">
-  <div class='page-header'>
-      <h2>Home Base 0.0.2</h2>
-  </div>
 
   <div class = "row homebase-row">
       <!-- Loads homing beacon panel-->
@@ -15,19 +12,4 @@
   </div>
 
 
-  <div class = "row">
-    <div class="col-md-12">
-      <div class="panel panel-default">
-        <a class="newsletterToggle" data-toggle="collapse" data-target="#newsletter">
-          <div class="panel-heading">NewsLetter</div>
-        </a>
-        <div class="collapse" id="newsletter">
-          <div class="panel-body">
-            <embed src="{% static 'newsletter.pdf'%}" width="100%" height="100%" type='application/pdf'>
-          </div>
-      </div>
-      </div>
-    </div>
-  </div>
-</div>
 {% endblock %}

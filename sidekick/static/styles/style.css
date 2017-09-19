@@ -14,6 +14,40 @@
         margin-left: -80px;
     }
 }
+
+.homebase-group{
+  margin-top: 0;
+  margin-left: 5;
+  margin-right: 5;
+
+  height: 90%;
+}
+
+.a-subject{
+  font-size: 22px;
+  font-color: blue;
+  text-align: center;
+}
+
+.a-meta{
+  font-size: 12px;
+  font-color: black;
+  text-align: center;
+}
+
+.a-description{
+  font-size: 16px;
+  text-align: center;
+}
+
+.newsletter{
+  background-color: #ADD8E6;
+  position: absolute;
+  bottom: 20;
+  width: 100%;
+  text-align: center;
+}
+
 .employee-pic{
   border-radius: 50%;
   width: 60px;
