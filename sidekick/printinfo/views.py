@@ -34,16 +34,28 @@ def prep_context():
         "SBW DOME": 4
 
     }
-    marshburn = 1
-    darling = 2
-    stamps = 3
-    dome = 4
+    marshburn = {
+        "BW MAR": 1,
+        "COLOR MAR": 1,
+        "SBW MAR": 1,
+    }
+    darling = {
+        "BW DAR": 2,
+        "COLOR DAR": 2,
+    }
+    stamps = {
+        "UBW STA": 3,
+        "DBW STA": 3,
+    }
+    dome = {
+        "SBW DOME": 4
+    }
     form = PrintInfo()
     return {
-        'marshburn': marshburn,
-        'darling': darling,
-        'stamps': stamps,
-        'dome': dome,
+        'Marshburn': marshburn,
+        'Darling': darling,
+        'Stamps': stamps,
+        'Dome': dome,
         'library_list': library_list,
         'printer_list': printer_list,
         'form': form

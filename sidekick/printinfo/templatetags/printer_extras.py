@@ -1,5 +1,5 @@
 from django.template.defaulttags import register
-
+import os
 
 @register.filter
 def get_item(dictionary, key):
