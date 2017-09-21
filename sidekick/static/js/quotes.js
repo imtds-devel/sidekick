@@ -58,8 +58,8 @@ $(document).ready(function() {
             if (document.querySelector('#' + partID) == null)
                 {
                     // Here we get the part and shipping cost from the input fields
-                    var partCost = $('input[name=part-price]').val()
-                    var shippingCost = parseFloat($('input[name=shipping-price]').val())
+                    var partCost = parseFloat($('input[name=part-price]').val());
+                    var shippingCost = parseFloat($('input[name=shipping-price]').val());
         
                     // Here we generate the part visual
                     $('#quote-items').append("<li id='" + partID + "' class='list-group-item quoted-service'>"
@@ -82,13 +82,13 @@ $(document).ready(function() {
                     shippingTotal += parseFloat(shippingCost);
                     total = parseFloat(subTotal + shippingTotal + taxPartsCost);
         
-                    // Now we update all feilds of the quote
+                    // Now we update all totals fields of the visual quote
                     $('input[name=subtotal]').val("$ " + subTotal.toFixed(2));
                     $('input[name=total]').val("$ " + total.toFixed(2));   
                     $('input[name=shipping]').val("$ " + shippingTotal.toFixed(2));   
                     $('input[name=tax]').val("$ " + taxPartsCost.toFixed(2));   
                     
-                    // These make the totals box and the text quote update
+                    // Finally, we make the totals visible and display the text
                     checkTotalsDisplay();
                     updateTextQuote();
                 }
@@ -99,9 +99,56 @@ $(document).ready(function() {
     // When a service (non part) is clicked
     addService = function(serviceName, servicePrice, serviceCategory){
         // We use this service id to label the element that we create
-        var serviceID = serviceCategory.replace(" ", "-").toLowerCase();
+        var serviceID = serviceName.replace(/ /g, "-").toLowerCase();
 
-        // If it returns null then the service hasn't been added already 
+        // We handle adding backup and labor a litte differently because we want to replace
+        // differing sized services (ex. Small to Medium)
+        if (serviceID.includes('backup') && document.querySelector("[id*=backup]") != null){
+            // We get the id of the service that we want to remove (that matches the type of thing we are adding)
+            var removedServiceID = $("[id*=backup]").attr('id');
+            // A lot happens here, but it allows us to pull the price as a float to a variable :)
+            var removedServicePrice = parseFloat($('#' + removedServiceID).find('#service-price').text().slice(1));
+            // Now we subtract the removed item from our total and refresh the totals display
+            subTotal -= removedServicePrice;
+            total = subTotal + shippingTotal + taxPartsCost;
+
+            // If the subtotal is now 0, we want to clear the fields
+            if (subTotal == 0){
+                $('#quote-items').empty();
+                $('#text-quote').empty();
+                $('input').val("");
+                }
+            // Else, we just update the value 
+            else {
+                $('input[name=subtotal]').val("$ " + subTotal.toFixed(2));
+                $('input[name=total]').val("$ " + total.toFixed(2));   
+                $('#' + removedServiceID).remove();
+                }
+        }
+        if (serviceID.includes('labor') && document.querySelector('[id*=labor]') != null){
+            // We get the id of the service that we want to remove (that matches the type of thing we are adding)
+            var removedServiceID = $("[id*=labor]").attr('id');         
+            // A lot happens here, but it allows us to pull the price as a float to a variable :)
+            var removedServicePrice = parseFloat($('#' + removedServiceID).find('#service-price').text().slice(1));
+            // Now we subtract the removed item from our total and refresh the totals display
+            subTotal -= removedServicePrice;
+            total = subTotal + shippingTotal + taxPartsCost;
+
+            // If the subtotal is now 0, we want to clear the fields
+            if (subTotal == 0){
+                $('#quote-items').empty();
+                $('#text-quote').empty();
+                $('input').val("");
+                }
+            // Else, we just update the value 
+            else {
+                $('input[name=subtotal]').val("$ " + subTotal.toFixed(2));
+                $('input[name=total]').val("$ " + total.toFixed(2));   
+                $('#' + removedServiceID).remove();
+                }
+        }
+
+        // If this returns null then the service hasn't been added already 
         if (document.querySelector('#' + serviceID) == null){
             $('#quote-items').append("<li id='" + serviceID + "' class='list-group-item quoted-service'>"
             +"<div class ='media'>"
@@ -118,15 +165,11 @@ $(document).ready(function() {
             subTotal += parseFloat(servicePrice);
             total = parseFloat(subTotal + shippingTotal + taxPartsCost);
             $('input[name=subtotal]').val("$ " + subTotal.toFixed(2));
-            $('input[name=total]').val("$ " + total.toFixed(2));        
-    
+            $('input[name=total]').val("$ " + total.toFixed(2));
+            }
+
             checkTotalsDisplay();
             updateTextQuote();
-        }
-        else
-            {
-                alert("Sorry, you have already added this service to the quote.")
-            }
 
     };
 
@@ -134,7 +177,6 @@ $(document).ready(function() {
     $('#quote-items').on("click", "#remove-button", function(){
         // We pull the id by with the parents of the remove button, !WARNING! messing with the HTML will break this :(
         var id = "#" + $(this).parent().parent().parent().attr('id');
-
         // We need to handle parts differently
         if (id.includes('-part')){
             var idNoHash = id.slice(1);
@@ -201,6 +243,7 @@ $(document).ready(function() {
     function updateTextQuote(){
         var quoteText = "";
         if (true){
+            
 
         }
     }
