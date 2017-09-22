@@ -5,116 +5,64 @@
 <div class='printer-page-title'>
     <h1>Printer Information</h1>
 </div>
-<div class='container-fluid'>
+<div class='span'>
     {% for library in library_list %}
-    <div class='panel-spt printer-area'>
+    <div class="row">
         {% if "Marshburn" == library %}
         <h1><b>{{library}}</b></h1>
-        {% for Marshburn in Marshburn %}
-        <div class='panel-spt panel-inline printer-card'>
-            <p2>{{Marshburn}}</p2>
-            <button type='button'
-                    class='btn printer-button-grey btn-block'
-                    data-toggle='modal' data-target={{printers.data_target}}> {{form}}
-                <div class='panel-body'>
-                    <div class="media">
-                        <div class="media-left">
-                            <img src='{% static printer.img_url|img_exists %}' class='img-printer'>
-                        </div>
-                        <div class="media-body e_desc">
-                            <p class="e_field"><b>{{employee.full_name}}</b></p>
-
-                            <p class="e_field"> {{employee.short_desc}} </p>
-                            <p class="e_field"> {{employee.netid}}</p>
-                            <p class="e_field"> {{employee.nice_phone}} </p>
-                        </div>
-                    </div>
-                </div>
-            </button>
+        <div class="col-sm-2">
+            {% for Marshburn in Marshburn %}
+            <div class="printer-card">
+                <h3>{{Marshburn}}</h3>
+                <button type='button'
+                        class='btn printer-button-grey btn-block'
+                        data-toggle='modal' data-target={{printers.data_target}}> {{form}}
+                </button>
+            </div>
         </div>
         {% endfor %}
         {% endif %}
-    </div>
-    <div class='panel-spt printer-area'>
         {% if "Darling" == library %}
         <h1><b>{{library}}</b></h1>
-        {% for Darling in Darling %}
-        <div class='panel-spt panel-inline printer-card'>
-            <p2>{{Darling}}</p2>
-            <button type='button'
-                    class='btn printer-button-grey btn-block'
-                    data-toggle='modal' data-target={{printers.data_target}}> {{form}}
-                <div class='panel-body'>
-                    <div class="media">
-                        <div class="media-left">
-                            <img src='{% static employee.picture|img_exists %}' class='img-circle img-printer'>
-                        </div>
-                        <div class="media-body e_desc">
-                            <p class="e_field"><b>{{employee.full_name}}</b></p>
-
-                            <p class="e_field"> {{employee.short_desc}} </p>
-                            <p class="e_field"> {{employee.netid}}</p>
-                            <p class="e_field"> {{employee.nice_phone}} </p>
-                        </div>
-                    </div>
-                </div>
-            </button>
+        <div class="col-sm-2">
+            {% for Darling in Darling %}
+            <div class="printer-card">
+                <h3>{{Darling}}</h3>
+                <button type='button'
+                        class='btn printer-button-grey btn-block'
+                        data-toggle='modal' data-target={{printers.data_target}}> {{form}}
+                </button>
+            </div>
         </div>
         {% endfor %}
         {% endif %}
     </div>
-    <div class='panel-spt printer-area'>
+    <div class="row">
         {% if "Stamps" == library %}
         <h1><b>{{library}}</b></h1>
-        {% for Stamps in Stamps %}
-        <div class='panel-spt panel-inline printer-card'>
-            <p2>{{Stamps}}</p2>
-            <button type='button'
-                    class='btn printer-button-grey btn-block'
-                    data-toggle='modal' data-target={{printers.data_target}}> {{form}}
-                <div class='panel-body'>
-                    <div class="media">
-                        <div class="media-left">
-                            <img src='{% static employee.picture|img_exists %}' class='img-circle img-printer'>
-                        </div>
-                        <div class="media-body e_desc">
-                            <p class="e_field"><b>{{employee.full_name}}</b></p>
-
-                            <p class="e_field"> {{employee.short_desc}} </p>
-                            <p class="e_field"> {{employee.netid}}</p>
-                            <p class="e_field"> {{employee.nice_phone}} </p>
-                        </div>
-                    </div>
-                </div>
-            </button>
+        <div class="col-sm-2">
+            {% for Stamps in Stamps %}
+            <div class="printer-card">
+                <h3>{{Stamps}}</h3>
+                <button type='button'
+                        class='btn printer-button-grey btn-block'
+                        data-toggle='modal' data-target={{printers.data_target}}> {{form}}
+                </button>
+            </div>
         </div>
         {% endfor %}
         {% endif %}
-    </div>
-    <div class='panel-spt printer-area'>
         {% if "Dome" == library %}
         <h1><b>{{library}}</b></h1>
-        {% for Dome in Dome %}
-        <div class='panel-spt panel-inline printer-card'>
-            <p2>{{Dome}}</p2>
-            <button type='button'
-                    class='btn printer-button-grey btn-block'
-                    data-toggle='modal' data-target={{printers.data_target}}> {{form}}
-                <div class='panel-body'>
-                    <div class="media">
-                        <div class="media-left">
-                            <img src='{% static employee.picture|img_exists %}' class='img-circle img-printer'>
-                        </div>
-                        <div class="media-body e_desc">
-                            <p class="e_field"><b>{{employee.full_name}}</b></p>
-
-                            <p class="e_field"> {{employee.short_desc}} </p>
-                            <p class="e_field"> {{employee.netid}}</p>
-                            <p class="e_field"> {{employee.nice_phone}} </p>
-                        </div>
-                    </div>
-                </div>
-            </button>
+        <div class="col-sm-2">
+            {% for Dome in Dome %}
+            <div class="col-sm-4 printer-card">
+                <h3>{{Dome}}</h3>
+                <button type='button'
+                        class='btn printer-button-grey btn-block'
+                        data-toggle='modal' data-target={{printers.data_target}}> {{form}}
+                </button>
+            </div>
         </div>
         {% endfor %}
         {% endif %}

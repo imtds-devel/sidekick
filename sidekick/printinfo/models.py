@@ -7,10 +7,9 @@ from django.utils.timezone import datetime
 # Create your models here.
 
 class Printer(models.Model):
-
     printer_name = models.CharField(max_length=15, default='')          # printer name (external)
-    print_ref = models.CharField(max_length = 6)                        # printer reference name (internal)
-    location = models.CharField(max_length=12, default='')              # location of library printer dwells
+    print_ref = models.CharField(max_length=6)                        # printer reference name (internal)
+    location = models.CharField(max_length=12)            # location of library printer dwells
     print_ip = models.URLField(max_length=14)                           # printer IP address
     print_type = models.CharField(max_length=10)                        # type of printer
     img_url = models.URLField()                                         # image of printer
@@ -22,14 +21,5 @@ class StatusLog(models.Model):
     desc = models.TextField(max_length=300, default='')                 # brief description of what's wrong
 
 class Library(models.Model):
-    LIBNAMES = (
-        ('Marshburn', 1),
-        ('Darling', 2),
-        ('Stamps', 3),
-        ('Cougar Dome', 4),
-    )
-    lib_name = models.CharField(max_length=12, choices=LIBNAMES)
+    lib_id = models.CharField(max_length=12)
     printer = models.ManyToManyField(Printer)
-
-    def many_printers(self):
-        return self.LIBNAMES in self.lib_name()

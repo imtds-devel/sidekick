@@ -125,22 +125,18 @@
 }
 .printer-area
 {
-    max-width: 100px;
-    max-height: 100px;
-    margin-left: 6px;
-    fluid: flex;
-    margin-bottom: 6px;
-    align-text: right;
-    align-content: right;
+    max-width: 500px;
+    max-height: 400px;
+    margin-left: 5px;
+    display: block-inline;
 }
 .printer-card
 {
-    max-width: 50px;
-    max-height: 50px;
-    margin-left: 0px;
-    direction: right;
-    fluid: flex;
-    margin-bottom: 6px;
+    max-width: 275px;
+    max-height: 200px;
+    margin: 10px;
+    display: inline-block;
+    margin-bottom: 10px;
 
 }
 .printer-bio
@@ -149,7 +145,7 @@
 }
 .printer-button
 {
-    size: 100%;
+    size: 75%;
     border-radius: 4px;
     border: #A0A0A0 2px solid;
     direction: right;
