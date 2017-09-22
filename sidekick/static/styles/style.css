@@ -14,6 +14,27 @@
         margin-left: -80px;
     }
 }
+.a-e{
+  height: 85%;
+}
+
+.carousel-indicators > li{
+  background-color: grey;
+  border-color: black;
+}
+
+.ae-carousel{
+  opacity: 0;
+  background: none;
+}
+
+.ae-carousel:hover{
+  background: none;
+}
+
+.ae-carousel:focus{
+  background: none;
+}
 
 .homebase-group{
   margin-top: 0;
@@ -44,7 +65,7 @@
   background-color: #ADD8E6;
   position: absolute;
   bottom: 20;
-  width: 100%;
+  width: 98%;
   text-align: center;
 }
 
