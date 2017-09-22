@@ -8,4 +8,5 @@ def load_page(request, template, context):
     trophy_list = Trophies.objects.all()
     context['trophy_list'] = trophy_list
 
+
     return render(request, template, context)
