@@ -6,5 +6,7 @@ def index(request):
     return views.load_page(request, 'homebase/index.html', prep_context())
 
 def prep_context():
-    context = {}
-    return views.load_page(request, 'homebase/index.html', context)
+    announcement_list = Announcements.objects.all()
+    return {
+        'announcement_list': announcement_list
+    }

@@ -1,12 +1,9 @@
 from django import template
-<<<<<<< HEAD
 from sidekick.settings import STATIC_URL
 import urllib
-=======
 import os
 # from sidekick.settings import STATIC_URL
 # import urllib
->>>>>>> 310e1181dbcb27240a4c5b904e400afba41c0393
 
 
 register = template.Library()
