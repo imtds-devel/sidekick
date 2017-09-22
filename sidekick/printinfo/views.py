@@ -35,20 +35,20 @@ def prep_context():
 
     }
     marshburn = {
-        "BW MAR": 1,
-        "COLOR MAR": 1,
-        "SBW MAR": 1,
+        "B&W": 1,
+        "COLOR": 1,
+        "B&W Mini": 1,
     }
     darling = {
-        "BW DAR": 2,
-        "COLOR DAR": 2,
+        "B&W": 2,
+        "COLOR": 2,
     }
     stamps = {
-        "UBW STA": 3,
-        "DBW STA": 3,
+        "Upper B&W": 3,
+        "Lower B&W": 3,
     }
     dome = {
-        "SBW DOME": 4
+        "B&W Mini": 4
     }
     form = PrintInfo()
     return {
@@ -56,7 +56,7 @@ def prep_context():
         'Darling': darling,
         'Stamps': stamps,
         'Dome': dome,
-        'library_list': library_list,
-        'printer_list': printer_list,
+        'library_list': Printer.location,
+        'printer_list': Printer.print_type,
         'form': form
     }

@@ -2,15 +2,10 @@
 {% block content %}
 {% load staticfiles %}
 {% load printer_extras %}
-<div class='printer-page-title'>
-    <h1>Printer Information</h1>
-</div>
-<div class='span'>
-    {% for library in library_list %}
+<div class='container-fluid'>
     <div class="row">
-        {% if "Marshburn" == library %}
-        <h1><b>{{library}}</b></h1>
-        <div class="col-sm-2">
+        <div class="col-md-2 printer-area">
+            <h1><b>Marshburn</b></h1>
             {% for Marshburn in Marshburn %}
             <div class="printer-card">
                 <h3>{{Marshburn}}</h3>
@@ -19,12 +14,10 @@
                         data-toggle='modal' data-target={{printers.data_target}}> {{form}}
                 </button>
             </div>
+            {% endfor %}
         </div>
-        {% endfor %}
-        {% endif %}
-        {% if "Darling" == library %}
-        <h1><b>{{library}}</b></h1>
-        <div class="col-sm-2">
+        <div class="col-md-2 printer-area">
+            <h1><b>Darling</b></h1>
             {% for Darling in Darling %}
             <div class="printer-card">
                 <h3>{{Darling}}</h3>
@@ -33,14 +26,12 @@
                         data-toggle='modal' data-target={{printers.data_target}}> {{form}}
                 </button>
             </div>
+            {% endfor %}
         </div>
-        {% endfor %}
-        {% endif %}
     </div>
     <div class="row">
-        {% if "Stamps" == library %}
-        <h1><b>{{library}}</b></h1>
-        <div class="col-sm-2">
+        <div class="col-md-2 printer-area">
+            <h1><b>Stamps</b></h1>
             {% for Stamps in Stamps %}
             <div class="printer-card">
                 <h3>{{Stamps}}</h3>
@@ -49,24 +40,20 @@
                         data-toggle='modal' data-target={{printers.data_target}}> {{form}}
                 </button>
             </div>
+            {% endfor %}
         </div>
-        {% endfor %}
-        {% endif %}
-        {% if "Dome" == library %}
-        <h1><b>{{library}}</b></h1>
-        <div class="col-sm-2">
+        <div class="col-md-2 printer-area">
+            <h1><b>Cougar Dome</b></h1>
             {% for Dome in Dome %}
-            <div class="col-sm-4 printer-card">
+            <div class="printer-card">
                 <h3>{{Dome}}</h3>
                 <button type='button'
                         class='btn printer-button-grey btn-block'
                         data-toggle='modal' data-target={{printers.data_target}}> {{form}}
                 </button>
             </div>
+            {% endfor %}
         </div>
-        {% endfor %}
-        {% endif %}
     </div>
-    {% endfor %}
 </div>
 {% endblock %}

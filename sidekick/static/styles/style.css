@@ -125,15 +125,15 @@
 }
 .printer-area
 {
-    max-width: 500px;
-    max-height: 400px;
-    margin-left: 5px;
-    display: block-inline;
+    width: 700px;
+    height: 300px;
+    margin: fixed;
+    display: inline-block-fixed;
 }
 .printer-card
 {
-    max-width: 275px;
-    max-height: 200px;
+    max-width: 200px;
+    max-height: 250px;
     margin: 10px;
     display: inline-block;
     margin-bottom: 10px;
