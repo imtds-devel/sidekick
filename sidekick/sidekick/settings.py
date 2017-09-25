@@ -109,7 +109,7 @@ DATABASES = {
 CAS_SERVER_URL = config['cas']['url']
 CAS_LOGOUT_COMPLETELY = True
 CAS_PROVIDE_URL_TO_LOGOUT = True
-CAS_FORCE_SSL_SERVICE_URL = True
+CAS_FORCE_SSL_SERVICE_URL = False
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
