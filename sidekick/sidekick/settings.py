@@ -55,18 +55,19 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cas.apps.CASConfig'
 ]
 
 MIDDLEWARE = [
-    'cas.middleware.CASMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.auth.middleware.RemoteUserMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'cas.middleware.CASMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'cas.middleware.CASMiddleware',
 ]
 
 ROOT_URLCONF = 'sidekick.urls'
@@ -106,8 +107,12 @@ DATABASES = {
 
 # Authentication
 CAS_SERVER_URL = config['cas']['url']
+CAS_LOGOUT_COMPLETELY = True
+CAS_PROVIDE_URL_TO_LOGOUT = True
+CAS_FORCE_SSL_SERVICE_URL = True
 
 AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
     'cas.backends.CASBackend'
 ]
 

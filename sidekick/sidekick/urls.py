@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.views.generic import RedirectView
 from django.conf import settings
 from django.conf.urls.static import static
+from cas import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -28,6 +29,6 @@ urlpatterns = [
     url(r'^quotes/', include('quotes.urls')),
     url(r'^roster/', include('roster.urls')),
     url(r'^shifts/', include('shifts.urls')),
-    url(r'^accounts/login/$', 'cas.views.login', name='login'),
-    url(r'^accounts/logout/$', 'cas.views.logout', name='logout')
+    url(r'^accounts/login/$', views.login, name='login'),
+    url(r'^accounts/logout/$', views.logout, name='logout')
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
