@@ -33,7 +33,11 @@ SECRET_KEY = 'nz_um@06uk+dk4)42z8=@7+!*hea&+!#x!$-qpacs!kwue_qn%'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(config['prod']['debug'])
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+	'192.168.8.33',
+	'sidekick.devel.apu.edu',
+	'127.0.0.1'
+]
 
 
 # Application definition
