@@ -1,5 +1,5 @@
 /////////////////////////////////////////
-// JavaScript/Ajax for the quotes module
+// JavaScript/Jquery for the quotes module
 // Written by Josh Wood in Fall 2017
 /////////////////////////////////////////
 // The variables for the page
@@ -58,11 +58,19 @@ $(document).ready(function() {
             if (document.querySelector('#' + partID) == null)
                 {
                     // Here we get the part and shipping cost from the input fields
+                    // If the fields are left empty or the user didn't enter a number we
+                    // make them 0
                     var partCost = parseFloat($('input[name=part-price]').val());
+                    if (isNaN(partCost)){
+                        partCost = 0;
+                    }
                     var shippingCost = parseFloat($('input[name=shipping-price]').val());
+                    if (isNaN(shippingCost)){
+                        shippingCost = 0;
+                    }
         
                     // Here we generate the part visual
-                    $('#quote-items').append("<li id='" + partID + "' class='list-group-item quoted-service'>"
+                    $('#quote-items').append("<li id='" + partID + "' class='list-group-item quoted-part'>"
                     +"<div class ='media'>"
                         +"<div class ='media-left'>"
                         + "Name: " + "<input type='text' name='" + partID + "-name' value='" + partName + "'><br>"
@@ -72,7 +80,8 @@ $(document).ready(function() {
                         +"</div>"
                         +"</div>"
                         +"<div class ='media-right'>"
-                        +"<button id ='remove-button' type='button' class='btn btn-danger remove-button'>X</button></div>"            
+                        +"<button id ='remove-button' type='button' class='btn btn-danger remove-button'>"
+                        +"<i class='glyphicon glyphicon-trash'></i></button></div>"            
                     +"</div></li>");
         
                     // Here we recalculate our numbers with the part and shipping cost we grabbed
@@ -152,15 +161,16 @@ $(document).ready(function() {
         if (document.querySelector('#' + serviceID) == null){
             $('#quote-items').append("<li id='" + serviceID + "' class='list-group-item quoted-service'>"
             +"<div class ='media'>"
-                +"<div class ='media-left'>"
+                +"<div id= 'service-name' class ='media-left'>"
                 + serviceName
+                + "</div>"
                 +"<div id = 'service-price' class ='media-body'>"
                 + "$" + servicePrice
                 +"</div>"
-                +"</div>"
                 +"<div class ='media-right'>"
-                +"<button id ='remove-button' type='button' class='btn btn-danger remove-button'>X</button></div>"            
-            +"</div></li>");
+                +"<button id ='remove-button' type='button' class='btn btn-danger remove-button'>"
+                +"<i class='glyphicon glyphicon-trash'></i></button></div>"
+                +"</div></li>");
     
             subTotal += parseFloat(servicePrice);
             total = parseFloat(subTotal + shippingTotal + taxPartsCost);
@@ -168,9 +178,9 @@ $(document).ready(function() {
             $('input[name=total]').val("$ " + total.toFixed(2));
             }
 
+            // Check these functions out at the bottom of this js :)
             checkTotalsDisplay();
             updateTextQuote();
-
     };
 
     // Each service added to the quote has a remove button which triggers this function
@@ -196,6 +206,7 @@ $(document).ready(function() {
                 $('#quote-items').empty();
                 $('#text-quote').empty();
                 $('input').val("");
+                $('#quote-totals').addClass('hidden-quote');                
                 }
             // Else, we just update the value 
             else {
@@ -203,7 +214,8 @@ $(document).ready(function() {
                 $('input[name=total]').val("$ " + total.toFixed(2));
                 $('input[name=shipping]').val("$ " + shippingTotal.toFixed(2));
                 $('input[name=tax]').val("$ " + taxPartsCost.toFixed(2));                
-                $(id).remove();                
+                $(id).remove();
+                updateTextQuote();                
                 }            
             }
         // If it is just a service, not a part
@@ -219,32 +231,66 @@ $(document).ready(function() {
                 $('#quote-items').empty();
                 $('#text-quote').empty();
                 $('input').val("");
+                $('#quote-totals').addClass('hidden-quote');                
                 }
             // Else, we just update the value 
             else {
                 $('input[name=subtotal]').val("$ " + subTotal.toFixed(2));
                 $('input[name=total]').val("$ " + total.toFixed(2));   
                 $(id).remove();
+                updateTextQuote();                
                 }
         }
     })
 
     // This function will check if quote totals should be visible, and makes it visible
     function checkTotalsDisplay(){
-        // Checks if quote totals card doesn't exist, if it doesn't we make it
+        // Checks if quote totals card doesn't exist, if it doesn't we make it appear
         if ($('#quote-totals').hasClass('hidden-quote'))
             {
                 $('#quote-totals').removeClass('hidden-quote');
             }
     }
 
-    // This function will make a formatted text quote everytime there is a change 
-    // It does this with a 
+    // This function will make a formatted text quote everytime there is a change (must call the method)
     function updateTextQuote(){
         var quoteText = "";
-        if (true){
-            
-
+        // The power of jquery allows us to loop through each quoted-service and pass the id into a 
+        // method that generates text from it
+        $('.quoted-service').each(function() {
+            quoteText += pullServiceText($(this).attr('id'));
+        });
+        // Same goes for parts, jquery magic
+        $('.quoted-part').each(function() {
+            quoteText += pullPartText($(this).attr('id'));
+        });
+        // Now we pull the text we want with labeled elements of the service items
+        function pullServiceText(serviceID){
+            var text = "";
+            text += $('#' + serviceID).find('#service-name').text() + " - ";
+            text += $('#' + serviceID).find('#service-price').text() + "\n";
+            return text;
         }
+        // For parts, we pull the values of corresponding input fields
+        function pullPartText(partID){
+            var text = "";
+            text += $('input[name=' + partID + '-name]').val() + " - " ;
+            text += "$" + $('input[name=' + partID + '-price]').val() + "\n";
+            return text;
+        }
+
+        // Here we check if there is any shipping or tax in the quote, then add that to the text quote
+        if (shippingTotal != 0)
+        {
+            quoteText += "Shipping - $" + shippingTotal + "\n";         
+        }
+        if (taxPartsCost != 0)
+        {
+            quoteText += "Tax - $" + taxPartsCost + "\n";
+        }
+
+        quoteText += "**Total - $" + total + "**";
+        $('#text-quote').text(quoteText);
+        
     }
 });

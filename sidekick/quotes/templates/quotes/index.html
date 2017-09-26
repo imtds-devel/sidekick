@@ -12,13 +12,13 @@
                             <button id='service' type='button' class='btn btn-block service-btn' 
                             onclick="addService('{{service.service_name}}','{{service.price}}','{{service.category}}');">
                                 <div class ='media'>
-                                    <div class ='media-left'>
+                                    <div id='service-name' class ='media-left'>
                                     {{service.service_name}}
                                     </div>
-                                    <div class ='media-body'>
+                                    <div id='service-desc' class ='media-body'>
                                     {{service.description}}
                                     </div>
-                                    <div class ='media-right'>
+                                    <div id='service-price' class ='media-right'>
                                     ${{service.price}}
                                     </div>
                                 </div>
@@ -30,36 +30,35 @@
             <div class = 'services-selection-container'>
                 <div class='panel panel-default services-panel'>
                     <div class='panel-heading'>Hardware</div>
-                    <panel id='part' class='part-panel'>
-                        <div class='media'>
-                            <div class='media-left'>Part</div>
-                            <div class='media-body'>
-                                <form>
-                                    Name:
-                                    <input id='part-name'type='text' name='part-name'><br>
-                                    Price:
-                                    <input type='number' name='part-price'><br>
-                                    Shipping:
-                                    <input type='number' name='shipping-price'><br>
-                                </form>
-                            </div>
-                            <div class = 'media-right'>
-                                <button id = 'add-part' type = 'button' class = 'btn btn-primary btn-add-part'>Add Part</button>
-                            </div>
+                    <div id='part' class='list-group-item'>
+                            <form>
+                                <div class = "input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-wrench"></i></span>
+                                    <input id='part-name' type='text' class="form-control" placeholder="Part Name" name='part-name'>
+                                </div>
+                                <div class = "input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-usd"></i></span>
+                                    <input id='part-price' type='number' class="form-control" placeholder="Part Price" name='part-price'>
+                                </div>
+                                <div class = "input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                                    <input id='shipping-price' type='number' class="form-control" placeholder="Shipping Cost" name='shipping-price'>
+                                </div>
+                            </form>
+                        <button id = 'add-part' type = 'button' class = 'btn btn-primary btn-block btn-add-part'>Add Part</button>
                         </div>
-                    </panel>
                     {% for service in services_list %}
                         {% if service.category == 'labor' %}
                             <button id='service' type='button' class='btn btn-block service-btn' 
                             onclick="addService('{{service.service_name}}','{{service.price}}','{{service.category}}');">
                                 <div class ='media'>
-                                    <div class ='media-left'>
+                                    <div id='service-name' class ='media-left'>
                                     {{service.service_name}}
                                     </div>
-                                    <div class ='media-body'>
+                                    <div id='service-desc' class ='media-body'>
                                     {{service.description}}
                                     </div>
-                                    <div class ='media-right'>
+                                    <div id='service-price' class ='media-right'>
                                     ${{service.price}}
                                     </div>
                                 </div>
@@ -76,13 +75,13 @@
                             <button id='service' type='button' class='btn btn-block service-btn' 
                             onclick="addService('{{service.service_name}}','{{service.price}}','{{service.category}}');">
                                 <div class ='media'>
-                                    <div class ='media-left'>
+                                    <div id='service-name' class ='media-left'>
                                     {{service.service_name}}
                                     </div>
-                                    <div class ='media-body'>
+                                    <div id='service-desc' class ='media-body'>
                                     {{service.description}}
                                     </div>
-                                    <div class ='media-right'>
+                                    <div id='service-price' class ='media-right'>
                                     ${{service.price}}
                                     </div>
                                 </div>
@@ -99,13 +98,13 @@
                             <button id='service' type='button' class='btn btn-block service-btn' 
                             onclick="addService('{{service.service_name}}','{{service.price}}','{{service.category}}');">
                                 <div class ='media'>
-                                    <div class ='media-left'>
+                                    <div id='service-name' class ='media-left'>
                                     {{service.service_name}}
                                     </div>
-                                    <div class ='media-body'>
+                                    <div id='service-desc' class ='media-body'>
                                     {{service.description}}
                                     </div>
-                                    <div class ='media-right'>
+                                    <div id='service-price' class ='media-right'>
                                     ${{service.price}}
                                     </div>
                                 </div>
