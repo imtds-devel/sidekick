@@ -14,26 +14,95 @@
         margin-left: -80px;
     }
 }
-.a-e{
-  height: 85%;
+
+.add-a-e{
+  background-color: #DAD8DF;
+  width: 99%;
+  height: 150px;
+  margin: 5px;
+  position: relative;
 }
 
-.carousel-indicators > li{
-  background-color: grey;
-  border-color: black;
+.add-a-e span{
+  color: white;
+  position: absolute;
+  top: 50%;
+  transform: translate(0, -50%)
 }
 
-.ae-carousel{
-  opacity: 0;
-  background: none;
+.announcement {
+  display: flex;
+  justify-content: space-around;
+  position: relative;
+  margin-left: 2px;
+  margin-right: 2px;
+}
+.a-right{
+  width: 68%;
+  background: #DAD8DF;
+  padding: 5px;
+  height: 150px;
+  margin-top: 5px;
+  text-align: justify;
+}
+.a-right p{
+  margin: 0;
+  position: absolute;               /* 2 */
+  top: 50%;                         /* 3 */
+  transform: translate(0, -50%)
 }
 
-.ae-carousel:hover{
-  background: none;
+.a-left{
+  width: 32%;
+  background: #67880C;
+  padding: 5px;
+  height: 150px;
+  margin-top: 5px;
+  border-right: solid 3px #9692A0;
+  color: white;
+
+  padding-top: 5%;
 }
 
-.ae-carousel:focus{
-  background: none;
+.event {
+  display: flex;
+  margin-left: 2px;
+  margin-right: 2px;
+  justify-content: space-around;
+  position: relative;
+}
+.e-right{
+  width: 68%;
+  background: #DAD8DF;
+  padding: 5px;
+  height: 150px;
+  margin-top: 5px;
+  text-align: justify;
+}
+.e-right p{
+  margin: 0;
+  position: absolute;               /* 2 */
+  top: 50%;                         /* 3 */
+  transform: translate(0, -50%)
+}
+
+.e-left{
+  width: 32%;
+  background: #AC2538;
+  padding: 5px;
+  height: 150px;
+  margin-top: 5px;
+  border-right: solid 3px #9692A0;
+  color: white;
+
+  padding-top: 5%;
+}
+
+.scrollable{
+  padding: 2px;
+  overflow-y: scroll;
+  height: 94%;
+  margin-top: 0px;
 }
 
 .homebase-group{
@@ -42,6 +111,23 @@
   margin-right: 5;
 
   height: 90%;
+}
+
+.e-subject{
+  font-size: 22px;
+  font-color: blue;
+  text-align: center;
+}
+
+.e-meta{
+  font-size: 12px;
+  font-color: black;
+  text-align: center;
+}
+
+.e-description{
+  font-size: 16px;
+  text-align: center;
 }
 
 .a-subject{

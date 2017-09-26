@@ -1,76 +1,70 @@
 {% load staticfiles %}
 <!-- Creates a list group and calls modal when clicked-->
-<div class="col-md-6">
-  <div class="panel-group" id="accordion">
-  <div class="panel panel-default homebase-group">
-    <div class="panel-heading">Announcements/Events</div>
+    <div class="row homebase-row">
+    <div class="col-md-6">
+      <div class="panel-group">
+      <div class="panel panel-default homebase-group">
+        <div class="panel-heading">Announcements/Events</div>
 
-    <div id="myCarousel" class="carousel slide" data-ride="carousel">
-      <ol class="carousel-indicators">
-        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-        <li data-target="#myCarousel" data-slide-to="1"></li>
-      </ol>
+              <div class="panel-body scrollable">
+                {% if announcement_list %}
+                {% for announcement in announcement_list %}
+                <div class="announcement">
 
-      <div class="carousel-inner">
+                  <div class="a-left">
+                    <p class="a-subject">{{announcement.subject}}</p>
+                    <p class="a-meta">{{announcement.announcer}} on {{announcement.posted}}/p>
+                  </div>
 
-        <div class="item active a-e">
-          <div class="panel-body">
-            <p class="a-subject">Announcement</p>
-            <p class="a-meta">Submitted By: dbartholomew13 on 5/4/32 5:55pm</p>
-            <p class="a-description">This is the announcement. This is what is happeneing. I nned yo help with some of this ish help me rn and I will give you a big ol cookie ok? thnx</p>
-          </div>
-          <div class="panel-body">
-            <p class="a-subject">Announcement</p>
-            <p class="a-meta">Submitted By: dbartholomew13 on 5/4/32 5:55pm</p>
-            <p class="a-description">This is the announcement. This is what is happeneing. blealskdfj alsdjkf aljksdflkja sdflkjl kasdf</p>
-          </div>
-          <div class="panel-body">
-            <p class="a-subject">Announcement</p>
-            <p class="a-meta">Submitted By: dbartholomew13 on 5/4/32 5:55pm</p>
-            <p class="a-description">This is the announcement. This is what is happeneing. blealskdfj alsdjkf aljksdflkja sdflkjl kasdf</p>
-          </div>
+                  <div class="a-right">
+                    <p class="a-description">{{announcement.announcement}}</p>
+                  </div>
+                </div>
+                {%endfor%}
+                {%endif%}
+
+                <div class="event">
+
+                  <div class="e-left">
+                    <p class="e-subject">Event</p>
+                    <p class="e-meta">Submitted By: dbartholomew13 on 5/4/32 5:55pm</p>
+                  </div>
+
+                  <div class="e-right">
+                    <p class="e-description">This is an event and <em>here</em> is where it is happening!</p>
+                  </div>
+                </div>
+
+                <div class="event">
+
+                  <div class="e-left">
+                    <p class="e-subject">Event</p>
+                    <p class="e-meta">Submitted By: dbartholomew13 on 5/4/32 5:55pm</p>
+                  </div>
+
+                  <div class="e-right">
+                    <p class="e-description">This is an event and <em>here</em> is where it is happening!</p>
+                  </div>
+                </div>
+
+                <div class="event">
+
+                  <div class="e-left">
+                    <p class="e-subject">Event</p>
+                    <p class="e-meta">Submitted By: dbartholomew13 on 5/4/32 5:55pm</p>
+                  </div>
+
+                  <div class="e-right">
+                    <p class="e-description">This is an event and <em>here</em> is where it is happening!</p>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
         </div>
 
-        <div class="item a-e">
-
-          <div class="panel-body">
-            <p>Event</p>
-            <p>Submitted By: dbartholomew13 on 5/4/32 5:55pm</p>
-            <p>This is the announcement. This is what is happeneing. blealskdfj alsdjkf aljksdflkja sdflkjl kasdf</p>
-          </div>
-          <div class="panel-body">
-            <p>Event</p>
-            <p>Submitted By: dbartholomew13 on 5/4/32 5:55pm</p>
-            <p>This is the announcement. This is what is happeneing. blealskdfj alsdjkf aljksdflkja sdflkjl kasdf</p>
-          </div>
-          <div class="panel-body">
-            <p>Event</p>
-            <p>Submitted By: dbartholomew13 on 5/4/32 5:55pm</p>
-            <p>This is the announcement. This is what is happeneing. blealskdfj alsdjkf aljksdflkja sdflkjl kasdf</p>
-          </div>
-
-        </div>
-      </div>
-
-      <a class="left carousel-control ae-carousel" href="#myCarousel" data-slide="prev">
-        <span class="glyphicon glyphicon-chevron-left"></span>
-        <span class="sr-only">Previous</span>
-      </a>
-      <a class="right carousel-control ae-carousel" href="#myCarousel" data-slide="next">
-        <span class="glyphicon glyphicon-chevron-right"></span>
-        <span class="sr-only">Next</span>
-      </a>
-
-    </div>
-
-      <div class="newsletter">
-        <div class="panel-body">
-          <button class="btn btn-default btn-block" type="button">Newsletter
-            <span class="open-file"></span>
-          </button>
         </div>
       </div>
-
     </div>
-  </div>
-</div>
