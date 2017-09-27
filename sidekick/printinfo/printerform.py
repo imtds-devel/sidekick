@@ -1,17 +1,14 @@
 from django.forms import forms
-from .models import Printer
-from .models import Library
+from .models import StatusLog
 
-class PrintInfo(forms.Form):
+class PrinterForm(forms.Form):
     def __init__(self, *args, **kwargs):
-        super(PrintInfo, self).__init__(*args, **kwargs)
+        super(PrinterForm, self).__init__(*args, **kwargs)
         for field in iter(self.fields):
             self.fields[field].widget.attrs.update({
                 'class': 'form-control'
             })
 
 class Meta:
-    model = Printer
-    model = Library
-    forms = PrintInfo
-    fields = ('libid', 'printtype', 'printid', 'iplink', 'status', 'report')
+    forms= StatusLog,
+    fields= ('print_id', 'print_stat', 'date', 'desc')

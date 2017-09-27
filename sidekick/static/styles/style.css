@@ -126,14 +126,14 @@
 .printer-area
 {
     width: 700px;
-    height: 300px;
+    height: 350px;
     margin: fixed;
     display: inline-block-fixed;
 }
 .printer-card
 {
-    max-width: 200px;
-    max-height: 250px;
+    max-width: 300px;
+    max-height: 300px;
     margin: 10px;
     display: inline-block;
     margin-bottom: 10px;
@@ -145,7 +145,8 @@
 }
 .printer-button
 {
-    size: 75%;
+    width: 100px;
+    height: 100px;
     border-radius: 4px;
     border: #A0A0A0 2px solid;
     direction: right;
@@ -159,8 +160,8 @@
 }
 .img-printer
 {
-    height: 87px;
-    width: 87px;
+    height: 150px;
+    width: 140px;
 }
 .spt
 {
