@@ -67,7 +67,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'cas.middleware.CASMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'cas.middleware.CASMiddleware',
 ]
 
 ROOT_URLCONF = 'sidekick.urls'
