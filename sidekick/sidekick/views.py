@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ObjectDoesNotExist
 from roster.models import Trophies
 from homebase.models import Employees
 
@@ -21,4 +22,8 @@ def load_page(request, template, context):
 
 
 def authorize(request):
-    return Employees.objects.get(netid=request.user) is not None
+    try:
+        user = Employees.objects.get(netid=request.user.lower())
+        return True
+    except Exception:
+        return False
