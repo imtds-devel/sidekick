@@ -73,9 +73,18 @@ $(document).ready(function() {
                     $('#quote-items').append("<li id='" + partID + "' class='list-group-item quoted-part'>"
                     +"<div class ='media'>"
                         +"<div class ='media-left'>"
-                        + "Name: " + "<input type='text' name='" + partID + "-name' value='" + partName + "'><br>"
-                        + "Price: " + "<input type='number' name='" + partID + "-price' value='" + partCost + "'><br>"   
-                        + "Shipping: " + "<input type='number' name='" + partID + "-shipping' value='" + shippingCost + "'><br>"                                
+                        +"<div class = 'input-group'>"
+                        + "<span class='input-group-addon'><i class='glyphicon glyphicon-wrench'></i></span>"
+                        +"<input id='part-name' type='text' class='form-control'"
+                        +"placeholder='Part Name' value=" + partName +  " name='" + partID + "-name'></div>"
+                        +"<div class = 'input-group'>"
+                        +"<span class='input-group-addon'><i class='glyphicon glyphicon-usd'></i></span>"
+                        +"<input id='part-price' type='number' class='form-control'"
+                        +"placeholder='Part Price' value=" + partCost + " name='" + partID +"-price'></div>"   
+                        +"<div class = 'input-group'>"
+                        +"<span class='input-group-addon'><i class='glyphicon glyphicon-envelope'></i></span>"
+                        +"<input id='shipping-price' type='number' class='form-control'" 
+                        +"placeholder='Shipping Cost' value=" + shippingCost + " name='" + partID + "-shipping'></div>"                            
                         +"<div id = 'service-price' class ='media-body'>"
                         +"</div>"
                         +"</div>"
@@ -104,7 +113,6 @@ $(document).ready(function() {
         }
     });
     
-
     // When a service (non part) is clicked
     addService = function(serviceName, servicePrice, serviceCategory){
         // We use this service id to label the element that we create
@@ -192,7 +200,13 @@ $(document).ready(function() {
             var idNoHash = id.slice(1);
             // We grab the part price and shipping cost
             var partPrice = parseFloat($('input[name=' + idNoHash + '-price]').val());
+            if (isNaN(partPrice)){
+                partPrice = 0;
+            }
             var shippingCost = parseFloat($('input[name=' + idNoHash + '-shipping]').val());
+            if (isNaN(partPrice)){
+                partPrice = 0;
+            }
 
             // Now we subtract everything 
             subTotal -= partPrice;
@@ -282,7 +296,7 @@ $(document).ready(function() {
         // Here we check if there is any shipping or tax in the quote, then add that to the text quote
         if (shippingTotal != 0)
         {
-            quoteText += "Shipping - $" + shippingTotal + "\n";         
+            quoteText += "Shipping - $" + shippingTotal + "\n";
         }
         if (taxPartsCost != 0)
         {
