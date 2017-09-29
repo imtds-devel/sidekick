@@ -16,7 +16,7 @@ def load_page(request, template, context):
         return HttpResponse("403 unauthorized user!")
 
 
-    context['user_netid'] = request.user
+    context['user_img'] = "employees/"+str(request.user)+".gif"
     context['user_name'] = Employees.objects.get(netid__iexact=str(request.user)).full_name
 
 
