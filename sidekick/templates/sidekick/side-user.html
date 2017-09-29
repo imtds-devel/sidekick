@@ -4,8 +4,8 @@
     <div class='userStd'>
         <div class='sideUserText'>
             <p><b>Logged in as:</b></p>
-            <p class='currentUser'>Nicholas Chera</p>
+            <p class='currentUser'>{{user_name}}</p>
         </div>
-        <img src="{% static 'employees/nchera13.gif' %}" class='img-circle sideMoDImg'>
+        <img src="{% static 'employees/{{user_netid}}.gif'|img_exists %}" class='img-circle sideMoDImg'>
     </div>
 </div>

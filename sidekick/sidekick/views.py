@@ -15,6 +15,11 @@ def load_page(request, template, context):
     if not authorize(request):
         return HttpResponse("403 unauthorized user!")
 
+
+    context['user_netid'] = request.user
+    context['user_name'] = Employees.objects.get(netid__iexact=str(request.user)).full_name
+
+
     trophy_list = Trophies.objects.all()
     context['trophy_list'] = trophy_list
 
