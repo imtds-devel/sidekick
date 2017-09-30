@@ -21,7 +21,7 @@ class Printer(models.Model):
     @property
     def pic(self):
         """Returns the file path"""
-        return "printers/%s.gif" % self.printer_name
+        return "printers/%s_down.gif" % self.printer_name
 
 class StatusLog(models.Model):
     print_id = models.ForeignKey(Printer)                               # printer id in database

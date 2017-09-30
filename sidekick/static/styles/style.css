@@ -160,8 +160,8 @@
 }
 .img-printer
 {
-    height: 150px;
-    width: 140px;
+    max-height: 300px;
+    max-width: 150px;
 }
 .spt
 {
