@@ -8,8 +8,10 @@ from roster.models import Trophies
 from homebase.models import Employees
 
 
-@login_required
+# @login_required # UNCOMMENT THIS BEFORE GOING LIVE
 def load_page(request, template, context):
+
+    request.user = 'nchera13' # COMMENT THIS BEFORE GOING LIVE
 
     # Check to make sure authenticated user is authorized to access the webpage
     if not authorize(request):
