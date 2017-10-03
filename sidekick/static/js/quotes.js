@@ -7,7 +7,7 @@ var subTotal = 0; // Will contain the current subtotal (before tax and shipping)
 var total = 0; // Will contain the current quote total
 var partsCost = 0; // Contains the current subtotal of parts in the quote
 var shippingTotal = 0; // Contains the current total of all shipping in the quote
-var taxRate = .0925 // !! Contains the sales tax rate, update this when sales tax changes !! - 9.25% as of Fall 2017
+var taxRate = .095 // !! Contains the sales tax rate, update this when sales tax changes !! - 9.5% as of Fall 2017
 var taxPartsCost = 0; // Contains the calculated tax on the part
 var addService; // For use with clicking a service
 var addDiscount; // For use with clicking a discount
