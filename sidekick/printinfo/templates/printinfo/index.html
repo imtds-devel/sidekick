@@ -9,12 +9,13 @@
             <h1><b>{{location.name}}</b></h1>
             {% for printer in printer_list %}
             {% if printer.location == location %}
-            <div class="col-md-3 printer-card"><h3>{{printer.print_type}}</h3>
-                <button type="button" class="btn-default btn-lg" data-toggle="modal"
-                        data-target={{printer.data_targ}}>
-                    <img src='{% static printer.pic|img_exists %}'
-                         class='img-printer'>
-                </button>
+            <div class="col-md-3 printer-card"><h2>{{printer.print_type}}</h2>
+                <div type="panel" class="panel-printer-btn" id="panel" data-toggle="modal"
+                     data-target={{printer.data_targ}}>
+                    <img src='{% static printer.pic %}'
+                         class='img-printer' align="center">
+                </div>
+                <a href="http://{{printer.print_ip}}/" target="_blank"><h3 align="center">Printer Info</h3></a>
             </div>
             {% endif %}
             {% endfor %}
@@ -27,20 +28,39 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h2 class="modal-title"><b>{{printer.print_type}}</b></h2>
+                    <h2 class="modal-title"><b>{{printer.printer_name}}</b></h2>
                 </div>
-                <div class="modal-body">
-                    <img src='{% static printer.pic|img_exists %}'
-                         class='img-printer'>
-                    <a href="http://{{printer.print_ip}}/" target="_blank"><h3>Printer Info</h3> </a>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <div class="row">
+                    <div class="col-md-4 modal-body">
+                        <img src='{% static printer.pic|img_exists %}'
+                             class='img-printer'>
+                    </div>
+                    <div class="col-md-8 modal-body">
+                        <form method="post" class="form-horizontal">
+                            {% csrf_token %}
+                            {% for field in form.visible_fields %}
+                            <div class="form-group">
+                                {{ field.errors }}
+                                <label class="control-lavel col-sm-2" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                <div class="col-sm-10" id="printer-btn">
+                                    {{ field }}
+                                </div>
+                            </div>
+                            {% endfor %}
+                            <button class="btn btn-success">Create</button>
+                        </form>
+                    </div>
                 </div>
             </div>
-
         </div>
     </div>
-    {% endfor %}
 </div>
+
+{% endfor %}
+</div>
+<script type="text/javascript">
+    $("#panel").click(function(){
+        $("#printer-btn").val(printer.location + " " + printer.print_type);
+    });
+</script>
 {% endblock %}
