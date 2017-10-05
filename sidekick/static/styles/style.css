@@ -82,11 +82,6 @@
     transition: all ease-in-out 0.2s;
     background-color:white;
 }
-.sideUserWrap:hover > .userStd
-{
-    filter:brightness(40%);
-    
-}
 .sideUserText
 {
     width: 145px;
