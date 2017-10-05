@@ -15,6 +15,7 @@
                     <img src='{% static printer.pic %}'
                          class='img-printer' align="center">
                 </div>
+                <p>{{printer.current_status.print_stat}}</p>
                 <a href="http://{{printer.print_ip}}/" target="_blank"><h3 align="center">Printer Info</h3></a>
             </div>
             {% endif %}
@@ -36,17 +37,21 @@
                              class='img-printer'>
                     </div>
                     <div class="col-md-8 modal-body">
-                        <form method="post" class="form-horizontal">
+                        <form method="post" class="form-horizontal" id="form">
                             {% csrf_token %}
                             {% for field in form.visible_fields %}
                             <div class="form-group">
                                 {{ field.errors }}
-                                <label class="control-lavel col-sm-2" for="{{ field.id_for_label }}">{{ field.label }}</label>
-                                <div class="col-sm-10" id="printer-btn">
-                                    {{ field }}
+                                <label class="control-label col-sm-2" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                <div class="col-sm-10">
+                                    {{field}}
                                 </div>
                             </div>
+
                             {% endfor %}
+                            {% with key=printer.pk %}
+                            <input type="hidden" name="print_id" required id = "id_print_id" value="{{ key }}">
+                            {% endwith %}
                             <button class="btn btn-success">Create</button>
                         </form>
                     </div>
@@ -59,8 +64,14 @@
 {% endfor %}
 </div>
 <script type="text/javascript">
-    $("#panel").click(function(){
-        $("#printer-btn").val(printer.location + " " + printer.print_type);
+$(panel).ready(function(printer){
+    $("#panel").click(function(printer){
+        $(form).ready(function(){
+            $("#form").click(function(){
+                $("#print_id").val(1);
+             });
+         });
     });
+});
 </script>
 {% endblock %}

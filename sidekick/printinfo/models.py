@@ -41,5 +41,4 @@ class StatusLog(models.Model):
     print_stat = models.CharField(max_length=12,
                                   choices=STATUS_CHOICES,
                                   default='healthy')                    # status of printer health
-    desc = models.TextField(max_length=300, default='')                 # brief description of what's wrong
-
+    desc = models.TextField(max_length=300, default='') # brief description of what's wrong
