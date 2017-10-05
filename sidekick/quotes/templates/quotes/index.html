@@ -1,6 +1,181 @@
 {% extends 'sidekick/app-base.html' %}
+{% load staticfiles %}
 {% block content %}
-<div class='page-header'>
-    <h2>Quote Tool</h2>
-</div>
+{% if services_list %}
+    <div class= 'col-sm-7 col-lg-7'>
+        <div class = 'container-fluid'>
+            <div class = 'services-selection-container'>
+                <div class='panel panel-default services-panel'>
+                    <div class='panel-heading'>Backup</div>
+                    {% for service in services_list %}
+                        {% if service.category == 'backup' %}
+                            <button id='service' type='button' class='btn btn-block service-btn' 
+                            onclick="addService('{{service.service_name}}','{{service.price}}','{{service.category}}');">
+                                <div class ='media'>
+                                    <div id='service-name' class ='media-left'>
+                                    {{service.service_name}}
+                                    </div>
+                                    <div id='service-desc' class ='media-body'>
+                                    {{service.description}}
+                                    </div>
+                                    <div id='service-price' class ='media-right'>
+                                    ${{service.price}}
+                                    </div>
+                                </div>
+                            </button>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            <div class = 'services-selection-container'>
+                <div class='panel panel-default services-panel'>
+                    <div class='panel-heading'>Hardware</div>
+                    <div id='part' class='list-group-item'>
+                            <form>
+                                <div class = "input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-wrench"></i></span>
+                                    <input id='part-name' type='text' class="form-control" placeholder="Part Name" name='part-name'>
+                                </div>
+                                <div class = "input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-usd"></i></span>
+                                    <input id='part-price' type='number' class="form-control" placeholder="Part Price" name='part-price'>
+                                </div>
+                                <div class = "input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                                    <input id='shipping-price' type='number' class="form-control" placeholder="Shipping Cost" name='shipping-price'>
+                                </div>
+                            </form>
+                        <button id = 'add-part' type = 'button' class = 'btn btn-primary btn-block btn-add-part'>Add Part</button>
+                        </div>
+                    {% for service in services_list %}
+                        {% if service.category == 'labor' %}
+                            <button id='service' type='button' class='btn btn-block service-btn' 
+                            onclick="addService('{{service.service_name}}','{{service.price}}','{{service.category}}');">
+                                <div class ='media'>
+                                    <div id='service-name' class ='media-left'>
+                                    {{service.service_name}}
+                                    </div>
+                                    <div id='service-desc' class ='media-body'>
+                                    {{service.description}}
+                                    </div>
+                                    <div id='service-price' class ='media-right'>
+                                    ${{service.price}}
+                                    </div>
+                                </div>
+                            </button>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            <div class = 'services-selection-container'>
+                <div class='panel panel-default services-panel'>
+                    <div class='panel-heading'>Software</div>
+                    {% for service in services_list %}
+                        {% if service.category == 'software' %}
+                            <button id='service' type='button' class='btn btn-block service-btn' 
+                            onclick="addService('{{service.service_name}}','{{service.price}}','{{service.category}}');">
+                                <div class ='media'>
+                                    <div id='service-name' class ='media-left'>
+                                    {{service.service_name}}
+                                    </div>
+                                    <div id='service-desc' class ='media-body'>
+                                    {{service.description}}
+                                    </div>
+                                    <div id='service-price' class ='media-right'>
+                                    ${{service.price}}
+                                    </div>
+                                </div>
+                            </button>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            <div class = 'services-selection-container'>
+                <div class='panel panel-default services-panel'>
+                    <div class='panel-heading'>Other</div>
+                    {% for service in services_list %}
+                        {% if service.category == 'other' %}
+                            <button id='service' type='button' class='btn btn-block service-btn' 
+                            onclick="addService('{{service.service_name}}','{{service.price}}','{{service.category}}');">
+                                <div class ='media'>
+                                    <div id='service-name' class ='media-left'>
+                                    {{service.service_name}}
+                                    </div>
+                                    <div id='service-desc' class ='media-body'>
+                                    {{service.description}}
+                                    </div>
+                                    <div id='service-price' class ='media-right'>
+                                    ${{service.price}}
+                                    </div>
+                                </div>
+                            </button>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            <div class = 'services-selection-container'>
+                <div class='panel panel-default services-panel'>
+                    <div class='panel-heading'>Discounts</div>
+                    {% for service in services_list %}
+                        {% if service.category == 'discount' %}
+                            <button id='discount' type='button' class='btn btn-block service-btn' 
+                            onclick="addDiscount('{{service.service_name}}','{{service.price}}');">
+                                <div class ='media'>
+                                    <div id='service-name' class ='media-left'>
+                                    {{service.service_name}}
+                                    </div>
+                                    <div id='service-desc' class ='media-body'>
+                                    {{service.description}}
+                                    </div>
+                                    <div id='service-price' class ='media-right'>
+                                    - ${{service.price}}
+                                    </div>
+                                </div>
+                            </button>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class='col-sm-5 col-lg-5'>
+        <div class='services-selection-container'>
+            <div class='panel panel-default quote-card'>
+                <div class='panel-heading'>Quote</div>
+                    <div id='quote-items' class='list-group quoted-cards'></div>
+                    <div id='quote-totals' class='list-group-item quote-total hidden-quote'>
+                        <div class = 'media'>
+                            <div class = 'media-body'>
+                                <form>
+                                    Subtotal:<br>
+                                    <input type='text' name='subtotal' readonly='true'><br>
+                                    Shipping:<br>
+                                    <input type='text' name='shipping' readonly='true'><br>
+                                    Tax:<br>
+                                    <input type='text' name='tax' readonly='true'><br>
+                                </form>
+                            </div>
+                            <div class = 'media-right'>
+                                <form>
+                                    Total:<br>
+                                    <input type='text' name='total' readonly='true'><br>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            <div class='panel panel-default quote-card'>
+                <div class='panel-heading'>Text Quote</div>
+                <textarea class='form-control' rows='5' id='text-quote' readonly='true'></textarea>
+            </div>
+            <button id='clipboard-button' type='button' class='btn btn-primary btn-lg'>Copy Quote to Clipboard</button>
+            <button id='reset-button' type='button' class='btn btn-primary btn-lg'>Reset Quote</button>
+        </div>
+    </div>
+{% else %}
+    <div class='page-header'>
+        <h3>No services found, contact your local Sidekick representative</h3>
+    </div>
+{% endif %}
+<script src="{% static "js/quotes.js" %}"></script>
 {% endblock %}

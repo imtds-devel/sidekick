@@ -218,3 +218,51 @@
     width: 40px;
     border-radius: 3px;
 }
+.services-selection-container
+{
+    max-height: 400px;
+    max-width: 100%;
+}
+.services-panel 
+{
+    margin-bottom: 5px;
+}
+.service-btn
+{
+    border-radius: 4px;
+    border: white 2px solid;    
+    background-color: white;
+    transition: all linear 0.2s;
+}
+.part-btn
+{
+    border-radius: 4px;
+    border: white 2px solid;    
+    background-color: white;
+    transition: all linear 0.2s;
+}
+.service-btn:hover
+{   
+    border: #A0A0A0 2px solid;
+}
+.quoted-cards
+{
+    width: 100%;
+}
+.quoted-service
+{
+    background-color: white;
+}
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+.required-field
+{
+    border-color: #d9534f;
+}
+.hidden-quote 
+{
+    display: none;
+}
