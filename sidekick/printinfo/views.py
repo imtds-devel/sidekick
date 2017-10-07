@@ -21,13 +21,14 @@ def index(request):
 def prep_context():
     library_list = Location.objects.all()
     printer_list = Printer.objects.all()
+    status_log = StatusLog.objects.all()
     for printer in printer_list:
         printer.current_status = StatusLog.objects.filter(print_id=printer.pk).order_by('date')[:1]
-    status_log = StatusLog.objects.all()
     form = StatusLogForm()
     return {
         'library_list': library_list,
         'printer_list': printer_list,
         'status_log': status_log,
-        'form': form
+        'form': form,
+        'current_stat': printer.current_status
     }

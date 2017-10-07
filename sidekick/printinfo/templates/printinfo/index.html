@@ -12,10 +12,9 @@
             <div class="col-md-3 printer-card"><h2>{{printer.print_type}}</h2>
                 <div type="panel" class="panel-printer-btn" id="panel" data-toggle="modal"
                      data-target={{printer.data_targ}}>
-                    <img src='{% static printer.pic %}'
+                    <img src='{% static status_log.pic %}'
                          class='img-printer' align="center">
                 </div>
-                <p>{{printer.current_status.print_stat}}</p>
                 <a href="http://{{printer.print_ip}}/" target="_blank"><h3 align="center">Printer Info</h3></a>
             </div>
             {% endif %}
@@ -49,8 +48,10 @@
                             </div>
 
                             {% endfor %}
+
                             {% with key=printer.pk %}
                             <input type="hidden" name="print_id" required id = "id_print_id" value="{{ key }}">
+                            {{ printer.current_stat.stat }}
                             {% endwith %}
                             <button class="btn btn-success">Create</button>
                         </form>

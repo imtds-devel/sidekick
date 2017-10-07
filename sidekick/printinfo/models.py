@@ -30,7 +30,7 @@ class Printer(models.Model):
     @property
     def pic(self):
         """Returns the file path"""
-        return "printers/%s_healthy.gif" % self.printer_name
+        return "printers/%s_%s.gif" % (self.printer_name, StatusLog.print_stat)
 
     def __str__(self):
         return str(self.location) + " " + str(self.print_type)
@@ -42,3 +42,11 @@ class StatusLog(models.Model):
                                   choices=STATUS_CHOICES,
                                   default='healthy')                    # status of printer health
     desc = models.TextField(max_length=300, default='') # brief description of what's wrong
+    @property
+    def stat(self):
+        """Returns the netid with a #, for use with data targeting"""
+        return "%s" % self.print_stat
+    @property
+    def pic(self):
+        """Returns the file path"""
+        return "printers/%s_%s.gif" % (self.print_id, self.print_stat)
