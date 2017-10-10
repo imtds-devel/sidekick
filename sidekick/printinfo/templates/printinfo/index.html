@@ -7,72 +7,73 @@
         {% for location in library_list %}
         <div class="col-md-2 printer-area">
             <h1><b>{{location.name}}</b></h1>
-            {% for printer in printer_list %}
+
+            {% for printer, status in printer_list %}
             {% if printer.location == location %}
             <div class="col-md-3 printer-card"><h2>{{printer.print_type}}</h2>
                 <div type="panel" class="panel-printer-btn" id="panel" data-toggle="modal"
                      data-target={{printer.data_targ}}>
-                    <img src='{% static status_log.pic %}'
+                    {% with printer_list|first as first %}
+                    <img src='{% static status.first.pic %}'
                          class='img-printer' align="center">
+                    {% endwith %}
                 </div>
                 <a href="http://{{printer.print_ip}}/" target="_blank"><h3 align="center">Printer Info</h3></a>
             </div>
             {% endif %}
             {% endfor %}
+
         </div>
         {% endfor %}
     </div>
-    {% for printer in printer_list %}
+    {% for printer, status_list in printer_list %}
     <div class="modal fade" id={{printer.pk}} role="dialog">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h2 class="modal-title"><b>{{printer.printer_name}}</b></h2>
                 </div>
                 <div class="row">
-                    <div class="col-md-4 modal-body">
-                        <img src='{% static printer.pic|img_exists %}'
-                             class='img-printer'>
+                    <div class="col-md-5 modal-body">
+                        <h1 align="center"><b>Recent Reports</b></h1>
+                        {% for status in status_list %}
+                        <div class="panel panel-print-log">
+                        <h4><b>As Of:</b> {{status.date}}</h4>
+                            <p><b>Status Reported:</b> {{status.print_stat}}</p>
+                            <p><b>Report:</b> {{status.desc}}</p>
+
+                        </div>
+                        {% endfor %}
                     </div>
-                    <div class="col-md-8 modal-body">
+                    <div class="col-md-7 modal-body">
                         <form method="post" class="form-horizontal" id="form">
                             {% csrf_token %}
+                            {% with printer_list|first as first %}
+                            <h3 align="center"><img src='{% static status_list.first.pic %}'
+                                 class='img-printer'></h3>
+                            {% endwith %}
                             {% for field in form.visible_fields %}
                             <div class="form-group">
                                 {{ field.errors }}
-                                <label class="control-label col-sm-2" for="{{ field.id_for_label }}">{{ field.label }}</label>
-                                <div class="col-sm-10">
+                                <label class="control col-md-2" for="{{ field.id_for_label }}"><b>{{ field.label }}:</b></label>
+                                <div class="col-md-10">
                                     {{field}}
                                 </div>
                             </div>
-
                             {% endfor %}
 
                             {% with key=printer.pk %}
                             <input type="hidden" name="print_id" required id = "id_print_id" value="{{ key }}">
-                            {{ printer.current_stat.stat }}
+                            {{ printer.current_stat }}
                             {% endwith %}
-                            <button class="btn btn-success">Create</button>
+                            <h5 align="right"><button class="btn btn-success">Create</button></h5>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    {% endfor %}
 </div>
-
-{% endfor %}
-</div>
-<script type="text/javascript">
-$(panel).ready(function(printer){
-    $("#panel").click(function(printer){
-        $(form).ready(function(){
-            $("#form").click(function(){
-                $("#print_id").val(1);
-             });
-         });
-    });
-});
-</script>
 {% endblock %}

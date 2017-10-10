@@ -27,10 +27,6 @@ class Printer(models.Model):
     def data_targ(self):
         """Returns the netid with a #, for use with data targeting"""
         return "#%s" % self.pk
-    @property
-    def pic(self):
-        """Returns the file path"""
-        return "printers/%s_%s.gif" % (self.printer_name, StatusLog.print_stat)
 
     def __str__(self):
         return str(self.location) + " " + str(self.print_type)
@@ -39,14 +35,12 @@ class StatusLog(models.Model):
     print_id = models.ForeignKey(Printer)                               # printer id in database
     date = models.DateField("Date", default=datetime.now)               # date of most recent log made
     print_stat = models.CharField(max_length=12,
-                                  choices=STATUS_CHOICES,
-                                  default='healthy')                    # status of printer health
-    desc = models.TextField(max_length=300, default='') # brief description of what's wrong
-    @property
-    def stat(self):
-        """Returns the netid with a #, for use with data targeting"""
-        return "%s" % self.print_stat
+                                  choices=STATUS_CHOICES)               # status of printer health
+    desc = models.TextField(max_length=300, default='')                 # brief description of what's wrong
     @property
     def pic(self):
         """Returns the file path"""
-        return "printers/%s_%s.gif" % (self.print_id, self.print_stat)
+        return "printers/%s_%s.gif" % (self.print_id.pk, self.print_stat)
+
+    def __str__(self):
+        return str(self.date)+" "+"stat: "+str(self.print_stat)

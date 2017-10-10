@@ -22,4 +22,4 @@ class StatusLogForm(forms.ModelForm):
         self.fields['date'].widget.attrs['readonly'] = True
     class Meta:
         model = StatusLog
-        fields = ('print_id', 'date', 'print_stat', 'desc')
+        fields = ('print_id', 'date',  'print_stat', 'desc')

@@ -264,3 +264,8 @@
     max-height: 325px;
     max-width: 175px;
 }
+.print-log{
+    border-color: black;
+    border-bottom: solid;
+    border-style: solid;
+}
