@@ -33,7 +33,7 @@ class Printer(models.Model):
 
 class StatusLog(models.Model):
     print_id = models.ForeignKey(Printer)                               # printer id in database
-    date = models.DateField("Date", default=datetime.now)               # date of most recent log made
+    date = models.DateTimeField("Date", default=datetime.now().replace(microsecond=0))               # date of most recent log made
     print_stat = models.CharField(max_length=12,
                                   choices=STATUS_CHOICES)               # status of printer health
     desc = models.TextField(max_length=300, default='')                 # brief description of what's wrong

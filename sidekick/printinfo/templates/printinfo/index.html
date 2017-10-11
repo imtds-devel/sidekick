@@ -7,7 +7,6 @@
         {% for location in library_list %}
         <div class="col-md-2 printer-area">
             <h1><b>{{location.name}}</b></h1>
-
             {% for printer, status in printer_list %}
             {% if printer.location == location %}
             <div class="col-md-3 printer-card"><h2>{{printer.print_type}}</h2>
@@ -22,7 +21,6 @@
             </div>
             {% endif %}
             {% endfor %}
-
         </div>
         {% endfor %}
     </div>
@@ -62,7 +60,6 @@
                                 </div>
                             </div>
                             {% endfor %}
-
                             {% with key=printer.pk %}
                             <input type="hidden" name="print_id" required id = "id_print_id" value="{{ key }}">
                             {{ printer.current_stat }}
