@@ -1,6 +1,75 @@
 {% extends 'sidekick/app-base.html' %}
 {% block content %}
-<div class='page-header'>
-    <h2>Scheduling</h2>
+<div class = 'panel panel-primary'>
+    <div class = 'panel-heading shifts-header'>
+        <div class = 'shifts-week'>10/8 - 10/14</div>
+        <div class = 'shifts-title'>My Shifts</div>
+        <div class = 'shifts-week-selector'>
+            <div class = 'form-group'>
+                <input type = 'week' class = 'form-control' id = 'week'>
+            </div>
+        </div>      
+    </div>
+    <div class = 'panel-body'>
+        <div class = 'panel-group shifts-panel-group'>
+            <div class = 'panel panel-primary shift-panel'>
+                <div class = 'panel-heading'>Monday 10/9</div>
+                <div class = 'panel-body'>
+                        <button type = 'button' class = 'btn btn-block shift-btn'>Marshburn: 10AM - 2PM</button>
+                        <button type = 'button' class = 'btn btn-block shift-btn'>Marshburn: 9PM - 1AM</button>
+                </div>
+            </div>
+            <div class = 'panel panel-warning shift-panel'>
+                <div class = 'panel-heading'>Tuesday 10/10</div>
+                <div class = 'panel-body'>
+                        <button type = 'button' class = 'btn btn-block shift-btn open-shift'>Darling: 10AM - 2PM</button>
+                        <button type = 'button' class = 'btn btn-block shift-btn'>Marshburn: 9PM - 1AM</button>
+                </div>
+            </div>
+            <div class = 'panel panel-primary shift-panel'>
+                <div class = 'panel-heading'>Friday 10/13</div>
+                <div class = 'panel-body'>
+                        <button type = 'button' class = 'btn btn-block shift-btn'>Marshburn: 10AM - 2PM</button>
+                        <button type = 'button' class = 'btn btn-block shift-btn'>Marshburn: 9PM - 1AM</button>                    
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+<div class = 'panel panel-warning'>
+        <div class = 'panel-heading shifts-header'>
+            <div class = 'shifts-week'>10/8 - 10/14</div>
+            <div class = 'shifts-title'>Open Shifts</div>
+            <div class = 'shifts-week-selector'>
+                <div class = 'form-group'>
+                    <input type = 'week' class = 'form-control' id = 'week'>
+                </div>
+            </div>      
+        </div>
+        <div class = 'panel-body'>
+            <div class = 'panel-group shifts-panel-group'>
+                <div class = 'panel panel-warning'>
+                    <div class = 'panel-heading'>Monday 10/9</div>
+                    <div class = 'panel-body'>
+                            <button type = 'button' class = 'btn btn-block shift-btn'>Marshburn: 10AM - 2PM</button>
+                            <button type = 'button' class = 'btn btn-block shift-btn'>Marshburn: 9PM - 1AM</button>
+                    </div>
+                </div>
+                <div class = 'panel panel-warning'>
+                    <div class = 'panel-heading'>Monday 10/9</div>
+                    <div class = 'panel-body'>
+                            <button type = 'button' class = 'btn btn-block shift-btn'>Marshburn: 10AM - 2PM</button>
+                            <button type = 'button' class = 'btn btn-block shift-btn'>Marshburn: 9PM - 1AM</button>
+                    </div>
+                </div>
+                <div class = 'panel panel-warning'>
+                    <div class = 'panel-heading'>Monday 10/9</div>
+                    <div class = 'panel-body'>
+                            <button type = 'button' class = 'btn btn-block shift-btn'>Marshburn: 10AM - 2PM</button>
+                            <button type = 'button' class = 'btn btn-block shift-btn'>Marshburn: 9PM - 1AM</button>                    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
