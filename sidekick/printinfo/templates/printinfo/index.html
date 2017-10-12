@@ -40,8 +40,9 @@
                         <h1 align="center"><b>Recent Reports</b></h1>
                         {% for status in status_list %}
                         <div class="panel panel-print-log">
-                        <h4><b>As Of:</b> {{status.date}}</h4>
-                            <p><b>Status Reported:</b> {{status.print_stat}}</p>
+                        <h4><b>By:</b> {{status.netid }}</h4>
+                            <p><b>On:</b> {{status.date}}</p>
+                            <p><b>Status:</b> {{status.print_stat}}</p>
                             <p><b>Report:</b> {{status.desc}}</p>
 
                         </div>
