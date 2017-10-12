@@ -228,12 +228,12 @@
 }
 .printer-card
 {
-    max-width: 350px;
-    max-height: 400px;
+    width: 175px;
+    height: 300px;
     margin: 10px;
     display: inline-block;
     margin-bottom: 50px;
-
+    justify-content: center;
 }
 .printer-bio
 {

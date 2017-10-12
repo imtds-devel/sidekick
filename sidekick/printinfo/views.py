@@ -11,6 +11,7 @@ from .forms import StatusLogForm
 def index(request):
     # If this is a form submission
     if request.method == "POST":
+        request.POST['netid'] = request.USER
         form = StatusLogForm(request.POST)
         if form.is_valid():
             form.save(commit=True)
