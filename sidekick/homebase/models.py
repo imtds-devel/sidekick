@@ -93,7 +93,7 @@ class Employees(models.Model):
 
 
 class Proficiencies(models.Model):
-    netid = models.ForeignKey('Employees', on_delete=models.CASCADE)
+    netid = models.ForeignKey(Employees, on_delete=models.CASCADE)
     basic = models.IntegerField(default=0)
     advanced = models.IntegerField(default=0)
     field = models.IntegerField(default=0)
@@ -148,7 +148,7 @@ class Announcements(models.Model):
 
 
 class Events(models.Model):
-    announcer = models.ForeignKey('Employees', on_delete=models.CASCADE)
+    announcer = models.ForeignKey(Employees, on_delete=models.CASCADE)
     title = models.CharField(max_length=30, default="")
     description = models.TextField(default="")
     event_start = models.DateTimeField()
@@ -182,8 +182,8 @@ class BrowserStats(models.Model):
 
 class Discipline(models.Model):
     time = models.DateTimeField(auto_now_add=True)
-    poster = models.ForeignKey('Employees', related_name='disc_poster', on_delete=models.CASCADE)
-    about = models.ForeignKey('Employees', related_name='disc_about', on_delete=models.CASCADE)
+    poster = models.ForeignKey(Employees, related_name='disc_poster', on_delete=models.CASCADE)
+    about = models.ForeignKey(Employees, related_name='disc_about', on_delete=models.CASCADE)
     description = models.TextField(default="")
     val = models.DecimalField(max_digits=3, decimal_places=2)
     violation = models.CharField(max_length=15, default="")
@@ -206,7 +206,7 @@ class EmailSubscriptions(models.Model):
         ('al', 'All Emails')
     )
 
-    netid = models.ForeignKey('Employees', on_delete=models.CASCADE)
+    netid = models.ForeignKey(Employees, on_delete=models.CASCADE)
     shift_sub = models.CharField(
         max_length=2,
         choices=SHIFT_EMAIL_SUBSCRIPTION_CHOICES,
@@ -224,7 +224,7 @@ class EmailSubscriptions(models.Model):
 
 
 class Subscriptions(models.Model):
-    netid = models.ForeignKey('Employees', on_delete=models.CASCADE)
+    netid = models.ForeignKey(Employees, on_delete=models.CASCADE)
     sub_type = models.CharField(max_length=5, default='both')
     sub_level = models.CharField(max_length=5, default='none')
     delete = models.BooleanField(default=False)
@@ -245,7 +245,7 @@ class FailBoard(models.Model):
         ('lv', 'Longest Virus Scan')
     )
 
-    fail_holder = models.ForeignKey('Employees', on_delete=models.CASCADE)
+    fail_holder = models.ForeignKey(Employees, on_delete=models.CASCADE)
     fail_type = models.CharField(max_length=30, choices=FAIL_CATEGORIES)
     fail_val = models.CharField(max_length=20, default="")
     date = models.DateField()
@@ -268,8 +268,8 @@ class Shifts(models.Model):
     )
 
     title = models.CharField(max_length=255)
-    owner = models.ForeignKey('Employees', related_name='shift_owner', on_delete=models.CASCADE)
-    coverFor = models.ForeignKey('Employees', related_name='cover_for', on_delete=models.CASCADE)
+    owner = models.ForeignKey(Employees, related_name='shift_owner', on_delete=models.CASCADE)
+    coverFor = models.ForeignKey(Employees, related_name='cover_for', on_delete=models.CASCADE)
     shift_date = models.DateField()
     shift_start = models.DateTimeField()
     shift_end = models.DateTimeField()
@@ -290,5 +290,5 @@ class Shifts(models.Model):
 
 
 class Access(models.Model):
-    netid = models.ForeignKey('Employees', on_delete=models.CASCADE)
+    netid = models.ForeignKey(Employees, on_delete=models.CASCADE)
     # TODO: Define here? Or maybe modify Django's auth system?

@@ -39,7 +39,7 @@ class StatusLog(models.Model):
     print_stat = models.CharField(max_length=12,
                                   choices=STATUS_CHOICES)                                            # status of printer health
     desc = models.TextField(max_length=300, default='')                                              # brief description of what's wrong
-    netid = models.ForeignKey(Employees)                                                              # Need to add model for userID to record on each form
+    netid = models.ForeignKey(Employees, default='bduggan14')                                        # Need to add model for userID to record on each form
     @property
     def pic(self):
         """Returns the picture formated to be referenced"""
