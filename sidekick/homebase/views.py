@@ -49,5 +49,5 @@ def order(a_list, e_list):
     ordered = list(a_list) + list(e_list)
     #Combines the two lists, then sorts using lambda function with the announcement posted
     #attribute and event event_start attribute
-    ordered_list = sorted(ordered, key=lambda x: x.posted if hasattr(x, 'posted') else x.event_start, reverse=True)
+    ordered_list = sorted(ordered, key=lambda x: x.posted.date() if hasattr(x, 'posted') else x.event_start, reverse=True)
     return ordered_list[:8]
