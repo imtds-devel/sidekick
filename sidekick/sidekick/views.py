@@ -11,7 +11,7 @@ from homebase.models import Employees
 # @login_required # UNCOMMENT THIS BEFORE GOING LIVE
 def load_page(request, template, context):
 
-    request.user = 'nchera13' # COMMENT THIS BEFORE GOING LIVE
+    request = get_current_user(request) # COMMENT THIS BEFORE GOING LIVE
 
     # Check to make sure authenticated user is authorized to access the webpage
     if not authorize(request):
@@ -27,6 +27,12 @@ def load_page(request, template, context):
 
     return render(request, template, context)
 
+def get_current_user(request):
+    live = False
+    if not live:
+        request.user = 'dbartholomew13'
+
+    return request
 
 def authorize(request):
     uname = str(request.user)

@@ -220,6 +220,8 @@
   border-radius: 2%;
   border-top-left-radius: 0%;
   z-index: 0;
+  padding-left: 10px;
+  padding-left: 5px;
 }
 .a-right p{
   position: absolute;
@@ -260,6 +262,8 @@
   margin-top: 5px;
   border-radius: 2%;
   border-top-left-radius: 0%;
+  padding-left: 10px;
+  padding-right: 5px;
   z-index: 0;
 }
 .e-right p{

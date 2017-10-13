@@ -48,7 +48,7 @@ class Employees(models.Model):
     developer = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.fname + " " + self.lname + " (" + self.netid + ")"
+        return self.full_name
 
     @property
     def full_name(self):
@@ -152,8 +152,8 @@ class Events(models.Model):
     announcer = models.ForeignKey('Employees', on_delete=models.CASCADE)
     title = models.CharField(max_length=30, default="")
     description = models.TextField(default="")
-    event_start = models.DateTimeField()
-    event_end = models.DateTimeField()
+    event_start = models.DateField()
+    event_end = models.DateField()
     location = models.TextField(default="")
 
     def __str__(self):
