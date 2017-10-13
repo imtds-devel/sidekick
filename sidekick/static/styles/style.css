@@ -15,14 +15,22 @@
     }
 }
 
-
+/*Makes the round employee pic with shadow*/
 .employee-pic{
   border-radius: 50%;
-  border: solid #9692A0 2px;
-  width: 65%;
+  border: solid #gray 2px;
+  width: 70%;
   min-width: 60px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
+/*Creates the hover effect on the employee-pic*/
+.img-holder:hover .employee-pic{
+  transition: .5s ease;
+  opacity: 0.5;
+}
+
+/*Styles the tool to be bigger, maybe there is a better way to do this*/
 .glyphicon.glyphicon-file {
     font-size: 400%;
 }
@@ -39,32 +47,33 @@
   display: flex;
   position: relative;
   flex-flow: row;
+  align-items: center;
   justify-content: space-around;
   width: 82%;
   background: white;
-  height: 150px;
+  height: 160px;
   text-align: center;
-  border-right: solid 3px #9692A0;
-}
-
-.lib{
-  width: 25%;
-}
-
-.beacon-right p{
-  color: #0D4D4D;
-  margin: 0;
+  border-right: solid 2px #9692A0;
+  box-shadow: 3px 3px 3px grey;
+  margin-top: 5px;
+  border-radius: 2%;
+  border-top-left-radius: 0%;
+  z-index: 0;
 }
 
 .beacon-left{
   width: 22%;
   background: #548E8E;
   padding: 5px;
-  height: 150px;
+  height: 160px;
   margin-top: 5px;
-  border-right: solid 3px #9692A0;
+  border-right: solid 3px #285858;
+  border-top-right-radius: 5%;
+  border-bottom-right-radius: 5%;
+  border-left: solid 3px #9692A0;
   color: white;
-
+  box-shadow: 3px 3px 3px grey;
+  z-index: 1;
   padding-top: 5%;
 }
 
@@ -72,6 +81,20 @@
   font-size: 22px;
   font-color: blue;
   text-align: center;
+}
+
+/*Overrides the beacon-right*/
+.rc{
+  justify-content: flex-start;
+}
+
+.name-holder {
+
+}
+
+/*Employee info container*/
+.info-emp{
+  width: 25%;
 }
 
 .app-body{
@@ -189,16 +212,17 @@
 .a-right{
   width: 68%;
   background: white;
-  padding: 5px;
   height: 150px;
+  text-align: center;
+  border-right: solid 2px #9692A0;
+  box-shadow: 3px 3px 3px grey;
   margin-top: 5px;
-  text-align: justify;
-  border-right: solid 3px #9692A0;
+  border-radius: 2%;
+  border-top-left-radius: 0%;
+  z-index: 0;
 }
 .a-right p{
-  color: #0D4D4D;
-  margin: 0;
-  position: absolute;               /* 2 */
+  position: absolute;
   top: 50%;                         /* 3 */
   transform: translate(0, -50%)
 }
@@ -209,9 +233,13 @@
   padding: 5px;
   height: 150px;
   margin-top: 5px;
-  border-right: solid 3px #9692A0;
+  border-right: solid 3px #285858;
+  border-top-right-radius: 5%;
+  border-bottom-right-radius: 5%;
+  border-left: solid 3px #9692A0;
   color: white;
-
+  box-shadow: 3px 3px 3px grey;
+  z-index: 1;
   padding-top: 5%;
 }
 
@@ -225,11 +253,14 @@
 .e-right{
   width: 68%;
   background: white;
-  padding: 5px;
   height: 150px;
+  text-align: center;
+  border-right: solid 2px #9692A0;
+  box-shadow: 3px 3px 3px grey;
   margin-top: 5px;
-  text-align: justify;
-  border-right: solid 3px #9692A0;
+  border-radius: 2%;
+  border-top-left-radius: 0%;
+  z-index: 0;
 }
 .e-right p{
   margin: 0;
@@ -240,13 +271,17 @@
 
 .e-left{
   width: 32%;
-  background: #053E3E;
+  background: #3C4934;
   padding: 5px;
   height: 150px;
   margin-top: 5px;
-  border-right: solid 3px #9692A0;
+  border-right: solid 3px #181D14;
+  border-top-right-radius: 5%;
+  border-bottom-right-radius: 5%;
+  border-left: solid 3px #9692A0;
   color: white;
-
+  box-shadow: 3px 3px 3px grey;
+  z-index: 1;
   padding-top: 5%;
 }
 
