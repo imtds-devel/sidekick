@@ -250,6 +250,20 @@
     background-color: #BEBEBE !important;
     transition: all linear 0.2s;
 }
+.panel-printer-btn
+{
+    cursor:hand;
+    transition: all linear 0.2s;
+    height: 215px;
+    width: 175px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+}
+.panel-printer-btn:hover
+{
+    box-shadow: 0px 0px 8px #666666;
+}
 .printer-hov-button:hover
 {
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);

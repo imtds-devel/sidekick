@@ -11,8 +11,16 @@ from .forms import StatusLogForm
 def index(request):
     # If this is a form submission
     if request.method == "POST":
-        request.POST['netid'] = request.USER
-        form = StatusLogForm(request.POST)
+        # Copy POST data into a mutable variable
+        import copy
+        data = copy.copy(request.POST)
+
+        # In case we're not in production
+        # Remove this line before production!
+        request.user = views.get_current_user(request)
+
+        data['netid'] = request.user
+        form = StatusLogForm(data)
         if form.is_valid():
             form.save(commit=True)
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
