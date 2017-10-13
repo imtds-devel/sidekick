@@ -257,14 +257,6 @@ class MessageFromThePast(models.Model):
     posted = models.DateField(auto_now_add=True)
 
 
-class ServicePrices(models.Model):
-    service = models.CharField(max_length=30, default="")
-    price = models.IntegerField(default=0)
-    inuse = models.IntegerField(default=0)
-    description = models.CharField(max_length=255)
-    placement_order = models.IntegerField(default=0)
-
-
 class Shifts(models.Model):
     LOCATION_CHOICES = (
         ('ma', 'Marshburn Library'),
