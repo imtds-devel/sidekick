@@ -18,6 +18,7 @@ class StatusLogForm(forms.ModelForm):
             'class': 'form-control'
         })
         self.fields['date'].widget.attrs['readonly'] = True
+        self.fields['netid'].widget = forms.HiddenInput()
     class Meta:
         model = StatusLog
-        fields = ('print_id', 'date', 'print_stat', 'desc') #add field netid
+        fields = ('print_id', 'date', 'print_stat', 'desc', 'netid')
