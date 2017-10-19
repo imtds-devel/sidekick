@@ -1,8 +1,10 @@
 {% extends 'sidekick/app-base.html' %}
+{% load staticfiles %}
 {% block content %}
+{% load tz %}
 <div class = 'panel panel-primary'>
     <div class = 'panel-heading shifts-header'>
-        <div class = 'shifts-week'>10/8 - 10/14</div>
+        <div class = 'shifts-week'>{{time}}</div>
         <div class = 'shifts-title'>My Shifts</div>
         <div class = 'shifts-week-selector'>
             <div class = 'form-group'>
@@ -15,7 +17,7 @@
             <div class = 'panel panel-primary shift-panel'>
                 <div class = 'panel-heading'>Monday 10/9</div>
                 <div class = 'panel-body'>
-                        <button type = 'button' class = 'btn btn-block shift-btn'>Marshburn: 10AM - 2PM</button>
+                        <button type = 'button' class = 'btn btn-block shift-btn' data-toggle= 'modal' data-target= '#shift-id' >Marshburn: 10AM - 2PM</button>
                         <button type = 'button' class = 'btn btn-block shift-btn'>Marshburn: 9PM - 1AM</button>
                 </div>
             </div>
@@ -72,4 +74,43 @@
             </div>
         </div>
     </div>
+    <div id = 'shift-id' class = 'modal fade'>
+        <div class='modal-dialog modal-lg'>
+            <div class='modal-content'>
+                <div class='modal-header'>
+                    Marshburn: 10AM - 2PM
+                    <button type='button' class='close' data-dismiss='modal'>&times;</button>
+                    <h4 class='modal-title'></h4>
+                </div>
+                <div class='modal-body hero-bio'>
+                    <div class='hero-bio'>
+                        <button type = 'button' class = 'btn btn-default' data-dismiss = 'modal' data-toggle= 'modal' data-target= '#post-conf'>Post Cover</button>
+                    </div>
+                </div>
+                <div class='modal-footer'>
+                    <button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id = 'post-conf' class = 'modal fade'>
+            <div class='modal-dialog modal-sm'>
+                <div class='modal-content'>
+                    <div class='modal-header'>
+                        Marshburn: 10AM - 2PM
+                        <button type='button' class='close' data-dismiss='modal' data-toggle = 'modal' data-target = '#shift-id'>&times;</button>
+                        <h4 class='modal-title'></h4>
+                    </div>
+                    <div class='modal-body'>
+                        <div id='posting-progress'></div>
+                        <div id='post-det'>
+                            <p>Post Cover for {{user_name}} at Marshburn: 10AM - 2PM?</p>
+                            <button id= 'post-cover-btn' type= 'button' class= 'btn btn-primary'>Post</button>
+                            <button type='button' class='btn btn-default' data-toggle = 'modal' data-target = '#shift-id' data-dismiss='modal'>Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+<script src="{% static "js/shifts.js" %}"></script>        
 {% endblock %}
