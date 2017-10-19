@@ -5,6 +5,10 @@ from homebase.models import Employees
 import datetime
 
 
+class PermanentShifts(models.Model):
+    p_id = models.TextField(default="")
+
+
 class Shifts(models.Model):
     LOCATION_CHOICES = (
         ('ma', 'Marshburn Library'),
@@ -50,9 +54,6 @@ class Shifts(models.Model):
         return "%s: owned by %s, in %s from %s to %s" % (self.title, self.owner, self.location,
                                                          self.shift_start, self.shift_end)
 
-
-class PermanentShifts(models.Model):
-    p_id = models.TextField(default="")
 
 
 class ShiftCovers(models.Model):
