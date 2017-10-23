@@ -48,7 +48,7 @@ class Employees(models.Model):
     developer = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.fname + " " + self.lname + " (" + self.netid + ")"
+        return self.full_name
 
     @property
     def full_name(self):
@@ -81,11 +81,11 @@ class Employees(models.Model):
             out = str(self.position_desc)
         return out
 
-    @property 
+    @property
     def data_target(self):
         """Returns the netid with a #, for use with data targeting"""
         return "#%s" % self.netid
-    
+
     @property
     def picture(self):
         """Returns the file path"""
@@ -141,6 +141,7 @@ class Announcements(models.Model):
     posted = models.DateTimeField(auto_now_add=True)
     announcer = models.ForeignKey('Employees', on_delete=models.CASCADE)
     announcement = models.TextField(default="")
+    subject = models.TextField(default="Announcement")
     sticky = models.BooleanField(default=False)
 
     def __str__(self):
@@ -151,8 +152,8 @@ class Events(models.Model):
     announcer = models.ForeignKey('Employees', on_delete=models.CASCADE)
     title = models.CharField(max_length=30, default="")
     description = models.TextField(default="")
-    event_start = models.DateTimeField()
-    event_end = models.DateTimeField()
+    event_start = models.DateField()
+    event_end = models.DateField()
     location = models.TextField(default="")
 
     def __str__(self):

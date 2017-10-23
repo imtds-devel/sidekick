@@ -13,4 +13,3 @@ class EmployeeForm(forms.ModelForm):
         model= Employees
         fields=('netid', 'fname', 'lname', 'phone', 'apuid', 'codename', 'position', 'position_desc',
                 'standing', 'birthday', 'aboutme')
-
