@@ -30,10 +30,11 @@ def load_page(request, template, context):
 def get_current_user(request):
     live = False
     if not live:
-        request.user = 'dbartholomew13'
+        request.user = "nchera13"
 
     return request
 
 def authorize(request):
     uname = str(request.user)
     return Employees.objects.filter(netid__iexact=uname)
+
