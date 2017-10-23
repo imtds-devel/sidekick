@@ -17,7 +17,7 @@
                     {% endwith %}
                 </div>
                 <div style="position: absolute; bottom: 10px; width: 100%;">
-                    <h3 align="center">{{printer.print_type}}</h3>
+                    <h3 align="center">{{printer.type}}</h3>
                     <a href="http://{{printer.print_ip}}/" target="_blank"><h4 align="center">Printer Info</h4></a>
                 </div>
             </div>
@@ -32,7 +32,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h2 class="modal-title" align="center"><b>{{printer.printer_name}}</b></h2>
+                    <h2 class="modal-title" align="center"><b>{{printer.name}}</b></h2>
                 </div>
                 <div style="max-height:650px;">
                     <div class="row">
@@ -66,7 +66,7 @@
                                 </div>
                                 {% endfor %}
                                 {% with key=printer.pk %}
-                                <input type="hidden" name="print_id" required id = "id_print_id" value="{{ key }}">
+                                <input type="hidden" name="print_id" required id = "id_printer" value="{{ key }}">
                                 {% endwith %}
                                 <h5 align="right"><button class="btn btn-success btn-lg">Create</button></h5>
                             </form>

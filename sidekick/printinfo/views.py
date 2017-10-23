@@ -33,7 +33,7 @@ def prep_context():
 
     print_stat = []
     for printer in printer_list:
-        current_status = StatusLog.objects.filter(print_id=printer.pk).order_by('date', 'pk').reverse()[:5]
+        current_status = StatusLog.objects.filter(printer=printer.pk).order_by('date', 'pk').reverse()[:5]
         print_stat.append((printer, current_status))
 
     form = StatusLogForm()

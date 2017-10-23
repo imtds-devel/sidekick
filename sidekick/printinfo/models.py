@@ -20,10 +20,10 @@ class Location(models.Model):
         return self.name
 
 class Printer(models.Model):
-    printer_name = models.CharField(max_length=15, default='')                                       # printer name (external)
+    name = models.CharField(max_length=15, default='')                                       # printer name (external)
     location = models.ForeignKey(Location)                                                           # location of library printer dwells
     print_ip = models.URLField(max_length=14)                                                        # printer IP address
-    print_type = models.CharField(max_length=10)                                                     # type of printer
+    type = models.CharField(max_length=10)                                                     # type of printer
     @property
     def data_targ(self):
         """data targeted for modals"""
@@ -31,10 +31,10 @@ class Printer(models.Model):
 
     def __str__(self):
         """formatted string for printer Location and Print Type"""
-        return str(self.location) + " " + str(self.print_type)
+        return str(self.location) + " " + str(self.type)
 
 class StatusLog(models.Model):
-    print_id = models.ForeignKey(Printer)                                                            # printer id in database
+    printer = models.ForeignKey(Printer)                                                            # printer id in database
     date = models.DateTimeField("Date", default=datetime.now().replace(microsecond=0))               # date of most recent log made
     print_stat = models.CharField(max_length=12,
                                   choices=STATUS_CHOICES)                                            # status of printer health
@@ -42,6 +42,6 @@ class StatusLog(models.Model):
     netid = models.ForeignKey(Employees, default='bduggan14')                                        # Need to add model for userID to record on each form
     @property
     def pic(self):
-        """Returns the picture formated to be referenced"""
-        return "printers/%s_%s.gif" % (self.print_id.pk, self.print_stat)
+        """Returns the picture formatted to be referenced"""
+        return "printers/%s_%s.gif" % (self.printer.pk, self.print_stat)
 
