@@ -9,11 +9,343 @@
         font-size: 37px;
         transition: all ease 0.3s;
                 }
-    .navbar>.container .navbar-brand-centered, 
+    .navbar>.container .navbar-brand-centered,
     .navbar>.container-fluid .navbar-brand-centered {
         margin-left: -80px;
     }
 }
+
+/*Makes the round employee pic with shadow*/
+.employee-pic{
+  border-radius: 50%;
+  border: solid #gray 2px;
+  width: 70%;
+  min-width: 60px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+/*Creates the hover effect on the employee-pic*/
+.img-holder:hover .employee-pic{
+  transition: .5s ease;
+  opacity: 0.5;
+}
+
+/*Styles the tool to be bigger, maybe there is a better way to do this*/
+.glyphicon.glyphicon-file {
+    font-size: 400%;
+}
+
+.beacon {
+  display: flex;
+  justify-content: space-around;
+  position: relative;
+  margin-left: 2px;
+  margin-right: 2px;
+}
+
+.beacon-right{
+  display: flex;
+  position: relative;
+  flex-flow: row;
+  align-items: center;
+  justify-content: space-around;
+  width: 82%;
+  background: white;
+  height: 160px;
+  text-align: center;
+  border-right: solid 2px #9692A0;
+  box-shadow: 3px 3px 3px grey;
+  margin-top: 5px;
+  border-radius: 2%;
+  border-top-left-radius: 0%;
+  z-index: 0;
+}
+
+.beacon-left{
+  width: 22%;
+  background: #548E8E;
+  padding: 5px;
+  height: 160px;
+  margin-top: 5px;
+  border-right: solid 3px #285858;
+  border-top-right-radius: 5%;
+  border-bottom-right-radius: 5%;
+  border-left: solid 3px #9692A0;
+  color: white;
+  box-shadow: 3px 3px 3px grey;
+  z-index: 1;
+  padding-top: 5%;
+}
+
+.beacon-location{
+  font-size: 22px;
+  font-color: blue;
+  text-align: center;
+}
+
+/*Overrides the beacon-right*/
+.rc{
+  justify-content: flex-start;
+}
+
+.name-holder {
+
+}
+
+/*Employee info container*/
+.info-emp{
+  width: 25%;
+}
+
+.app-body{
+  padding: 2px;
+  overflow-y: scroll;
+  height: 93%;s
+  margin-top: 0px;
+}
+
+.modal-title-container{
+  position: relative;
+  display: flex;
+}
+
+.create-a{
+  font-size: 14px;
+  padding-right: 10px;
+  width: 50%;
+  height: 40px;
+  margin: -10px;
+  margin-top: -8px;
+  margin-bottom: -8px;
+  margin-right: -12px;
+  background-color: white;
+  border: 2px solid #B2D1D1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.create-e{
+  font-size: 14px;
+  padding-right: 10px;
+  width: 50%;
+  height: 40px;
+  margin: -10px;
+  margin-top: -8px;
+  margin-bottom: -8px;
+  margin-right: -12px;
+  background-color: white;
+  border: 2px solid #B2D1D1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.create-a:hover{
+  background-color: #9692A0;
+  color: white;
+}
+
+.create-e:hover{
+  background-color: #9692A0;
+  color: white;
+}
+
+.app-head{
+  font-size: 16px;
+  display: flex;
+  justify-content: space-between;
+  padding: 12px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+#new-icon{
+  color: #0D4D4D;
+}
+
+.button-box{
+    width: 10%;
+    height: 40px;
+    margin: -10px;
+    margin-top: -8px;
+    margin-bottom: -8px;
+    margin-right: -12px;
+    background-color: white;
+    border: 2px solid #B2D1D1;
+    border-top-right-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.button-box:hover{
+  background-color: #9692A0;
+}
+
+.button-box:hover #new-icon{
+  color: white;
+}
+
+.add-a-e{
+  background-color: #DAD8DF;
+  width: 99%;
+  height: 150px;
+  margin: 5px;
+  position: relative;
+}
+
+.add-a-e span{
+  color: white;
+  position: absolute;
+  top: 50%;
+  transform: translate(0, -50%)
+}
+
+.announcement {
+  display: flex;
+  justify-content: space-around;
+  position: relative;
+  margin-left: 2px;
+  margin-right: 2px;
+}
+.a-right{
+  width: 68%;
+  background: white;
+  height: 150px;
+  text-align: center;
+  border-right: solid 2px #9692A0;
+  box-shadow: 3px 3px 3px grey;
+  margin-top: 5px;
+  border-radius: 2%;
+  border-top-left-radius: 0%;
+  z-index: 0;
+  padding-left: 10px;
+  padding-left: 5px;
+}
+.a-right p{
+  position: absolute;
+  top: 50%;                         /* 3 */
+  transform: translate(0, -50%)
+}
+
+.a-left{
+  width: 32%;
+  background: #548E8E;
+  padding: 5px;
+  height: 150px;
+  margin-top: 5px;
+  border-right: solid 3px #285858;
+  border-top-right-radius: 5%;
+  border-bottom-right-radius: 5%;
+  border-left: solid 3px #9692A0;
+  color: white;
+  box-shadow: 3px 3px 3px grey;
+  z-index: 1;
+  padding-top: 5%;
+}
+
+.event {
+  display: flex;
+  margin-left: 2px;
+  margin-right: 2px;
+  justify-content: space-around;
+  position: relative;
+}
+.e-right{
+  width: 68%;
+  background: white;
+  height: 150px;
+  text-align: center;
+  border-right: solid 2px #9692A0;
+  box-shadow: 3px 3px 3px grey;
+  margin-top: 5px;
+  border-radius: 2%;
+  border-top-left-radius: 0%;
+  padding-left: 10px;
+  padding-right: 5px;
+  z-index: 0;
+}
+.e-right p{
+  margin: 0;
+  position: absolute;               /* 2 */
+  top: 50%;                         /* 3 */
+  transform: translate(0, -50%)
+}
+
+.e-left{
+  width: 32%;
+  background: #3C4934;
+  padding: 5px;
+  height: 150px;
+  margin-top: 5px;
+  border-right: solid 3px #181D14;
+  border-top-right-radius: 5%;
+  border-bottom-right-radius: 5%;
+  border-left: solid 3px #9692A0;
+  color: white;
+  box-shadow: 3px 3px 3px grey;
+  z-index: 1;
+  padding-top: 5%;
+}
+
+.scrollable{
+  padding: 2px;
+  overflow-y: scroll;
+  height: 94%;
+  margin-top: 0px;
+}
+
+.homebase-group{
+  margin-top: 0;
+  margin-left: 5;
+  margin-right: 5;
+
+  height: 90%;
+}
+
+.e-subject{
+  font-size: 22px;
+  font-color: blue;
+  text-align: center;
+}
+
+.e-meta{
+  font-size: 12px;
+  font-color: black;
+  text-align: center;
+}
+
+.e-description{
+  font-size: 16px;
+  text-align: center;
+}
+
+.a-subject{
+  font-size: 22px;
+  font-color: blue;
+  text-align: center;
+}
+
+.a-meta{
+  font-size: 12px;
+  font-color: black;
+  text-align: center;
+}
+
+.a-description{
+  font-size: 16px;
+  text-align: center;
+}
+
+.newsletter{
+  background-color: #ADD8E6;
+  position: absolute;
+  bottom: 20;
+  width: 98%;
+  text-align: center;
+}
+
 .navbar-nav a
 {
     transition: all ease 0.3s;
@@ -218,31 +550,92 @@
     width: 40px;
     border-radius: 3px;
 }
+.printer-area
+{
+    width: 750px;
+    height: 400px;
+    margin-bottom: 30px;
+    display: inline-block-fixed;
+
+}
+.printer-card
+{
+    width: 175px;
+    height: 300px;
+    margin: 10px;
+    display: inline-block;
+    margin-bottom: 50px;
+    justify-content: center;
+}
+.printer-bio
+{
+    text-align: right;
+}
+.printer-button
+{
+    width: 100px;
+    height: 100px;
+    border-radius: 4px;
+    border: #A0A0A0 2px solid;
+    direction: right;
+    display: block-inline;
+    background-color: #BEBEBE !important;
+    transition: all linear 0.2s;
+}
+.panel-printer-btn
+{
+    cursor:hand;
+    transition: all linear 0.2s;
+    height: 215px;
+    width: 175px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+}
+.panel-printer-btn:hover
+{
+    box-shadow: 0px 0px 8px #666666;
+}
+.printer-hov-button:hover
+{
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+.img-printer
+{
+    max-height: 325px;
+    max-width: 175px;
+}
+.print-log{
+    border-color: black;
+    border-bottom: solid;
+    border-style: solid;
+}
+
 .services-selection-container
 {
     max-height: 400px;
     max-width: 100%;
 }
-.services-panel 
+.services-panel
 {
     margin-bottom: 5px;
 }
 .service-btn
 {
     border-radius: 4px;
-    border: white 2px solid;    
+    border: white 2px solid;
     background-color: white;
     transition: all linear 0.2s;
 }
 .part-btn
 {
     border-radius: 4px;
-    border: white 2px solid;    
+    border: white 2px solid;
     background-color: white;
     transition: all linear 0.2s;
 }
 .service-btn:hover
-{   
+{
     border: #A0A0A0 2px solid;
 }
 .quoted-cards
@@ -253,16 +646,16 @@
 {
     background-color: white;
 }
-input[type=number]::-webkit-inner-spin-button, 
-input[type=number]::-webkit-outer-spin-button { 
-  -webkit-appearance: none; 
-  margin: 0; 
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 .required-field
 {
     border-color: #d9534f;
 }
-.hidden-quote 
+.hidden-quote
 {
     display: none;
 }
