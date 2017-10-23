@@ -48,7 +48,7 @@ class Shifts(models.Model):
         default='F'
     )
     google_id = models.TextField(default="")
-    perm_id = models.ForeignKey(PermanentShifts, null=True, blank=True, on_delete=models.CASCADE)
+    permanent = models.ForeignKey(PermanentShifts, null=True, blank=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return "%s: owned by %s, in %s from %s to %s" % (self.title, self.owner, self.location,

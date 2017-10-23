@@ -10,3 +10,5 @@ def index(request):
     now = timezone.now()
     context = {'time':now}
     return views.load_page(request, 'shifts/index.html', context)
+
+
