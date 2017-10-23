@@ -30,7 +30,7 @@ def load_page(request, template, context):
 def get_current_user(request):
     live = False
     if not live:
-        request.user = 'bduggan14'
+        request.user = "nchera13"
 
     return request
 
