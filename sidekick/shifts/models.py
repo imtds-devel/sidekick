@@ -57,12 +57,6 @@ class Shifts(models.Model):
                                                          self.shift_start, self.shift_end)
 
 
-<<<<<<< HEAD
-
-
-
-=======
->>>>>>> ee976f0653a857d03290261a5bf4f0413a36cbeb
 class ShiftCovers(models.Model):
     TYPE_CHOICES = (
         ('sf', 'Single Full Cover'),
