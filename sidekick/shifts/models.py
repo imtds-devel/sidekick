@@ -15,9 +15,11 @@ class Shifts(models.Model):
         ('da', 'Darling Library'),
         ('st', 'Stamps Library'),
         ('sd', 'Support Desk'),
+        ('sr', 'Support Reps'),
         ('rc', 'Repair Center'),
         ('md', 'MoD Desk'),
-        ('ss', 'Senior Support Techs')
+        ('ss', 'Senior Support Techs'),
+        ('sf', 'Staff')
     )
 
     CHECKIN_CHOICES = (
@@ -55,9 +57,12 @@ class Shifts(models.Model):
                                                          self.shift_start, self.shift_end)
 
 
+<<<<<<< HEAD
 
 
 
+=======
+>>>>>>> ee976f0653a857d03290261a5bf4f0413a36cbeb
 class ShiftCovers(models.Model):
     TYPE_CHOICES = (
         ('sf', 'Single Full Cover'),
@@ -75,3 +80,13 @@ class ShiftCovers(models.Model):
     )
     sobstory = models.TextField(default="")
     post_date = models.DateField(default=datetime.date.today)
+
+    def __str__(self):
+        if self.taker:
+            return "Cover for %s was posted on %s and taken by %s" % (self.poster, self.post_date, self.taker)
+        else:
+            return "Cover for %s was posted on %s and is still OPEN!" % (self.poster, self.post_date)
+
+class Tokens(models.Model):
+    refresh_token = models.TextField(default="")
+    access_token = models.TextField(default="")
