@@ -1,5 +1,6 @@
 from shifts.models import Shifts, ShiftCovers, PermanentShifts
 from homebase.models import Employees
+from shifts.functions import google_api_setup
 
 
 get_location_id = {
@@ -18,16 +19,19 @@ get_location_id = {
 
 # Post a single full shift
 def post_single_full(shift_id, sob_story):
+    global get_location_id
     print(shift_id)
 
-    # Get all our required information
+    # First, get all our required information
     shift = Shifts.objects.get(id=shift_id)[0]
     owner = shift.owner
-    if shift.is_open or not owner:  # Can't post an open shift!
+    if shift.is_open or not owner:  # You can't post an open shift!
         print("ERROR: This shift is already open, it cannot be posted again :/")
-        return None
+        return False
 
-    # Next up, we build the shift cover
+    new_title = "Open Shift (Cover for %s)" % (str(owner))
+
+    # Next up, we build the shift cover model
     cover = ShiftCovers(
         shift=shift,
         poster=owner,
@@ -36,21 +40,65 @@ def post_single_full(shift_id, sob_story):
         sob_story=sob_story
     )
     shift.is_open = True
-    shift.title = "Open Shift (Cover for %s)" % (str(shift.owner))
+    shift.title = new_title
 
     # Now we gotta send the changes to Google
     cal_id = get_location_id[shift.location]
-    # TODO: construct service and get event, switch summary, then push again
+    service = google_api_setup.build_service()
+
+    # Get shift from Google
+    shift = get_shift(service,cal_id, shift.google_id)
+
+    print(shift)
+
+    shift['summary'] = new_title
+
+    # Update the shift and send it back
+    updated = service.events().update(
+        calendarId=cal_id,
+        eventId = shift.google_id
+    )
+
+    # TODO: Verify the event has been updated successfully (learn what updated var looks like on failure)
 
     # Finally, save database changes
     cover.save()
     shift.save()
 
+    return updated
 
-    return True
+def take_single_full(shift_id, taker:Employees):
+    global get_location_id
 
-def take_single_ful(shift_id, taker:Employees):
+
     return True
 
 ######################################################
 # Helper functions
+
+# Get an event from Google based on calendar ID and event ID
+def get_shift(service, cal_id, event_id):
+    return service.events().get(
+        calendarId=cal_id,
+        eventId=event_id
+    )
+
+# Expects start and end to be properly formatted datetime strings with timezone
+# Use the startdatetime and enddatetime methods
+def build_shift(title, start, end, recurrent:bool, sob_story = ""):
+    recurrence = "RRULE:FREQ=WEEKLY;UNTIL:20171216070000Z" if recurrent else None
+    #TODO: Research if people want to be added as attendees to the events
+
+    return {
+        'summary': title,
+        'description': sob_story,
+        'start': {
+            'dateTime': start,
+            'timeZone': 'America/Los_Angeles'
+        },
+        'end': {
+            'dateTime': end,
+            'timeZone': 'America,Los_Angeles'
+        },
+        'recurrence': [recurrence],
+    }

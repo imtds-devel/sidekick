@@ -80,3 +80,7 @@ class ShiftCovers(models.Model):
             return "Cover for %s was posted on %s and taken by %s" % (self.poster, self.post_date, self.taker)
         else:
             return "Cover for %s was posted on %s and is still OPEN!" % (self.poster, self.post_date)
+
+class Tokens(models.Model):
+    refresh_token = models.TextField(default="")
+    access_token = models.TextField(default="")
