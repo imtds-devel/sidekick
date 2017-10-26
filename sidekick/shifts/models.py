@@ -56,6 +56,8 @@ class Shifts(models.Model):
 
 
 
+
+
 class ShiftCovers(models.Model):
     TYPE_CHOICES = (
         ('sf', 'Single Full Cover'),

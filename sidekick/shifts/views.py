@@ -8,7 +8,7 @@ from django.utils import timezone
 def index(request):
     # We import the current time
     now = timezone.now()
-    context = {'time':now}
+    context = {'time': now}
     return views.load_page(request, 'shifts/index.html', context)
 
 
