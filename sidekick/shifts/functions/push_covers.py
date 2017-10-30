@@ -1,6 +1,6 @@
 from shifts.models import Shifts, ShiftCovers, PermanentShifts
 from homebase.models import Employees
-from shifts.functions import google_api_setup
+from shifts.functions import google_api
 
 
 get_location_id = {
@@ -44,7 +44,7 @@ def post_single_full(shift_id, sob_story):
 
     # Now we gotta send the changes to Google
     cal_id = get_location_id[shift.location]
-    service = google_api_setup.build_service()
+    service = google_api.build_service()
 
     # Get shift from Google
     shift = get_shift(service,cal_id, shift.google_id)

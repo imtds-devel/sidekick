@@ -43,3 +43,5 @@ def build_service():
     credentials = get_credentials()
     http= credentials.authorize(httplib2.Http())
     return discovery.build('calendar', 'v3', http=http)
+
+get_credentials()
