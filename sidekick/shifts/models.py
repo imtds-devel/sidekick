@@ -19,7 +19,8 @@ class Shifts(models.Model):
         ('rc', 'Repair Center'),
         ('md', 'MoD Desk'),
         ('ss', 'Senior Support Techs'),
-        ('sf', 'Staff')
+        ('sf', 'Staff'),
+        ('te', 'TESTING')
     )
 
     CHECKIN_CHOICES = (
@@ -36,8 +37,8 @@ class Shifts(models.Model):
     title = models.CharField(max_length=255)
     owner = models.ForeignKey(Employees, null=True, blank=True, related_name='shift_owner', on_delete=models.CASCADE)
     shift_date = models.DateField()
-    shift_start = models.DateTimeField()
-    shift_end = models.DateTimeField()
+    shift_start = models.TimeField()
+    shift_end = models.TimeField()
     location = models.CharField(
         max_length=2,
         choices=LOCATION_CHOICES,
@@ -55,6 +56,16 @@ class Shifts(models.Model):
     def __str__(self):
         return "%s: owned by %s, in %s from %s to %s" % (self.title, self.owner, self.location,
                                                          self.shift_start, self.shift_end)
+
+    @property
+    def google_start(self):
+        #TODO: Compensate date for shifts starting at or after midnight
+        return "%sT%s" % (str(self.shift_date), str(self.shift_start))
+
+    @property
+    def google_end(self):
+        #TODO: compensate date for shifts ending at or after midnight
+        return "%sT%s" % (str(self.shift_date), str(self.shift_start))
 
 
 class ShiftCovers(models.Model):
