@@ -19,7 +19,7 @@ def get_credentials():
     Returns:
         Credentials, the obtained credential.
     """
-    flags = argparse.ArgumentParser(parents=[tools.argparser]).parse_args()
+    flags = tools.argparser.parse_args([])
 
     home_dir = os.path.expanduser('~')
     credential_dir = os.path.join(home_dir, '.credentials')
@@ -44,4 +44,4 @@ def build_service():
     http= credentials.authorize(httplib2.Http())
     return discovery.build('calendar', 'v3', http=http)
 
-get_credentials()
+#get_credentials()
