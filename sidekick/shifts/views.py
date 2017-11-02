@@ -8,9 +8,6 @@ from shifts.functions.push_covers import push_cover
 # Create your views here.
 def index(request):
 
-    if request.TYPE == "POST":
-        print("We got ourselves a POST!")
-
     # We import the current time
     now = timezone.now()
     context = {'time': now}
