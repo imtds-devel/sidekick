@@ -59,13 +59,18 @@ class Shifts(models.Model):
 
     @property
     def google_start(self):
-        #TODO: Compensate date for shifts starting at or after midnight
         return "%sT%s" % (str(self.shift_date), str(self.shift_start))
 
     @property
     def google_end(self):
-        #TODO: compensate date for shifts ending at or after midnight
-        return "%sT%s" % (str(self.shift_date), str(self.shift_start))
+        date = self.shift_date
+
+        # If the shift starts before midnight and ends after midnight, we need to increment the date
+        # Note: if shifts ever extend past 1am, this will need to be updated
+        if int(self.shift_start.hour) > 2 and int(self.shift_end.hour) < 2:
+            date += datetime.timedelta(days=1)
+
+        return "%sT%s" % (str(date), str(self.shift_start))
 
 
 class ShiftCovers(models.Model):
