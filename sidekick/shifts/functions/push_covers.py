@@ -1,21 +1,28 @@
 from shifts.models import Shifts, ShiftCovers, PermanentShifts
 from homebase.models import Employees
 from shifts.functions import google_api
-
-
-get_location_id = {
-    'ma': 'apu.edu_1et1nvtkk2h104q23odp8d80qk@group.calendar.google.com',
-    'da': 'apu.edu_4k6lbta718h17tao2s7env9vsg@group.calendar.google.com',
-    'st': 'apu.edu_b09rl73hfmh0nmu8fplnbetlt8@group.calendar.google.com',
-    'sd': 'apu.edu_ohl01622csflosjt3io4d3gfsk@group.calendar.google.com',
-    'rc': 'apu.edu_9rei5vi75v3vmo2revbbi43pts@group.calendar.google.com',
-    'md': 'apu.edu_qo3fjdiio82sou892a265fnkc4@group.calendar.google.com',
-    'te': 'primary'
-    # TODO: Get more in here
-}
+from sidekick.settings import CALENDAR_LOCATION_IDS
 
 ######################################################
 # Main post/take fns
+
+"""
+'data' dictionary reserved keys:
+'shift_id': the sidekick shift ID (not the google ID!)
+    - Required for all cover functions
+
+'sob_story': the reason for the cover in question
+    - Required for all posting functions
+
+'taker': the taker of a shift cover
+    - Required for all taking functions
+    
+'start_time' and 'end_time': start and end time for partial shift covers
+    - Required for all partial covers
+
+"""
+
+
 
 # Master routing fn (call this to route shift covers properly!)
 def push_cover(shift_id, type, data):
@@ -38,7 +45,6 @@ def push_cover(shift_id, type, data):
 # Post a single full shift
 # Data dictionary *must* at least have the 'shift_id' and 'sob_story' keys defined
 def post_single_full(data):
-    global get_location_id
     shift_id = data['shift_id']
 
     # First, get all our required information
@@ -60,29 +66,32 @@ def post_single_full(data):
         poster=owner,
         taker=None,
         type='sf',
-        sob_story=data['sob_story']
+        sob_story=data['sob_story'],
+        permanent=False
     )
     shift.is_open = True
     shift.title = new_title
 
     # Now we gotta send the changes to Google
-    cal_id = get_location_id[shift.location]
+    cal_id = CALENDAR_LOCATION_IDS[shift.location]
     service = google_api.build_service()
 
     # Get shift from Google
-    shift = get_shift(service,cal_id, shift.google_id)
+    g_shift = get_shift(service,cal_id, shift.google_id).execute()
 
     print(shift)
 
-    shift['summary'] = new_title
+    g_shift['summary'] = new_title
 
     # Update the shift and send it back
     updated = service.events().update(
         calendarId=cal_id,
-        eventId = shift.google_id
-    )
+        eventId=shift.google_id,
+        body=g_shift
+    ).execute()
 
     # TODO: Verify the event has been updated successfully (learn what updated var looks like on failure)
+    print(updated)
 
     # Finally, save database changes
     cover.save()
@@ -90,44 +99,66 @@ def post_single_full(data):
 
     return updated
 
+# Take a single full shift
+# Data dictionary *must* at least have the 'shift_id' and 'taker' keys defined
 def take_single_full(data):
-    global get_location_id
+    shift_id = data['shift_id']
+    taker = data['taker']
 
+    # First, get all our required information
+    cover = ShiftCovers.objects.get(shift=shift_id)
+    g_id = cover.shift.google_id
 
+    # Now we gotta send the changes to Google
+    cal_id = CALENDAR_LOCATION_IDS[cover.shift.location]
+    service = google_api.build_service()
+
+    # Update our models (do it before calling the Google Cal because it auto-constructs the event title for us!)
+    cover.take(taker)
+
+    # Get shift from Google
+    g_shift = get_shift(service, cal_id, g_id).execute()
+
+    g_shift['summary'] = cover.shift.title
+
+    # Update the shift and send it back
+    updated = service.events().update(
+        calendarId=cal_id,
+        eventId=g_id,
+        body=g_shift
+    ).execute()
+
+    # TODO: Verify the event has been updated successfully (learn what updated var looks like on failure)
+    print(updated)
+
+    cover.save()
     return True
 
 def post_permanent_full(data):
-    global get_location_id
-
 
     return True
 
 def take_permanent_full(data):
-    global get_location_id
 
 
     return True
 
 def post_single_partial(data):
-    global get_location_id
 
 
     return True
 
 def take_single_partial(data):
-    global get_location_id
 
 
     return True
 
 def post_permanent_partial(data):
-    global get_location_id
 
 
     return True
 
 def take_permanent_partial(data):
-    global get_location_id
 
 
     return True
@@ -140,7 +171,7 @@ def get_shift(service, cal_id, event_id):
     return service.events().get(
         calendarId=cal_id,
         eventId=event_id
-    )
+    ).execute()
 
 # Expects start and end to be properly formatted datetime strings with timezone
 # Use the startdatetime and enddatetime methods

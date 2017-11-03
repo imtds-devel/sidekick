@@ -67,7 +67,7 @@ class Shifts(models.Model):
 
         # If the shift starts before midnight and ends after midnight, we need to increment the date
         # Note: if shifts ever extend past 1am, this will need to be updated
-        if int(self.shift_start.hour) > 2 and int(self.shift_end.hour) < 2:
+        if int(self.shift_start.hour) > 2 > int(self.shift_end.hour):
             date += datetime.timedelta(days=1)
 
         return "%sT%s" % (str(date), str(self.shift_start))
@@ -82,7 +82,7 @@ class ShiftCovers(models.Model):
     )
     shift = models.ForeignKey(Shifts, on_delete=models.CASCADE)
     poster = models.ForeignKey(Employees, related_name='shift_poster', on_delete=models.CASCADE)
-    taker = models.ForeignKey(Employees, null = True, blank=True, related_name='shift_taker', on_delete=models.CASCADE)
+    taker = models.ForeignKey(Employees, null=True, blank=True, related_name='shift_taker', on_delete=models.CASCADE)
     type = models.CharField(
         max_length=2,
         choices=TYPE_CHOICES,
@@ -90,12 +90,27 @@ class ShiftCovers(models.Model):
     )
     sobstory = models.TextField(default="")
     post_date = models.DateField(default=datetime.date.today)
+    permanent = models.BooleanField(default=False)
+
+    @property
+    def is_taken(self):
+        return self.taker is None
+
+    # Modify properties of shift that are common to all shift takes
+    # NOTE: This will NOT modify the time of the shift!
+    def take(self, taker: Employees):
+        self.taker = taker
+        self.shift.is_open = False
+        old_owner = str(self.shift.owner)
+        self.shift.owner = taker
+        self.shift.description = str(taker) + " (cover for " + old_owner + ")"
 
     def __str__(self):
         if self.taker:
-            return "Cover for %s was posted on %s and taken by %s" % (self.poster, self.post_date, self.taker)
+            return "Cover for %s was posted on %s and taken by %s" % (str(self.poster), str(self.post_date), str(self.taker))
         else:
-            return "Cover for %s was posted on %s and is still OPEN!" % (self.poster, self.post_date)
+            return "Cover for %s was posted on %s and is OPEN!" % (str(self.poster), str(self.post_date))
+
 
 class Tokens(models.Model):
     refresh_token = models.TextField(default="")
