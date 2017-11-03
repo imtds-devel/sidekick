@@ -19,7 +19,7 @@ def get_credentials():
     Returns:
         Credentials, the obtained credential.
     """
-    flags = argparse.ArgumentParser(parents=[tools.argparser]).parse_args()
+    flags = tools.argparser.parse_args([])
 
     home_dir = os.path.expanduser('~')
     credential_dir = os.path.join(home_dir, '.credentials')
