@@ -9,7 +9,7 @@
             <div class='panel panel-default hero-card'>
                 <button type='button'
                         class='btn hero-card-button btn-block {{employee.position}} dev_{{employee.developer}}'
-                        data-toggle='modal' data-target={{employee.data_target}}>
+                        data-toggle='modal'>
                     <div class='panel-body'>
                         <div class="media">
                             <div class="media-left">
@@ -20,6 +20,12 @@
                                 <p class="e_field"> {{employee.short_desc}} </p>
                                 <p class="e_field"> {{employee.netid}}</p>
                                 <p class="e_field"> {{employee.nice_phone}} </p>
+                            </div>
+                            <div id="m-{{employee.netid}}" class="emp-meta" style="display:none">
+                                <ul class="m-info">
+                                    <il class="m-fname">{{employee.fname}}</il>
+                                    <il class="m-lname">{{employee.lname}}</il>
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -46,12 +52,12 @@
         </div>
     </div>
     {% for employee in employee_list %}
-    <div id={{employee.netid}} class='modal fade'>
+    <div id='{{employee.netid}}' class='modal fade'>
         <div class='modal-dialog modal-lg'>
             <div class='modal-content {{employee.position}} dev_{{employee.developer}}'>
                 <div class='modal-header'>
                     <button type='button' class='close' data-dismiss='modal'>&times;</button>
-                    <h4 class='modal-title'>{{employee.full_name}}</h4>
+                    <h4 style="text-align: center" class='modal-title'>{{employee.full_name}}</h4>
                 </div>
                 <div class='modal-body hero-bio'>
                     <img src='{% static employee.picture|img_exists %}' class='img-circle img-herobio'>
@@ -99,4 +105,5 @@
         </div>
     </div>
 </div>
+<script src="{% static "js/roster.js" %}"></script>
 {% endblock %}
