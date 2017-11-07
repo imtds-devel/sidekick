@@ -3,10 +3,15 @@
 {% load staticfiles %}
 {% load roster_extras %}
 <div class='container-fluid'>
+    <div class="search">
+    <form class="search-bar" align="right" style="margin-right: 20px">
+        <input type="text" name="search" placeholder="Search..." id="searchbar">
+    </form>
+    </div>
     <div class='hero-cards'>
         {% if employee_list %}
             {% for employee in employee_list %}
-            <div class='panel panel-default hero-card'>
+            <div class='panel panel-default hero-card' id="{{employee.search}}">
                 <button type='button'
                         class='btn hero-card-button btn-block {{employee.position}} dev_{{employee.developer}}'
                         data-toggle='modal'>
@@ -52,7 +57,7 @@
         </div>
     </div>
     {% for employee in employee_list %}
-    <div id='{{employee.netid}}' class='modal fade'>
+    <div id={{employee.netid}} class='modal fade'>
         <div class='modal-dialog modal-lg'>
             <div class='modal-content {{employee.position}} dev_{{employee.developer}}'>
                 <div class='modal-header'>
