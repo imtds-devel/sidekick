@@ -17,7 +17,7 @@ config = configparser.ConfigParser()
 config.read('config.ini')
 db = config['database']
 static_dir = config['static']
-cal = config['cal']
+cal = config['cal_ids']
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
