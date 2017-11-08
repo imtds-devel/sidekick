@@ -26,9 +26,9 @@ $("#searchbar").keyup(function () {
     console.log(value)
 
     if (value.length >= 1) {
-        $(".panel[id*=" + value + "]").fadeIn(200);
-        $(".panel:not([id*=" + value + "])").fadeOut(200);
+        $(".panelemp[id*=" + value + "]").fadeIn(150);
+        $(".panelemp:not([id*=" + value + "])").fadeOut(100);
     } else {
-        $(".panel").fadeIn(200);
+        $(".panelemp").fadeIn(100);
     }
 });

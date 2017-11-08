@@ -90,10 +90,11 @@ class Employees(models.Model):
     def picture(self):
         """Returns the file path"""
         return "employees/%s.gif" % self.netid
+
     @property
     def search(self):
         """Returns a string of search items"""
-        return str(self.full_name.islower(self) + self.netid)
+        return str.lower(self.netid + self.fname + dict(self.POSITION_CHOICES)[str(self.position)])
 
 
 class Passwords(models.Model):
