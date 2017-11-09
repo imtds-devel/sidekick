@@ -32,5 +32,6 @@ urlpatterns = [
     url(r'^shifts/', include('shifts.urls')),
     url(r'^accounts/login/$', views.login, name='login'),
     url(r'^accounts/logout/$', views.logout, name='logout'),
-    url(r'^google/synchronize/', sync.sync)
+    url(r'^google/synchronize/', sync.sync),
+
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
