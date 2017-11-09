@@ -5,7 +5,8 @@
 <div class='container-fluid'>
     <div class="search">
         <form class="search-bar" align="right" style="margin-right: 20px">
-            <input type="text" name="search" placeholder="Search..." id="searchbar">
+            <span class="glyphicon glyphicon-search"></span>
+            <input type="text" name="search" placeholder=" Search..." id="searchbar">
         </form>
     </div>
     <div class='hero-cards'>
@@ -28,8 +29,8 @@
                         </div>
                         <div id="m-{{employee.netid}}" class="emp-meta" style="display:none">
                             <ul class="m-info">
-                                <il class="m-fname">{{employee.fname}}</il>
-                                <il class="m-lname">{{employee.lname}}</il>
+                                <il class="m-fname" id="emp-fname">{{employee.fname}}</il>
+                                <il class="m-lname" id="emp-lname">{{employee.lname}}</il>
                             </ul>
                         </div>
                     </div>

@@ -6,10 +6,13 @@
 $('.btn').click(function showModal(){
 
 unformatted_info = $(this).find("ul")
+formatted_info = $(this).find("il")
 
 netid_1 = $(this).find(".emp-meta").attr('id')
+fname = $(netid_1).find(il).id(".emp-fname").text()
 
 netid_1 = netid_1.slice(2)
+console.log(fname)
 console.log(netid_1)
 
 $('#'+ netid_1).modal('show');
