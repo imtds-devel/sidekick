@@ -36,7 +36,7 @@
                                 <li class="m-phone">{{employee.nice_phone}}</li>
                                 <li class="m-birth">{{employee.birthday}}</li>
                                 <li class="m-poscol">{{employee.position}}</li>
-                                <li class="m-pic">{{employee.picture}}</li>
+                                <li class="m-pic">{% static employee.picture|img_exists %}</li>
                                 <li class="m-dev">{{employee.developer}}</li>
                             </ul>
                         </div>

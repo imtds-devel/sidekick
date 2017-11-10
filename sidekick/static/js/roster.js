@@ -19,7 +19,7 @@ color = $(this).find(".m-poscol").text()
 dev = $(this).find(".m-dev").text()
 
 netid_1 = netid_1.slice(2)
-console.log(fullname, netid_1, codename, position, phone, birthday)
+console.log(fullname, netid_1, codename, position, phone, birthday, pic)
 
     $('#drop-down').append("<div id=" + netid_1 + " class='modal fade'>"
         +"<div class='modal-dialog modal-lg'>"
@@ -28,7 +28,7 @@ console.log(fullname, netid_1, codename, position, phone, birthday)
         +"<h4 style='text-align: center' class='modal-title'>" + fullname + "</h4></div>"
         +"<div class='modal-body hero-bio'>"
         +"<div class='row'>"
-        +"<img src='{% static "+ pic +"|img_exists %}' class='img-circle img-herobio'>"
+        +"<img src='" + pic + "' class='img-circle img-herobio'>"
         +"<div class='hero-bio'>"
         +"<p>" + fullname +"</p>"
         +"<p>" + netid_1 + "</p>"
