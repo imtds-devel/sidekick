@@ -214,37 +214,6 @@ class MessageFromThePast(models.Model):
     posted = models.DateField(auto_now_add=True)
 
 
-class Shifts(models.Model):
-    LOCATION_CHOICES = (
-        ('ma', 'Marshburn Library'),
-        ('da', 'Darling Library'),
-        ('st', 'Stamps Library'),
-        ('sd', 'Support Desk'),
-        ('rc', 'Repair Center'),
-        ('md', 'MoD Desk'),
-        ('ss', 'Senior Support Tech Schedule')
-    )
-
-    title = models.CharField(max_length=255)
-    owner = models.ForeignKey('Employees', related_name='shift_owner', on_delete=models.CASCADE)
-    coverFor = models.ForeignKey('Employees', related_name='cover_for', on_delete=models.CASCADE)
-    shift_date = models.DateField()
-    shift_start = models.DateTimeField()
-    shift_end = models.DateTimeField()
-    location = models.CharField(
-        max_length=2,
-        choices=LOCATION_CHOICES,
-        default='ma'
-    )
-    is_open = models.BooleanField(default=False)
-    checked_in = models.BooleanField(default=False)
-    sobstory = models.TextField(default="")
-    google_id = models.TextField(default="")
-    g_perm_id = models.TextField(default="")
-
-    def __str__(self):
-        return "%s: owned by %s, in %s from %s to %s" % (self.title, self.owner, self.location,
-                                                         self.shift_start, self.shift_end)
 
 
 class Access(models.Model):
