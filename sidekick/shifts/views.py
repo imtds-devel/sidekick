@@ -21,7 +21,8 @@ def index(request):
     #current_week_day_iso = date.isocalendar()[2]
     #thisWeekIso = now.
     #context = {'shifts': shifts}
-    context = {"shifts" : shifts_list}
+    context = { "shifts" : shifts_list,
+                "date" : now}
     return views.load_page(request, 'shifts/index.html', context)
 
 def filter_shifts(request):
@@ -36,8 +37,8 @@ def filter_shifts(request):
         sunday_start_date_current_week = date - timedelta(days=given_week_day_iso)
     end_of_week = sunday_start_date_current_week + timedelta(days=6)
     filteredShifts = queryset.filter(shift_date__gte=sunday_start_date_current_week, shift_date__lte=end_of_week)
-    translatedShifts = filteredShifts.values('title', 'owner', 'shift_date', 'shift_start', 'shift_end', 'location', 'is_open','checked_in', 'google_id', 'permanent')
-    week = []
+    translatedShifts = filteredShifts.values('id', 'title', 'owner', 'shift_date', 'shift_start', 'shift_end', 'location', 'is_open','checked_in', 'google_id', 'permanent')
+    week = [] # start empty
     for day in range(0, 7):
         week.append(sunday_start_date_current_week + timedelta(days=day))
     data = {
