@@ -19,7 +19,7 @@
                 <div class='panel-body'>
                     <div class="media">
                         <div class="media-left">
-                            <img src='{% static employee.picture|img_exists %}' class='img-circle img-herocard'>
+                            <img src='{% static employee.picture|img_exists %}' class='img img-circle img-herocard' style="display:none">
                         </div>
                         <div class="media-body e_desc">
                             <p class="e_field"><b>{{employee.full_name}}</b></p>
