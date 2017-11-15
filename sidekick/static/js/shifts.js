@@ -6,6 +6,31 @@
 weekDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"] // Week days in order
 
 $(document).ready(function() {
+    // On page load we want to load the correct shifts and update the display
+    ajaxWithDate();
+
+    function ajaxWithDate(){
+        console.log("Sent")
+        // Retreive the date that the user selected
+        var date = $('#your-shift-date').val();
+        console.log(date);
+            // Make an AJAX call with the date selected
+        $.ajax({
+            url: 'ajax/filter_shifts/',
+            data: {
+                'date': date
+            },
+            dataType: 'json',
+            // With the retreived date, we will populate the panels
+            success: function (data) {
+                console.log(data)
+                console.log("Received")
+                $('#your-week').text(data.week[0].slice(5,10) + ' to ' + data.week[6].slice(5,10));                                        
+                generateShiftPanels(data.week, data.shifts);
+            }
+        });
+    }
+
     // This triggers when the user clicks the post button, fiddling right now
     $('#post-cover-btn').click(function(){
         $('#post-det').hide();        
@@ -16,25 +41,8 @@ $(document).ready(function() {
         }, 2000);
     });
     // This triggers when the user selects a new date in the date selector
-    $('#date').change(function(){
-        console.log("Sent")
-        // Retreive the date that the user selected
-        var date = $(this).val();
-            // Make an AJAX call with the date selected
-            $.ajax({
-                url: 'ajax/filter_shifts/',
-                data: {
-                  'date': date
-                },
-                dataType: 'json',
-                // With the retreived date, we will populate the panels
-                success: function (data) {
-                    console.log(data);
-                    console.log("Received")
-                    generateShiftPanels(data.week, data.shifts);
-                    //console.log(data.shifts);
-                }
-            });
+    $('#your-shift-date').change(function(){
+        ajaxWithDate();
     });
     function generateShiftPanels(week, shifts){
         $('#your-shifts-panel-group').empty();

@@ -14,6 +14,16 @@ shifts_list = Shifts.objects.all().order_by('shift_start')
 def index(request):
     # We import the current time
     now = timezone.now()
+    given_week_day_iso = now.isocalendar()[2]
+    # if currently is sunday
+    if given_week_day_iso == 7:
+        sunday_start_date_current_week = now
+    else:
+        sunday_start_date_current_week = now - timedelta(days=given_week_day_iso)
+    end_of_week = sunday_start_date_current_week + timedelta(days=6)
+    week = [] # start empty
+    for day in range(0, 7):
+        week.append(sunday_start_date_current_week + timedelta(days=day))
 
     #shifts_list = Shifts.objects.all().order_by('shift_start')
 

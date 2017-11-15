@@ -27,3 +27,11 @@ def this_week(value):
     sunday_start_date_current_week = now - timedelta(days=current_week_day_iso)
     end_of_week = sunday_start_date_current_week + timedelta(days=6)
     return value.filter(shift_date__gte=sunday_start_date_current_week, shift_date__lte=end_of_week)
+
+@register.filter
+def datetime_to_date(value):
+    '''Filters the now to a date that can be the default for the selector
+    Usage: {{date|datetime_to_date}} '''
+    day = value.strftime('%Y-%m-%d')
+    print (day)
+    return day
