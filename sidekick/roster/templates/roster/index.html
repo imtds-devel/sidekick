@@ -11,7 +11,7 @@
     </div>
     <div class='hero-cards'>
         {% if employee_list %}
-        {% for employee in employee_list %}
+        {% for employee, skills in employee_list %}
         <div class='panelemp panel-default hero-card' id="{{employee.search}}">
             <button type='button'
                     class='btn hero-card-button btn-block {{employee.position}} dev_{{employee.developer}}'
@@ -38,6 +38,7 @@
                                 <li class="m-poscol">{{employee.position}}</li>
                                 <li class="m-pic">{% static employee.picture|img_exists %}</li>
                                 <li class="m-dev">{{employee.developer}}</li>
+                                <li class="m-profs">{{skills|first}}</li>
                             </ul>
                         </div>
                     </div>

@@ -72,15 +72,15 @@ class Proficiencies(models.Model):
     software = models.IntegerField(default=0)
 
     def __str__(self):
-        return "%s(%s, %s, %s, %s, %s, %s, %s)" % \
-               (self.netid,
-                self.basic,
+        return "%s, %s, %s, %s, %s, %s, %s, %s" % \
+               (self.basic,
                 self.advanced,
                 self.field,
                 self.printer,
                 self.network,
                 self.mobile,
-                self.refresh)
+                self.refresh,
+                self.software)
 
     @property
     def get_as_list(self):

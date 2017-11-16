@@ -22,25 +22,24 @@ birthday = $(this).find(".m-birth").text()
 pic = $(this).find(".m-pic").text()
 color = $(this).find(".m-poscol").text()
 dev = $(this).find(".m-dev").text()
-var basic = $(this).find(".m-bas").text();
-var adv = $(this).find(".m-adv").text();
-var field = $(this).find(".m-field").text();
-var print = $(this).find(".m-print").text();
-var net = $(this).find(".m-net").text();
-var mobile = $(this).find(".m-mobile").text();
-var ref = $(this).find(".m-refresh").text();
-var soft = $(this).find(".m-soft").text();
-
+skills = $(this).find(".m-profs").text();
 
 netid_1 = netid_1.slice(2)
-console.log(fullname, netid_1, codename, position, phone, birthday, pic)
+var basic = skills.slice(0,1);
+var adv = skills.slice(3,4);
+var field = skills.slice(6,7);
+var print = skills.slice(9,10);
+var net = skills.slice(12,13);
+var mobile = skills.slice(15,16);
+var ref = skills.slice(18,19);
+var soft = skills.slice(21,22);
 
     $('#drop-down').append("<div id=" + netid_1 + " class='modal fade'>"
         +"<div class='modal-dialog modal-md'>"
         +"<div class='modal-content "+ color +" dev_"+ dev +"'>"
         +"<div class='modal-header'>"
         +"<h4 style='text-align: center' class='modal-title'><b>" + fullname + "</b></h4></div>"
-        +"<div class='tab-content'>"
+        +"<div class='tab-content tab-card'>"
         +"<div id='h-" + netid_1 +"' class='modal-body hero-bio tab-pane fade in active'>"
         +"<img src='" + pic + "' class='img-circle img-herobio'>"
         +"<div class='hero-bio'>"
@@ -51,19 +50,30 @@ console.log(fullname, netid_1, codename, position, phone, birthday, pic)
         +"<p>" + birthday + "</p>"
         +"</div>"
         +"</div>"
-        +"<div id='s-" + netid_1 +"' class='tab-pane fade'>"
-        +"<div class='chart' data-width='300' data-height='300' data-red='0' data-green='128' data-blue='255' style='margin-top:5px;'>"
-		+"<div class='chartCanvasWrap'></div>"
+        +"<div id='s-" + netid_1 +"' class='tab-pane row fade'>"
+        +"<div class='chart col-md-' data-width='200' data-height='300' data-red='100' data-green='100' data-blue='400' style='margin-top:5px;'>"
+		+"<div class='chartCanvasWrap col-md-7' style='left:5px'></div>"
+		+"<div class='col-sm-5 prof-al' align='right'>"
+        +"<p><b>Basic Hardware: </b>" + basic + "</p>"
+        +"<p><b>Advanced Hardware: </b>" + adv + "</p>"
+        +"<p><b>Field Support: </b>" + field + "</p>"
+        +"<p><b>Printers: </b>" + print + "</p>"
+        +"<p><b>Networking: </b>" + net + "</p>"
+        +"<p><b>Mobile: </b>" + mobile + "</p>"
+        +"<p><b>Refreshes: </b>" + ref + "</p>"
+        +"<p><b>Software: </b>" + soft + "</p>"
+        +"</div>"
 		+"</div>"
 		+"</div>"
-        +"<div id='d-" + netid_1 +"' class='modal-body hero-bio tab-pane fade'>"
+        +"<div id='c-" + netid_1 +"' class='modal-body hero-bio tab-pane fade'>"
+        +"COMMENTS AND DISCIPLINE WILL GO HERE"
         +"</div>"
         +"</div>"
         +"<div class='modal-footer'>"
         +"<ul class='nav nav-tabs'>"
         +"<li class='active'><a data-toggle='tab' href='#h-" + netid_1 +"'>Info</a></li>"
         +"<li><a data-toggle='tab' href='#s-" + netid_1 +"'>Skills</a></li>"
-        +"<li><a data-toggle='tab' href='#d-" + netid_1 +"'>Disciplines</a></li>"
+        +"<li><a data-toggle='tab' href='#c-" + netid_1 +"'>Comments</a></li>"
         +"<button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>"
         +"</div>"
         +"</div>"
@@ -72,12 +82,13 @@ console.log(fullname, netid_1, codename, position, phone, birthday, pic)
 
 $('#'+ netid_1).modal('show');
 
-data = unformatted_info
+$("#" + netid_1).on("hidden.bs.modal", function(){
+    $('#drop-down').empty();
+});
 
-console.log(data)
 $(function(){
   $('.chart').radarChart({
-    size: [400, 325],
+    size: [325, 325],
     step: 1,
     values: {
       "Basic": basic,
@@ -92,7 +103,6 @@ $(function(){
     showAxisLabels: true
   });
 });
-
 
 });
 (function($) {
@@ -300,7 +310,6 @@ $(function(){
   }
 
 })(jQuery);
-
 $("#searchbar").keyup(function () {
     var value = $("#searchbar").val().toLowerCase();
 

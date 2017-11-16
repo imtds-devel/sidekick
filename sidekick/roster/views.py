@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 from django.http import HttpResponseRedirect
 from sidekick import views
 from homebase.models import Employees
+from .models import Proficiencies
 from .forms import EmployeeForm
 
 
@@ -24,7 +25,14 @@ def index(request):
 def prep_context():
     employee_list = Employees.objects.all().order_by('lname')
     form = EmployeeForm()
+
+
+    emp_tuple = []
+    for emp in employee_list:
+        prof = Proficiencies.objects.filter(netid=emp.netid)
+        emp_tuple.append((emp, prof))
+
     return {
-        'employee_list': employee_list,
+        'employee_list': emp_tuple,
         'form': form
     }
