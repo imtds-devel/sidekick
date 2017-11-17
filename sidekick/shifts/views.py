@@ -57,6 +57,7 @@ def filter_shifts(request):
     for day in range(0, 7):
         week.append(sunday_start_date_current_week + timedelta(days=day))
     data = {
+        'date' : str(date),
         'shifts' : list(translated_shifts),
         'week' : week
     }

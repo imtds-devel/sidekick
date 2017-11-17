@@ -24,6 +24,9 @@ $(document).ready(function() {
             dataType: 'json',
             // With the retreived date, we will populate the panels
             success: function (data) {
+                if (data.date.slice(0,10) != date) {
+                    $('#your-shift-date').val(data.date.slice(0,10));
+                }
                 console.log(data)
                 console.log("Received")
                 $('#your-week').text(data.week[0].slice(5,10) + ' to ' + data.week[6].slice(5,10));                                        
@@ -81,7 +84,6 @@ $(document).ready(function() {
                 }
             }
         }
-
         console.log("Panels")
     }
     // This function evaulates if there is atleast 1 shift on the given date
