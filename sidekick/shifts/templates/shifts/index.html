@@ -5,8 +5,12 @@
 {% load shifts_extras %}
 <div class = 'panel panel-primary'>
     <div class = 'panel-heading shifts-header'>
-        <div id = 'your-week' class = 'shifts-week'></div>
-        <div class = 'shifts-title'>My Shifts</div>
+        <div class = 'shifts-week'>
+                <button id = 'your-week-previous' type = 'button' class = 'btn btn-default'><span class="glyphicon glyphicon-menu-left"></span></button>
+                <p id = 'your-week'></p>
+                <button id = 'your-week-next' type = 'button' class = 'btn btn-default'><span class="glyphicon glyphicon-menu-right"></span></button>  
+        </div>      
+        <p class = 'shifts-title'>My Shifts</p>
         <div id = 'employee_date_selection' class = 'shifts-date-selector'>
             <div class = 'form-group'>
                 <input id = 'your-shift-date' type = 'date' class = 'form-control' value= '{{date|datetime_to_date}}' id = 'date'>

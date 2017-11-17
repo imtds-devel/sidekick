@@ -9,7 +9,7 @@ $(document).ready(function() {
     // On page load we want to load the correct shifts and update the display
     ajaxWithDate();
 
-    function ajaxWithDate(){
+    function ajaxWithDate(option){
         console.log("Sent")
         // Retreive the date that the user selected
         var date = $('#your-shift-date').val();
@@ -18,7 +18,8 @@ $(document).ready(function() {
         $.ajax({
             url: 'ajax/filter_shifts/',
             data: {
-                'date': date
+                'date': date,
+                'option' : option
             },
             dataType: 'json',
             // With the retreived date, we will populate the panels
@@ -42,7 +43,18 @@ $(document).ready(function() {
     });
     // This triggers when the user selects a new date in the date selector
     $('#your-shift-date').change(function(){
-        ajaxWithDate();
+        var option = 'curr';
+        ajaxWithDate(option);
+    });
+    // When the user clicks the previous shift button
+    $('#your-week-previous').click(function(){
+        var option = 'prev';
+        ajaxWithDate(option);
+    });
+    // When the user clicks the next shift button
+    $('#your-week-next').click(function(){
+        var option = 'next';
+        ajaxWithDate(option);
     });
     function generateShiftPanels(week, shifts){
         $('#your-shifts-panel-group').empty();
@@ -84,13 +96,15 @@ $(document).ready(function() {
         return false
     }
     // This function evaulates a group of shifts and returns those shifts that are on the given day
-    // Don't call this function if there aren't shifts on the day
+    // Don't call this function if there aren't shifts on the day (if you do it returns an empty set)
     function shiftsOnDay(day, shifts) {
-        // Loops through the given shifts
+        // create an empty set of shifts
+        shiftsDay = []
+        // Loop through the shifts
         for (shift = 0; shift < shifts.length; shift++) {
-            if (shifts[shift].shift_date != day.slice(0,10)) // If there is a shift not on that date
-                shifts.splice(shift, 1) // Splices (removes) that shift
+            if (shifts[shift].shift_date == day.slice(0,10)) // If there is a shift on that date
+                shiftsDay.push(shifts[shift]) // pushes that shift to the new set we made
         }
-        return shifts; // Return the newly spliced shifts
+        return shiftsDay; // Return the shifts found on that day 
     }
 });    

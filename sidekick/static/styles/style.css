@@ -683,14 +683,14 @@ input[type=number]::-webkit-outer-spin-button {
 }
 .shifts-title
 {
-    flex: 1;
+    flex: 2;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 .shifts-week-selector
 {
-    flex: 1;
+    flex: 3;
     display: flex;
     justify-content: flex-end;
     align-items: center;
