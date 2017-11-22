@@ -7,6 +7,9 @@ from datetime import datetime
 from shifts.functions.push_covers import push_cover
 from .models import Shifts
 from django.http import JsonResponse
+from django.db.models import Q
+from django.db.models.functions import Cast
+from django.db.models import TimeField
 
 user = 'jwood14' # This is hard coded, we don't want this hard coded TODO Make this not hardcoded
 
@@ -33,7 +36,7 @@ def index(request):
     context = {"date" : now}
     return views.load_page(request, 'shifts/index.html', context)
 
-def filter_shifts(request):
+def filter_user_shifts(request):
     option = request.GET.get('option', None) # Retreive the option
     date_string = request.GET.get('date', None) # Retreive the date entered
     date = datetime.strptime(date_string, '%Y-%m-%d') # Make that string into a datetime object
@@ -60,5 +63,17 @@ def filter_shifts(request):
         'date' : str(date),
         'shifts' : list(translated_shifts),
         'week' : week
+    }
+    return JsonResponse(data)
+
+def filter_near_shifts(request):
+    shift_id = request.GET.get('shiftID', None)
+    this_shift = Shifts.objects.values('shift_start','shift_end').get(id=shift_id)
+    print (this_shift)
+    filtered_shifts = Shifts.objects.filter(Q(shift_end=this_shift.shift_start) | Q(shift_start=this_shift.shift_end))
+    #filtered_shifts = Shifts.objects.filter(shift_end=Cast('shift_start', TimeField()))
+    translated_shifts = filtered_shifts.values('id', 'title', 'owner', 'shift_date', 'shift_start', 'shift_end', 'location', 'is_open','checked_in', 'google_id', 'permanent')
+    data = {
+        'shifts' : list(translated_shifts)
     }
     return JsonResponse(data)
