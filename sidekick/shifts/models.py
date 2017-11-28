@@ -37,8 +37,8 @@ class Shifts(models.Model):
     title = models.CharField(max_length=255)
     owner = models.ForeignKey(Employees, null=True, blank=True, related_name='shift_owner', on_delete=models.CASCADE)
     shift_date = models.DateField()
-    shift_start = models.TimeField()
-    shift_end = models.TimeField()
+    shift_start = models.DateTimeField()
+    shift_end = models.DateTimeField()
     location = models.CharField(
         max_length=2,
         choices=LOCATION_CHOICES,

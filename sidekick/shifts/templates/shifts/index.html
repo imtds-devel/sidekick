@@ -11,9 +11,9 @@
                 <button id = 'your-week-next' type = 'button' class = 'btn btn-default'><span class="glyphicon glyphicon-menu-right"></span></button>  
         </div>      
         <p class = 'shifts-title'>My Shifts</p>
-        <div id = 'employee_date_selection' class = 'shifts-date-selector'>
+        <div class = 'shifts-date-selector'>
             <div class = 'form-group'>
-                <input id = 'your-shift-date' type = 'date' class = 'form-control' value= '{{date|datetime_to_date}}' id = 'date'>
+                <input id = 'your-shift-date' type = 'date' class = 'form-control' value= '{{date|datetime_to_date}}'>
             </div>
         </div>
     </div>
@@ -23,40 +23,32 @@
 </div>
 <div class = 'panel panel-warning'>
         <div class = 'panel-heading shifts-header'>
-            <div class = 'shifts-week'>10/8 - 10/14</div>
+            <div class = 'shifts-week'>
+                <button id = 'open-week-previous' type = 'button' class = 'btn btn-default'><span class="glyphicon glyphicon-menu-left"></span></button>
+                <p class = 'open-week-text' id = 'open-week'></p>
+                <button id = 'open-week-next' type = 'button' class = 'btn btn-default'><span class="glyphicon glyphicon-menu-right"></span></button>  
+            </div>  
             <div class = 'shifts-title'>Open Shifts</div>
-            <div class = 'shifts-week-selector'>
+            <div class = 'shift-location-selector'>
+                <select class = 'form-control' id = 'open-shift-location'>
+                    {% for key, value in locations.items %}
+                        <option value = {{key}}>{{value}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class = 'shifts-date-selector'>
                 <div class = 'form-group'>
-                    <input type = 'week' class = 'form-control' id = 'week'>
+                    <input id = 'open-shift-date' type = 'date' class = 'form-control' value= '{{date|datetime_to_date}}'>
                 </div>
-            </div>      
+            </div> 
         </div>
         <div class = 'panel-body'>
-            <div class = 'shifts-panel-group'>
-                <div class = 'panel panel-warning shift-panel'>
-                    <div class = 'panel-heading'>Monday 10/9</div>
-                    <div class = 'panel-body'>
-                            <button type = 'button' class = 'btn btn-block shift-btn'>Marshburn: 10AM - 2PM</button>
-                            <button type = 'button' class = 'btn btn-block shift-btn'>Marshburn: 9PM - 1AM</button>
-                    </div>
-                </div>
-                <div class = 'panel panel-warning shift-panel'>
-                    <div class = 'panel-heading'>Monday 10/9</div>
-                    <div class = 'panel-body'>
-                            <button type = 'button' class = 'btn btn-block shift-btn'>Marshburn: 10AM - 2PM</button>
-                            <button type = 'button' class = 'btn btn-block shift-btn'>Marshburn: 9PM - 1AM</button>
-                    </div>
-                </div>
-                <div class = 'panel panel-warning shift-panel'>
-                    <div class = 'panel-heading'>Monday 10/9</div>
-                    <div class = 'panel-body'>
-                            <button type = 'button' class = 'btn btn-block shift-btn'>Marshburn: 10AM - 2PM</button>
-                            <button type = 'button' class = 'btn btn-block shift-btn'>Marshburn: 9PM - 1AM</button>                    
-                    </div>
-                </div>
-            </div>
+            <div id = 'open-shifts-panel-group' class = 'shifts-panel-group'></div>
         </div>
     </div>
-    <div id = 'shift-modals'></div>
+    <div id = 'shift-modals'>
+            <div id = 'user-shift-modals'></div>
+            <div id = 'open-shift-modals'></div>            
+    </div>
 <script src="{% static "js/shifts.js" %}"></script>        
 {% endblock %}
