@@ -91,5 +91,6 @@ class Proficiencies(models.Model):
             self.printer,
             self.network,
             self.mobile,
-            self.refresh
+            self.refresh,
+            self.software
         ]

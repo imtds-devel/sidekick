@@ -7,12 +7,12 @@ $(document).ready(function(){
      $('.img').show()
      });
 });
+
 netid_1 = $(this).find(".emp-meta").attr('id')
+
 $('.btn').click(function showModal(){
 
-unformatted_info = $(this).find("ul")
-formatted_info = $(this).find("li")
-
+//grab all info from HTML load for each employee
 netid_1 = $(this).find(".emp-meta").attr('id')
 fullname = $(this).find(".m-fullname").text()
 codename = $(this).find(".m-code").text()
@@ -24,6 +24,8 @@ color = $(this).find(".m-poscol").text()
 dev = $(this).find(".m-dev").text()
 skills = $(this).find(".m-profs").text();
 
+
+//grab all proficiencies from list
 netid_1 = netid_1.slice(2)
 var basic = skills.slice(0,1);
 var adv = skills.slice(3,4);
@@ -33,6 +35,7 @@ var net = skills.slice(12,13);
 var mobile = skills.slice(15,16);
 var ref = skills.slice(18,19);
 var soft = skills.slice(21,22);
+//Append the modal div upon click
 
     $('#drop-down').append("<div id=" + netid_1 + " class='modal fade'>"
         +"<div class='modal-dialog modal-md'>"
@@ -66,7 +69,16 @@ var soft = skills.slice(21,22);
 		+"</div>"
 		+"</div>"
         +"<div id='c-" + netid_1 +"' class='modal-body hero-bio tab-pane fade'>"
-        +"COMMENTS AND DISCIPLINE WILL GO HERE"
+        +"<form method='post' class='form-horizontal' id='comform'>"
+        +"<div class='form-group'>"
+        +"{{ field.errors }}"
+        +"<label class='control col-md-2' for='{{ field.id_for_label }}'><b>{{ field.label }}:</b></label>"
+        +"<div class='col-md-10'>"
+        +"{{field}}"
+        +"</div>"
+        +"</div>"
+        +"<h5 align='right'><button class='btn btn-success btn-md'>Report</button></h5>"
+        +"</form>"
         +"</div>"
         +"</div>"
         +"<div class='modal-footer'>"
@@ -80,12 +92,15 @@ var soft = skills.slice(21,22);
         +"</div>"
         +"</div>");
 
+//Once modal div is added, it is shown
 $('#'+ netid_1).modal('show');
 
+//Delete the modal info when modal is hidden
 $("#" + netid_1).on("hidden.bs.modal", function(){
     $('#drop-down').empty();
-});
 
+});
+//radar chart function
 $(function(){
   $('.chart').radarChart({
     size: [325, 325],
@@ -137,7 +152,7 @@ $(function(){
 	var div = $(this.ele).find(".chartCanvasWrap").first();
 
 	$(div).css({
-		'position': 'relative'//'margin-top': "0 px" //this.height * 0.20333 +
+		'position': 'relative'
 	});
 
       var canvas = document.createElement('canvas');
@@ -148,14 +163,6 @@ $(function(){
 	  $(div).append(canvas);
 
       this.canvas = canvas;
-
-	  /*if(this.settings.insertFirst){
-		if(this.ele.firstChild){
-		//	this.ele.insertBefore(canvas,this.ele.firstChild);
-		}
-	  }else{
-		//this.ele.appendChild(canvas);
-	  }*/
 
 		var annimationDelay = 1200;
 		if(this.settings.annimationDelay){
@@ -212,8 +219,6 @@ $(function(){
         this.cxt.stroke();
       }
 
-      //this.newCanvas('part',200);
-
       this.cxt.beginPath();
       var first = true;
       var i = 0;
@@ -242,11 +247,9 @@ $(function(){
       this.cxt.stroke();
       this.cxt.fill();
 
-      //this.newCanvas('labels',1000);
       var additionalLineDistance =  this.settings.additionalLineDistance;
       i = 0;
       $.each(this.settings.values, function(key,val){
-        //that.newCanvas('label-'+i, i * 250);
         that.cxt.fillStyle = "rgba(0,0,0,.8)";
         that.cxt.strokeStyle = "rgba(0,0,0,.5)";
         that.cxt.font = "bold 14px Helvetica";
@@ -293,7 +296,6 @@ $(function(){
       });
 
       if(this.settings.title){
-      //this.newCanvas('title',1000);
       this.cxt.font = "bold 20px Helvetica";
       this.cxt.fillText(this.settings.title, 10, 25);
 	  }
@@ -310,6 +312,7 @@ $(function(){
   }
 
 })(jQuery);
+
 $("#searchbar").keyup(function () {
     var value = $("#searchbar").val().toLowerCase();
 

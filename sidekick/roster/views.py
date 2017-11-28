@@ -6,12 +6,27 @@ from sidekick import views
 from homebase.models import Employees
 from .models import Proficiencies
 from .forms import EmployeeForm
+from .forms import CommentForm
 
 
 # Create your views here.
 def index(request):
     # If this is a form submission
     if request.method == "POST":
+
+        import copy
+        data = copy.copy(request.POST)
+
+        # In case we're not in production
+        # Remove this line before production!
+        request = views.get_current_user(request)
+
+        data['netid'] = request.user
+        form = CommentForm(data)
+        if form.is_valid():
+            form.save(commit=True)
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
         form = EmployeeForm(request.POST)
         if form.is_valid():
             form.save(commit=True)
@@ -24,7 +39,8 @@ def index(request):
 
 def prep_context():
     employee_list = Employees.objects.all().order_by('lname')
-    form = EmployeeForm()
+    empform = EmployeeForm()
+    comform = CommentForm()
 
 
     emp_tuple = []
@@ -34,5 +50,6 @@ def prep_context():
 
     return {
         'employee_list': emp_tuple,
-        'form': form
+        'empform': empform,
+        'comform': comform
     }
