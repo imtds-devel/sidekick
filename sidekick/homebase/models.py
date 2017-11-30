@@ -18,6 +18,7 @@ class Employees(models.Model):
         ('lbt', 'Lab Technician'),
         ('spt', 'Support Tech'),
         ('sst', 'Senior Support Tech'),
+        ('sdr','Support Desk Rep'),
         ('llt', 'Lead Lab Tech'),
         ('mgr', 'Manager'),
         ('stt', 'Staff Tech'),

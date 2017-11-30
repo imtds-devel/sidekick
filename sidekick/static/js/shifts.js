@@ -16,9 +16,8 @@ var locations = {
     sf: "Staff"
 }
 
-
 $(document).ready(function() {
-    // On page load we want to load the correct shifts and update the display
+    // On page load we want to load the correct shifts to update the display
     ajaxUserShifts('curr');
     ajaxOpenShifts('curr');
     
@@ -80,7 +79,7 @@ $(document).ready(function() {
             },
             dataType: 'json',
             success: function (data) {
-                console.log("IT WORKED!");
+                console.log("Relative Shifts:");
                 console.log(data);
                 
             }
@@ -122,7 +121,7 @@ $(document).ready(function() {
         var option = 'curr';
         ajaxOpenShifts(option);
     });
-    // When the user clicks the previous shift button
+    // When the user clicks the previous shift button for open shif
     $('#open-week-previous').click(function(){
         var option = 'prev';
         ajaxOpenShifts(option);

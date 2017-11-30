@@ -32,7 +32,11 @@
             <div class = 'shift-location-selector'>
                 <select class = 'form-control' id = 'open-shift-location'>
                     {% for key, value in locations.items %}
+                        {% if key == user_position %}
+                        <option value = {{key}} selected = 'selected'>{{value}}</option>                        
+                        {% else %}
                         <option value = {{key}}>{{value}}</option>
+                        {% endif %}
                     {% endfor %}
                 </select>
             </div>
