@@ -70,15 +70,15 @@ var soft = skills.slice(21,22);
 		+                               "</div>"
 		+                           "</div>"
         +                               "<div id='c-" + netid_1 +"' class='modal-body hero-bio tab-pane fade'>"
-		+                                   "<div class='col-md-7' style='left:4px'>"
+		+                                   "<div class='col-md-6' style='left:4px'>"
 		+                                       "<div style='height: 300px; overflow-y: auto;'>"
 		+                                       "<p>1</p><p>2</p><p>3</p><p>4</p><p>5</p><p>6</p><p>7</p><p>8</p><p>9</p><p>10</p><p>11</p><p>12</p><p>13</p>"
         +                                       "</div>"
 		+                                   "</div>"
-		+                                       "<div class='col-md-5' style='right:4px'>"
-		+                                           "<button type='panel' style='margin:4px' id='starpanel'>Star</button>"
-		+                                           "<button type='panel' style='margin:4px' id='starpanel'>Comment</button>"
-		+                                           "<button type='panel' style='margin:4px' id='starpanel'>Discipline</button>"
+		+                                       "<div class='col-md-6' style='right:4px'>"
+		+                                           "<button type='btn-md' style='margin:7px' id='starpanel'>Star</button>"
+		+                                           "<button type='btn-md' style='margin:7px' id='dispanel'>Discipline</button>"
+		+                                           "<div id='comarea-"+ netid_1 +"' style='display:hidden'></div>"
 		+                                       "</div>"
         +                               "</div>"
         +                        "</div>"
@@ -98,9 +98,18 @@ $('#'+ netid_1).modal('show');
 
 //Delete the modal info when modal is hidden
 $("#" + netid_1).on("hidden.bs.modal", function(){
+    $("#comform").appendTo("#comment-form")
     $('#drop-down').empty();
+});
+
+$('#dispanel').click(function(){
+
+$("#comform").appendTo("#comarea-" + netid_1)
+$("#comarea-" + netid_1).show();
+$('#comform').fadeIn(200)
 
 });
+
 //radar chart function
 $(function(){
   $('.chart').radarChart({

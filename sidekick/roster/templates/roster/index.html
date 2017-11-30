@@ -64,6 +64,19 @@
             </button>
         </div>
     </div>
+    <form method="post" class="form-horizontal" id="comform" style="display:none">
+        {% csrf_token %}
+        {% for field in comform.visible_fields %}
+        <div class="form-group">
+            {{ field.errors }}
+            <label class="control col-sm-4" for="{{ field.id_for_label }}"><b>{{ field.label }}:</b></label>
+            <div class="col-sm-8">
+                {{field}}
+            </div>
+        </div>
+        {% endfor %}
+        <h5 align="right"><button class="btn btn-success btn-sm">Submit</button></h5>
+    </form>
     <div id='drop-down'></div>
     <div id="new-user" class="modal fade">
         <div class="modal-dialog modal-md">
@@ -92,6 +105,21 @@
             </div>
         </div>
     </div>
+    <div id="comment-form"></div>
+    <form method="post" class="form-horizontal" id="comform" style="display:none">
+        {% csrf_token %}
+        {% for field in comform.visible_fields %}
+        <div class="form-group">
+            {{ field.errors }}
+            <label class="control col-sm-4" for="{{ field.id_for_label }}"><b>{{ field.label }}:</b></label>
+            <div class="col-sm-8">
+                {{field}}
+            </div>
+        </div>
+        {% endfor %}
+        <h5 align="right"><button class="btn btn-success btn-sm">Submit</button></h5>
+    </form>
+</div>
 </div>
 <script src="{% static "js/roster.js" %}"></script>
 {% endblock %}

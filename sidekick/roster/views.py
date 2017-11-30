@@ -21,7 +21,7 @@ def index(request):
         # Remove this line before production!
         request = views.get_current_user(request)
 
-        data['netid'] = request.user
+        data['poster'] = request.user
         form = CommentForm(data)
         if form.is_valid():
             form.save(commit=True)

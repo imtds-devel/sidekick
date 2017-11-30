@@ -32,6 +32,7 @@ class CommentForm(forms.ModelForm):
         self.fields['violation'].widget.attrs.update({
             'class': 'form-control',
         })
+        self.fields['description'].attrs={'row': 'length:5'},
     class Meta:
         model = Discipline
         fields = ('poster', 'about', 'description', 'val', 'violation')
