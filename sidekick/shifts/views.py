@@ -7,6 +7,7 @@ from datetime import timedelta
 from datetime import datetime
 from shifts.functions.push_covers import push_cover
 from .models import Shifts
+from .models import ShiftCovers
 from homebase.models import Employees
 from django.http import JsonResponse
 from django.db.models import Q
@@ -92,7 +93,7 @@ def filter_open_shifts(request):
     option = request.GET.get('option', None) # Retreive the option
     date_string = request.GET.get('date', None) # Retreive the date entered
     location = request.GET.get('location', None) # Retreive the desired location of open shifts
-    date = datetime.strptime(date_string, '%Y-%m-%d') # Make that string into a datetime object
+    date = datetime.strptime(date_string, '%Y-%m-%d') # Parse that string into a datetime object
     queryset = Shifts.objects.filter(is_open = True)
 
     # If the location is a simple location
@@ -124,6 +125,8 @@ def filter_open_shifts(request):
         sunday_start_date_current_week = date - timedelta(days=given_week_day_iso)
     end_of_week = sunday_start_date_current_week + timedelta(days=6)
     filtered_shifts = queryset.filter(shift_date__gte=sunday_start_date_current_week, shift_date__lte=end_of_week)
+    open_query_set = ShiftCovers.objects.all().select_related('shift')
+    print (open_query_set)
     translated_shifts = filtered_shifts.values('id', 'title', 'owner', 'shift_date', 'shift_start', 'shift_end', 'location', 'is_open','checked_in', 'google_id', 'permanent')
     week = [] # start empty
     for day in range(0, 7):

@@ -90,7 +90,7 @@ class ShiftCovers(models.Model):
     )
     sobstory = models.TextField(default="")
     post_date = models.DateField(default=datetime.date.today)
-    permanent = models.BooleanField(default=False)
+    #permanent = models.BooleanField(default=False)
 
     @property
     def is_taken(self):
