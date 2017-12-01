@@ -35,14 +35,21 @@ var net = skills.slice(12,13);
 var mobile = skills.slice(15,16);
 var ref = skills.slice(18,19);
 var soft = skills.slice(21,22);
-//Append the modal div upon click
+//Append the mother-modal div upon click
 
     $('#drop-down').append(
          "<div id=" + netid_1 + " class='modal fade'>"
         +   "<div class='modal-dialog modal-md'>"
         +       "<div class='modal-content "+ color +" dev_"+ dev +"'>"
         +           "<div class='modal-header'>"
-        +               "<h4 style='text-align: center' class='modal-title'><b>" + fullname + "</b></h4></div>"
+        +               "<div class='flex-container'>"
+        +               "<h4 style='text-align: left; margin-left:20px;' class='modal-title'><b>" + fullname + "</b></h4>"
+        +                           "<ul class='nav nav-tabs' style='margin-left:60px'>"
+        +                           "<li class='active'><a data-toggle='tab' href='#h-" + netid_1 +"'>Info</a></li>"
+        +                           "<li><a data-toggle='tab' href='#s-" + netid_1 +"'>Skills</a></li>"
+        +                           "<li><a data-toggle='tab' href='#c-" + netid_1 +"'>Comments</a></li>"
+        +                 "</div>"
+        +           "</div>"
         +                 "<div class='tab-content tab-card'>"
         +                   "<div id='h-" + netid_1 +"' class='modal-body hero-bio tab-pane fade in active'>"
         +                       "<img src='" + pic + "' class='img-circle img-herobio'>"
@@ -71,42 +78,50 @@ var soft = skills.slice(21,22);
 		+                           "</div>"
         +                               "<div id='c-" + netid_1 +"' class='modal-body hero-bio tab-pane fade'>"
 		+                                   "<div class='col-md-6' style='left:4px'>"
-		+                                       "<div style='height: 300px; overflow-y: auto;'>"
+		+                                       "<h4 style='text-align: left; margin-left: 100px;' class='modal-title'><b>Comments</b></h4>"
+		+                                       "<div style='height: 275px; overflow-y: auto; margin-top:5px'>"
 		+                                       "<p>1</p><p>2</p><p>3</p><p>4</p><p>5</p><p>6</p><p>7</p><p>8</p><p>9</p><p>10</p><p>11</p><p>12</p><p>13</p>"
         +                                       "</div>"
 		+                                   "</div>"
 		+                                       "<div class='col-md-6' style='right:4px'>"
 		+                                           "<button type='btn-md' style='margin:7px' id='starpanel'>Star</button>"
 		+                                           "<button type='btn-md' style='margin:7px' id='dispanel'>Discipline</button>"
-		+                                           "<div id='comarea-"+ netid_1 +"' style='display:hidden'></div>"
+		+                                           "<div id='comarea' style='height: 250px; overflow-y: auto;'></div>"
 		+                                       "</div>"
         +                               "</div>"
         +                        "</div>"
-        +                        "<div class='modal-footer'>"
-        +                           "<ul class='nav nav-tabs'>"
-        +                           "<li class='active'><a data-toggle='tab' href='#h-" + netid_1 +"'>Info</a></li>"
-        +                           "<li><a data-toggle='tab' href='#s-" + netid_1 +"'>Skills</a></li>"
-        +                           "<li><a data-toggle='tab' href='#c-" + netid_1 +"'>Comments</a></li>"
-        +                           "<button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>"
-        +                        "</div>"
-        +                   "</div>"
-        +           "</div>"
+        +                    "<div class='modal-footer'>"
+        +                       "<button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>"
+        +                    "</div>"
+        +              "</div>"
+        +        "</div>"
         +"</div>");
 
 //Once modal div is added, it is shown
 $('#'+ netid_1).modal('show');
 
+$("#comform").appendTo("#comarea")
+$('#stform').appendTo("#comarea")
+$("#comform").hide()
+$("#stform").hide()
+
 //Delete the modal info when modal is hidden
 $("#" + netid_1).on("hidden.bs.modal", function(){
     $("#comform").appendTo("#comment-form")
+    $("#stform").appendTo("#star-form")
+    $("#comment-form").hide()
+    $("#star-form").hide()
     $('#drop-down').empty();
 });
 
 $('#dispanel').click(function(){
-
-$("#comform").appendTo("#comarea-" + netid_1)
-$("#comarea-" + netid_1).show();
+$("#stform").hide()
 $('#comform').fadeIn(200)
+
+});
+$('#starpanel').click(function(){
+$("#comform").hide()
+$('#stform').fadeIn(200)
 
 });
 

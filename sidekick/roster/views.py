@@ -7,6 +7,7 @@ from homebase.models import Employees
 from .models import Proficiencies
 from .forms import EmployeeForm
 from .forms import CommentForm
+from .forms import StarForm
 
 
 # Create your views here.
@@ -27,6 +28,12 @@ def index(request):
             form.save(commit=True)
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
+        data['poster'] = request.user
+        form = StarForm(data)
+        if form.is_valid():
+            form.save(commit=True)
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
         form = EmployeeForm(request.POST)
         if form.is_valid():
             form.save(commit=True)
@@ -41,6 +48,7 @@ def prep_context():
     employee_list = Employees.objects.all().order_by('lname')
     empform = EmployeeForm()
     comform = CommentForm()
+    starform = StarForm()
 
 
     emp_tuple = []
@@ -51,5 +59,6 @@ def prep_context():
     return {
         'employee_list': emp_tuple,
         'empform': empform,
-        'comform': comform
+        'comform': comform,
+        'starform': starform
     }

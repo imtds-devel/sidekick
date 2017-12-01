@@ -88,7 +88,7 @@
                 <div class="modal-body">
                     <form method="post" class="form-horizontal">
                         {% csrf_token %}
-                        {% for field in form.visible_fields %}
+                        {% for field in empform.visible_fields %}
                         <div class="form-group">
                             {{ field.errors }}
                             <label class="control-lavel col-sm-2" for="{{ field.id_for_label }}">{{ field.label }}</label>
@@ -105,21 +105,36 @@
             </div>
         </div>
     </div>
-    <div id="comment-form"></div>
-    <form method="post" class="form-horizontal" id="comform" style="display:none">
-        {% csrf_token %}
-        {% for field in comform.visible_fields %}
-        <div class="form-group">
-            {{ field.errors }}
-            <label class="control col-sm-4" for="{{ field.id_for_label }}"><b>{{ field.label }}:</b></label>
-            <div class="col-sm-8">
-                {{field}}
+    <div id="comment-form">
+        <form method="post" class="form-horizontal" id="comform" style="display:none">
+            {% csrf_token %}
+            {% for field in comform.visible_fields %}
+            <div class="form-group">
+                {{ field.errors }}
+                <label class="control col-sm-4" for="{{ field.id_for_label }}"><b>{{ field.label }}:</b></label>
+                <div class="col-sm-8">
+                    {{field}}
+                </div>
             </div>
-        </div>
-        {% endfor %}
-        <h5 align="right"><button class="btn btn-success btn-sm">Submit</button></h5>
-    </form>
-</div>
+            {% endfor %}
+            <h5 align="right"><button class="btn btn-success btn-sm">Submit</button></h5>
+        </form>
+    </div>
+    <div id="star-form">
+        <form method="post" class="form-horizontal" id="stform" style="display:none">
+            {% csrf_token %}
+            {% for field in starform.visible_fields %}
+            <div class="form-group">
+                {{ field.errors }}
+                <label class="control col-sm-4" for="{{ field.id_for_label }}"><b>{{ field.label }}:</b></label>
+                <div class="col-sm-8">
+                    {{field}}
+                </div>
+            </div>
+            {% endfor %}
+            <h5 align="right"><button class="btn btn-success btn-sm">Trophy!</button></h5>
+        </form>
+    </div>
 </div>
 <script src="{% static "js/roster.js" %}"></script>
 {% endblock %}
