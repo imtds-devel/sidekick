@@ -64,19 +64,7 @@
             </button>
         </div>
     </div>
-    <form method="post" class="form-horizontal" id="comform" style="display:none">
-        {% csrf_token %}
-        {% for field in comform.visible_fields %}
-        <div class="form-group">
-            {{ field.errors }}
-            <label class="control col-sm-4" for="{{ field.id_for_label }}"><b>{{ field.label }}:</b></label>
-            <div class="col-sm-8">
-                {{field}}
-            </div>
-        </div>
-        {% endfor %}
-        <h5 align="right"><button class="btn btn-success btn-sm">Submit</button></h5>
-    </form>
+    
     <div id='drop-down'></div>
     <div id="new-user" class="modal fade">
         <div class="modal-dialog modal-md">
@@ -117,11 +105,13 @@
                 </div>
             </div>
             {% endfor %}
+            <input type="hidden" name="poster" required id = "id_poster" value="">
+            <input type="hidden" name="about" required id = "id_about" value="">
             <h5 align="right"><button class="btn btn-success btn-sm">Submit</button></h5>
         </form>
     </div>
     <div id="star-form">
-        <form method="post" class="form-horizontal" id="stform" style="display:none">
+        <form method="post" class="form-horizontal" id="starform" style="display:none">
             {% csrf_token %}
             {% for field in starform.visible_fields %}
             <div class="form-group">
@@ -132,6 +122,8 @@
                 </div>
             </div>
             {% endfor %}
+            <input type="hidden" name="giver" required id = "id_giver" value="">
+            <input type="hidden" name="recipient" required id = "id_recipient" value="">
             <h5 align="right"><button class="btn btn-success btn-sm">Trophy!</button></h5>
         </form>
     </div>

@@ -12,9 +12,9 @@ class EmployeeForm(forms.ModelForm):
             })
 
     class Meta:
-        model= Employees
-        fields=('netid', 'fname', 'lname', 'phone', 'apuid', 'codename', 'position', 'position_desc',
-                'standing', 'birthday', 'aboutme')
+        model = Employees
+        fields = ('netid', 'fname', 'lname', 'phone', 'apuid', 'codename', 'position', 'position_desc',
+                  'standing', 'birthday', 'aboutme')
 
 
 class CommentForm(forms.ModelForm):
@@ -25,13 +25,14 @@ class CommentForm(forms.ModelForm):
         self.fields['description'].widget.attrs.update({
             'class': 'form-control',
         })
-        self.fields['description'].attrs={'rows': 10}
+        self.fields['description'].attrs = {'rows': 10}
         self.fields['val'].widget.attrs.update({
             'class': 'form-control',
         })
         self.fields['violation'].widget.attrs.update({
             'class': 'form-control',
         })
+
     class Meta:
         model = Discipline
         fields = ('poster', 'about', 'description', 'val', 'violation')
@@ -51,6 +52,7 @@ class StarForm(forms.ModelForm):
         self.fields['trophy_type'].widget.attrs.update({
             'class': 'form-control',
         })
+
     class Meta:
         model = Trophies
         fields = ('giver', 'recipient', 'trophy_type', 'reason', 'name')

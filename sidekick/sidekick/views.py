@@ -27,6 +27,12 @@ def load_page(request, template, context):
 
     return render(request, template, context)
 
+def get_current_user(request):
+    live = False
+    if not live:
+        request.user = "nchera13"
+
+    return request
 
 def authorize(request):
     uname = str(request.user)

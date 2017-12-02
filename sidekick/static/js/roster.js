@@ -101,27 +101,29 @@ var soft = skills.slice(21,22);
 $('#'+ netid_1).modal('show');
 
 $("#comform").appendTo("#comarea")
-$('#stform').appendTo("#comarea")
+$('#starform').appendTo("#comarea")
 $("#comform").hide()
 $("#stform").hide()
+$('input[name=recipient]').val(netid_1);
+$('input[name=about]').val(netid_1);
 
 //Delete the modal info when modal is hidden
 $("#" + netid_1).on("hidden.bs.modal", function(){
     $("#comform").appendTo("#comment-form")
-    $("#stform").appendTo("#star-form")
+    $("#starform").appendTo("#star-form")
     $("#comment-form").hide()
     $("#star-form").hide()
     $('#drop-down').empty();
 });
 
 $('#dispanel').click(function(){
-$("#stform").hide()
+$("#starform").hide()
 $('#comform').fadeIn(200)
 
 });
 $('#starpanel').click(function(){
 $("#comform").hide()
-$('#stform').fadeIn(200)
+$('#starform').fadeIn(200)
 
 });
 

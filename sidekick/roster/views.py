@@ -20,7 +20,7 @@ def index(request):
 
         # In case we're not in production
         # Remove this line before production!
-        request = views.get_current_user(request)
+        #request = views.get_current_user(request)
 
         data['poster'] = request.user
         form = CommentForm(data)
@@ -28,7 +28,7 @@ def index(request):
             form.save(commit=True)
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
-        data['poster'] = request.user
+        data['giver'] = request.user
         form = StarForm(data)
         if form.is_valid():
             form.save(commit=True)
