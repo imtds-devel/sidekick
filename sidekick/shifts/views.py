@@ -40,69 +40,60 @@ def index(request):
 
     # We import the current time
     now = timezone.now()
-    '''
-    given_week_day_iso = now.isocalendar()[2]
-    # if currently is sunday
-    if given_week_day_iso == 7:
-        sunday_start_date_current_week = now
-    else:
-        sunday_start_date_current_week = now - timedelta(days=given_week_day_iso)
-    end_of_week = sunday_start_date_current_week + timedelta(days=6)
-    week = [] # start empty
-    for day in range(0, 7):
-        week.append(sunday_start_date_current_week + timedelta(days=day))
-    '''
-    #shifts_list = Shifts.objects.all().order_by('shift_start')
 
-    #date = datetime.date.today()
-    #current_week_day_iso = date.isocalendar()[2]
-    #thisWeekIso = now.
-    #context = {'shifts': shifts}
+    # We build our context for the page
     context =   {"date" : now,
                 "positions" : positions,
                 "locations" : locations,
                 "user_position" : user_position}
     return views.load_page(request, 'shifts/index.html', context)
 
+# This function responds to the AJAX request for user shifts
 def filter_user_shifts(request):
     option = request.GET.get('option', None) # Retreive the option
     date_string = request.GET.get('date', None) # Retreive the date entered
     date = datetime.strptime(date_string, '%Y-%m-%d') # Make that string into a datetime object
     queryset = Shifts.objects.filter(owner = user).order_by('shift_start') # We filter the query set down to the shifts owned by user logged in
 
+    # The request can be contextual to the previous or next week, this is triggered when the user presses those buttons
     if option == 'next':
-        date = date + timedelta(days=7)
+        date = date + timedelta(days=7) # We add 7 days to the current date
     elif option == 'prev':
-        date = date - timedelta(days=7)
+        date = date - timedelta(days=7) # We remove 7 days from the current date
 
+    # We get the iso date number, unfortunately, ISO believes that the week starts on Monday, so we have to work around this
     given_week_day_iso = date.isocalendar()[2]
-    # if currently is sunday
+    # if currently is Sunday, remember ISO thinks Sunday is the last day of the week
     if given_week_day_iso == 7:
         sunday_start_date_current_week = date
     else:
-        sunday_start_date_current_week = date - timedelta(days=given_week_day_iso)
-    end_of_week = sunday_start_date_current_week + timedelta(days=6)
-    filtered_shifts = queryset.filter(shift_date__gte=sunday_start_date_current_week, shift_date__lte=end_of_week)
+        sunday_start_date_current_week = date - timedelta(days=given_week_day_iso) # To find our Sunday start we subtract the current day of the week via timedelta
+    end_of_week = sunday_start_date_current_week + timedelta(days=6) # Then we add 6 to find end of this week, which is clearly a Saturday 
+    filtered_shifts = queryset.filter(shift_date__gte=sunday_start_date_current_week, shift_date__lte=end_of_week) # Now we filter the shifts to be the ones in the date range 
+    # We have to translate these shifts into these values so they can be JSON
     translated_shifts = filtered_shifts.values('id', 'title', 'owner', 'shift_date', 'shift_start', 'shift_end', 'location', 'is_open','checked_in', 'google_id', 'permanent')
-    week = [] # start empty
-    for day in range(0, 7):
-        week.append(sunday_start_date_current_week + timedelta(days=day))
+    week = [] # start empty, we will build up the dates of each day
+    for day in range(0, 7): # I think this is wrong but I need to test it more, range is weird 
+        week.append(sunday_start_date_current_week + timedelta(days=day)) # Add each week date, Sunday to Saturday
+    # This is the formatted data that we will be returning via AJAX
     data = {
         'date' : str(date),
         'shifts' : list(translated_shifts),
         'week' : week
     }
+    # We return the data as JSON
     return JsonResponse(data)
 
+# Similar to the filter user shifts, these filter the shifts that are open not the user's
 def filter_open_shifts(request):
     option = request.GET.get('option', None) # Retreive the option
     date_string = request.GET.get('date', None) # Retreive the date entered
     location = request.GET.get('location', None) # Retreive the desired location of open shifts
     date = datetime.strptime(date_string, '%Y-%m-%d') # Parse that string into a datetime object
-    queryset = Shifts.objects.filter(is_open = True)
+    queryset = Shifts.objects.filter(is_open = True) # Retrieve the shifts that are open
 
     # If the location is a simple location
-    if location in ['ma', 'da', 'st', 'rc', 'sd', 'sst']:
+    if location in ['ma', 'da', 'st', 'rc', 'sd', 'ss']:
         queryset = queryset.filter(location = location).order_by('shift_start') # We filter the query set down to the shifts in that location
     # Otherwise, we need to determine by position, and filter with the corresponding locations
     else:
@@ -116,12 +107,14 @@ def filter_open_shifts(request):
             queryset = queryset.filter(location='md').order_by('shift_start')
         else: # This shouldn't be possible, but in this case I am not filtering by location
             queryset = queryset.order_by('shift_start')
-            
+
+    # Contextual options
     if option == 'next':
         date = date + timedelta(days=7)
     elif option == 'prev':
         date = date - timedelta(days=7)
 
+    # User shifts explains what is happening here pretty well
     given_week_day_iso = date.isocalendar()[2]
     # if currently is sunday
     if given_week_day_iso == 7:
@@ -141,10 +134,10 @@ def filter_open_shifts(request):
     }
     return JsonResponse(data)
 
+# This method responds to the AJAX request that is triggered by clicking an individual shift
 def filter_near_shifts(request):
     # Get the shift of the given id
     shift_id = request.GET.get('shiftID', None)
-    is_open = request.GET.get('' ,None) 
     this_shift = Shifts.objects.get(id=shift_id)
     # First we filter all shifts of the same location
     filtered_shifts = Shifts.objects.filter(location=this_shift.location)
@@ -169,10 +162,12 @@ def filter_near_shifts(request):
         print (start)
         print (end)
 
+    '''
     naive_start = make_naive(start)
     naive_end = make_naive(end)
     print (naive_start)
     print (naive_end)
+    '''
     # If this is an open shift, we also need the information from the corresponding shift_cover entry
     if this_shift.is_open:
         shift_cover = ShiftCovers.objects.get(shift=this_shift.id)

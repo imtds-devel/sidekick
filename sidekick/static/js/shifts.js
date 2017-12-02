@@ -149,7 +149,9 @@ $(document).ready(function() {
             $('#' + String(shiftID) + '-modal').find('#cover-details-2').text("Sob story: " + shiftData.shiftCover.sobstory) 
         }
     }
+    // This function is called by the AJAX function, it fills in the shifts on the page
     function generateUserShiftPanels(week, shifts){
+        // First we remove the current shifts 
         $('#your-shifts-panel-group').empty();
         $('#user-shift-modals').empty();
         // Loop through the days in the given week
@@ -157,6 +159,7 @@ $(document).ready(function() {
             // Evaluate if we should be displaying this day
             // Hint: We should only display a day if there are shifts on that day
             if (isShiftOnDay(week[day], shifts)) {
+                // If there are shifts we start by adding the "days" in the week that have a shift on them
                 $('#your-shifts-panel-group').append(            
                     "<div class = 'panel panel-primary shift-panel' id= '" + weekDays[day] + "-shifts' >" +
                         "<div class = 'panel-heading'>" + weekDays[day] + " " +  week[day].slice(5,10) + "</div>" + // Here we are displaying the week day and the date of that day
@@ -164,14 +167,14 @@ $(document).ready(function() {
                     "</div>");
                 // Generate a new group of shifts that only contains the one on this day
                 shiftsDay = shiftsOnDay(week[day], shifts);
-                // Loop through those shifts
+                // Loop through those shifts and add the individual shifts
                 for (shift = 0; shift < shiftsDay.length; shift++)
                 {
                     // Generate a shift "button" for each shift
-                    $('#' + weekDays[day] + '-shifts .panel-body').append(
+                    $('#' + weekDays[day] + '-shifts .panel-body').append( // Select the body of the current day we are looping through
                         "<button type = 'button' id = '" + shiftsDay[shift].id  + "' class = 'btn btn-block shift-btn' data-toggle= 'modal' data-target= '#"
-                        + String(shiftsDay[shift].id) + "-modal' >" + locations[shiftsDay[shift].location] 
-                        + ": " + formatTimeRange(shiftsDay[shift].shift_start, shiftsDay[shift].shift_end)
+                        + String(shiftsDay[shift].id) + "-modal' >" + locations[shiftsDay[shift].location] // This line labels the modal we will make and the location of the shift
+                        + ": " + formatTimeRange(shiftsDay[shift].shift_start, shiftsDay[shift].shift_end) // This line lays out the time range of the shift using a handy method
                         +"</button>"                    
                     )
                     // Generate a modal for each shift
@@ -180,14 +183,14 @@ $(document).ready(function() {
                         + "<div class='modal-dialog modal-lg'>"
                         +    "<div class='modal-content'>"
                         +        "<div class='modal-header'>"
-                        +            shiftsDay[shift].title
+                        +            shiftsDay[shift].title // The title of the shift becomes the title of the modal
                         +            "<button type='button' class='close' data-dismiss='modal'>&times;</button>"
                         +            "<h4 class='modal-title'></h4>"
                         +        "</div>"
                         +        "<div class='modal-body'>"
                         +            "<div class='shift-body'>"
-                        +                "<p>[Not Final Design]</p>"
-                        +                "<p id = shift-details></p>"
+                        +                "<p>[Not Final Design]</p>" // #TODO final design
+                        +                "<p id = shift-details></p>" // We will fill this when we actually click a modal
                         +                "<button disabled type = 'button' class = 'btn btn-default' data-dismiss = 'modal' data-toggle= 'modal' data-target = '#post-conf-" + String(shiftsDay[shift].id) + "'>Post Cover</button>"
                         +            "</div>"
                         +        "</div>"
@@ -198,12 +201,14 @@ $(document).ready(function() {
                         +"</div>"
                     +"</div>"
                     )
+                    // These modals are the modals that actually handle posting and taking details 
+                    // This is very much in progress 
                     $('#user-shift-modals').append(
                         "<div id = 'post-conf-" + String(shiftsDay[shift].id) + "' class = 'modal fade'>"
                         +"<div class='modal-dialog modal-sm'>"
                         +   "<div class='modal-content'>"
                         +       "<div class='modal-header'>"
-                        +       shiftsDay[shift].title
+                        +       shiftsDay[shift].title // Once again the title is the title of the shift 
                         +       "<button type='button' class='close' data-dismiss='modal' data-toggle = 'modal' data-target = '#" + String(shiftsDay[shift].id) + "-modal'>&times;</button>"
                         +       "<h4 class='modal-title'></h4>"
                         +   "</div>"
@@ -224,7 +229,9 @@ $(document).ready(function() {
         }
         console.log("Panels")
     }
+    // Like the other method with some small differences for open shifts
     function generateOpenShiftPanels(week, shifts){
+        // First we empty the old stuff
         $('#open-shifts-panel-group').empty();
         $('#open-shift-modals').empty();
         // Loop through the days in the given week
@@ -262,9 +269,9 @@ $(document).ready(function() {
                         +        "<div class='modal-body'>"
                         +            "<div class='shift-body'>"
                         +                "<p>[Not Final Design]</p>"                        
-                        +                "<p id = shift-details></p>"
-                        +                "<p id = cover-details-1></p>"     
-                        +                "<p id = cover-details-2></p>"                                                
+                        +                "<p id = shift-details></p>" // Once again we will fill this when the shift is clicked
+                        +                "<p id = cover-details-1></p>" // Open shifts have extra cover details that are filled on click     
+                        +                "<p id = cover-details-2></p>"                                    
                         +                "<button disabled type = 'button' class = 'btn btn-default' data-dismiss = 'modal' data-toggle= 'modal' data-target = '#post-conf-" + String(shiftsDay[shift].id) + "'>Take Shift</button>"
                         +            "</div>"
                         +        "</div>"
