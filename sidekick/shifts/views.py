@@ -19,19 +19,23 @@ user = 'jwood14' # This is hard coded, we don't want this hard coded TODO Make t
 user_position = Employees.objects.get(netid=user).position
 
 def index(request):
-    # The possible locations for a shift in the database 
-    shift_classifer = {
+    # The possible positions for an employee in the database 
+    positions = {
         'lbt': "Lab Tech",
         'llt': "Lead Lab Tech",
         'spt': "Support Tech",
         'sst': "Senior Support Tech",
         'sdr': "Support Desk Rep",
-        'mgr': "Manager",
+        'mgr': "Manager"
+    }
+    # The possible locations for a location in the database
+    locations = {
         'ma': "Marshburn",
         'da': "Darling",
         'st': "Stamps",
         'rc': "Repair Center",
         'sd': "Support Desk",
+        'md': "MoD Desk"
     }
 
     # We import the current time
@@ -55,7 +59,8 @@ def index(request):
     #thisWeekIso = now.
     #context = {'shifts': shifts}
     context =   {"date" : now,
-                "locations" : shift_classifer,
+                "positions" : positions,
+                "locations" : locations,
                 "user_position" : user_position}
     return views.load_page(request, 'shifts/index.html', context)
 
@@ -125,8 +130,6 @@ def filter_open_shifts(request):
         sunday_start_date_current_week = date - timedelta(days=given_week_day_iso)
     end_of_week = sunday_start_date_current_week + timedelta(days=6)
     filtered_shifts = queryset.filter(shift_date__gte=sunday_start_date_current_week, shift_date__lte=end_of_week)
-    open_query_set = ShiftCovers.objects.all().select_related('shift')
-    print (open_query_set)
     translated_shifts = filtered_shifts.values('id', 'title', 'owner', 'shift_date', 'shift_start', 'shift_end', 'location', 'is_open','checked_in', 'google_id', 'permanent')
     week = [] # start empty
     for day in range(0, 7):
@@ -141,6 +144,7 @@ def filter_open_shifts(request):
 def filter_near_shifts(request):
     # Get the shift of the given id
     shift_id = request.GET.get('shiftID', None)
+    is_open = request.GET.get('' ,None) 
     this_shift = Shifts.objects.get(id=shift_id)
     # First we filter all shifts of the same location
     filtered_shifts = Shifts.objects.filter(location=this_shift.location)
@@ -169,8 +173,18 @@ def filter_near_shifts(request):
     naive_end = make_naive(end)
     print (naive_start)
     print (naive_end)
+    # If this is an open shift, we also need the information from the corresponding shift_cover entry
+    if this_shift.is_open:
+        shift_cover = ShiftCovers.objects.get(shift=this_shift.id)
+        translated_shift_cover = {'id' : shift_cover.id, 'poster' : str(shift_cover.poster), 'taker' : str(shift_cover.taker), 'type' : shift_cover.type, 'sobstory' : shift_cover.sobstory, 'post_date' : shift_cover.post_date}
+    else:
+        translated_shift_cover = ['Not an Open Shift']
+    # We construct a dictonary of the values contained in this shift
+    translated_this_shift = {'id': this_shift.id, 'title' : this_shift.title, 'owner' : str(this_shift.owner), 'shift_date': this_shift.shift_date, 'shift_start' : this_shift.shift_start, 'shift_end' : this_shift.shift_end, 'location' : this_shift.location, 'is_open' : this_shift.is_open,'checked_in' : this_shift.checked_in, 'google_id' : this_shift.google_id, 'permanent' : this_shift.permanent}
     translated_shifts = filtered_shifts.values('id', 'title', 'owner', 'shift_date', 'shift_start', 'shift_end', 'location', 'is_open','checked_in', 'google_id', 'permanent')
     data = {
+        'shiftCover' : translated_shift_cover,
+        'thisShift' : translated_this_shift,
         'shifts' : list(translated_shifts)
     }
     return JsonResponse(data)

@@ -81,7 +81,7 @@ $(document).ready(function() {
             success: function (data) {
                 console.log("Relative Shifts:");
                 console.log(data);
-                
+                generateRelativeShifts(shiftID, data)
             }
         })
     }
@@ -141,8 +141,13 @@ $(document).ready(function() {
     });
 
     // This function #TODO this function 
-    function generateRelativeShifts(shiftID){
-        console.log(shiftID);
+    function generateRelativeShifts(shiftID, shiftData){
+        // We fill in the modal
+        $('#' + String(shiftID) + '-modal').find('#shift-details').text(locations[shiftData.thisShift.location] + ": " + formatTimeRange(shiftData.thisShift.shift_start, shiftData.thisShift.shift_end));
+        if (shiftData.thisShift.is_open) {
+            $('#' + String(shiftID) + '-modal').find('#cover-details-1').text("Shift cover posted by " + String(shiftData.shiftCover.poster) + " on " + String(shiftData.shiftCover.post_date))
+            $('#' + String(shiftID) + '-modal').find('#cover-details-2').text("Sob story: " + shiftData.shiftCover.sobstory) 
+        }
     }
     function generateUserShiftPanels(week, shifts){
         $('#your-shifts-panel-group').empty();
@@ -179,9 +184,11 @@ $(document).ready(function() {
                         +            "<button type='button' class='close' data-dismiss='modal'>&times;</button>"
                         +            "<h4 class='modal-title'></h4>"
                         +        "</div>"
-                        +        "<div class='modal-body hero-bio'>"
-                        +            "<div class='hero-bio'>"
-                        +                "<button type = 'button' class = 'btn btn-default' data-dismiss = 'modal' data-toggle= 'modal' data-target = '#post-conf-" + String(shiftsDay[shift].id) + "'>Post Cover</button>"
+                        +        "<div class='modal-body'>"
+                        +            "<div class='shift-body'>"
+                        +                "<p>[Not Final Design]</p>"
+                        +                "<p id = shift-details></p>"
+                        +                "<button disabled type = 'button' class = 'btn btn-default' data-dismiss = 'modal' data-toggle= 'modal' data-target = '#post-conf-" + String(shiftsDay[shift].id) + "'>Post Cover</button>"
                         +            "</div>"
                         +        "</div>"
                         +        "<div class='modal-footer'>"
@@ -242,7 +249,7 @@ $(document).ready(function() {
                         + ": " + formatTimeRange(shiftsDay[shift].shift_start, shiftsDay[shift].shift_end)
                         +"</button>"                    
                     )
-                    // Generate a modal for each shift
+                    // Generate a modal for each shift, this displays some information for the shift
                     $('#open-shift-modals').append(
                         "<div id = '" + String(shiftsDay[shift].id) + "-modal' class = 'modal fade'>"
                         + "<div class='modal-dialog modal-lg'>"
@@ -252,9 +259,13 @@ $(document).ready(function() {
                         +            "<button type='button' class='close' data-dismiss='modal'>&times;</button>"
                         +            "<h4 class='modal-title'></h4>"
                         +        "</div>"
-                        +        "<div class='modal-body hero-bio'>"
-                        +            "<div class='hero-bio'>"
-                        +                "<button type = 'button' class = 'btn btn-default' data-dismiss = 'modal' data-toggle= 'modal' data-target = '#post-conf-" + String(shiftsDay[shift].id) + "'>Take Shift</button>"
+                        +        "<div class='modal-body'>"
+                        +            "<div class='shift-body'>"
+                        +                "<p>[Not Final Design]</p>"                        
+                        +                "<p id = shift-details></p>"
+                        +                "<p id = cover-details-1></p>"     
+                        +                "<p id = cover-details-2></p>"                                                
+                        +                "<button disabled type = 'button' class = 'btn btn-default' data-dismiss = 'modal' data-toggle= 'modal' data-target = '#post-conf-" + String(shiftsDay[shift].id) + "'>Take Shift</button>"
                         +            "</div>"
                         +        "</div>"
                         +        "<div class='modal-footer'>"
@@ -264,6 +275,7 @@ $(document).ready(function() {
                         +"</div>"
                     +"</div>"
                     )
+                    // These secondary modals are for confirming the shift posting
                     $('#open-shift-modals').append(
                         "<div id = 'post-conf-" + String(shiftsDay[shift].id) + "' class = 'modal fade'>"
                         +"<div class='modal-dialog modal-sm'>"
@@ -274,7 +286,6 @@ $(document).ready(function() {
                         +       "<h4 class='modal-title'></h4>"
                         +   "</div>"
                         +   "<div class='modal-body'>"
-                        +       "<div id='relative-calender'></div>"
                         +       "<div id='post-det'>"
                         +           "<p>Take Cover for " + shiftsDay[shift].owner + " at " + locations[shiftsDay[shift].location] + ": " + formatTimeRange(shiftsDay[shift].shift_start, shiftsDay[shift].shift_end) + "?</p>"
                         +              "<button id= 'post-cover-btn' type= 'button' class= 'btn btn-primary'>Post</button>"
