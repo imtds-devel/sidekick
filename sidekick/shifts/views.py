@@ -14,11 +14,14 @@ from django.db.models import Q
 from django.db.models.functions import Cast
 from django.db.models import TimeField
 from django.utils.timezone import make_aware, make_naive
+from sidekick.views import get_current_user
 
-user = 'jwood14' # This is hard coded, we don't want this hard coded TODO Make this not hardcoded
-user_position = Employees.objects.get(netid=user).position
+
 
 def index(request):
+    user = get_current_user(request)
+    user_position = user.position
+
     # The possible positions for an employee in the database 
     positions = {
         'lbt': "Lab Tech",
@@ -50,6 +53,7 @@ def index(request):
 
 # This function responds to the AJAX request for user shifts
 def filter_user_shifts(request):
+    user = get_current_user(request) # Get the user
     option = request.GET.get('option', None) # Retreive the option
     date_string = request.GET.get('date', None) # Retreive the date entered
     date = datetime.strptime(date_string, '%Y-%m-%d') # Make that string into a datetime object
@@ -86,6 +90,7 @@ def filter_user_shifts(request):
 
 # Similar to the filter user shifts, these filter the shifts that are open not the user's
 def filter_open_shifts(request):
+    user = get_current_user(request) # Get the user
     option = request.GET.get('option', None) # Retreive the option
     date_string = request.GET.get('date', None) # Retreive the date entered
     location = request.GET.get('location', None) # Retreive the desired location of open shifts
@@ -97,15 +102,17 @@ def filter_open_shifts(request):
         queryset = queryset.filter(location = location).order_by('shift_start') # We filter the query set down to the shifts in that location
     # Otherwise, we need to determine by position, and filter with the corresponding locations
     else:
-        if location in ['lbt', 'llt']: # If they are a labtech we need to show all shifts in the libraries
+        if location in ['lbt', 'llt']: # If they are a labtech or lead labtech we need to show all shifts in the libraries
             queryset = queryset.filter(Q(location='ma') | Q(location='da') | Q(location='st')).order_by('shift_start')
         elif location == 'spt': # If support tech
             queryset = queryset.filter(Q(location='rc') | Q(location='sd')).order_by('shift_start')
+        elif location == 'sst': # If senior support tech
+            queryset = queryset.filter(location='ss')
         elif location == 'sdr': # If support desk rep
             queryset = queryset.filter(location='sr').order_by('shift_start')
         elif location == 'mgr': # If manager
             queryset = queryset.filter(location='md').order_by('shift_start')
-        else: # This shouldn't be possible, but in this case I am not filtering by location
+        else: # This shouldn't be possible, but in this case I am showing all shifts
             queryset = queryset.order_by('shift_start')
 
     # Contextual options
@@ -136,6 +143,7 @@ def filter_open_shifts(request):
 
 # This method responds to the AJAX request that is triggered by clicking an individual shift
 def filter_near_shifts(request):
+    user = get_current_user(request) # Get the user
     # Get the shift of the given id
     shift_id = request.GET.get('shiftID', None)
     this_shift = Shifts.objects.get(id=shift_id)
@@ -162,12 +170,11 @@ def filter_near_shifts(request):
         print (start)
         print (end)
 
-    '''
+    
     naive_start = make_naive(start)
     naive_end = make_naive(end)
     print (naive_start)
     print (naive_end)
-    '''
     # If this is an open shift, we also need the information from the corresponding shift_cover entry
     if this_shift.is_open:
         shift_cover = ShiftCovers.objects.get(shift=this_shift.id)
