@@ -60,6 +60,10 @@ var soft = skills.slice(21,22);
         +                               "<p>" + phone + "</p>"
         +                               "<p>" + birthday + "</p>"
         +                           "</div>"
+        +                           "<div class='inner-trophies'>"
+        +                               "<h4><b>Trophies</b></h4>"
+        +
+        +                           "</div>"
         +                   "</div>"
         +                       "<div id='s-" + netid_1 +"' class='tab-pane row fade'>"
         +                           "<div class='chart col-md-' data-width='200' data-height='300' data-red='100' data-green='100' data-blue='400' style='margin-top:5px;'>"
@@ -119,12 +123,11 @@ $("#" + netid_1).on("hidden.bs.modal", function(){
 $('#dispanel').click(function(){
 $("#starform").hide()
 $('#comform').fadeIn(200)
-
 });
+
 $('#starpanel').click(function(){
 $("#comform").hide()
 $('#starform').fadeIn(200)
-
 });
 
 //radar chart function

@@ -20,7 +20,7 @@ def index(request):
 
         # In case we're not in production
         # Remove this line before production!
-        #request = views.get_current_user(request)
+        request = views.get_current_user(request)
 
         data['poster'] = request.user
         form = CommentForm(data)
