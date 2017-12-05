@@ -3,10 +3,7 @@ from homebase.models import Employees
 
 def has_access(netid, area):
     # we have to do this to get the user object itself since the get call will return a QuerySet
-    user = None
-    for u in Employees.objects.get(netid=netid):
-        user = u
-
+    user = Employees.objects.get(netid=netid)
     pos = user.position
 
     pos_fns = {
@@ -25,70 +22,76 @@ def has_access(netid, area):
 
 def get_lbt_access(area):
     access_list = [
-        "homebase_access", "passwords_access",
-        # Passwords page access
+        # Page access
+        "homebase_access", "passwords_access", "shift_access", "roster_access", "quote_access", "printer_access",
+
+        # Passwords page
         "passwords_lab",
-        #TODO: Finish filling in
-    ]
-    return area in access_list
-
-
-def get_spt_access(self, area):
-    access_list = [
-        "homebase_access",
-        #TODO: Finish filling in
-    ]
-    return area in access_list
-
-
-def get_sst_access(self, area):
-    access_list = [
-        "homebase_access",
         # TODO: Finish filling in
     ]
     return area in access_list
 
 
-def get_llt_access(self, area):
+def get_spt_access(area):
     access_list = [
-        "homebase_access",
+        "homebase_access", "passwords_access", "shift_access", "roster_access", "quote_access", "printer_access",
         # TODO: Finish filling in
     ]
     return area in access_list
 
 
-def get_mgr_access(self, area):
+def get_sst_access(area):
     access_list = [
-        "homebase_access",
+        "homebase_access", "passwords_access", "shift_access", "roster_access", "quote_access", "printer_access",
         # TODO: Finish filling in
     ]
     return area in access_list
 
 
-def get_stt_access(self, area):
+def get_llt_access(area):
     access_list = [
-        "homebase_access",
+        "homebase_access", "passwords_access", "shift_access", "roster_access", "quote_access", "printer_access",
         # TODO: Finish filling in
     ]
     return area in access_list
 
 
-def get_stm_access(self, area):
+def get_mgr_access(area):
     access_list = [
-        "homebase_access",
+        "homebase_access", "passwords_access", "shift_access", "roster_access", "quote_access", "printer_access",
         # TODO: Finish filling in
     ]
     return area in access_list
 
 
-def get_dev_access(self, area):
+def get_stt_access(area):
     access_list = [
-        "homebase_access",
+        "homebase_access", "passwords_access", "shift_access", "roster_access", "quote_access", "printer_access",
+        # TODO: Finish filling in
+    ]
+    return area in access_list
+
+
+def get_stm_access(area):
+    access_list = [
+        "homebase_access", "passwords_access", "shift_access", "roster_access", "quote_access", "printer_access",
+        # TODO: Finish filling in
+    ]
+    return area in access_list
+
+
+def get_dev_access(area):
+    access_list = [
+        "homebase_access", "passwords_access", "shift_access", "roster_access", "quote_access", "printer_access",
         # TODO: Finish filling in
     ]
     return area in access_list
 
 MASTER_ACCESS_TEMPLATE = [
+    # Nav access
+    "nav_modtools",                         # MoD tools in the navbar
+
+
     # Homebase Page
     "homebase_access",                      # May access homebase page
 
@@ -122,8 +125,20 @@ MASTER_ACCESS_TEMPLATE = [
     # Roster Page
     "roster_access",                        # Access roster page
     "roster_editemp",                       # Modify employee metadata
-    "roster_modemp",                        # Modify comment, discipline, & trophy data
-    #TODO: Finish roster page
+    "roster_addremoveemp",                  # Add or remove employee
+    "roster_modemp_all",                    # Modify comment, discipline, & trophy data
+    "roster_modemp_lab",                    # View/modify comments & discipline
+    "roster_prof_all",                      # Access & edit all proficiencies
 
-    #TODO: Continue defining these for all pages!
+
+    # Quote Page
+    "quote_access",                         # Access quote tool
+
+
+    # Printer Status Page
+    "printer_access",                       # Access printer page
+    "printer_labs",                         # View computer lab printers
+    "printer_all",                          # View all printers
+    "printer_labs_edit",                    # Edit lab printer statuses
+    "printer_all_edit",                     # Edit all printer statuses
 ]
