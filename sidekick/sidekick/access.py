@@ -27,31 +27,69 @@ def get_lbt_access(area):
 
         # Passwords page
         "passwords_lab",
-        # TODO: Finish filling in
+
+        # Shift Covers page
+        "shift_viewlabs",
+
+        # Printer Status page
+        "printer_labs", "printer_labs_edit",
     ]
     return area in access_list
 
 
 def get_spt_access(area):
     access_list = [
+        # Page access
         "homebase_access", "passwords_access", "shift_access", "roster_access", "quote_access", "printer_access",
-        # TODO: Finish filling in
+
+        # Passwords page
+        "passwords_lab", "passwords_support"
+        
+        # Shift Covers page
+        "shift_viewlabs", "shift_viewsupport",
+
+        # Printer Status page
+        "printer_all", "printer_all_edit",
     ]
     return area in access_list
 
 
 def get_sst_access(area):
     access_list = [
+        # Page access
         "homebase_access", "passwords_access", "shift_access", "roster_access", "quote_access", "printer_access",
-        # TODO: Finish filling in
+
+        # Passwords page
+        "passwords_lab", "passwords_support"
+        
+        # Shift Covers page
+        "shift_viewall",
+
+        # Printer Status page
+        "printer_all", "printer_all_edit",
+
+        # Roster page
+        "roster_prof_all",
     ]
     return area in access_list
 
 
 def get_llt_access(area):
     access_list = [
+        # Page access
         "homebase_access", "passwords_access", "shift_access", "roster_access", "quote_access", "printer_access",
-        # TODO: Finish filling in
+
+        # Passwords page
+        "passwords_lab",
+
+        # Shift Covers page
+        "shift_viewlabs", "shift_postlab",
+
+        # Roster page
+        "roster_modfb_lab",
+
+        # Printer Status page
+        "printer_labs", "printer_labs_edit",
     ]
     return area in access_list
 
@@ -94,11 +132,9 @@ MASTER_ACCESS_TEMPLATE = [
 
     # Homebase Page
     "homebase_access",                      # May access homebase page
-
     #   Homing Beacon
     "homingbeacon_checkin",                 # Can check employees in
     "homingbeacon_requestpaper",            # Can request a paper count
-
     #   Announcements/Events
     "announcements_canedit",                # Can post, modify, or delete announcements/events
 
@@ -119,6 +155,7 @@ MASTER_ACCESS_TEMPLATE = [
     "shift_postall",                        # Post anyone's covers!
     "shift_viewlabs",                       # View open lab shifts
     "shift_viewsupport",                    # View open sd & rc shifts
+    "shift_viewsenior",                     # View sst shifts
     "shift_viewall",                        # View all open shifts
 
 
@@ -126,9 +163,10 @@ MASTER_ACCESS_TEMPLATE = [
     "roster_access",                        # Access roster page
     "roster_editemp",                       # Modify employee metadata
     "roster_addremoveemp",                  # Add or remove employee
-    "roster_modemp_all",                    # Modify comment, discipline, & trophy data
-    "roster_modemp_lab",                    # View/modify comments & discipline
-    "roster_prof_all",                      # Access & edit all proficiencies
+    "roster_modfb_all",                     # Modify comment, discipline, & trophy data
+    "roster_modfb_lab",                     # View/modify comments & discipline for lab techs
+    "roster_prof_all",                      # Access all proficiencies
+    "roster_prof_all_edit",                 # Edit all proficiencies
 
 
     # Quote Page
