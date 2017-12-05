@@ -54,7 +54,8 @@ def index(request):
 
 # This function responds to the AJAX request for user shifts
 def filter_user_shifts(request):
-    user = get_current_user(Employees.objects.get(netid=request.user)) # Get the user
+    request_user = get_current_user(request)
+    user = Employees.objects.get(netid=request_user.user)
     option = request.GET.get('option', None) # Retreive the option
     date_string = request.GET.get('date', None) # Retreive the date entered
     date = datetime.strptime(date_string, '%Y-%m-%d') # Make that string into a datetime object
@@ -91,7 +92,8 @@ def filter_user_shifts(request):
 
 # Similar to the filter user shifts, these filter the shifts that are open not the user's
 def filter_open_shifts(request):
-    user = get_current_user(request) # Get the user
+    request_user = get_current_user(request)
+    user = Employees.objects.get(netid=request_user.user)
     option = request.GET.get('option', None) # Retreive the option
     date_string = request.GET.get('date', None) # Retreive the date entered
     location = request.GET.get('location', None) # Retreive the desired location of open shifts
@@ -144,7 +146,8 @@ def filter_open_shifts(request):
 
 # This method responds to the AJAX request that is triggered by clicking an individual shift
 def filter_near_shifts(request):
-    user = get_current_user(request) # Get the user
+    request_user = get_current_user(request)
+    user = Employees.objects.get(netid=request_user.user)
     # Get the shift of the given id
     shift_id = request.GET.get('shiftID', None)
     this_shift = Shifts.objects.get(id=shift_id)
