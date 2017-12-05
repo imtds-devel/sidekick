@@ -19,7 +19,8 @@ from sidekick.views import get_current_user
 
 
 def index(request):
-    user = get_current_user(request)
+    request_user = get_current_user(request)
+    user = Employees.objects.get(netid=request_user.user)
     user_position = user.position
 
     # The possible positions for an employee in the database 
@@ -53,7 +54,7 @@ def index(request):
 
 # This function responds to the AJAX request for user shifts
 def filter_user_shifts(request):
-    user = get_current_user(request) # Get the user
+    user = get_current_user(Employees.objects.get(netid=request.user)) # Get the user
     option = request.GET.get('option', None) # Retreive the option
     date_string = request.GET.get('date', None) # Retreive the date entered
     date = datetime.strptime(date_string, '%Y-%m-%d') # Make that string into a datetime object
