@@ -96,32 +96,104 @@ def get_llt_access(area):
 
 def get_mgr_access(area):
     access_list = [
+        # Page Access
         "homebase_access", "passwords_access", "shift_access", "roster_access", "quote_access", "printer_access",
-        # TODO: Finish filling in
+
+        # Nav elements
+        "nav_modtools",
+
+        # Homebase page
+        "homingbeacon_checkin", "homingbeacon_requestpaper", "announcements_canedit",
+
+        # Shift Covers Page
+        "shift_modpanel", "shift_postall", "shift_viewall",
+
+        # Roster page
+        "roster_editemp", "roster_addremoveemp", "roster_modfb_all", "roster_prof_all", "roster_prof_all_edit",
+
+        # Printer page
+        "printer_all", "printer_all_edit",
+
+        # Passwords page
+        "passwords_manager",
     ]
     return area in access_list
 
 
 def get_stt_access(area):
     access_list = [
+        # Page Access
         "homebase_access", "passwords_access", "shift_access", "roster_access", "quote_access", "printer_access",
-        # TODO: Finish filling in
+
+        # Nav elements
+        "nav_modtools",
+
+        # Homebase page
+        "homingbeacon_checkin", "homingbeacon_requestpaper", "announcements_canedit",
+
+        # Shift Covers Page
+        "shift_modpanel", "shift_postall", "shift_viewall",
+
+        # Roster page
+        "roster_editemp", "roster_addremoveemp", "roster_modfb_all", "roster_prof_all", "roster_prof_all_edit",
+
+        # Printer page
+        "printer_all", "printer_all_edit",
+
+        # Passwords page
+        "passwords_manager",
     ]
     return area in access_list
 
 
 def get_stm_access(area):
     access_list = [
+        # Page Access
         "homebase_access", "passwords_access", "shift_access", "roster_access", "quote_access", "printer_access",
-        # TODO: Finish filling in
+
+        # Nav elements
+        "nav_modtools",
+
+        # Homebase page
+        "homingbeacon_checkin", "homingbeacon_requestpaper", "announcements_canedit",
+
+        # Shift Covers Page
+        "shift_modpanel", "shift_postall", "shift_viewall",
+
+        # Roster page
+        "roster_editemp", "roster_addremoveemp", "roster_modfb_all", "roster_prof_all", "roster_prof_all_edit",
+
+        # Printer page
+        "printer_all", "printer_all_edit",
+
+        # Passwords page
+        "passwords_manager",
     ]
     return area in access_list
 
 
 def get_dev_access(area):
     access_list = [
+        # Page Access
         "homebase_access", "passwords_access", "shift_access", "roster_access", "quote_access", "printer_access",
-        # TODO: Finish filling in
+
+        # Nav elements
+        "nav_modtools",
+
+        # Homebase page
+        "homingbeacon_checkin", "homingbeacon_requestpaper", "announcements_canedit",
+
+        # Shift Covers Page
+        "shift_modpanel", "shift_postall", "shift_viewall",
+
+        # Roster page
+        "roster_editemp", "roster_addremoveemp", "roster_modfb_all", "roster_prof_all", "roster_prof_all_edit",
+
+        # Printer page
+        "printer_all", "printer_all_edit",
+
+        # Passwords page
+        "passwords_all",
     ]
     return area in access_list
 
