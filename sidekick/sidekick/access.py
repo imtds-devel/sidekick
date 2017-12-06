@@ -1,7 +1,7 @@
 from homebase.models import Employees
 
 
-def has_access(netid, area):
+def get_access(netid, area):
     # we have to do this to get the user object itself since the get call will return a QuerySet
     user = Employees.objects.get(netid=netid)
     pos = user.position
