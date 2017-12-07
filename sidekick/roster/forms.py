@@ -10,7 +10,6 @@ class EmployeeForm(forms.ModelForm):
             self.fields[field].widget.attrs.update({
                 'class': 'form-control'
             })
-            self.fields['netid'].widget.attrs['readonly'] = True
 
     class Meta:
         model = Employees

@@ -11,6 +11,9 @@ from homebase.models import Employees
 # @login_required # UNCOMMENT THIS BEFORE GOING LIVE
 def load_page(request, template, context):
 
+    request = get_current_user(request)  # COMMENT THIS BEFORE GOING LIVE
+
+
     # Check to make sure authenticated user is authorized to access the webpage
     if not authorize(request):
         return HttpResponse("403 unauthorized user!")
