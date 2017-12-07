@@ -42,13 +42,11 @@ var soft = skills.slice(21,22);
         +   "<div class='modal-dialog modal-md'>"
         +       "<div class='modal-content "+ color +" dev_"+ dev +"'>"
         +           "<div class='modal-header'>"
-        +               "<div class='flex-container'>"
-        +               "<h4 style='text-align: left; margin-left:20px;' class='modal-title'><b>" + fullname + "</b></h4>"
-        +                           "<ul class='nav nav-tabs' style='margin-left:60px'>"
+        +               "<h4 style='text-align: left; margin-left:30px; margin-top:15px; margin-bottom:-35px;' class='modal-title'><b>" + fullname + "</b></h4>"
+        +                           "<ul class='nav nav-tabs' style='margin-left:250px'>"
         +                           "<li class='active'><a data-toggle='tab' href='#h-" + netid_1 +"'>Info</a></li>"
         +                           "<li><a data-toggle='tab' href='#s-" + netid_1 +"'>Skills</a></li>"
         +                           "<li><a data-toggle='tab' href='#c-" + netid_1 +"'>Comments</a></li>"
-        +                 "</div>"
         +           "</div>"
         +                 "<div class='tab-content tab-card'>"
         +                   "<div id='h-" + netid_1 +"' class='modal-body hero-bio tab-pane fade in active'>"
@@ -59,10 +57,6 @@ var soft = skills.slice(21,22);
         +                               "<p>" + position + "</p>"
         +                               "<p>" + phone + "</p>"
         +                               "<p>" + birthday + "</p>"
-        +                           "</div>"
-        +                           "<div class='inner-trophies'>"
-        +                               "<h4><b>Trophies</b></h4>"
-        +
         +                           "</div>"
         +                   "</div>"
         +                       "<div id='s-" + netid_1 +"' class='tab-pane row fade'>"
@@ -104,12 +98,12 @@ var soft = skills.slice(21,22);
 //Once modal div is added, it is shown
 $('#'+ netid_1).modal('show');
 
-$("#comform").appendTo("#comarea")
-$('#starform').appendTo("#comarea")
-$("#comform").hide()
-$("#stform").hide()
-$('input[name=recipient]').val(netid_1);
-$('input[name=about]').val(netid_1);
+    $("#comform").appendTo("#comarea")
+    $('#starform').appendTo("#comarea")
+    $("#comform").hide()
+    $("#stform").hide()
+    $('input[name=recipient]').val(netid_1);
+    $('input[name=about]').val(netid_1);
 
 //Delete the modal info when modal is hidden
 $("#" + netid_1).on("hidden.bs.modal", function(){
@@ -121,13 +115,13 @@ $("#" + netid_1).on("hidden.bs.modal", function(){
 });
 
 $('#dispanel').click(function(){
-$("#starform").hide()
-$('#comform').fadeIn(200)
+    $("#starform").hide()
+    $('#comform').fadeIn(200)
 });
 
 $('#starpanel').click(function(){
-$("#comform").hide()
-$('#starform').fadeIn(200)
+    $("#comform").hide()
+    $('#starform').fadeIn(200)
 });
 
 //radar chart function
