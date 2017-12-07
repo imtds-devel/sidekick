@@ -48,7 +48,7 @@ class Employees(models.Model):
     developer = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.fname + " " + self.lname + " (" + self.netid + ")"
+        return self.full_name
 
     @property
     def full_name(self):
@@ -81,21 +81,15 @@ class Employees(models.Model):
             out = str(self.position_desc)
         return out
 
-    @property 
+    @property
     def data_target(self):
         """Returns the netid with a #, for use with data targeting"""
         return "#%s" % self.netid
-    
+
     @property
     def picture(self):
         """Returns the file path"""
         return "employees/%s.gif" % self.netid
-
-    @property
-    def search(self):
-        """Returns a string of search items"""
-        return str.lower(self.netid + self.fname + dict(self.POSITION_CHOICES)[str(self.position)])
-
 
 class Passwords(models.Model):
     name = models.CharField(max_length=20, default="")
@@ -111,6 +105,7 @@ class Announcements(models.Model):
     posted = models.DateTimeField(auto_now_add=True)
     announcer = models.ForeignKey('Employees', on_delete=models.CASCADE)
     announcement = models.TextField(default="")
+    subject = models.TextField(default="Announcement")
     sticky = models.BooleanField(default=False)
 
     def __str__(self):
@@ -118,11 +113,11 @@ class Announcements(models.Model):
 
 
 class Events(models.Model):
-    announcer = models.ForeignKey('Employees', on_delete=models.CASCADE)
+    announcer = models.ForeignKey(Employees, on_delete=models.CASCADE)
     title = models.CharField(max_length=30, default="")
     description = models.TextField(default="")
-    event_start = models.DateTimeField()
-    event_end = models.DateTimeField()
+    event_start = models.DateField()
+    event_end = models.DateField()
     location = models.TextField(default="")
 
     def __str__(self):
@@ -149,7 +144,6 @@ class BrowserStats(models.Model):
             self.ie
         )
 
-
 class EmailSubscriptions(models.Model):
     SHIFT_EMAIL_SUBSCRIPTION_CHOICES = (
         ('no', 'No Emails'),
@@ -164,7 +158,7 @@ class EmailSubscriptions(models.Model):
         ('al', 'All Emails')
     )
 
-    netid = models.ForeignKey('Employees', on_delete=models.CASCADE)
+    netid = models.ForeignKey(Employees, on_delete=models.CASCADE)
     shift_sub = models.CharField(
         max_length=2,
         choices=SHIFT_EMAIL_SUBSCRIPTION_CHOICES,
@@ -176,13 +170,11 @@ class EmailSubscriptions(models.Model):
         choices=BIO_EMAIL_SUBSCRIPTION_CHOICES,
         default='none'
     )
-
     def __str__(self):
         return "%s: shift=%s, bio=%s" % (self.netid, self.shift_sub, self.bio_sub)
 
-
 class Subscriptions(models.Model):
-    netid = models.ForeignKey('Employees', on_delete=models.CASCADE)
+    netid = models.ForeignKey(Employees, on_delete=models.CASCADE)
     sub_type = models.CharField(max_length=5, default='both')
     sub_level = models.CharField(max_length=5, default='none')
     delete = models.BooleanField(default=False)
@@ -203,7 +195,7 @@ class FailBoard(models.Model):
         ('lv', 'Longest Virus Scan')
     )
 
-    fail_holder = models.ForeignKey('Employees', on_delete=models.CASCADE)
+    fail_holder = models.ForeignKey(Employees, on_delete=models.CASCADE)
     fail_type = models.CharField(max_length=30, choices=FAIL_CATEGORIES)
     fail_val = models.CharField(max_length=20, default="")
     date = models.DateField()
@@ -213,9 +205,6 @@ class MessageFromThePast(models.Model):
     message = models.TextField()
     posted = models.DateField(auto_now_add=True)
 
-
-
-
 class Access(models.Model):
-    netid = models.ForeignKey('Employees', on_delete=models.CASCADE)
+    netid = models.ForeignKey(Employees, on_delete=models.CASCADE)
     # TODO: Define here? Or maybe modify Django's auth system?
