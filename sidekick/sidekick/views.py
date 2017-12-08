@@ -20,6 +20,7 @@ def load_page(request, template, context):
 
 
     context['user_img'] = "employees/"+str(request.user)+".gif"
+    context['user_netid'] = str(request.user)
     context['user_name'] = Employees.objects.get(netid__iexact=str(request.user)).full_name
 
 
