@@ -15,9 +15,11 @@ def get_refresh_token():
     flow = client.flow_from_clientsecrets (CLIENT_SECRET_FILE, SCOPES)
 
     storage = Storage("store-oauth2.json")
+    args = tools.argparser.parse_args([])
+    args.noauth_local_webserver = True
     credentials = storage.get()
     if credentials is None or credentials.invalid:
-        credentials = tools.run_flow(flow, storage, tools.argparser.parse_args([]))
+        credentials = tools.run_flow(flow, storage, args)
 
     return credentials.refresh_token
 
