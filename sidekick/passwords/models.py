@@ -3,7 +3,6 @@ from __future__ import unicode_literals
 
 from django.db import models
 
-# Create your models here.
 
 class Passwords(models.Model):
 
@@ -26,7 +25,7 @@ class PassPermission(models.Model):
         ('non', 'No Access (hide)')
     )
 
-    pass_id = models.ForeignKey(Passwords, on_delete = models.CASCADE)
+    pass_id = models.ForeignKey(Passwords, on_delete=models.CASCADE)
     permission = models.CharField(
         max_length=3,
         choices=PASS_PERM_OPTIONS,
