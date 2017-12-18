@@ -668,3 +668,20 @@ input[type=number]::-webkit-outer-spin-button {
             user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome and Opera */
 }
+.page-body
+{
+    height:84%;
+}
+.pass-tdiv
+{
+    height:80%;
+}
+.pass-table
+{
+    height:87%;
+}
+.pass-tbody
+{
+    height:40%;
+    overflow:auto;
+}
