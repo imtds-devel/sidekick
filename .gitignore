@@ -9,4 +9,4 @@
 **/node_modules
 
 **/client_secret.json
-
+**/store-oath2.json

@@ -1,14 +1,26 @@
 import httplib2
 import os
-import argparse
+import sys
 
 from apiclient import discovery
 from oauth2client import client
 from oauth2client import tools
 from oauth2client.file import Storage
 
-SCOPES = 'https://www.googleapis.com/auth/calendar.readonly'
+SCOPES = 'https://www.googleapis.com/auth/calendar'
 CLIENT_SECRET_FILE = 'client_secret.json'
+
+
+def get_refresh_token():
+    flow = client.flow_from_clientsecrets (CLIENT_SECRET_FILE, SCOPES)
+
+    storage = Storage("store-oauth2.json")
+    credentials = storage.get()
+    if credentials is None or credentials.invalid:
+        credentials = tools.run_flow(flow, storage, tools.argparser.parse_args([]))
+
+    return credentials.refresh_token
+
 
 def get_credentials():
     """Gets valid user credentials from storage.
@@ -34,12 +46,13 @@ def get_credentials():
         flow = client.flow_from_clientsecrets(CLIENT_SECRET_FILE, SCOPES)
         if flags:
             credentials = tools.run_flow(flow, store, flags)
-        else: # Needed only for compatibility with Python 2.6
+        else:  # Needed only for compatibility with Python 2.6
             credentials = tools.run(flow, store)
         print('Storing credentials to ' + credential_path)
     return credentials
 
+
 def build_service():
     credentials = get_credentials()
-    http= credentials.authorize(httplib2.Http())
+    http = credentials.authorize(httplib2.Http())
     return discovery.build('calendar', 'v3', http=http)
