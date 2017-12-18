@@ -3,4 +3,26 @@
 <div class='page-header'>
     <h2>Passwords</h2>
 </div>
+<div class="page-body">
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Password</th>
+                <th>Description</th>
+            </tr>
+            </thead>
+            <tbody class="noselect">
+                {% for password in passwords %}
+                <tr>
+                    <td>{{password.name}}</td>
+                    <td>{{password.passwd}}</td>
+                    <td>{{password.description}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
 {% endblock %}
