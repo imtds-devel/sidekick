@@ -127,16 +127,6 @@ class Proficiencies(models.Model):
         ]
 
 
-class Passwords(models.Model):
-    name = models.CharField(max_length=20, default="")
-    passwd = models.TextField(default="")
-    description = models.TextField(default="")
-    permission = models.IntegerField(default=3)
-
-    def __str__(self):
-        return self.name + ": " + self.description
-
-
 class Announcements(models.Model):
     posted = models.DateTimeField(auto_now_add=True)
     announcer = models.ForeignKey('Employees', on_delete=models.CASCADE)
