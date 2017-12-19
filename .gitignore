@@ -1,12 +1,10 @@
 #ignore config files
 **/*.ini
 **/*.pyc
+**/*.json
 #ignore files
 .idea
 
 **/.vscode
 
 **/node_modules
-
-**/client_secret.json
-**/store-oauth2.json

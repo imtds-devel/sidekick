@@ -157,6 +157,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static")
 ]
 
+# Google Cal Settings
 CALENDAR_LOCATION_IDS = {
     'ma': cal['ma'],
     'da': cal['da'],
