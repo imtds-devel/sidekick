@@ -43,7 +43,7 @@ def full_cover(data: CoverInstructions):
     first = shifts.first()
     location = first.location
     cal_id = CALENDAR_LOCATION_IDS[location]
-    old_event_id = first.perm_id
+    old_event_id = first.permanent_id
 
     # Define the shift owner
     owner = first.owner if data.post else data.actor
@@ -97,7 +97,7 @@ def full_cover(data: CoverInstructions):
             + "_"+str(shift.shift_date).replace("-", "")\
             + "T"+str(utc_start.hour)+str(utc_start.minute)+"00Z"
 
-        shift.perm_id = new_event['id']
+        shift.permanent_id = new_event['id']
 
     # Finally, delete old shifts
     shifts.save()
@@ -114,7 +114,7 @@ def partial_cover(data: CoverInstructions):
     first = shifts.first()
     location = first.location
     cal_id = CALENDAR_LOCATION_IDS[location]
-    old_event_id = first.perm_id
+    old_event_id = first.permanent_id
     og_start = datetime.datetime(first.shift_start)
     og_end = datetime.datetime(first.shift_end)
     if not data.post:

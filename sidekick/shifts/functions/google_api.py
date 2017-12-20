@@ -122,7 +122,7 @@ def process_events(list_results, loc):
             shift_end=event['end']['datetime'],
             location=loc,
             is_open=is_open,
-            perm_id=event['iCalUID']
+            permanent_id=event['iCalUID']
         )
         shift.save()
 

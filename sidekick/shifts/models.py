@@ -48,7 +48,7 @@ class Shifts(models.Model):
         choices=CHECKIN_CHOICES,
         default='F'
     )
-    perm_id = models.TextField(default="")  # Same as event id for non-permanent shifts
+    permanent_id = models.TextField(default="")  # Same as event id for non-permanent shifts
 
     def __str__(self):
         return "%s: owned by %s, in %s from %s to %s" % (self.title, self.owner, self.location,
