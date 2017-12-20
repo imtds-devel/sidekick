@@ -1,6 +1,7 @@
 import httplib2
 import os
 import datetime
+import pytz
 
 from apiclient import discovery
 from oauth2client import client
@@ -10,6 +11,7 @@ from oauth2client.file import Storage
 from sidekick.settings import CALENDAR_LOCATION_IDS
 from shifts.models import SyncTokens, Shifts
 from homebase.models import Employees
+from shifts.functions.decorators import async
 
 SCOPES = 'https://www.googleapis.com/auth/calendar'
 CLIENT_SECRET_FILE = 'client_secret.json'
@@ -65,36 +67,46 @@ def build_service():
 
 
 def synchronize():
+    locations = ['ma', 'da', 'st', 'sd', 'rc', 'md']
+    for loc in locations:
+        sync_location(loc)
+
+
+@async
+def sync_location(loc):
+    # Build Google API service
     service = build_service()
 
-    locations = ['ma', 'da', 'st', 'sd', 'rc', 'md']
+    #Convert location to a calendar ID
+    cal_id = CALENDAR_LOCATION_IDS[loc]
 
-    for loc in locations:
-        cal_id = CALENDAR_LOCATION_IDS[loc]
-        page_token = None
+    # Init page token
+    page_token = None
 
-        token_data = SyncTokens.objects.filter(location=loc).order_by('timestamp').first()
-        if token_data is not None:
-            sync_token = token_data.token
-        else:
-            sync_token = None
+    # Figure out sync token
+    token_data = SyncTokens.objects.filter(location=loc).order_by('timestamp').first()
+    if token_data is not None:
+        sync_token = token_data.token
+    else:
+        sync_token = None
 
-        # Loop until there's nothing left to synchronize!
-        while True:
-            list_results = service.events().list(
-                calendarId=cal_id,
-                syncToken=sync_token,
-                singleEvents=True,
-                pageToken=page_token
-            ).execute()
+    # Loop until there's nothing left to synchronize!
+    while True:
+        list_results = service.events().list(
+            calendarId=cal_id,
+            syncToken=sync_token,
+            singleEvents=True,
+            pageToken=page_token
+        ).execute()
 
-            process_events(list_results, loc)
+        process_events(list_results, loc)
 
-            page_token = list_results.get('nextPageToken')
-            if not page_token:
-                break
+        page_token = list_results.get('nextPageToken')
+        if not page_token:
+            break
 
-        # Save new sync token to database
+    # Save new sync token to database if it's changed
+    if sync_token != list_results['nextSyncToken']:
         SyncTokens(
             location=loc,
             token=list_results['nextSyncToken']
@@ -104,12 +116,22 @@ def synchronize():
 def process_events(list_results, loc):
     events = list_results.get('items', None)
     if not events:
-        print("No events found!")
+        print("No events found for "+loc+"!")
 
-    now = datetime.datetime.now()
+    tz = pytz.timezone('America/Los_Angeles')
+    now = tz.localize(datetime.datetime.now())
     for event in events:
+        if event.get('status') == 'cancelled':
+            shift_delete = Shifts.objects.filter(event_id=event['id'])
+            print("Deleting "+str(shift_delete))
+            shift_delete.delete()
+            continue
+
+        e_start = str(event.get('start').get('dateTime', "2015-01-01T00:00:00-07:00"))[:-6]
         # Check to make sure the shift is recent enough to be worth our time
-        if event['start']['dateTime'] < now-datetime.timedelta(days=60):
+        e_date = tz.localize(datetime.datetime.strptime(e_start, "%Y-%m-%dT%H:%M:%S"))
+        if e_date < now-datetime.timedelta(days=60):  # if not within the last 60 days
+            print("skipping")
             continue
 
         owner, is_open = get_owner_open(event['summary'])
@@ -117,17 +139,19 @@ def process_events(list_results, loc):
             event_id=event['id'],
             title=event['summary'],
             owner=owner,
-            shift_date=event['start']['date'],
-            shift_start=event['start']['datetime'],
-            shift_end=event['end']['datetime'],
+            shift_date=event['start']['dateTime'][0:10],
+            shift_start=event['start']['dateTime'],
+            shift_end=event['end']['dateTime'],
             location=loc,
             is_open=is_open,
             permanent_id=event['iCalUID']
         )
+        print(shift)
         shift.save()
 
 
 def get_owner_open(title: str):
+    # split title into three strings: fname (or 'Open'), lname (or 'Shift'), and potentially '(Cover for fname lname)'
     t_split = title.split(" ", 3)
 
     # We have to figure out whether a shift is open and who owns it by using the event title!
@@ -153,4 +177,4 @@ def get_owner_open(title: str):
         # We'll need to do this differently if we ever get two people with the same name working for us
         return emps.first(), is_open
     else:
-        return None
+        return None, False
