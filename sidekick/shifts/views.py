@@ -5,7 +5,7 @@ from sidekick import views
 from django.utils import timezone
 from datetime import timedelta
 from datetime import datetime
-from shifts.functions.push_covers import push_cover
+from shifts.functions.cover import push_cover
 from .models import Shifts
 from .models import ShiftCovers
 from homebase.models import Employees
@@ -15,6 +15,7 @@ from django.db.models.functions import Cast
 from django.db.models import TimeField
 from django.utils.timezone import make_aware, make_naive
 from sidekick.views import get_current_user
+from .functions.google_api import synchronize
 
 
 def index(request):
@@ -43,6 +44,9 @@ def index(request):
 
     # We import the current time
     now = timezone.now()
+
+    # Import shifts!
+    synchronize()
 
     # We build our context for the page
     context = {
