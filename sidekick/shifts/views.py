@@ -46,7 +46,7 @@ def index(request):
     now = timezone.now()
 
     # Import shifts!
-    synchronize()
+    synchronize(flush=False)
 
     # We build our context for the page
     context = {
