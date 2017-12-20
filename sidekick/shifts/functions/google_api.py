@@ -116,14 +116,14 @@ def sync_location(loc):
 def process_events(list_results, loc):
     events = list_results.get('items', None)
     if not events:
-        print("No events found for "+loc+"!")
+        print(loc+": No events found!")
 
     tz = pytz.timezone('America/Los_Angeles')
     now = tz.localize(datetime.datetime.now())
     for event in events:
         if event.get('status') == 'cancelled':
             shift_delete = Shifts.objects.filter(event_id=event['id'])
-            print("Deleting "+str(shift_delete))
+            print(loc+": Deleting "+str(shift_delete))
             shift_delete.delete()
             continue
 
@@ -131,7 +131,7 @@ def process_events(list_results, loc):
         # Check to make sure the shift is recent enough to be worth our time
         e_date = tz.localize(datetime.datetime.strptime(e_start, "%Y-%m-%dT%H:%M:%S"))
         if e_date < now-datetime.timedelta(days=60):  # if not within the last 60 days
-            print("skipping")
+            print(loc+": skipping")
             continue
 
         owner, is_open = get_owner_open(event['summary'])
@@ -146,7 +146,7 @@ def process_events(list_results, loc):
             is_open=is_open,
             permanent_id=event['iCalUID']
         )
-        print(shift)
+        print(loc+": "+shift)
         shift.save()
 
 
