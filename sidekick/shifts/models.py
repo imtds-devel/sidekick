@@ -9,9 +9,9 @@ from django.utils.timezone import make_aware, make_naive
 
 class Shifts(models.Model):
     LOCATION_CHOICES = (
-        ('ma', 'Marshburn Library'),
-        ('da', 'Darling Library'),
-        ('st', 'Stamps Library'),
+        ('ma', 'Marshburn'),
+        ('da', 'Darling'),
+        ('st', 'Stamps'),
         ('sd', 'Support Desk'),
         ('sr', 'Support Reps'),
         ('rc', 'Repair Center'),
@@ -55,6 +55,14 @@ class Shifts(models.Model):
     def __str__(self):
         return "%s: owned by %s, in %s from %s to %s" % (self.title, self.owner, self.location,
                                                          self.shift_start, self.shift_end)
+
+    @property
+    def nice_location(self):
+        return[l[1] for l in self.LOCATION_CHOICES if l[0] == self.location][0]
+
+    @property
+    def short_title(self):
+        return "Open Shift" if self.is_open else self.owner
 
     @property
     def google_start(self):

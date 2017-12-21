@@ -15,6 +15,10 @@
     }
 }
 
+.pic-open-shift{
+    opacity: 0.5;
+}
+
 /*Makes the round employee pic with shadow*/
 .employee-pic{
   border-radius: 50%;

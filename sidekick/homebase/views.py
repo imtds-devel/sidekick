@@ -3,6 +3,9 @@ from sidekick import views
 from django.http import HttpResponseRedirect
 from homebase.models import Announcements, Events
 from .forms import AnnouncmentForm, EventForm
+from shifts.models import Shifts
+import datetime
+import pytz
 
 
 # Create your views here.
@@ -39,10 +42,26 @@ def prep_context():
     announcement_list = Announcements.objects.all().order_by('posted')
     event_list = Events.objects.all().order_by('event_start')
 
+    tz = pytz.timezone("America/Los_Angeles")
+    now = tz.localize(datetime.datetime.now())
+    shifts = Shifts.objects.filter(shift_start__lte=now).filter(shift_end__gt=now).order_by('location')
+    print(list(shifts))
+    labs = []
+    support = []
+    fac_staff = []
+
+    for shift in shifts:
+        if shift.location == 'ma' or shift.location == 'da' or shift.location == 'st':
+            labs.append(shift)
+        elif shift.location == 'sd' or shift.location == 'rc':
+            support.append(shift)
+
     ordered_list = order(announcement_list, event_list)
     a_form = AnnouncmentForm()
     e_form = EventForm()
     return {
+        'lab_shifts': labs,
+        'support_shifts': support,
         'ordered_list': ordered_list,
         'a_form': a_form,
         'e_form': e_form
