@@ -9,10 +9,11 @@ from .forms import AnnouncmentForm, EventForm
 def index(request):
     # If this is a form submission
     if request.method == "POST":
-        # need to validate which form is being submitted (give the input a name attribute)
+        # Need to validate which form is being submitted (give the input a name attribute)
         import copy
         data = copy.copy(request.POST)
 
+        form = None
         if 'e-form' in request.POST:
             # In case we're not in production
             # Remove this line before production!
@@ -27,7 +28,7 @@ def index(request):
             data['announcer'] = request.user
             form = AnnouncmentForm(data)
             print(form)
-        if form.is_valid():
+        if form is not None and form.is_valid():
             form.save(commit=True)
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 

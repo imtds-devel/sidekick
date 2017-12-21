@@ -550,6 +550,67 @@
     width: 40px;
     border-radius: 3px;
 }
+.printer-area
+{
+    width: 750px;
+    height: 400px;
+    margin-bottom: 30px;
+    display: inline-block-fixed;
+
+}
+.printer-card
+{
+    width: 175px;
+    height: 300px;
+    margin: 10px;
+    display: inline-block;
+    margin-bottom: 50px;
+    justify-content: center;
+}
+.printer-bio
+{
+    text-align: right;
+}
+.printer-button
+{
+    width: 100px;
+    height: 100px;
+    border-radius: 4px;
+    border: #A0A0A0 2px solid;
+    direction: right;
+    display: block-inline;
+    background-color: #BEBEBE !important;
+    transition: all linear 0.2s;
+}
+.panel-printer-btn
+{
+    cursor:hand;
+    transition: all linear 0.2s;
+    height: 215px;
+    width: 175px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+}
+.panel-printer-btn:hover
+{
+    box-shadow: 0px 0px 8px #666666;
+}
+.printer-hov-button:hover
+{
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+.img-printer
+{
+    max-height: 325px;
+    max-width: 175px;
+}
+.print-log{
+    border-color: black;
+    border-bottom: solid;
+    border-style: solid;
+}
+
 .services-selection-container
 {
     max-height: 400px;
@@ -597,4 +658,74 @@ input[type=number]::-webkit-outer-spin-button {
 .hidden-quote
 {
     display: none;
+}
+.shift-btn
+{
+    border-radius: 4px;
+    border: lightgray 2px solid;    
+    background-color: white;
+    transition: all linear 0.2s;
+}
+.open-shift
+{
+    border: red 2px solid;
+}
+.shifts-header
+{
+    display: flex;
+}
+.shifts-week
+{
+    flex: 1;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.shifts-title
+{
+    flex: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.shifts-week-selector
+{
+    flex: 3;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+.shifts-panel-group
+{
+    display: flex;
+}
+.shift-panel
+{
+    justify-content: flex-start;
+    margin-right: 2px;
+}
+.your-week-text
+{
+    padding-right: 5px;
+    padding-left: 5px;
+}
+.open-week-text
+{
+    padding-right: 5px;
+    padding-left: 5px;
+}
+.loader {
+    border: 16px solid #f3f3f3; /* Light grey */
+    border-top: 16px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+}
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+*{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
