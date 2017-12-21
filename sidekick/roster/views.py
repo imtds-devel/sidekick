@@ -4,8 +4,8 @@ from __future__ import unicode_literals
 from django.http import HttpResponse, HttpResponseRedirect
 from sidekick import views
 from homebase.models import Employees
-from .models import Proficiencies, Discipline
-from .forms import EmployeeForm, StarForm, CommentForm
+from .models import Proficiencies, Discipline, Trophies
+from .forms import EmployeeForm, StarForm, CommentForm, DisciplineForm
 from sidekick.access import get_access
 import json
 
@@ -40,6 +40,54 @@ def index(request):
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
     return views.load_page(request, 'roster/index.html', prep_context())
+
+def post_award(request):
+    # Make sure it's a post request
+    if not request.method == 'POST':
+        return HttpResponse(
+            json.dumps({"status": "Failed!"}),
+            content_type="application/json"
+        )
+
+    # Make sure the user has proper access rights to do this
+    request = views.get_current_user(request)
+    giver = request.user
+    recipient = request.POST.get('recipient', None)
+
+    print(request.user)
+
+    if recipient is None:
+        return HttpResponse(
+            json.dumps({"status": "Failed! Recipient is not specified."}),
+            content_type="application/json"
+        )
+
+    if not get_access(giver, 'roster_modfb_all'):
+        return HttpResponse(
+            json.dumps({"status": "Success!"}),
+            content_type="application/json"
+        )
+
+    # Finish getting variables
+    name = request.POST.get('name', None)
+    reason = request.POST.get('reason', None)
+    award = request.POST.get('type', None)
+
+    # Construct discipline object
+    award = Trophies(
+        name=name,
+        trophy_type=award,
+        giver=Employees.objects.get(netid=giver),
+        recipient=Employees.objects.get(netid=recipient),
+        reason=reason,
+    )
+    print(award)
+    award.save()
+    return HttpResponse(
+        json.dumps({"status": "Award successfully created!"}),
+        content_type="application/json"
+    )
+
 
 
 def post_comment(request):
@@ -82,6 +130,60 @@ def post_comment(request):
         subject=subject,
         poster=Employees.objects.get(netid=poster),
         about=Employees.objects.get(netid=about),
+        description=body,
+    )
+    print(comment)
+    comment.save()
+    return HttpResponse(
+        json.dumps({"status": "Comment successfully created!"}),
+        content_type="application/json"
+    )
+
+
+def post_discipline(request):
+    # Make sure it's a post request
+    if not request.method == 'POST':
+        return HttpResponse(
+            json.dumps({"status": "Failed!"}),
+            content_type="application/json"
+        )
+
+    # Make sure the user has proper access rights to do this
+    request = views.get_current_user(request)
+    poster = request.user
+    about = request.POST.get('about', None)
+
+    print(about)
+    if about is not None:
+        emp = Employees.objects.get(netid=about)
+        if emp.position == 'lbt':
+            access_area = 'roster_modfb_lab'
+        else:
+            access_area = 'roster_modfb_all'
+    else:
+        return HttpResponse(
+            json.dumps({"status": "Failed! User does not have access"}),
+            content_type="application/json"
+        )
+
+    if not get_access(poster, access_area):
+        return HttpResponse(
+            json.dumps({"status": "Failed! User does not have access"}),
+            content_type="application/json"
+        )
+
+    # Finish getting variables
+    subject = request.POST.get('subject', None)
+    body = request.POST.get('body', None)
+    extent = request.POST.get('extent', None)
+
+    print(extent)
+    # Construct discipline object
+    comment = Discipline(
+        subject=subject,
+        poster=Employees.objects.get(netid=poster),
+        about=Employees.objects.get(netid=about),
+        val=extent,
         description=body,
     )
     print(comment)

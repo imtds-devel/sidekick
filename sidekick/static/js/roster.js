@@ -26,7 +26,7 @@ skills = $(this).find(".m-profs").text();
 
 
 //grab all proficiencies from list
-netid_1 = netid_1.slice(2)
+netid_1 = netid_1.slice(2,  );
 var basic = skills.slice(0,1);
 var adv = skills.slice(3,4);
 var field = skills.slice(6,7);
@@ -82,7 +82,8 @@ var soft = skills.slice(21,22);
         +                                   "</div>"
 		+                               "</div>"
 		+                                   "<div class='col-md-6'>"
-		+                                        "<button type='btn-md' style='margin:7px' id='starpanel'>Star</button>"
+		+                                        "<button type='btn-md' style='margin:7px' id='starpanel'>Award</button>"
+		+                                        "<button type='btn-md' style='margin:7px' id='companel'>Comment</button>"
 		+                                        "<button type='btn-md' style='margin:7px' id='dispanel'>Discipline</button>"
 		+                                        "<div id='comarea' style='height: 275px; overflow-y: auto;'></div>"
 		+                                   "</div>"
@@ -95,33 +96,48 @@ var soft = skills.slice(21,22);
         +        "</div>"
         +"</div>");
 
-//Once modal div is added, it is shown
-$('#'+ netid_1).modal('show');
+    //Once modal div is added, it is shown
+    $('#'+ netid_1).modal('show');
 
-    $("#comform").appendTo("#comarea")
     $('#starform').appendTo("#comarea")
+    $("#comform").appendTo("#comarea")
+    $("#disform").appendTo("#comarea")
     $("#comform").hide()
-    $("#stform").hide()
-    $('input[name=recipient]').val(netid_1);
-    $('input[name=about]').val(netid_1);
+    $("#starform").hide()
+    $("#disform").hide()
+    $("input[name='recipient']").val(netid_1);
+    $("input[name='about']").val(netid_1);
 
 //Delete the modal info when modal is hidden
 $("#" + netid_1).on("hidden.bs.modal", function(){
     $("#comform").appendTo("#comment-form")
     $("#starform").appendTo("#star-form")
+    $("#disform").appendTo("#dis-form")
     $("#comment-form").hide()
     $("#star-form").hide()
+    $("#disform").hide()
     $('#drop-down').empty();
 });
 
-$('#dispanel').click(function(){
+$('#starpanel').click(function(){
+    $("#starform")[0].reset();
+    $("#comform").hide()
+    $("#disform").hide()
+    $('#starform').fadeIn(200)
+});
+
+$('#companel').click(function(){
+    $("#comform")[0].reset();
     $("#starform").hide()
+    $("#disform").hide()
     $('#comform').fadeIn(200)
 });
 
-$('#starpanel').click(function(){
+$('#dispanel').click(function(){
+    $("#disform")[0].reset();
+    $("#starform").hide()
     $("#comform").hide()
-    $('#starform').fadeIn(200)
+    $('#disform').fadeIn(200)
 });
 
 //radar chart function
@@ -350,6 +366,36 @@ $("#searchbar").keyup(function () {
     }
 });
 
+$("#starform").on("submit", function(event) {
+    event.preventDefault();
+
+    var short = $("#award-subject").val();
+    var type = $("#award-type").val();
+    var reason = $("#award-reason").val();
+    var recip = $("#recipient").val();
+
+    $.ajax({
+        url: 'ajax/postaward/',
+        type: 'POST',
+        data: {
+            'name': short,
+            'type': type,
+            'reason': reason,
+            'recipient': recip
+        },
+        dataType: 'json',
+        success: function(data){
+            console.log(data)
+            $("#starform")[0].reset();
+        },
+        error: function(data){
+            console.log("Failure!")
+            console.log(data)
+        }
+    })
+});
+
+
 $("#comform").on("submit", function(event) {
     event.preventDefault();
 
@@ -368,15 +414,53 @@ $("#comform").on("submit", function(event) {
         dataType: 'json',
         success: function(data){
             console.log(data)
+            alert("Comment has been posted!")
+            $("#comform")[0].reset();
         },
         error: function(data){
-            console.log("It failed!")
+            console.log("Failure!")
             console.log(data)
+            alert("Oh no! Something went wrong!")
         }
     })
-});
-$(function() {
 
+});
+
+$("#disform").on("submit", function(event) {
+    event.preventDefault();
+
+    var subject = $("#disc-subject").val();
+    var body = $("#disc-body").val();
+    var extent = $("input[name='extent']:checked").val();
+    var about = $("#disc-about").val();
+
+    console.log(extent)
+
+    $.ajax({
+        url: 'ajax/postdiscipline/',
+        type: 'POST',
+        data: {
+            'subject': subject,
+            'body': body,
+            'extent': extent,
+            'about': about,
+        },
+        dataType: 'json',
+        success: function(data){
+            console.log(data)
+            alert("Discipline has been posted!")
+            $("#disform")[0].reset();
+        },
+        error: function(data){
+            console.log("Failure!")
+            console.log(data)
+            alert("Oh no! Something went wrong!")
+        }
+    })
+
+});
+
+$(function() {
 
     // This function gets cookie with a given name
     function getCookie(name) {

@@ -64,7 +64,7 @@
             </button>
         </div>
     </div>
-    
+
     <div id='drop-down'></div>
     <div id="new-user" class="modal fade">
         <div class="modal-dialog modal-md">
@@ -93,6 +93,34 @@
             </div>
         </div>
     </div>
+    <div id="star-form">
+        <form method="post" class="form-horizontal" id="starform" style="display:none">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="award-subject">Subject:</label>
+                <input type="text" class="form-control" id="award-subject" title="Subject">
+            </div>
+            <div class="form-group">
+                <label for="award-type">Award:</label>
+                <select id="award-type" style="margin: 10px">
+                    <option value="hst">Half Star</option>
+                    <option value="str">Star</option>
+                    <option value="bdg">Badge</option>
+                    <option value="mil">Milestone</option>
+                    <option value="udb">Under the Bus</option>
+                    <option value="mas">Mastery</option>
+                    <option value="pst">Puzzle Star</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="award-reason">Reason:</label>
+                <textarea class="form-control" id="award-reason" rows="2" title="Reason"></textarea>
+            </div>
+            <input type="hidden" name="giver" id = "giver" value="">
+            <input type="hidden" name="recipient" id = "recipient" value="">
+            <h5 align="right"><button class="btn btn-success" id="submit-star">Go You!</button></h5>
+        </form>
+    </div>
     <div id="comment-form">
         <form method="post" class="form-horizontal" id="comform" style="display:none">
             {% csrf_token %}
@@ -102,29 +130,32 @@
             </div>
             <div class="form-group">
                 <label for="comm-body">Comment:</label>
-                <textarea class="form-control" id="comm-body" rows="5" title="Commment"></textarea>
+                <textarea class="form-control" id="comm-body" rows="3" title="Commment"></textarea>
             </div>
             <input type="hidden" name="about" id = "comm-about" value="">
             <h5 align="right"><button class="btn btn-success" id="submit-comment">Submit</button></h5>
         </form>
 
     </div>
-    <div id="star-form">
-        <form method="post" class="form-horizontal" id="starform" style="display:none">
+    <div id="dis-form">
+        <form method="post" class="form-horizontal" id="disform" style="display:none">
             {% csrf_token %}
-            {% for field in starform.visible_fields %}
             <div class="form-group">
-                {{ field.errors }}
-                <label class="control col-sm-4" for="{{ field.id_for_label }}"><b>{{ field.label }}:</b></label>
-                <div class="col-sm-8">
-                    {{field}}
-                </div>
+                <label for="disc-subject">Subject:</label>
+                <input type="text" class="form-control" id="disc-subject" title="Subject">
             </div>
-            {% endfor %}
-            <input type="hidden" name="giver" required id = "id_giver" value="">
-            <input type="hidden" name="recipient" required id = "id_recipient" value="">
-            <h5 align="right"><button class="btn btn-success btn-sm">Trophy!</button></h5>
+            <div class="form-group" id="dis-radio">
+                <input type="radio" name="extent" value=".5" style="margin: 10px"> Half
+                <input type="radio" name="extent" value="1" style="margin: 10px"> Full
+            </div>
+            <div class="form-group">
+                <label for="disc-body">Comment:</label>
+                <textarea class="form-control" id="disc-body" rows="2" title="Commment"></textarea>
+            </div>
+            <input type="hidden" name="about" id = "disc-about" value="">
+            <h5 align="right"><button class="btn btn-success" id="submit-discipline">Submit</button></h5>
         </form>
+
     </div>
 </div>
 <script src="{% static "js/roster.js" %}"></script>

@@ -17,6 +17,13 @@ class EmployeeForm(forms.ModelForm):
         fields = ('netid', 'fname', 'lname', 'phone', 'apuid', 'codename', 'position', 'position_desc',
                   'standing', 'birthday', 'aboutme')
 
+class StarForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(StarForm, self).__init__(*args, **kwargs)
+
+    class Meta:
+        model = Trophies
+        fields = ('giver', 'recipient', 'trophy_type', 'reason', 'name')
 
 class CommentForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
@@ -26,22 +33,10 @@ class CommentForm(forms.ModelForm):
         model = Discipline
         fields = ('subject', 'poster', 'about', 'description')
 
-
-class StarForm(forms.ModelForm):
+class DisciplineForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
-        super(StarForm, self).__init__(*args, **kwargs)
-        self.fields['giver'].widget = forms.HiddenInput()
-        self.fields['recipient'].widget = forms.HiddenInput()
-        self.fields['name'].widget.attrs.update({
-            'class': 'form-control'
-        })
-        self.fields['reason'].widget.attrs.update({
-            'class': 'form-control',
-        })
-        self.fields['trophy_type'].widget.attrs.update({
-            'class': 'form-control',
-        })
+        super(DisciplineForm, self).__init__(*args, **kwargs)
 
     class Meta:
-        model = Trophies
-        fields = ('giver', 'recipient', 'trophy_type', 'reason', 'name')
+        model = Discipline
+        fields = ('subject', 'poster', 'about', 'description', 'val')
