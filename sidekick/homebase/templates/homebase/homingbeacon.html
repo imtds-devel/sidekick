@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% load sidekick_extras %}
 
 <!-- Creates the homing beacon-->
 <div class="col-md-6">
@@ -45,12 +46,14 @@
               </div>
             </div>
 
+            {% if user_netid|has_access:"homingbeacon_requestpaper" %}
             <div class="info-emp">
               <h4>Paper Count</h4>
               <div class="img-holder">
                 <span class="glyphicon glyphicon-file"></span>
               </div>
             </div>
+            {% endif %}
 
         </div>
       </div>
