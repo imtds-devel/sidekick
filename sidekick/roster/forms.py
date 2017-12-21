@@ -3,6 +3,7 @@ from homebase.models import Employees
 from .models import Discipline
 from .models import Trophies
 
+
 class EmployeeForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(EmployeeForm, self).__init__(*args, **kwargs)
@@ -20,22 +21,10 @@ class EmployeeForm(forms.ModelForm):
 class CommentForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(CommentForm, self).__init__(*args, **kwargs)
-        self.fields['poster'].widget = forms.HiddenInput()
-        self.fields['about'].widget = forms.HiddenInput()
-        self.fields['description'].widget.attrs.update({
-            'class': 'form-control',
-        })
-        self.fields['description'].attrs = {'rows': 10}
-        self.fields['val'].widget.attrs.update({
-            'class': 'form-control',
-        })
-        self.fields['violation'].widget.attrs.update({
-            'class': 'form-control',
-        })
 
     class Meta:
         model = Discipline
-        fields = ('poster', 'about', 'description', 'val', 'violation')
+        fields = ('subject', 'poster', 'about', 'description')
 
 
 class StarForm(forms.ModelForm):

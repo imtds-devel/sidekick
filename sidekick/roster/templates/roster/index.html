@@ -19,7 +19,7 @@
                 <div class='panel-body'>
                     <div class="media">
                         <div class="media-left">
-                            <img src='{% static employee.picture|img_exists %}' class='img img-circle img-herocard' style="display:none">
+                            <img src='{% static employee.picture|img_exists %}' class='img img-circle img-herocard'>
                         </div>
                         <div class="media-body e_desc">
                             <p class="e_field"><b>{{employee.full_name}}</b></p>
@@ -96,19 +96,18 @@
     <div id="comment-form">
         <form method="post" class="form-horizontal" id="comform" style="display:none">
             {% csrf_token %}
-            {% for field in comform.visible_fields %}
             <div class="form-group">
-                {{ field.errors }}
-                <label class="control col-sm-4" for="{{ field.id_for_label }}"><b>{{ field.label }}:</b></label>
-                <div class="col-sm-8">
-                    {{field}}
-                </div>
+                <label for="comm-subject">Subject:</label>
+                <input type="text" class="form-control" id="comm-subject" title="Subject">
             </div>
-            {% endfor %}
-            <input type="hidden" name="poster" required id = "id_poster" value="">
-            <input type="hidden" name="about" required id = "id_about" value="">
-            <h5 align="right"><button class="btn btn-success btn-sm">Submit</button></h5>
+            <div class="form-group">
+                <label for="comm-body">Comment:</label>
+                <textarea class="form-control" id="comm-body" rows="5" title="Commment"></textarea>
+            </div>
+            <input type="hidden" name="about" id = "comm-about" value="">
+            <h5 align="right"><button class="btn btn-success" id="submit-comment">Submit</button></h5>
         </form>
+
     </div>
     <div id="star-form">
         <form method="post" class="form-horizontal" id="starform" style="display:none">

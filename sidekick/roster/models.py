@@ -49,12 +49,12 @@ class Trophies(models.Model):
 
 
 class Discipline(models.Model):
+    subject = models.TextField(default="")
     time = models.DateTimeField(auto_now_add=True)
     poster = models.ForeignKey(Employees, related_name='disc_poster', on_delete=models.CASCADE)
     about = models.ForeignKey(Employees, related_name='disc_about', on_delete=models.CASCADE)
     description = models.TextField(default="")
-    val = models.DecimalField(max_digits=3, decimal_places=2)
-    violation = models.CharField(max_length=15, default="")
+    val = models.DecimalField(max_digits=3, decimal_places=2, null=True, blank=True)
 
     def __str__(self):
         return "For: %s, Reason: %s, Val: %s" % (self.about, self.description, self.val)

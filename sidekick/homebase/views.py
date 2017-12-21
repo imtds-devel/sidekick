@@ -8,7 +8,7 @@ from .forms import AnnouncmentForm, EventForm
 def index(request):
     # If this is a form submission
     if request.method == "POST":
-        #need to validate which form is being submitted (give the input a name attribute)
+        # need to validate which form is being submitted (give the input a name attribute)
         import copy
         data = copy.copy(request.POST)
 

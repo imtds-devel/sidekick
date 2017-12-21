@@ -75,16 +75,16 @@ var soft = skills.slice(21,22);
 		+                               "</div>"
 		+                           "</div>"
         +                               "<div id='c-" + netid_1 +"' class='modal-body hero-bio tab-pane fade'>"
-		+                                   "<div class='col-md-6' style='left:4px'>"
+		+                                   "<div class='col-md-6'>"
 		+                                       "<h4 style='text-align: left; margin-left: 100px;' class='modal-title'><b>Comments</b></h4>"
 		+                                       "<div style='height: 275px; overflow-y: auto; margin-top:5px'>"
 		+                                       "<p>1</p><p>2</p><p>3</p><p>4</p><p>5</p><p>6</p><p>7</p><p>8</p><p>9</p><p>10</p><p>11</p><p>12</p><p>13</p>"
         +                                   "</div>"
 		+                               "</div>"
-		+                                   "<div class='col-md-6' style='right:4px'>"
+		+                                   "<div class='col-md-6'>"
 		+                                        "<button type='btn-md' style='margin:7px' id='starpanel'>Star</button>"
 		+                                        "<button type='btn-md' style='margin:7px' id='dispanel'>Discipline</button>"
-		+                                        "<div id='comarea' style='height: 250px; overflow-y: auto;'></div>"
+		+                                        "<div id='comarea' style='height: 275px; overflow-y: auto;'></div>"
 		+                                   "</div>"
         +                               "</div>"
         +                         "</div>"
@@ -348,4 +348,85 @@ $("#searchbar").keyup(function () {
     } else {
         $(".panelemp").fadeIn(100);
     }
+});
+
+$("#comform").on("submit", function(event) {
+    event.preventDefault();
+
+    var subject = $("#comm-subject").val();
+    var body = $("#comm-body").val();
+    var about = $("#comm-about").val();
+
+    $.ajax({
+        url: 'ajax/postcomment/',
+        type: 'POST',
+        data: {
+            'subject': subject,
+            'body': body,
+            'about': about,
+        },
+        dataType: 'json',
+        success: function(data){
+            console.log(data)
+        },
+        error: function(data){
+            console.log("It failed!")
+            console.log(data)
+        }
+    })
+});
+$(function() {
+
+
+    // This function gets cookie with a given name
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie != '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    var csrftoken = getCookie('csrftoken');
+
+    /*
+    The functions below will create a header with csrftoken
+    */
+
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+    function sameOrigin(url) {
+        // test that a given url is a same-origin URL
+        // url could be relative or scheme relative or absolute
+        var host = document.location.host; // host + port
+        var protocol = document.location.protocol;
+        var sr_origin = '//' + host;
+        var origin = protocol + sr_origin;
+        // Allow absolute or scheme relative URLs to same origin
+        return (url == origin || url.slice(0, origin.length + 1) == origin + '/') ||
+            (url == sr_origin || url.slice(0, sr_origin.length + 1) == sr_origin + '/') ||
+            // or any other URL that isn't scheme relative or absolute i.e relative.
+            !(/^(\/\/|http:|https:).*/.test(url));
+    }
+
+    $.ajaxSetup({
+        beforeSend: function(xhr, settings) {
+            if (!csrfSafeMethod(settings.type) && sameOrigin(settings.url)) {
+                // Send the token to same-origin, relative URLs only.
+                // Send the token only if the method warrants CSRF protection
+                // Using the CSRFToken value acquired earlier
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });
+
 });

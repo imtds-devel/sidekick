@@ -92,41 +92,6 @@ class Employees(models.Model):
         return "employees/%s.gif" % self.netid
 
 
-class Proficiencies(models.Model):
-    netid = models.ForeignKey(Employees, on_delete=models.CASCADE)
-    basic = models.IntegerField(default=0)
-    advanced = models.IntegerField(default=0)
-    field = models.IntegerField(default=0)
-    printer = models.IntegerField(default=0)
-    network = models.IntegerField(default=0)
-    mobile = models.IntegerField(default=0)
-    refresh = models.IntegerField(default=0)
-    software = models.IntegerField(default=0)
-
-    def __str__(self):
-        return "%s(%s, %s, %s, %s, %s, %s, %s)" % \
-               (self.netid,
-                self.basic,
-                self.advanced,
-                self.field,
-                self.printer,
-                self.network,
-                self.mobile,
-                self.refresh)
-
-    @property
-    def get_as_list(self):
-        return [
-            self.basic,
-            self.advanced,
-            self.field,
-            self.printer,
-            self.network,
-            self.mobile,
-            self.refresh
-        ]
-
-
 class Announcements(models.Model):
     posted = models.DateTimeField(auto_now_add=True)
     announcer = models.ForeignKey('Employees', on_delete=models.CASCADE)
