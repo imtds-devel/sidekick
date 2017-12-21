@@ -37,16 +37,18 @@ def push_cover(data: CoverInstructions):
 # For full covers of any kind
 def full_cover(data: CoverInstructions):
     # 1. Get all shifts associated with this cover (could be one or many)
-    shifts = Shifts.objects.select_for_update().filter(id__contains=data.shift_id).order_by('shift_date')
+    shifts = Shifts.objects.filter(event_id__contains=data.shift_id).order_by('shift_date')
 
     # 2. Save some useful attributes for later
     first = shifts.first()
     location = first.location
     cal_id = CALENDAR_LOCATION_IDS[location]
+
     old_event_id = first.permanent_id
 
     # Define the shift owner
     owner = first.owner if data.post else data.actor
+    print(owner)
 
     # Construct new title
     if data.post:
@@ -67,11 +69,14 @@ def full_cover(data: CoverInstructions):
         sob_story=data.sob_story
     )
 
+    print(event)
+    print(cal_id)
     # Ship it to Google
     new_event = data.g_service.events().insert(
         calendarId=cal_id,
         body=event
     ).execute()
+    print(new_event)
 
     # Delete old event from Google
     data.g_service.events().delete(
@@ -84,23 +89,25 @@ def full_cover(data: CoverInstructions):
     # Create new shifts in db
     for shift in shifts:
         shift.title = new_title
-        shift.owner = owner,
+        shift.owner = owner
         shift.is_open = True if data.post else False
-        # Individual instances of recurring events have IDs that are derivable using the start datetime of the event
-        # To build the ID, we'll need the recurring ID, the shift date (formatted as yyyymmdd), and the shift time
-        # (which is formatted in ThhmmssZ with the letters T and Z around the outside
-        # Note that the timezone has to be UTC :/
-        # Overall format : [eventId]_yyyymmddThhmmssZ
-        utc_start = shift.shift_start.astimezone(pytz.utc)
+        if data.permanent:
+            # Individual instances of recurring events have IDs that are derivable using the start datetime of the event
+            # To build the ID, we'll need the recurring ID, the shift date (formatted as yyyymmdd), and the shift time
+            # (which is formatted in ThhmmssZ with the letters T and Z around the outside
+            # Note that the timezone has to be UTC :/
+            # Overall format : [eventId]_yyyymmddThhmmssZ
+            utc_start = shift.shift_start.astimezone(pytz.utc)
 
-        shift.event_id = str(new_event['id'])\
-            + "_"+str(shift.shift_date).replace("-", "")\
-            + "T"+str(utc_start.hour)+str(utc_start.minute)+"00Z"
+            shift.event_id = str(new_event['id'])\
+                + "_"+str(shift.shift_date).replace("-", "")\
+                + "T"+str(utc_start.hour)+str(utc_start.minute)+"00Z"
+        else:
+            shift.event_id = new_event['id']
 
-        shift.permanent_id = new_event['id']
+        shift.permanent_id = new_event['iCalUID'][:-11]  # prune the @google.com
+        shift.save()
 
-    # Finally, delete old shifts
-    shifts.save()
     return consolidator(data)
 
 
@@ -108,7 +115,7 @@ def full_cover(data: CoverInstructions):
 # Unfortunately, this is a good deal more complex than full covers :/
 def partial_cover(data: CoverInstructions):
     # 1. Get all shifts associated with cover (could be 1 or many)
-    shifts = Shifts.objects.select_for_update().filter(id__contains=data.shift_id).order_by('shift_date')
+    shifts = Shifts.objects.filter(event_id__contains=data.shift_id).order_by('shift_date')
 
     # 2. Save some useful attributes for later
     first = shifts.first()
@@ -195,6 +202,7 @@ def post_single_full(data: CoverInstructions):
 
     return True
 
+
 # Take a single full shift
 # Data dictionary *must* at least have the 'shift_id' and 'taker' keys defined
 def take_single_full(data):
@@ -275,18 +283,18 @@ def get_shift(service, cal_id, event_id):
 # Expects start and end to be properly formatted datetime strings with timezone
 # Use the startdatetime and enddatetime methods
 def build_event(title, start, end, end_repeat="", sob_story = ""):
-    recurrence = "RRULE:FREQ=WEEKLY;UNTIL:%s" % end_repeat if end_repeat != "" else None
+    recurrence = "RRULE:FREQ=WEEKLY;UNTIL:%s" % end_repeat if end_repeat and end_repeat != "" else None
     # TODO: Research if people want to be added as attendees to the events
 
     return {
         'summary': title,
         'description': sob_story,
         'start': {
-            'dateTime': start,
+            'dateTime': start.strftime("%Y-%m-%dT%H:%M:%S%z")[:-2]+":00",  # This is a bit sketchy but it works!
             'timeZone': 'America/Los_Angeles'
         },
         'end': {
-            'dateTime': end,
+            'dateTime': end.strftime("%Y-%m-%dT%H:%M:%S%z")[:-2]+":00",
             'timeZone': 'America/Los_Angeles'
         },
         'recurrence': [recurrence],

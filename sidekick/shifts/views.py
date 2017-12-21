@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-import pytz
-from sidekick import views
 from django.utils import timezone
-from datetime import timedelta
-from datetime import datetime
-from shifts.functions.cover import push_cover
+from .functions.google_api import synchronize
+from .functions.cover import push_cover, CoverInstructions
 from .models import Shifts
 from .models import ShiftCovers
+from sidekick import views
+from datetime import timedelta
+from datetime import datetime
 from homebase.models import Employees
 from django.http import JsonResponse
 from django.db.models import Q
@@ -15,7 +15,52 @@ from django.db.models.functions import Cast
 from django.db.models import TimeField
 from django.utils.timezone import make_aware, make_naive
 from sidekick.views import get_current_user
-from .functions.google_api import synchronize
+import pytz
+
+
+def post_cover(request):
+    """
+    request.user = get_current_user(request)
+
+    permanent = bool(request.POST.get('permanent', None))
+    partial = bool(request.POST.get('partial', None))
+    actor = Employees.objects.get(str(request.POST.get('owner', None)))  # This way, managers can post on others' behalf
+    sob_story = str(request.POST.get('sob_story', None))
+    if permanent:
+        s_id = str(request.POST.get('permanent_id', None))
+    else:
+        s_id = str(request.POST.get('event_id', None))
+    if partial:
+        part_start = request.POST.get('part_start', None)
+        part_end = request.POST.get('part_end', None)
+    else:
+        part_start = None
+        part_end = None
+    """
+    permanent = False
+    partial = False
+    actor = Employees.objects.get(netid='nchera13')
+    sob_story = "This is a test!"
+    s_id = "6jliqtmosv7iehgaghdan8dtso"
+    part_start = None
+    part_end = None
+
+    data = CoverInstructions(
+        post=True,
+        permanent=permanent,
+        partial=partial,
+        shift_id=s_id,
+        actor=actor,
+        start_time=part_start,
+        end_time=part_end,
+        sob_story=sob_story,
+    )
+    push_cover(data)
+    return index(request)
+
+
+def take_cover(request):
+    request.user = get_current_user(request)
 
 
 def index(request):
@@ -45,7 +90,7 @@ def index(request):
     # We import the current time
     now = timezone.now()
 
-    # Import shifts!
+    # Synchronize our db with the Google Cal
     synchronize(flush=False)
 
     # We build our context for the page
@@ -159,7 +204,9 @@ def filter_near_shifts(request):
     user = Employees.objects.get(netid=request_user.user)
     # Get the shift of the given id
     shift_id = request.GET.get('shiftID', None)
-    this_shift = Shifts.objects.get(id=shift_id)
+    print(request.GET)
+    print(shift_id)
+    this_shift = Shifts.objects.get(event_id=shift_id)
     # First we filter all shifts of the same location
     filtered_shifts = Shifts.objects.filter(location=this_shift.location)
     # Then we filter based on shifts that are occuring directly before or after the given shift
