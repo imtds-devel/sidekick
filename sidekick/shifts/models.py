@@ -4,6 +4,8 @@ from django.db import models
 from homebase.models import Employees
 import datetime
 import pytz
+from django.utils.timezone import make_aware, make_naive
+
 
 
 class Shifts(models.Model):
@@ -49,6 +51,7 @@ class Shifts(models.Model):
         default='F'
     )
     permanent_id = models.TextField(default="")  # Same as event id for non-permanent shifts
+    #sob_story = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return "%s: owned by %s, in %s from %s to %s" % (self.title, self.owner, self.location,

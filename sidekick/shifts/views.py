@@ -112,6 +112,9 @@ def filter_user_shifts(request):
     date = datetime.strptime(date_string, '%Y-%m-%d')  # Make that string into a datetime object
     # We filter the query set down to the shifts owned by user logged in
     queryset = Shifts.objects.filter(owner=user).order_by('shift_start')
+    
+    print (timezone.now())
+    print (timezone.get_current_timezone())
 
     # The request can be contextual to the previous or next week, this is triggered when the user presses those buttons
     if option == 'next':
@@ -127,13 +130,18 @@ def filter_user_shifts(request):
     else:
         sunday_start_date_current_week = date - timedelta(days=given_week_day_iso)  # To find our Sunday start we subtract the current day of the week via timedelta
     end_of_week = sunday_start_date_current_week + timedelta(days=6)  # Then we add 6 to find end of this week, which is clearly a Saturday
-    filtered_shifts = queryset.filter(shift_date__gte=sunday_start_date_current_week, shift_date__lte=end_of_week)  # Now we filter the shifts to be the ones in the date range
-    # We have to translate these shifts into these values so they can be JSON
-    translated_shifts = filtered_shifts.values('event_id', 'title', 'owner', 'shift_date', 'shift_start', 'shift_end', 'location', 'is_open', 'checked_in', 'permanent_id')
+
+    # next we will generate a "week" which will be a list of dates
     week = []  # start empty, we will build up the dates of each day
-    for day in range(0, 7):  # I think this is wrong but I need to test it more, range is weird
+    for day in range(0, 7):  # day 1-7
         week.append(sunday_start_date_current_week + timedelta(days=day))  # Add each week date, Sunday to Saturday
+
+    filtered_shifts = queryset.filter(shift_date__gte=sunday_start_date_current_week, shift_date__lte=end_of_week)  # Now we filter the shifts to be the ones in the date range
+    print (filtered_shifts)
+    # We have to translate these shifts into these values so they can be JSON
+    translated_shifts = filtered_shifts.values('event_id', 'title', 'owner','shift_date', 'shift_start','shift_end', 'location', 'is_open', 'checked_in', 'permanent_id')
     # This is the formatted data that we will be returning via AJAX
+    print (translated_shifts)
     data = {
         'date': str(date),
         'shifts': list(translated_shifts),
@@ -236,9 +244,9 @@ def filter_near_shifts(request):
     print(naive_end)
     # If this is an open shift, we also need the information from the corresponding shift_cover entry
     if this_shift.is_open:
-        shift_cover = ShiftCovers.objects.get(shift=this_shift.id)
+        shift_cover = ShiftCovers.objects.get(shift=this_shift.event_id)
         translated_shift_cover = {
-            'id': shift_cover.id,
+            'id': shift_cover.event_id,
             'poster': str(shift_cover.poster),
             'taker': str(shift_cover.taker),
             'type': shift_cover.type,
@@ -249,7 +257,7 @@ def filter_near_shifts(request):
         translated_shift_cover = ['Not an Open Shift']
     # We construct a dictonary of the values contained in this shift
     translated_this_shift = {
-        'id': this_shift.id,
+        'event_id': this_shift.event_id,
         'title': this_shift.title,
         'owner': str(this_shift.owner),
         'shift_date': this_shift.shift_date,
@@ -258,8 +266,7 @@ def filter_near_shifts(request):
         'location': this_shift.location,
         'is_open': this_shift.is_open,
         'checked_in': this_shift.checked_in,
-        'google_id': this_shift.google_id,
-        'permanent': this_shift.permanent
+        'permanent_id': this_shift.permanent_id
     }
     translated_shifts = filtered_shifts.values('event_id', 'title', 'owner', 'shift_date', 'shift_start', 'shift_end', 'location', 'is_open','checked_in', 'permanent_id')
     data = {
