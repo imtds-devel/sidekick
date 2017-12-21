@@ -7,7 +7,6 @@ import pytz
 from django.utils.timezone import make_aware, make_naive
 
 
-
 class Shifts(models.Model):
     LOCATION_CHOICES = (
         ('ma', 'Marshburn Library'),
@@ -76,7 +75,7 @@ class Shifts(models.Model):
     def google_single_id(self):
         date = str(self.shift_date).replace("-", "")
         time = str(pytz.utc.localize(self.shift_start))
-        return self.perm_id
+        return self.permanent_id
 
 
 class ShiftCovers(models.Model):

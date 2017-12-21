@@ -13,6 +13,7 @@ from django.http import JsonResponse
 from django.db.models import Q
 from django.db.models.functions import Cast
 from django.db.models import TimeField
+from django.http import HttpResponse
 from django.utils.timezone import make_aware, make_naive
 from sidekick.views import get_current_user
 import pytz
@@ -37,11 +38,11 @@ def post_cover(request):
         part_start = None
         part_end = None
     """
-    permanent = False
+    permanent = True
     partial = False
     actor = Employees.objects.get(netid='nchera13')
-    sob_story = "This is a test!"
-    s_id = "6jliqtmosv7iehgaghdan8dtso"
+    sob_story = "tst"
+    s_id = "2um9rcro6hhk7bb0ttee4debb1"
     part_start = None
     part_end = None
 
@@ -56,11 +57,31 @@ def post_cover(request):
         sob_story=sob_story,
     )
     push_cover(data)
-    return index(request)
+    return HttpResponse("Done!")
 
 
 def take_cover(request):
     request.user = get_current_user(request)
+    permanent = False
+    partial = False
+    actor = Employees.objects.get(netid='nchera13')
+    sob_story = None
+    s_id = "6ekqvdbqp5c8er4t1tdugk0k1s"
+    part_start = None
+    part_end = None
+
+    data = CoverInstructions(
+        post=False,
+        permanent=permanent,
+        partial=partial,
+        shift_id=s_id,
+        actor=actor,
+        start_time=part_start,
+        end_time=part_end,
+        sob_story=sob_story,
+    )
+    push_cover(data)
+    return HttpResponse("Done!")
 
 
 def index(request):
