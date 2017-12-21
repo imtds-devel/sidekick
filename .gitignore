@@ -1,6 +1,7 @@
 #ignore config files
 **/*.ini
 **/*.pyc
+**/*.json
 #ignore files
 .idea
 
@@ -8,4 +9,4 @@
 
 **/node_modules
 
-sidekick/homebase/migrations/0002_auto_20170808_1410.py
+
