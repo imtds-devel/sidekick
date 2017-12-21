@@ -112,9 +112,6 @@ def filter_user_shifts(request):
     date = datetime.strptime(date_string, '%Y-%m-%d')  # Make that string into a datetime object
     # We filter the query set down to the shifts owned by user logged in
     queryset = Shifts.objects.filter(owner=user).order_by('shift_start')
-    
-    print (timezone.now())
-    print (timezone.get_current_timezone())
 
     # The request can be contextual to the previous or next week, this is triggered when the user presses those buttons
     if option == 'next':
@@ -137,11 +134,9 @@ def filter_user_shifts(request):
         week.append(sunday_start_date_current_week + timedelta(days=day))  # Add each week date, Sunday to Saturday
 
     filtered_shifts = queryset.filter(shift_date__gte=sunday_start_date_current_week, shift_date__lte=end_of_week)  # Now we filter the shifts to be the ones in the date range
-    print (filtered_shifts)
     # We have to translate these shifts into these values so they can be JSON
     translated_shifts = filtered_shifts.values('event_id', 'title', 'owner','shift_date', 'shift_start','shift_end', 'location', 'is_open', 'checked_in', 'permanent_id')
     # This is the formatted data that we will be returning via AJAX
-    print (translated_shifts)
     data = {
         'date': str(date),
         'shifts': list(translated_shifts),
@@ -212,8 +207,7 @@ def filter_near_shifts(request):
     user = Employees.objects.get(netid=request_user.user)
     # Get the shift of the given id
     shift_id = request.GET.get('shiftID', None)
-    print(request.GET)
-    print(shift_id)
+
     this_shift = Shifts.objects.get(event_id=shift_id)
     # First we filter all shifts of the same location
     filtered_shifts = Shifts.objects.filter(location=this_shift.location)
@@ -238,10 +232,7 @@ def filter_near_shifts(request):
         print(start)
         print(end)
 
-    naive_start = make_naive(start)
-    naive_end = make_naive(end)
-    print(naive_start)
-    print(naive_end)
+
     # If this is an open shift, we also need the information from the corresponding shift_cover entry
     if this_shift.is_open:
         shift_cover = ShiftCovers.objects.get(shift=this_shift.event_id)

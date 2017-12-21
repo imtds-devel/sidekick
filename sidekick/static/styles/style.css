@@ -729,3 +729,22 @@ input[type=number]::-webkit-outer-spin-button {
 *{
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
+.spaced-radio-btn {
+    margin-left: 10px;
+    margin-right: 10px;    
+}
+.align-left {
+    float: left;
+}
+.align-right {
+    float: right;
+}
+.partial-start {
+    margin-right: 10px;
+}
+.partial-selectors {
+    padding-bottom: 10px;
+}
+.hidden {
+    display: none;
+}
