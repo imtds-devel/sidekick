@@ -36,19 +36,27 @@ def push_cover(data: CoverInstructions):
 
 # For full covers of any kind
 def full_cover(data: CoverInstructions):
+    print('FullCover called!')
     # 1. Get all shifts associated with this cover (could be one or many)
     shifts = Shifts.objects.filter(event_id__contains=data.shift_id).order_by('shift_date')
+    print([s for s in shifts])
 
     # 2. Save some useful attributes for later
     first = shifts.first()
+    # Verify shift exists in our db
+    if first is None:
+        print("Shift does not exist!")
+        return False
+
     location = first.location
     cal_id = CALENDAR_LOCATION_IDS[location]
+    tz = pytz.timezone('America/Los_Angeles')
 
     old_event_id = first.permanent_id
+    print(old_event_id)
 
     # Define the shift owner
     owner = first.owner if data.post else data.actor
-    print(owner)
 
     # Construct new title
     if data.post:
@@ -63,8 +71,8 @@ def full_cover(data: CoverInstructions):
     # Construct event
     event = build_event(
         title=new_title,
-        start=first.shift_start,
-        end=first.shift_end,
+        start=tz.localize(first.shift_start),
+        end=tz.localize(first.shift_end),
         end_repeat=end_repeat,
         sob_story=data.sob_story
     )
@@ -82,7 +90,7 @@ def full_cover(data: CoverInstructions):
     data.g_service.events().delete(
         calendarId=cal_id,
         eventId=old_event_id
-    )
+    ).execute()
 
     # 4. Save changes to db
 
@@ -106,7 +114,14 @@ def full_cover(data: CoverInstructions):
             shift.event_id = new_event['id']
 
         shift.permanent_id = new_event['iCalUID'][:-11]  # prune the @google.com
+        print(shift)
         shift.save()
+
+    # delete old shifts
+    old_shifts = Shifts.objects.filter(event_id__contains=data.shift_id).order_by('shift_date')
+    for s in old_shifts:
+        s.delete()
+        print(s)
 
     return consolidator(data)
 
@@ -119,6 +134,11 @@ def partial_cover(data: CoverInstructions):
 
     # 2. Save some useful attributes for later
     first = shifts.first()
+    # Verify shift exists in our db
+    if first is None:
+        print("Shift does not exist!")
+        return False
+
     location = first.location
     cal_id = CALENDAR_LOCATION_IDS[location]
     old_event_id = first.permanent_id
@@ -136,30 +156,58 @@ def partial_cover(data: CoverInstructions):
         print("ERROR: Start and end time for partial cover unset!")
         return False
 
-    padding_title = first.title if data.post else "Open Shift (Cover for %s)" % first.owner
-    center_title = "%s (Cover for %s)" % (data.actor, first.owner) if data.post else first.title
+    padding_title = first.title
+    center_title = "Open Shift (Cover for %s)" % data.actor if data.post else "%s (Cover for %s)" % (data.actor, first.owner)
     # See comment on end repeat in full_cover for explanation
     end_repeat = get_end_repeat(shifts.last().shift_date, data.permanent)
 
-    event1 = build_event(
-        title=padding_title,
-        start=og_start,
-        end=data.start_time,
-        end_repeat=end_repeat,
-        sob_story="" if data.post else sob_story
-    )
-    event2 = build_event(
-        title=center_title,
-        start=data.start_time,
-        end=data.end_time,
-        end_repeat=end_repeat,
-        sob_story=data.sob_story if data.post else ""
-    )
+    # Build three events now and cut the ones we won't need
+    events = [
+        build_event(
+            title=padding_title,
+            start=og_start,
+            end=data.start_time,
+            end_repeat=end_repeat,
+            sob_story="" if data.post else sob_story,
+        ),
+        build_event(
+            title=center_title,
+            start=data.start_time,
+            end=data.end_time,
+            end_repeat=end_repeat,
+            sob_story=data.sob_story if data.post else "",
+        ),
+        build_event(
+            title=padding_title,
+            start=data.end_time,
+            end=og_end,
+            end_repeat=end_repeat,
+            sob_story="" if data.post else sob_story,
+        )
+    ]
+    # Now we validate and remove any zero-length shift
+    i=0
+    while i < len(events):
+        event = events[i]
+        duration = get_duration(event)
+
+        if duration == 0:
+            events.remove(event)
+            continue
+        elif duration == 15:
+            print("ERROR: Events MUST be at least 30 min long!")
+            return False
+        i += 1
 
     # Now we should have a pruned and validated list of times
 
 
     return consolidator(data)
+
+
+# Return the duration of an event in minutes!
+def get_duration(event):
+    return 5
 
 
 # Google's format for specifying end repeat: yyyymmddThhmmssZ
@@ -172,10 +220,12 @@ def get_end_repeat(date, permanent:bool):
 
 # Consolidate consecutive identical shifts into bigger blobs
 def consolidator(data: CoverInstructions):
+    # TODO: Program this!
     return cleanup(data)
 
 
 def cleanup(data: CoverInstructions):
+    # TODO: Program this!
     return shift_email(data)
 
 
@@ -198,7 +248,7 @@ def post_single_full(data: CoverInstructions):
     data.update_params['post'] = True
     event_switch("update", data)
 
-    #TODO: Program Consolidator
+    # TODO: Program Consolidator
 
     return True
 
@@ -282,8 +332,9 @@ def get_shift(service, cal_id, event_id):
 
 # Expects start and end to be properly formatted datetime strings with timezone
 # Use the startdatetime and enddatetime methods
-def build_event(title, start, end, end_repeat="", sob_story = ""):
-    recurrence = "RRULE:FREQ=WEEKLY;UNTIL:%s" % end_repeat if end_repeat and end_repeat != "" else None
+def build_event(title, start: datetime, end: datetime, end_repeat="", sob_story=""):
+    print(end_repeat)
+    recurrence = "RRULE:FREQ=WEEKLY;UNTIL=%s" % end_repeat if end_repeat and end_repeat != "" else None
     # TODO: Research if people want to be added as attendees to the events
 
     return {
@@ -291,11 +342,11 @@ def build_event(title, start, end, end_repeat="", sob_story = ""):
         'description': sob_story,
         'start': {
             'dateTime': start.strftime("%Y-%m-%dT%H:%M:%S%z")[:-2]+":00",  # This is a bit sketchy but it works!
-            'timeZone': 'America/Los_Angeles'
+            'timeZone': 'America/Los_Angeles',
         },
         'end': {
             'dateTime': end.strftime("%Y-%m-%dT%H:%M:%S%z")[:-2]+":00",
-            'timeZone': 'America/Los_Angeles'
+            'timeZone': 'America/Los_Angeles',
         },
         'recurrence': [recurrence],
     }

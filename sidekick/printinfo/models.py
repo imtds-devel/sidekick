@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.db import models
-from django.utils.timezone import datetime
+from django.utils import timezone
 from homebase.models import Employees
 
 # Create your models here.
@@ -12,12 +12,14 @@ STATUS_CHOICES = (
     ('down', 'Printer Down!')
 )
 
+
 class Location(models.Model):
     name = models.CharField(max_length=15)
 
     def __str__(self):
         """Returns the reference of the Location Name"""
         return self.name
+
 
 class Printer(models.Model):
     name = models.CharField(max_length=15, default='')                                       # printer name (external)
@@ -33,13 +35,14 @@ class Printer(models.Model):
         """formatted string for printer Location and Print Type"""
         return str(self.location) + " " + str(self.type)
 
+
 class StatusLog(models.Model):
     printer = models.ForeignKey(Printer)                                                            # printer id in database
-    date = models.DateTimeField("Date", default=datetime.now().replace(microsecond=0))               # date of most recent log made
+    date = models.DateTimeField("Date", default=timezone.now)                                       # date of most recent log made
     print_stat = models.CharField(max_length=12,
-                                  choices=STATUS_CHOICES)                                            # status of printer health
-    desc = models.TextField(max_length=300, default='')                                              # brief description of what's wrong
-    netid = models.ForeignKey(Employees, default='bduggan14')                                        # Need to add model for userID to record on each form
+                                  choices=STATUS_CHOICES)                                           # status of printer health
+    desc = models.TextField(max_length=300, default='')                                             # brief description of what's wrong
+    netid = models.ForeignKey(Employees, default='bduggan14')                                       # Need to add model for userID to record on each form
     @property
     def pic(self):
         """Returns the picture formatted to be referenced"""
