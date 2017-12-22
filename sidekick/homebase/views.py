@@ -45,7 +45,6 @@ def prep_context():
     tz = pytz.timezone("America/Los_Angeles")
     now = tz.localize(datetime.datetime.now())
     shifts = Shifts.objects.filter(shift_start__lte=now).filter(shift_end__gt=now).order_by('location')
-    print(list(shifts))
     labs = []
     support = []
     fac_staff = []

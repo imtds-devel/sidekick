@@ -61,7 +61,7 @@
             {% if support_shifts %}
                 {% for shift in support_shifts %}
                 <div class="info-emp">
-                    <h4>{{shift.nice_location}}</h4>
+                    <h4>{{shift.pretty_location}}</h4>
                     <div class="img-holder">
                         <img src="{% static shift.owner.picture|img_exists %}" alt="{{shift.owner}}"
                              class="employee-pic {% if shift.is_open %} pic-open-shift {% endif %}">

@@ -57,12 +57,16 @@ class Shifts(models.Model):
                                                          self.shift_start, self.shift_end)
 
     @property
-    def nice_location(self):
+    def pretty_location(self):
         return[l[1] for l in self.LOCATION_CHOICES if l[0] == self.location][0]
 
     @property
     def short_title(self):
         return "Open Shift" if self.is_open else self.owner
+
+    @property
+    def pretty_duration(self):
+        return self.shift_start.strftime("%I:%M%p")+"-"+self.shift_end.strftime("%I:%M%p")
 
     @property
     def google_start(self):
