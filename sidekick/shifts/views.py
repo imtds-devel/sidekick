@@ -20,13 +20,16 @@ import pytz
 
 
 def post_cover(request):
-    """
+    
     request.user = get_current_user(request)
 
-    permanent = bool(request.POST.get('permanent', None))
-    partial = bool(request.POST.get('partial', None))
-    actor = Employees.objects.get(str(request.POST.get('owner', None)))  # This way, managers can post on others' behalf
+    permanent = request.POST.get('permanent', None) == 'true'
+    partial = request.POST.get('partial', None) == 'true'
     sob_story = str(request.POST.get('sob_story', None))
+    #actor = Employees.objects.get(netid=str((Shifts.objects.get(event_id=request.GET.get('event_id', None))).owner))
+    shift = Shifts.objects.get(event_id=request.POST.get('event_id', None))
+    actor = shift.owner
+    #actor = get_current_user(request)
     if permanent:
         s_id = str(request.POST.get('permanent_id', None))
     else:
@@ -37,6 +40,7 @@ def post_cover(request):
     else:
         part_start = None
         part_end = None
+
     """
     permanent = True
     partial = False
@@ -45,7 +49,7 @@ def post_cover(request):
     s_id = "2um9rcro6hhk7bb0ttee4debb1"
     part_start = None
     part_end = None
-
+    """
     data = CoverInstructions(
         post=True,
         permanent=permanent,
@@ -56,19 +60,36 @@ def post_cover(request):
         end_time=part_end,
         sob_story=sob_story,
     )
-    push_cover(data)
-    return HttpResponse("Done!")
+    
+    post_status = push_cover(data)
+    
+    jsonData = {
+        'pst_status' : post_status
+    }
+    # We return the data as JSON
+    return JsonResponse(jsonData)
 
 
 def take_cover(request):
     request.user = get_current_user(request)
-    permanent = False
-    partial = False
-    actor = Employees.objects.get(netid='nchera13')
-    sob_story = None
-    s_id = "6ekqvdbqp5c8er4t1tdugk0k1s"
-    part_start = None
-    part_end = None
+    request_user = get_current_user(request)
+    permanent = request.POST.get('permanent', None) == 'true'
+    partial = request.POST.get('partial', None) == 'true'
+    sob_story = str(request.POST.get('sob_story', None))
+    #actor = Employees.objects.get(netid=str((Shifts.objects.get(event_id=request.GET.get('event_id', None))).owner))
+    shift = Shifts.objects.get(event_id=request.POST.get('event_id', None))
+    actor = Employees.objects.get(netid=request_user.user)
+    #actor = get_current_user(request)
+    if permanent:
+        s_id = str(request.POST.get('permanent_id', None))
+    else:
+        s_id = str(request.POST.get('event_id', None))
+    if partial:
+        part_start = request.POST.get('part_start', None)
+        part_end = request.POST.get('part_end', None)
+    else:
+        part_start = None
+        part_end = None
 
     data = CoverInstructions(
         post=False,
@@ -80,8 +101,13 @@ def take_cover(request):
         end_time=part_end,
         sob_story=sob_story,
     )
-    push_cover(data)
-    return HttpResponse("Done!")
+    post_status = push_cover(data)
+    
+    jsonData = {
+        'pst_status' : post_status
+    }
+    # We return the data as JSON
+    return JsonResponse(jsonData)
 
 
 def index(request):
@@ -255,6 +281,7 @@ def filter_near_shifts(request):
 
 
     # If this is an open shift, we also need the information from the corresponding shift_cover entry
+    '''
     if this_shift.is_open:
         shift_cover = ShiftCovers.objects.get(shift=this_shift.event_id)
         translated_shift_cover = {
@@ -266,7 +293,8 @@ def filter_near_shifts(request):
             'post_date': shift_cover.post_date
         }
     else:
-        translated_shift_cover = ['Not an Open Shift']
+        '''
+    translated_shift_cover = ['Not an Open Shift']
     # We construct a dictonary of the values contained in this shift
     translated_this_shift = {
         'event_id': this_shift.event_id,

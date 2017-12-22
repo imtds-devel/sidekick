@@ -8,7 +8,7 @@ import pytz
 
 
 # Class that details instructions for posting and taking shift covers
-# Note: because this initializes a google service, it should only be created we *know* a cover will take place
+# Note: because this initializes a google service, it should only be created when we *know* a cover will take place
 class CoverInstructions:
     def __init__(self, post, permanent, partial, shift_id, actor: Employees, start_time: datetime.datetime=None,
                  end_time: datetime.datetime=None, sob_story=""):

@@ -86,6 +86,34 @@ $(document).ready(function() {
         })
     }
 
+    function ajaxPostCover(data) {
+        $.ajax({
+            type:"POST",
+            url: 'ajax/post_cover/',
+            data,
+            dataType: 'json',
+            success : function (data) {
+                console.log("POSTED YES IT POSTED YES");
+                ajaxUserShifts('curr');
+                ajaxOpenShifts('curr');
+            }
+        })
+    }
+
+    function ajaxTakeCover(data) {
+        $.ajax({
+            type:"POST",
+            url: 'ajax/take_cover/',
+            data,
+            dataType: 'json',
+            success : function (data) {
+                console.log("TAKEN YES IT TOOK YES");
+                ajaxUserShifts('curr');
+                ajaxOpenShifts('curr');
+            }
+        })
+    }
+
     // This triggers when the user selects a new date in the date selector
     $('#your-shift-date').change(function(){
         var option = 'curr';
@@ -149,11 +177,93 @@ $(document).ready(function() {
         $('#' + modalID).find('#post-cover-btn').prop('disabled', true) // Temporarily disabled until I code this
     });
 
+    // When the user selects "yes" for full take
+    $(document).on('change', '.full-take', function() {
+        // Fetch the id of the post-conf modal
+        modalID = $(this).closest('.modal').attr('id')
+        // Hide the partial selectors and enable the post button 
+        $('#' + modalID).find('.partial-selectors').hide('fast')
+        $('#' + modalID).find('#take-cover-btn').prop('disabled', false)
+    });
+
+    // When the user selects "no" for full cover
+    $(document).on('change', '.partial-take', function() {
+        // Fetch the id of the post-conf modal
+        modalID = $(this).closest('.modal').attr('id')
+        // Hide the partial selectors and enable the post button 
+        $('#' + modalID).find('.partial-selectors').show('fast')
+        $('#' + modalID).find('#take-cover-btn').prop('disabled', true) // Temporarily disabled until I code this
+    });
+
     // When the user clicks "post"
     $(document).on('click', '#post-cover-btn', function() {
-        $.ajax({
-            
-        })
+        modalID = $(this).closest('.modal').attr('id')
+        eventID = modalID.slice(10) // Cuts the 'post-conf' off
+        isPerm = $('#' + modalID).find('.perm-cover').prop('checked')
+        if (isPerm) {
+            permID = eventID.slice(0, eventID.indexOf("_")) // Cuts the _ off the end                    
+        }
+        else {
+            permID = eventID
+        }
+
+        isPartial = $('#' + modalID).find('.partial-cover').prop('checked')
+        if (isPartial) {
+            part_start = $('#' + modalID).find('.partial-start').val()
+            part_en = $('#' + modalID).find('.partial-end').val()
+        } 
+        else {
+            part_start = 'None'
+            part_end = 'None'
+        }
+
+        sobStory = $('#' + modalID).find('#sob-story').text()
+        console.log($('#' + modalID).find('.perm-cover').prop('checked')) 
+        data = {
+            'event_id' : eventID,
+            'permanent' : isPerm,
+            'permanent_id' : permID,            
+            'partial' : isPartial,
+            'part_start' : part_start,
+            'part_end' : part_end,
+            'sob_story' : sobStory
+        }
+        ajaxPostCover(data)
+    });
+    // When the user clicks "take"
+    $(document).on('click', '#take-cover-btn', function() {
+        modalID = $(this).closest('.modal').attr('id')
+        eventID = modalID.slice(10) // Cuts the 'post-conf' off
+        isPerm = $('#' + modalID).find('.perm-cover').prop('checked')
+        if (isPerm) {
+            permID = eventID.slice(0, eventID.indexOf("_")) // Cuts the _ off the end                    
+        }
+        else {
+            permID = eventID
+        }
+
+        isPartial = $('#' + modalID).find('.partial-cover').prop('checked')
+        if (isPartial) {
+            part_start = $('#' + modalID).find('.partial-start').val()
+            part_en = $('#' + modalID).find('.partial-end').val()
+        } 
+        else {
+            part_start = 'None'
+            part_end = 'None'
+        }
+
+        sobStory = $('#' + modalID).find('#sob-story').text()
+        console.log($('#' + modalID).find('.perm-cover').prop('checked')) 
+        data = {
+            'event_id' : eventID,
+            'permanent' : isPerm,
+            'permanent_id' : permID,            
+            'partial' : isPartial,
+            'part_start' : part_start,
+            'part_end' : part_end,
+            'sob_story' : sobStory
+        }
+        ajaxTakeCover(data)
     });
 
     // This function #TODO this function 
@@ -210,14 +320,14 @@ $(document).ready(function() {
                         +            "</div>"
                         +        "</div>"
                         +        "<div class='modal-footer'>"
-                        +            "<button type='button' class='align-left btn btn-default' data-dismiss = 'modal' data-toggle= 'modal' data-target = '#post-conf-" + String(shiftsDay[shift].event_id) + "'>Post Cover</button>"                        
+                        +            "<button type='button' class='align-left btn btn-default' data-dismiss='modal' data-toggle= 'modal' data-target = '#post-conf-" + String(shiftsDay[shift].event_id) + "'>Post Cover</button>"                        
                         +            "<button type='button' class='align-right btn btn-default' data-dismiss='modal'>Close</button>"
                         +        "</div>"
                         +    "</div>"
                         +"</div>"
                     +"</div>"
                     )
-                    // These modals are the modals that actually handle posting and taking details 
+                    // These modals are the modals that actually handle posting details
                     // This is very much in progress 
                     $('#user-shift-modals').append(
                         "<div id = 'post-conf-" + String(shiftsDay[shift].event_id) + "' class = 'modal fade'>"
@@ -239,7 +349,11 @@ $(document).ready(function() {
                         +           "</div>"
                         +           "<p class='hidden' id='perm-prompt'>Do you want to post this shift permanently?"
                         +           "<label class='spaced-radio-btn radio-inline'><input class='perm-cover' type='radio' name='perm-post' checked='checked'>Yes</label>"
-                        +           "<label class='spaced-radio-btn radio-inline'><input class='temp-cover' type='radio' name='perm-post'>No</label></p>"                    
+                        +           "<label class='spaced-radio-btn radio-inline'><input class='temp-cover' type='radio' name='perm-post'>No</label></p>"
+                        +           "<div class='form-group'>"
+                        +               "<label for='sob-story'>Sob Story:</label>"
+                        +               "<textarea class='form-control' rows='2' id='sob-story'></textarea>"
+                        +           "</div>"                   
                         +       "</div>"
                         +   "</div>"
                         +   "<div class='modal-footer'>"
@@ -322,11 +436,22 @@ $(document).ready(function() {
                         +   "</div>"
                         +   "<div class='modal-body'>"
                         +       "<div id='post-det'>"
-                        +           "<p>Take Cover for " + shiftsDay[shift].owner + " at " + locations[shiftsDay[shift].location] + ": " + formatTimeRange(shiftsDay[shift].shift_start, shiftsDay[shift].shift_end) + "?</p>"
-                        +              "<button id= 'post-cover-btn' type= 'button' class= 'btn btn-primary'>Post</button>"
-                        +              "<button type='button' class='btn btn-default' data-toggle = 'modal' data-target = '#" + String(shiftsDay[shift].event_id) + "-modal' data-dismiss='modal'>Cancel</button>"
-                        +          "</div>"
-                        +      "</div>"
+                        +           "<p id='full-prompt'>Would you like to take the full shift?"
+                        +           "<label class='spaced-radio-btn radio-inline'><input class='full-take' type='radio' name='full-take'>Yes</label>"
+                        +           "<label class='spaced-radio-btn radio-inline'><input class='partial-take' type='radio' name='full-take'>No</label></p>"
+                        +           "<div style='display:none;' class='partial-selectors'>"
+                        +               "Start:<select class='partial-start' name='post-partial-start'></select>"
+                        +               "End:<select class='partial-end' name='post-partial-end'></select>"                        
+                        +           "</div>"
+                        +           "<p class='hidden' id='perm-prompt'>Do you want to take this shift permanently?"
+                        +           "<label class='spaced-radio-btn radio-inline'><input class='perm-take' type='radio' name='perm-post' checked='checked'>Yes</label>"
+                        +           "<label class='spaced-radio-btn radio-inline'><input class='temp-take' type='radio' name='perm-post'>No</label></p>"   
+                        +       "</div>"
+                        +   "</div>"
+                        +   "<div class='modal-footer'>"
+                        +       "<button disabled id='take-cover-btn' type='button' class='align-left btn btn-primary'>Take Shift Cover</button>"                        
+                        +       "<button type='button' class='align-right btn btn-default' data-toggle = 'modal' data-target = '#" + String(shiftsDay[shift].event_id) + "-modal' data-dismiss='modal'>Cancel</button>"
+                        +   "</div>"
                         +      "</div>"
                         +   "</div>"
                         +"</div>"
@@ -428,4 +553,55 @@ $(document).ready(function() {
         time = startTime + ' - ' + endTime
         return time
     }
-});    
+
+    // This function gets cookie with a given name
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie != '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    var csrftoken = getCookie('csrftoken');
+
+    /*
+    The functions below will create a header with csrftoken
+    */
+
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+    function sameOrigin(url) {
+        // test that a given url is a same-origin URL
+        // url could be relative or scheme relative or absolute
+        var host = document.location.host; // host + port
+        var protocol = document.location.protocol;
+        var sr_origin = '//' + host;
+        var origin = protocol + sr_origin;
+        // Allow absolute or scheme relative URLs to same origin
+        return (url == origin || url.slice(0, origin.length + 1) == origin + '/') ||
+            (url == sr_origin || url.slice(0, sr_origin.length + 1) == sr_origin + '/') ||
+            // or any other URL that isn't scheme relative or absolute i.e relative.
+            !(/^(\/\/|http:|https:).*/.test(url));
+    }
+
+    $.ajaxSetup({
+        beforeSend: function(xhr, settings) {
+            if (!csrfSafeMethod(settings.type) && sameOrigin(settings.url)) {
+                // Send the token to same-origin, relative URLs only.
+                // Send the token only if the method warrants CSRF protection
+                // Using the CSRFToken value acquired earlier
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });
+});
