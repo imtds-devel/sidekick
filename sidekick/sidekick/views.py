@@ -26,7 +26,7 @@ def load_page(request, template, context):
     context['user_name'] = curr_user.full_name
     context['user_img'] = "employees/"+str(curr_user.netid)+".gif"
     context['user_netid'] = str(curr_user.netid)
-    context['curr_mod'] = list(Shifts.objects.filter(location='md', shift_start__lte=now, shift_end__gt=now))[0]
+    context['curr_mod'] = list(Shifts.objects.filter(location='md', shift_start__lte=now, shift_end__gt=now))[0:1]
     context['next_mod'] = Shifts.objects.filter(location='md', shift_start__gt=now).order_by('shift_start').first()
     context['my_shift'] = Shifts.objects.filter(owner=curr_user, shift_end__gte=now).order_by('shift_start').first()
     context['my_shift_happening'] = tz.localize(context['my_shift'].shift_start) < now
