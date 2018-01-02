@@ -10,6 +10,7 @@ from shifts.models import Shifts
 import datetime
 import pytz
 
+live = False  # Set to true for production!
 
 # @login_required # UNCOMMENT THIS BEFORE GOING LIVE
 def load_page(request, template, context):
@@ -40,11 +41,17 @@ def load_page(request, template, context):
 
 
 def get_current_user(request):
-    live = False
     if not live:
-        request.user = "nchera13"
+        request.user = set_user_string(request.user)
 
     return request
+
+
+def set_user_string(user):
+    if not live:
+        return "nchera13"
+    else:
+        return user
 
 
 def authorize(request):

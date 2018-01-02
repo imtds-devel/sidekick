@@ -1,7 +1,10 @@
 from homebase.models import Employees
+from sidekick.views import set_user_string
 
 
 def get_access(netid, area):
+    netid = set_user_string(netid) # in case we're not in production
+
     # we have to do this to get the user object itself since the get call will return a QuerySet
     user = Employees.objects.get(netid=netid)
     pos = user.position
