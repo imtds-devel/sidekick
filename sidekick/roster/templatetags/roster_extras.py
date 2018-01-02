@@ -8,10 +8,9 @@ import os
 
 register = template.Library()
 
+
 @register.filter(name='img_exists')
 def img_exists(filepath):
-
-
     """ # For use if hosting static content in a remote location
 
     try:

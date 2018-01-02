@@ -10,6 +10,7 @@
                 <div class="carousel-inner" role="listbox">
                     <div class="item active">
                         <div class="media curMoD">
+                            {% if curr_mod %}
                             <div class="media-left">
                                 <img src="{% static curr_mod.owner.picture|img_exists %}" class='img-circle sideMoDImg'>
                             </div>
@@ -17,6 +18,12 @@
                                 <h4 class='media-heading modName'>Now: {{curr_mod.owner}}</h4>
                                 <p>{{curr_mod.pretty_duration}}</p>
                             </div>
+                            {% else %}
+                            <div class="media-body">
+                                <h4 class="media-heading modName">Current: None</h4>
+                                <p>Try the MoD phone or Slack!</p>
+                            </div>
+                            {% endif %}
                         </div>
                     </div>
 
