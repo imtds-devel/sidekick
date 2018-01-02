@@ -261,3 +261,17 @@ class MessageFromThePast(models.Model):
 class Access(models.Model):
     netid = models.ForeignKey(Employees, on_delete=models.CASCADE)
     # TODO: Define here? Or maybe modify Django's auth system?
+
+
+class StaffStatus(models.Model):
+    STATUS_CHOICES = (
+        ('o', 'Out of Office'),
+        ('f', 'Off Campus'),
+        ('e', 'East Campus'),
+        ('w', 'West Campus'),
+        ('i', 'In Office'),
+    )
+
+    netid = models.ForeignKey(Employees, on_delete=models.CASCADE)
+    status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='o')
+    description = models.CharField(max_length=20, default="")
