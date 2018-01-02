@@ -28,12 +28,6 @@
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-/*Creates the hover effect on the employee-pic*/
-.img-holder:hover .employee-pic{
-  transition: .5s ease;
-  opacity: 0.5;
-}
-
 /*Styles the tool to be bigger, maybe there is a better way to do this*/
 .glyphicon.glyphicon-file {
     font-size: 400%;
@@ -51,11 +45,12 @@
   display: flex;
   position: relative;
   flex-flow: row;
+  flex-wrap: wrap;
   align-items: center;
-  justify-content: space-around;
+  justify-content: flex-start;
   width: 82%;
   background: white;
-  height: 160px;
+  height: 180px;
   text-align: center;
   border-right: solid 2px #9692A0;
   box-shadow: 3px 3px 3px grey;
@@ -67,9 +62,12 @@
 
 .beacon-left{
   width: 22%;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
   background: #548E8E;
   padding: 5px;
-  height: 160px;
+  height: 180px;
   margin-top: 5px;
   border-right: solid 3px #285858;
   border-top-right-radius: 5%;
@@ -87,10 +85,17 @@
   text-align: center;
 }
 
-/*Overrides the beacon-right*/
-.rc{
-  justify-content: flex-start;
+/*Overrides the beacon for staff*/
+.staff-beacon-left
+{
+  height: 360px;
 }
+
+.staff-beacon-right
+{
+  height: 360px;
+}
+
 
 .name-holder {
 
