@@ -56,16 +56,20 @@
             <div class="media">
                 <div class="media-body">
                     <h4>
-                        {% if my_shift_happening %}
-                            My Shift<br>
-                            <small> {{my_shift.pretty_location}}:{{my_shift.pretty_duration}}</small>
-                        {{my_shift}}
+                        {% if my_shift %}
+                            {% if my_shift_happening %}
+                                My Shift<br>
+                                <small> {{my_shift.pretty_location}}:{{my_shift.pretty_duration}}</small>
+                            {{my_shift}}
+                            {% else %}
+                                My Next Shift: <br>
+                                <small>
+                                    {{my_shift.shift_date}}<br>
+                                    {{my_shift.pretty_location}}:{{my_shift.pretty_duration}}
+                                </small>
+                            {% endif %}
                         {% else %}
-                            My Next Shift: <br>
-                            <small>
-                                {{my_shift.shift_date}}<br>
-                                {{my_shift.pretty_location}}:{{my_shift.pretty_duration}}
-                            </small>
+                        My Shift<br> <small>No upcoming shifts</small>
                         {% endif %}
                     </h4>
                 </div>

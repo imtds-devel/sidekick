@@ -29,7 +29,10 @@ def load_page(request, template, context):
     context['curr_mod'] = list(Shifts.objects.filter(location='md', shift_start__lte=now, shift_end__gt=now))[0:1]
     context['next_mod'] = Shifts.objects.filter(location='md', shift_start__gt=now).order_by('shift_start').first()
     context['my_shift'] = Shifts.objects.filter(owner=curr_user, shift_end__gte=now).order_by('shift_start').first()
-    context['my_shift_happening'] = tz.localize(context['my_shift'].shift_start) < now
+    if context['my_shift']:
+        # If someone is graduating, there will come a point when they don't have any upcoming shifts
+        # We don't want the site to crash for them if/when this happens!
+        context['my_shift_happening'] = tz.localize(context['my_shift'].shift_start) < now
 
     context['trophy_list'] = Trophies.objects.filter(recipient=curr_user)
 
