@@ -12,8 +12,9 @@ import pytz
 
 live = False  # Set to true for production!
 
+
 # @login_required # UNCOMMENT THIS BEFORE GOING LIVE
-def load_page(request, template, context):
+def load_page(request, template: str, context: dict):
 
     request = get_current_user(request)
 
@@ -24,6 +25,7 @@ def load_page(request, template, context):
     tz = pytz.timezone("America/Los_Angeles")
     now = tz.localize(datetime.datetime.now())
     curr_user = Employees.objects.get(netid__iexact=str(request.user))
+    context['user'] = curr_user
     context['user_name'] = curr_user.full_name
     context['user_img'] = "employees/"+str(curr_user.netid)+".gif"
     context['user_netid'] = str(curr_user.netid)
@@ -36,6 +38,7 @@ def load_page(request, template, context):
         context['my_shift_happening'] = tz.localize(context['my_shift'].shift_start) < now
 
     context['trophy_list'] = Trophies.objects.filter(recipient=curr_user)
+    context['curr_page'] = template.split("/")[0]
 
     return render(request, template, context)
 
