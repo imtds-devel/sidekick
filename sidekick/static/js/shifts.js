@@ -94,6 +94,7 @@ $(document).ready(function() {
             dataType: 'json',
             success : function (data) {
                 console.log("POSTED YES IT POSTED YES");
+                $('.modal').modal('hide');              
                 ajaxUserShifts('curr');
                 ajaxOpenShifts('curr');
             }
@@ -108,6 +109,7 @@ $(document).ready(function() {
             dataType: 'json',
             success : function (data) {
                 console.log("TAKEN YES IT TOOK YES");
+                $('.modal').modal('hide');
                 ajaxUserShifts('curr');
                 ajaxOpenShifts('curr');
             }
@@ -217,8 +219,7 @@ $(document).ready(function() {
             part_end = 'None'
         }
 
-        sobStory = $('#' + modalID).find('#sob-story').text()
-        console.log($('#' + modalID).find('.perm-cover').prop('checked')) 
+        sobStory = $('#' + modalID).find('#sob-story').val()
         data = {
             'event_id' : eventID,
             'permanent' : isPerm,
