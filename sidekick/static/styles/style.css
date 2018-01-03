@@ -15,6 +15,10 @@
     }
 }
 
+.pic-open-shift{
+    opacity: 0.5;
+}
+
 .navbar-brand
 {
 font-family: 'Raleway', Sans Serif;
@@ -27,12 +31,6 @@ font-family: 'Raleway', Sans Serif;
   width: 70%;
   min-width: 60px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
-
-/*Creates the hover effect on the employee-pic*/
-.img-holder:hover .employee-pic{
-  transition: .5s ease;
-  opacity: 0.5;
 }
 
 /*Styles the tool to be bigger, maybe there is a better way to do this*/
@@ -52,11 +50,12 @@ font-family: 'Raleway', Sans Serif;
   display: flex;
   position: relative;
   flex-flow: row;
+  flex-wrap: wrap;
   align-items: center;
-  justify-content: space-around;
+  justify-content: flex-start;
   width: 82%;
   background: white;
-  height: 160px;
+  height: 180px;
   text-align: center;
   border-right: solid 2px #9692A0;
   box-shadow: 3px 3px 3px grey;
@@ -68,9 +67,12 @@ font-family: 'Raleway', Sans Serif;
 
 .beacon-left{
   width: 22%;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
   background: #548E8E;
   padding: 5px;
-  height: 160px;
+  height: 180px;
   margin-top: 5px;
   border-right: solid 3px #285858;
   border-top-right-radius: 5%;
@@ -88,10 +90,17 @@ font-family: 'Raleway', Sans Serif;
   text-align: center;
 }
 
-/*Overrides the beacon-right*/
-.rc{
-  justify-content: flex-start;
+/*Overrides the beacon for staff*/
+.staff-beacon-left
+{
+  height: 360px;
 }
+
+.staff-beacon-right
+{
+  height: 360px;
+}
+
 
 .name-holder {
 
@@ -664,6 +673,75 @@ input[type=number]::-webkit-outer-spin-button {
 {
     display: none;
 }
+.shift-btn
+{
+    border-radius: 4px;
+    border: lightgray 2px solid;    
+    background-color: white;
+    transition: all linear 0.2s;
+}
+.open-shift
+{
+    border: red 2px solid;
+}
+.shifts-header
+{
+    display: flex;
+}
+.shifts-week
+{
+    flex: 1;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.shifts-title
+{
+    flex: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.shifts-week-selector
+{
+    flex: 3;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+.shifts-panel-group
+{
+    display: flex;
+}
+.shift-panel
+{
+    justify-content: flex-start;
+    margin-right: 2px;
+}
+.your-week-text
+{
+    padding-right: 5px;
+    padding-left: 5px;
+}
+.open-week-text
+{
+    padding-right: 5px;
+    padding-left: 5px;
+}
+.loader {
+    border: 16px solid #f3f3f3; /* Light grey */
+    border-top: 16px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+}
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+*{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
 .noselect {
   -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */

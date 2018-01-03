@@ -1,4 +1,6 @@
 {% load staticfiles %}
+{% load roster_extras %}
+
 <div class='panel-group sidebarTools'>
     <div class="panel panel-default">
         <div class="panel-heading"><h4>MoD Tracker</h4></div>
@@ -8,24 +10,31 @@
                 <div class="carousel-inner" role="listbox">
                     <div class="item active">
                         <div class="media curMoD">
+                            {% if curr_mod %}
                             <div class="media-left">
-                                <img src="{% static 'employees/nchera13.gif' %}" class='img-circle sideMoDImg'>
+                                <img src="{% static curr_mod.owner.picture|img_exists %}" class='img-circle sideMoDImg'>
                             </div>
                             <div class="media-body">
-                                <h4 class='media-heading modName'>Now: Nicholas Chera</h4>
-                                <p>10:00am-2:00pm</p>
+                                <h4 class='media-heading modName'>Now: {{curr_mod.owner}}</h4>
+                                <p>{{curr_mod.pretty_duration}}</p>
                             </div>
+                            {% else %}
+                            <div class="media-body">
+                                <h4 class="media-heading modName">Current: None</h4>
+                                <p>Try the MoD phone or Slack!</p>
+                            </div>
+                            {% endif %}
                         </div>
                     </div>
 
                     <div class="item">
                         <div class="media nextMoD">
                             <div class="media-left">
-                                <img src="{% static 'employees/dbartholomew13.gif' %}" class='img-circle sideMoDImg'>
+                                <img src="{% static next_mod.owner.picture|img_exists %}" class='img-circle sideMoDImg'>
                             </div>
                             <div class="media-body">
-                                <h4 class='media-heading modName'>Next: David Bartholomew</h4>
-                                <p>2:00pm-6:00pm</p>
+                                <h4 class='media-heading modName'>Next: {{next_mod.owner}}</h4>
+                                <p>{{next_mod.pretty_duration}}</p>
                             </div>
                         </div>
                     </div>
@@ -46,10 +55,26 @@
         <div class='panel-heading'>
             <div class="media">
                 <div class="media-body">
-                    <h4>My Shift<br><small> Marshburn: 2:15pm-5:00pm</small></h4>
+                    <h4>
+                        {% if my_shift %}
+                            {% if my_shift_happening %}
+                                My Shift<br>
+                                <small> {{my_shift.pretty_location}}:{{my_shift.pretty_duration}}</small>
+                            {{my_shift}}
+                            {% else %}
+                                My Next Shift: <br>
+                                <small>
+                                    {{my_shift.shift_date}}<br>
+                                    {{my_shift.pretty_location}}:{{my_shift.pretty_duration}}
+                                </small>
+                            {% endif %}
+                        {% else %}
+                        My Shift<br> <small>No upcoming shifts</small>
+                        {% endif %}
+                    </h4>
                 </div>
                 <div class="media-right">
-                    <img class="sh-checkin-img img-circle" src="{% static 'roster/checked-in-False-time.png'%}">
+                    <!--<img class="sh-checkin-img img-circle" src="{% static 'roster/checked-in-False-time.png'%}">-->
                 </div>
             </div>
 
@@ -84,7 +109,7 @@
         </div>
     </div>
     <div class="panel panel-default">
-        <div class="panel-heading"><h4>Trophy Case</h4></div>
+        <div class="panel-heading"><h4>My Awards</h4></div>
         <div class="panel-body">
             {% include 'trophycase/trophycase.html' with trophy_list=trophy_list%}
         </div>

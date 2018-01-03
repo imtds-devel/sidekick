@@ -6,6 +6,9 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from roster.models import Trophies
 from homebase.models import Employees
+from shifts.models import Shifts
+import datetime
+import pytz
 
 live = False  # Set to true for production!
 
@@ -18,12 +21,21 @@ def load_page(request, template, context):
     if not authorize(request):
         return HttpResponse("403 unauthorized user!")
 
-    context['user_img'] = "employees/"+str(request.user)+".gif"
-    context['user_netid'] = str(request.user)
-    context['user_name'] = Employees.objects.get(netid__iexact=str(request.user)).full_name
+    tz = pytz.timezone("America/Los_Angeles")
+    now = tz.localize(datetime.datetime.now())
+    curr_user = Employees.objects.get(netid__iexact=str(request.user))
+    context['user_name'] = curr_user.full_name
+    context['user_img'] = "employees/"+str(curr_user.netid)+".gif"
+    context['user_netid'] = str(curr_user.netid)
+    context['curr_mod'] = list(Shifts.objects.filter(location='md', shift_start__lte=now, shift_end__gt=now))[0:1]
+    context['next_mod'] = Shifts.objects.filter(location='md', shift_start__gt=now).order_by('shift_start').first()
+    context['my_shift'] = Shifts.objects.filter(owner=curr_user, shift_end__gte=now).order_by('shift_start').first()
+    if context['my_shift']:
+        # If someone is graduating, there will come a point when they don't have any upcoming shifts
+        # We don't want the site to crash for them if/when this happens!
+        context['my_shift_happening'] = tz.localize(context['my_shift'].shift_start) < now
 
-    trophy_list = Trophies.objects.all()
-    context['trophy_list'] = trophy_list
+    context['trophy_list'] = Trophies.objects.filter(recipient=curr_user)
 
     return render(request, template, context)
 
@@ -46,3 +58,7 @@ def authorize(request):
     uname = str(request.user)
     return Employees.objects.filter(netid__iexact=uname)
 
+
+def oauth_handler(request):
+    print(request.GET)
+    return HttpResponse("Hi!")

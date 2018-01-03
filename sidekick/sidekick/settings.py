@@ -12,12 +12,12 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 
 import os
 import configparser
-import psycopg2
 
 config = configparser.ConfigParser()
 config.read('config.ini')
 db = config['database']
 static_dir = config['static']
+cal = config['cal_ids']
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -28,15 +28,15 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'nz_um@06uk+dk4)42z8=@7+!*hea&+!#x!$-qpacs!kwue_qn%'
+SECRET_KEY = config['prod']['secret_key']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(config['prod']['debug'])
 
 ALLOWED_HOSTS = [
-	'192.168.8.33',
-	'sidekick.devel.apu.edu',
-	'127.0.0.1'
+    '192.168.8.33',
+    'sidekick.devel.apu.edu',
+    '127.0.0.1'
 ]
 
 
@@ -145,7 +145,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
@@ -156,3 +156,14 @@ STATIC_URL = static_dir['url']
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static")
 ]
+
+# Google Cal Settings
+CALENDAR_LOCATION_IDS = {
+    'ma': cal['ma'],
+    'da': cal['da'],
+    'st': cal['st'],
+    'sd': cal['sd'],
+    'rc': cal['rc'],
+    'md': cal['md'],
+    'te': cal['te']
+}

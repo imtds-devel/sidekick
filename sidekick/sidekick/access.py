@@ -106,7 +106,7 @@ def get_mgr_access(area):
         "nav_modtools",
 
         # Homebase page
-        "homingbeacon_checkin", "homingbeacon_requestpaper", "announcements_canedit",
+        "homingbeacon_checkin", "homingbeacon_requestpaper", "announcements_canedit", "homingbeacon_updatestatus",
 
         # Shift Covers Page
         "shift_modpanel", "shift_postall", "shift_viewall",
@@ -132,7 +132,7 @@ def get_stt_access(area):
         "nav_modtools",
 
         # Homebase page
-        "homingbeacon_checkin", "homingbeacon_requestpaper", "announcements_canedit",
+        "homingbeacon_checkin", "homingbeacon_requestpaper", "announcements_canedit", "homingbeacon_updatestatus",
 
         # Shift Covers Page
         "shift_modpanel", "shift_postall", "shift_viewall",
@@ -158,7 +158,7 @@ def get_stm_access(area):
         "nav_modtools",
 
         # Homebase page
-        "homingbeacon_checkin", "homingbeacon_requestpaper", "announcements_canedit",
+        "homingbeacon_checkin", "homingbeacon_requestpaper", "announcements_canedit", "homingbeacon_updatestatus",
 
         # Shift Covers Page
         "shift_modpanel", "shift_postall", "shift_viewall",

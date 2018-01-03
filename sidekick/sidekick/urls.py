@@ -19,6 +19,7 @@ from django.views.generic import RedirectView
 from django.conf import settings
 from django.conf.urls.static import static
 from cas import views
+from shifts.functions import sync
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -30,5 +31,7 @@ urlpatterns = [
     url(r'^roster/', include('roster.urls')),
     url(r'^shifts/', include('shifts.urls')),
     url(r'^accounts/login/$', views.login, name='login'),
-    url(r'^accounts/logout/$', views.logout, name='logout')
-]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    url(r'^accounts/logout/$', views.logout, name='logout'),
+    url(r'^google/synchronize/', sync.sync),
+
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

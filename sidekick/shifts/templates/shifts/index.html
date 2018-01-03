@@ -1,6 +1,65 @@
 {% extends 'sidekick/app-base.html' %}
+{% load staticfiles %}
 {% block content %}
-<div class='page-header'>
-    <h2>Scheduling</h2>
+{% load tz %}
+{% load shifts_extras %}
+<div class = 'panel panel-primary'>
+    <div class = 'panel-heading shifts-header'>
+        <div class = 'shifts-week'>
+                <button id = 'your-week-previous' type = 'button' class = 'btn btn-default'><span class="glyphicon glyphicon-menu-left"></span></button>
+                <p class = 'your-week-text' id = 'your-week'></p>
+                <button id = 'your-week-next' type = 'button' class = 'btn btn-default'><span class="glyphicon glyphicon-menu-right"></span></button>  
+        </div>      
+        <p class = 'shifts-title'>My Shifts</p>
+        <div class = 'shifts-date-selector'>
+            <div class = 'form-group'>
+                <input id = 'your-shift-date' type = 'date' class = 'form-control' value= '{{date|datetime_to_date}}'>
+            </div>
+        </div>
+    </div>
+    <div class = 'panel-body'>
+        <div id = 'your-shifts-panel-group' class = 'shifts-panel-group'></div>
+    </div>
 </div>
+<div class = 'panel panel-warning'>
+        <div class = 'panel-heading shifts-header'>
+            <div class = 'shifts-week'>
+                <button id = 'open-week-previous' type = 'button' class = 'btn btn-default'><span class="glyphicon glyphicon-menu-left"></span></button>
+                <p class = 'open-week-text' id = 'open-week'></p>
+                <button id = 'open-week-next' type = 'button' class = 'btn btn-default'><span class="glyphicon glyphicon-menu-right"></span></button>  
+            </div>  
+            <div class = 'shifts-title'>Open Shifts</div>
+            <div class = 'shift-location-selector'>
+                <select class = 'form-control' id = 'open-shift-location'>
+                    <optgroup label = "Positions">
+                    {% for key, value in positions.items %}
+                        {% if key == user_position %}
+                        <option value = {{key}} selected = 'selected'>{{value}}</option>                    
+                        {% else %}
+                        <option value = {{key}}>{{value}}</option>
+                        {% endif %}
+                    {% endfor %}
+                    </optgroup>
+                    <optgroup label = "Locations">
+                    {% for key, value in locations.items %}
+                        <option value = {{key}}>{{value}}</option>
+                    {% endfor %}
+                    </optgroup>
+                </select>
+            </div>
+            <div class = 'shifts-date-selector'>
+                <div class = 'form-group'>
+                    <input id = 'open-shift-date' type = 'date' class = 'form-control' value= '{{date|datetime_to_date}}'>
+                </div>
+            </div> 
+        </div>
+        <div class = 'panel-body'>
+            <div id = 'open-shifts-panel-group' class = 'shifts-panel-group'></div>
+        </div>
+    </div>
+    <div id = 'shift-modals'>
+            <div id = 'user-shift-modals'></div>
+            <div id = 'open-shift-modals'></div>            
+    </div>
+<script src="{% static "js/shifts.js" %}"></script>        
 {% endblock %}
