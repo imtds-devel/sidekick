@@ -740,8 +740,10 @@ input[type=number]::-webkit-outer-spin-button {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
-*{
+*
+{
     font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
 .noselect {
   -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
