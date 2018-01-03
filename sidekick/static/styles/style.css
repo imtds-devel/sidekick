@@ -444,7 +444,7 @@
 
 .hero-card
 {
-    max-width: 308px;
+    max-width: 306px;
     max-height: 138px;
     margin-left: 6px;
     display: inline-block;
@@ -505,7 +505,7 @@
 .e_desc
 {
     text-align:right;
-    width:151px;
+    max-width:151px;
 }
 .e_field
 {
