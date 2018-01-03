@@ -19,6 +19,11 @@
     opacity: 0.5;
 }
 
+.navbar-brand
+{
+font-family: 'Raleway', Sans Serif;
+}
+
 /*Makes the round employee pic with shadow*/
 .employee-pic{
   border-radius: 50%;
