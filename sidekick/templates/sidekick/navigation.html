@@ -17,6 +17,8 @@
                     <li><a href = "{% url 'roster:index' %}">Roster</a></li>
                     <li><a href = "{% url 'quotes:index' %}">Quote Tool</a></li>
                     <li><a href = "{% url 'printinfo:index' %}">Printer Info</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
                     <li>
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Rounds Reports <b class="caret"></b></a>
                         <ul class="dropdown-menu">
@@ -42,6 +44,25 @@
                                     MoD Report
                                 </a>
                             </li>
+                            {% endif %}
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tools <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="https://apuimt.slack.com/" target="_blank">
+                                    Slack
+                                </a></li>
+
+                            <li><a href="https://den.apu.edu/idm/admin" target="_blank">IDM</a></li>
+                            <li><a href="https://labprint.apu.edu/release" target="_blank">Papercut</a></li>
+                            <li><a href="https://docs.google.com/a/apu.edu/forms/d/e/1FAIpQLSe_EPW562n79mbHaI7_YYWVfD9LxKzmo1__Y9UtZ13fzczuJQ/viewform" target="_blank">Time Adjustment Form</a></li>
+                            <li><a href="https://apu.zendesk.com/agent/" target="_blank">Zendesk</a></li>
+                            <li><a href="https://wiki.apu.edu/" target="_blank">Wiki</a></li>
+                            {% if user_netid|has_access:"nav_modtools" %}
+                            <li><a href="https://ise-adm-1.ise.apu.edu/admin/login.jsp" target="_blank">ISE</a></li>
+                            <li><a href="https://director.apu.edu/" target="_blank">Director</a></li>
+                            <li><a href="https://citrix.apu.edu/" target="_blank">Citrix</a></li>
                             {% endif %}
                         </ul>
                     </li>
