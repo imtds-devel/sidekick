@@ -8,6 +8,7 @@ from .models import Proficiencies, Discipline, Trophies
 from .forms import EmployeeForm, StarForm, CommentForm, DisciplineForm
 from sidekick.access import get_access
 import json
+from django.http import JsonResponse
 
 
 # Create your views here.
@@ -177,7 +178,6 @@ def post_discipline(request):
     body = request.POST.get('body', None)
     extent = request.POST.get('extent', None)
 
-    print(extent)
     # Construct discipline object
     comment = Discipline(
         subject=subject,
@@ -192,6 +192,20 @@ def post_discipline(request):
         json.dumps({"status": "Comment successfully created!"}),
         content_type="application/json"
     )
+
+
+def get_comments(request):
+    netid = request.GET.get('netid', None)
+
+    comments = Discipline.objects.filter(about_id=netid)
+
+    translated_comments = comments.values('about_id', 'subject', 'val', 'time', 'description')
+
+    data = {
+        'comlist': list(translated_comments)
+    }
+
+    return JsonResponse(data)
 
 
 # Helper Functions

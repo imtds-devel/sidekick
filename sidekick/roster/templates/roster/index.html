@@ -13,7 +13,7 @@
         {% if employee_list %}
         {% for employee, skills in employee_list %}
         <div class='panelemp panel-default hero-card' id="{{employee.search}}">
-            <button type='button'
+            <button type='button' id="b-{{employee.netid}}"
                     class='btn hero-card-button btn-block {{employee.position}} dev_{{employee.developer}}'
                     data-toggle='modal'>
                 <div class='panel-body'>
@@ -65,7 +65,51 @@
         </div>
     </div>
 
-    <div id='drop-down'></div>
+    <div id='drop-down'>
+        <div id="netid-standin" class='modal fade'>
+            <div class='modal-dialog modal-md'>
+                <div class='modal-content' id="content-standin">
+                    <div class='modal-header'>
+                        <h4 style='text-align: left; margin-left:30px; margin-top:15px; margin-bottom:-35px;' class='modal-title' id="title-name"></h4>
+                        <ul class='nav nav-tabs' style='margin-left:250px'>
+                            <li class='active'><a data-toggle='tab' href='#emp-home'>Info</a></li>
+                            <li><a data-toggle='tab' href='#emp-skills'>Skills</a></li>
+                            <li><a data-toggle='tab' href='#emp-comment'>Comments</a></li>
+                        </ul>
+                    </div>
+                    <div class='tab-content tab-card'>
+                        <div id='emp-home' class='modal-body hero-bio tab-pane fade in active'>
+                            <div class="col-md-7">
+                                <img id='pic-standin' src='pic' class='img-circle img-herobio'>
+                            </div>
+                            <div class='col-md-5' id='bio-div' style="text-align:right">
+                            </div>
+                        </div>
+                        <div id='emp-skills' class='tab-pane row fade'>"
+                            <div id="skills-div">
+                            </div>
+                        </div>
+                        <div id='emp-comment' class='modal-body hero-bio tab-pane fade'>
+                            <div class='col-md-6'>
+                                <h4 style='text-align: left; margin-left: 100px;' class='modal-title'><b>Comments</b></h4>
+                                <div id="comment-div" style='height: 310px; overflow-y: auto; margin-top:5px'>
+                                </div>
+                            </div>
+                            <div class='col-md-6'>
+                                <button type='btn-md' style='margin:7px' id='starpanel'>Award</button>
+                                <button type='btn-md' style='margin:7px' id='companel'>Comment</button>
+                                <button type='btn-md' style='margin:7px' id='dispanel'>Discipline</button>
+                                <div id='comarea' style='height: 275px; overflow-y: auto;'></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class='modal-footer'>
+                        <button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div id="new-user" class="modal fade">
         <div class="modal-dialog modal-md">
             <div class="modal-content">
@@ -114,7 +158,7 @@
             </div>
             <div class="form-group">
                 <label for="award-reason">Reason:</label>
-                <textarea class="form-control" id="award-reason" rows="2" title="Reason"></textarea>
+                <textarea class="form-control" id="award-reason" rows="3" title="Reason"></textarea>
             </div>
             <input type="hidden" name="giver" id = "giver" value="">
             <input type="hidden" name="recipient" id = "recipient" value="">
@@ -130,7 +174,7 @@
             </div>
             <div class="form-group">
                 <label for="comm-body">Comment:</label>
-                <textarea class="form-control" id="comm-body" rows="3" title="Commment"></textarea>
+                <textarea class="form-control" id="comm-body" rows="4" title="Commment"></textarea>
             </div>
             <input type="hidden" name="about" id = "comm-about" value="">
             <h5 align="right"><button class="btn btn-success" id="submit-comment">Submit</button></h5>
@@ -150,7 +194,7 @@
             </div>
             <div class="form-group">
                 <label for="disc-body">Comment:</label>
-                <textarea class="form-control" id="disc-body" rows="2" title="Commment"></textarea>
+                <textarea class="form-control" id="disc-body" rows="3" title="Commment"></textarea>
             </div>
             <input type="hidden" name="about" id = "disc-about" value="">
             <h5 align="right"><button class="btn btn-success" id="submit-discipline">Submit</button></h5>

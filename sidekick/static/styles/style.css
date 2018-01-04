@@ -664,14 +664,9 @@ input[type=number]::-webkit-outer-spin-button {
 {
     display: none;
 }
-.prof-al
-{
-    margin-top: 50px;
-    left: -20px;
-}
 .tab-card
 {
-    min-height:330px;
+    min-height:360px;
     min-width:600px;
 }
 .noselect

@@ -8,8 +8,6 @@ $(document).ready(function(){
      });
 });
 
-netid_1 = $(this).find(".emp-meta").attr('id')
-
 $('.btn').click(function showModal(){
 
 //grab all info from HTML load for each employee
@@ -26,7 +24,7 @@ skills = $(this).find(".m-profs").text();
 
 
 //grab all proficiencies from list
-netid_1 = netid_1.slice(2,  );
+var netid_1 = netid_1.slice(2,);
 var basic = skills.slice(0,1);
 var adv = skills.slice(3,4);
 var field = skills.slice(6,7);
@@ -37,107 +35,134 @@ var ref = skills.slice(18,19);
 var soft = skills.slice(21,22);
 //Append the mother-modal div upon click
 
-    $('#drop-down').append(
-         "<div id=" + netid_1 + " class='modal fade'>"
-        +   "<div class='modal-dialog modal-md'>"
-        +       "<div class='modal-content "+ color +" dev_"+ dev +"'>"
-        +           "<div class='modal-header'>"
-        +               "<h4 style='text-align: left; margin-left:30px; margin-top:15px; margin-bottom:-35px;' class='modal-title'><b>" + fullname + "</b></h4>"
-        +                           "<ul class='nav nav-tabs' style='margin-left:250px'>"
-        +                           "<li class='active'><a data-toggle='tab' href='#h-" + netid_1 +"'>Info</a></li>"
-        +                           "<li><a data-toggle='tab' href='#s-" + netid_1 +"'>Skills</a></li>"
-        +                           "<li><a data-toggle='tab' href='#c-" + netid_1 +"'>Comments</a></li>"
-        +           "</div>"
-        +                 "<div class='tab-content tab-card'>"
-        +                   "<div id='h-" + netid_1 +"' class='modal-body hero-bio tab-pane fade in active'>"
-        +                       "<img src='" + pic + "' class='img-circle img-herobio'>"
-        +                           "<div class='hero-bio'>"
-        +                               "<p><b>" + netid_1 + "</b></p>"
-        +                               "<p>" + codename + "</p>"
-        +                               "<p>" + position + "</p>"
-        +                               "<p>" + phone + "</p>"
-        +                               "<p>" + birthday + "</p>"
-        +                           "</div>"
-        +                   "</div>"
-        +                       "<div id='s-" + netid_1 +"' class='tab-pane row fade'>"
-        +                           "<div class='chart col-md-' data-width='200' data-height='300' data-red='100' data-green='100' data-blue='400' style='margin-top:5px;'>"
-		+                               "<div class='chartCanvasWrap col-md-7' style='left:5px'></div>"
-		+                                   "<div class='col-sm-5 prof-al' align='right'>"
-        +                                       "<p><b>Basic Hardware: </b>" + basic + "</p>"
-        +                                       "<p><b>Advanced Hardware: </b>" + adv + "</p>"
-        +                                       "<p><b>Field Support: </b>" + field + "</p>"
-        +                                       "<p><b>Printers: </b>" + print + "</p>"
-        +                                       "<p><b>Networking: </b>" + net + "</p>"
-        +                                       "<p><b>Mobile: </b>" + mobile + "</p>"
-        +                                       "<p><b>Refreshes: </b>" + ref + "</p>"
-        +                                       "<p><b>Software: </b>" + soft + "</p>"
-        +                                   "</div>"
-		+                               "</div>"
-		+                           "</div>"
-        +                               "<div id='c-" + netid_1 +"' class='modal-body hero-bio tab-pane fade'>"
-		+                                   "<div class='col-md-6'>"
-		+                                       "<h4 style='text-align: left; margin-left: 100px;' class='modal-title'><b>Comments</b></h4>"
-		+                                       "<div style='height: 275px; overflow-y: auto; margin-top:5px'>"
-		+                                       "<p>1</p><p>2</p><p>3</p><p>4</p><p>5</p><p>6</p><p>7</p><p>8</p><p>9</p><p>10</p><p>11</p><p>12</p><p>13</p>"
-        +                                   "</div>"
-		+                               "</div>"
-		+                                   "<div class='col-md-6'>"
-		+                                        "<button type='btn-md' style='margin:7px' id='starpanel'>Award</button>"
-		+                                        "<button type='btn-md' style='margin:7px' id='companel'>Comment</button>"
-		+                                        "<button type='btn-md' style='margin:7px' id='dispanel'>Discipline</button>"
-		+                                        "<div id='comarea' style='height: 275px; overflow-y: auto;'></div>"
-		+                                   "</div>"
-        +                               "</div>"
-        +                         "</div>"
-        +                    "<div class='modal-footer'>"
-        +                       "<button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>"
-        +                    "</div>"
-        +              "</div>"
-        +        "</div>"
-        +"</div>");
+    if (basic == 0, adv == 0, field == 0, print == 0, net == 0, mobile == 0, ref == 0, soft == 0){
+        basic = 0
+        adv = 0
+        field = 0
+        print = 0
+        net = 0
+        mobile = 0
+        ref = 0
+        soft = 0
+    }
+
+    $('#netid-standin').attr('id', netid_1);
+    $('#content-standin').attr('class', "modal-content "+ color + " dev_"+ dev);
+    $('#pic-standin').attr('src', pic);
+
+    $('#title-name').append(
+        "<b>" + fullname + "</b>"
+    );
+
+    $('#bio-div').append(
+      "<h4><b>" + netid_1 + "</b></h4>"
+    + "<h5>" + codename + "</h5>"
+    + "<h5>" + position + "</h5>"
+    + "<h5>" + phone + "</h5>"
+    + "<h5>" + birthday + "</h5>"
+    );
+
+    $('#skills-div').append(
+     "<div class='chart col-sm-' data-width='200' data-height='300' data-red='100' data-green='100' data-blue='400' style='margin-top:5px;'>"
+     + "<div class='chartCanvasWrap col-md-7' style='left:5px'></div>"
+     + "<div class='col-sm-4' style='text-align:right'>"
+     + "<p><b>Basic Hardware: </b>" + basic + "</p>"
+     + "<p><b>Advanced Hardware: </b>" + adv + "</p>"
+     + "<p><b>Field Support: </b>" + field + "</p>"
+     + "<p><b>Printers: </b>" + print + "</p>"
+     + "<p><b>Networking: </b>" + net + "</p>"
+     + "<p><b>Mobile: </b>" + mobile + "</p>"
+     + "<p><b>Refreshes: </b>" + ref + "</p>"
+     + "<p><b>Software: </b>" + soft + "</p>"
+     + "</div>"
+     + "</div>"
+    );
 
     //Once modal div is added, it is shown
     $('#'+ netid_1).modal('show');
 
-    $('#starform').appendTo("#comarea")
-    $("#comform").appendTo("#comarea")
-    $("#disform").appendTo("#comarea")
-    $("#comform").hide()
-    $("#starform").hide()
-    $("#disform").hide()
+    $('#starform').appendTo("#comarea");
+    $("#comform").appendTo("#comarea");
+    $("#disform").appendTo("#comarea");
+    $("#comform").hide();
+    $("#starform").hide();
+    $("#disform").hide();
     $("input[name='recipient']").val(netid_1);
     $("input[name='about']").val(netid_1);
 
+    var subject
+    var time
+    var description
+    var extent
+
+    $.ajax({
+        method: "GET",
+        dataType: "json",
+        url: 'ajax/getcomments/',
+        dataType: 'json',
+        data: {
+           'netid': netid_1,
+           'subject': subject,
+           'extent': extent,
+           'time': time,
+           'descrip': description
+        },
+        success: function(data){
+            console.log(data)
+
+            console.log(data.comlist)
+
+            $("#comment-div").html(" ");
+	        for (i = 0; i < data.comlist.length; i++) {
+		        var output = "<panel>";
+		        output += "<h4><b>Subject: </b>"+ data.comlist[i].subject +"</h4>";
+		        output += "<h5><b>Value: </b>"+ data.comlist[i].val +"</h5>";
+		        output += "<h5><b>Why: </b>"+ data.comlist[i].description +"</h5>";
+		        output += "<h5><b>When: </b>"+ data.comlist[i].time +"</h5>";
+		        output += "</panel>";
+		        $(output).appendTo("#comment-div");
+		        }
+        },
+        error: function(data){
+            console.log("Failure!")
+            console.log(data)
+            alert("Oh no! Something went wrong with your comments!")
+        }
+    });
+
 //Delete the modal info when modal is hidden
 $("#" + netid_1).on("hidden.bs.modal", function(){
-    $("#comform").appendTo("#comment-form")
-    $("#starform").appendTo("#star-form")
-    $("#disform").appendTo("#dis-form")
-    $("#comment-form").hide()
-    $("#star-form").hide()
-    $("#disform").hide()
-    $('#drop-down').empty();
+    $("#comform").appendTo("#comment-form");
+    $("#starform").appendTo("#star-form");
+    $("#disform").appendTo("#dis-form");
+    $("#comment-form").hide();
+    $("#star-form").hide();
+    $("#disform").hide();
+    $('#bio-div').empty();
+    $('#skills-div').empty();
+    $('#title-name').empty();
+    $('#' + netid_1).attr('id', 'netid-standin')
 });
 
 $('#starpanel').click(function(){
     $("#starform")[0].reset();
-    $("#comform").hide()
-    $("#disform").hide()
-    $('#starform').fadeIn(200)
+    $("#comform").hide();
+    $("#disform").hide();
+    $('#starform').fadeIn(200);
 });
 
 $('#companel').click(function(){
     $("#comform")[0].reset();
-    $("#starform").hide()
-    $("#disform").hide()
-    $('#comform').fadeIn(200)
+    $("#starform").hide();
+    $("#disform").hide();
+    $('#comform').fadeIn(200);
 });
 
 $('#dispanel').click(function(){
     $("#disform")[0].reset();
-    $("#starform").hide()
-    $("#comform").hide()
-    $('#disform').fadeIn(200)
+    $("#starform").hide();
+    $("#comform").hide();
+    $('#disform').fadeIn(200);
 });
 
 //radar chart function
@@ -204,7 +229,7 @@ $(function(){
 
       this.canvas = canvas;
 
-		var annimationDelay = 1200;
+		var annimationDelay = 100;
 		if(this.settings.annimationDelay){
 			annimationDelay=this.settings.annimationDelay;
 		}
@@ -217,7 +242,7 @@ $(function(){
     Radar.prototype.draw = function() {
       this.newCanvas();
       var min = 0;
-      var max = 0;
+      var max = 5;
 
       $.each(this.settings.values, function(i,val){
         if (val < min)
