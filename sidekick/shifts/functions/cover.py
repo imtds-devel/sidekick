@@ -96,7 +96,7 @@ def full_cover(data: CoverInstructions):
     ).execute()
 
     """
-    # This shouldn't be necessary if our synchronizer runs on changes!
+    # This code is completely unnecessary, but I'm saving it just in case I'm wrong about that
     # 4. Save changes to db
     # Create new shifts in db
     for shift in shifts:
@@ -191,10 +191,11 @@ def partial_cover(data: CoverInstructions):
         )
     ]
     # Now we validate and remove any zero-length shifts
-    i=0
+    i = 0
     while i < len(events):
         event = events[i]
         duration = get_duration(event)
+        print(duration)
 
         if duration == 0:
             events.remove(event)
@@ -205,12 +206,23 @@ def partial_cover(data: CoverInstructions):
         i += 1
 
     # Now we should have a pruned and validated list of times
+    # Let's send them to Google!
+    new_events=[]
+    for event in events:
+        new_events.append(data.g_service.events().insert(calendarId=cal_id, body=event))
+
+    print(new_events)
+
     return shift_email(data)
 
 
 # Return the duration of an event in minutes!
 def get_duration(event):
-    return 5
+    # In order to do this, we'll have to create two datetime objects and get the timedelta
+    start = datetime.datetime.strptime(event.start, '%Y-%m-%dT%H:%M:%S')
+    end = datetime.datetime.strptime(event.end, '%Y-%m-%dT%H:%M:%S')
+    dur = end - start
+    return int(dur.seconds/60)
 
 
 # Google's format for specifying end repeat: yyyymmddThhmmssZ
