@@ -22,6 +22,7 @@
 .navbar-brand
 {
 font-family: 'Raleway', Sans Serif;
+padding-left: 0.5rem;
 }
 
 /*Makes the round employee pic with shadow*/
