@@ -9,6 +9,7 @@ from sidekick import views
 from datetime import timedelta
 from datetime import datetime
 from homebase.models import Employees
+from sidekick.access import get_access
 from django.http import JsonResponse
 from django.db.models import Q
 from django.db.models.functions import Cast
@@ -28,8 +29,20 @@ def post_cover(request):
     sob_story = str(request.POST.get('sob_story', None))
     #actor = Employees.objects.get(netid=str((Shifts.objects.get(event_id=request.GET.get('event_id', None))).owner))
     shift = Shifts.objects.get(event_id=request.POST.get('event_id', None))
-    actor = shift.owner
-    #actor = get_current_user(request)
+    shift_owner = shift.owner
+    # If the owner of the shift is the one posting the shift, then we can proceed normally
+    if shift_owner == get_current_user(request):
+        actor = get_current_user(request)
+    elif get_access(get_current_user(request), "shift_postall"): # if the current user can post any shift
+        actor = get_current_user(request)
+    else: # if the user can't post this shift
+        jsonData = {
+            'pst_status' : False
+        }
+        return JsonResponse(jsonData)
+
+
+
     if permanent:
         s_id = str(request.POST.get('permanent_id', None))
     else:

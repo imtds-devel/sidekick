@@ -94,7 +94,7 @@ $(document).ready(function() {
             dataType: 'json',
             success : function (data) {
                 console.log("POSTED YES IT POSTED YES");
-                $('.modal').modal('hide');              
+                //$('.modal').modal('hide');              
                 ajaxUserShifts('curr');
                 ajaxOpenShifts('curr');
             }
@@ -109,7 +109,7 @@ $(document).ready(function() {
             dataType: 'json',
             success : function (data) {
                 console.log("TAKEN YES IT TOOK YES");
-                $('.modal').modal('hide');
+                //$('.modal').modal('hide');
                 ajaxUserShifts('curr');
                 ajaxOpenShifts('curr');
             }
@@ -298,75 +298,142 @@ $(document).ready(function() {
                 for (shift = 0; shift < shiftsDay.length; shift++)
                 {
                     // Generate a shift "button" for each shift
-                    $('#' + weekDays[day] + '-shifts .panel-body').append( // Select the body of the current day we are looping through
-                        "<button type = 'button' id = '" + shiftsDay[shift].event_id  + "' class = 'btn btn-block shift-btn' data-toggle= 'modal' data-target= '#"
-                        + String(shiftsDay[shift].event_id) + "-modal' >" + locations[shiftsDay[shift].location] // This line labels the modal we will make and the location of the shift
-                        + ": " + formatTimeRange(shiftsDay[shift].shift_start, shiftsDay[shift].shift_end) // This line lays out the time range of the shift using a handy method
-                        +"</button>"                    
-                    )
-                    // Generate a modal for each shift
-                    $('#user-shift-modals').append(
-                        "<div id = '" + String(shiftsDay[shift].event_id) + "-modal' class = 'modal fade'>"
-                        + "<div class='modal-dialog modal-lg'>"
-                        +    "<div class='modal-content'>"
-                        +        "<div class='modal-header'>"
-                        +            shiftsDay[shift].title // The title of the shift becomes the title of the modal
-                        +            "<button type='button' class='close' data-dismiss='modal'>&times;</button>"
-                        +            "<h4 class='modal-title'></h4>"
-                        +        "</div>"
-                        +        "<div class='modal-body'>"
-                        +            "<div class='shift-body'>"
-                        +                "<p>[Not Final Design]</p>" // #TODO final design
-                        +                "<p id = shift-details></p>" // We will fill this when we actually click a modal
-                        +            "</div>"
-                        +        "</div>"
-                        +        "<div class='modal-footer'>"
-                        +            "<button type='button' class='align-left btn btn-default' data-dismiss='modal' data-toggle= 'modal' data-target = '#post-conf-" + String(shiftsDay[shift].event_id) + "'>Post Cover</button>"                        
-                        +            "<button type='button' class='align-right btn btn-default' data-dismiss='modal'>Close</button>"
-                        +        "</div>"
-                        +    "</div>"
+                    if (shiftsDay[shift].is_open) { // If this shift is currently open, we want that to be apparent to the user
+                        $('#' + weekDays[day] + '-shifts .panel-body').append( // Select the body of the current day we are looping through
+                            "<button type = 'button' id = '" + shiftsDay[shift].event_id  + "' class = 'btn btn-block btn-warning shift-btn' data-toggle= 'modal' data-target= '#"
+                            + String(shiftsDay[shift].event_id) + "-modal' >" + locations[shiftsDay[shift].location] // This line labels the modal we will make and the location of the shift
+                            + ": " + formatTimeRange(shiftsDay[shift].shift_start, shiftsDay[shift].shift_end) // This line lays out the time range of the shift using a handy method
+                            +"</button>"          
+                        )
+                        // Generate a modal for each shift, this displays some information for the shift
+                        $('#user-shift-modals').append(
+                            "<div id = '" + String(shiftsDay[shift].event_id) + "-modal' class = 'modal fade'>"
+                            + "<div class='modal-dialog modal-lg'>"
+                            +    "<div class='modal-content'>"
+                            +        "<div class='modal-header'>"
+                            +            shiftsDay[shift].title
+                            +            "<button type='button' class='close' data-dismiss='modal'>&times;</button>"
+                            +            "<h4 class='modal-title'></h4>"
+                            +        "</div>"
+                            +        "<div class='modal-body'>"
+                            +            "<div class='shift-body'>"
+                            +                "<p>[Not Final Design]</p>"                        
+                            +                "<p id = shift-details></p>" // Once again we will fill this when the shift is clicked
+                            +                "<p id = cover-details-1></p>" // Open shifts have extra cover details that are filled on click     
+                            +                "<p id = cover-details-2></p>"                                    
+                            +            "</div>"
+                            +        "</div>"
+                            +        "<div class='modal-footer'>"
+                            +            "<button type='button' class='align-left btn btn-default' data-dismiss='modal' data-toggle= 'modal' data-target = '#post-conf-" + String(shiftsDay[shift].event_id) + "'>Take Shift</button>"
+                            +            "<button type='button' class='align-right btn btn-default' data-dismiss='modal'>Close</button>"
+                            +        "</div>"
+                            +    "</div>"
+                            +"</div>"
                         +"</div>"
-                    +"</div>"
-                    )
-                    // These modals are the modals that actually handle posting details
-                    // This is very much in progress 
-                    $('#user-shift-modals').append(
-                        "<div id = 'post-conf-" + String(shiftsDay[shift].event_id) + "' class = 'modal fade'>"
-                        +"<div class='modal-dialog modal-md'>"
-                        +   "<div class='modal-content'>"
-                        +       "<div class='modal-header'>"
-                        +       shiftsDay[shift].title // Once again the title is the title of the shift 
-                        +       "<button type='button' class='close' data-dismiss='modal' data-toggle = 'modal' data-target = '#" + String(shiftsDay[shift].event_id) + "-modal'>&times;</button>"
-                        +       "<h4 class='modal-title'></h4>"
-                        +   "</div>"
-                        +   "<div class='modal-body'>"
-                        +       "<div id='post-det'>"
-                        +           "<p id='full-prompt'>Would you like to post the full shift?"
-                        +           "<label class='spaced-radio-btn radio-inline'><input class='full-cover' type='radio' name='full-post'>Yes</label>"
-                        +           "<label class='spaced-radio-btn radio-inline'><input class='partial-cover' type='radio' name='full-post'>No</label></p>"
-                        +           "<div style='display:none;' class='partial-selectors'>"
-                        +               "Start:<select class='partial-start' name='post-partial-start'></select>"
-                        +               "End:<select class='partial-end' name='post-partial-end'></select>"                        
-                        +           "</div>"
-                        +           "<p class='hidden' id='perm-prompt'>Do you want to post this shift permanently?"
-                        +           "<label class='spaced-radio-btn radio-inline'><input class='perm-cover' type='radio' name='perm-post' checked='checked'>Yes</label>"
-                        +           "<label class='spaced-radio-btn radio-inline'><input class='temp-cover' type='radio' name='perm-post'>No</label></p>"
-                        +           "<div class='form-group'>"
-                        +               "<label for='sob-story'>Sob Story:</label>"
-                        +               "<textarea class='form-control' rows='2' id='sob-story'></textarea>"
-                        +           "</div>"                   
-                        +       "</div>"
-                        +   "</div>"
-                        +   "<div class='modal-footer'>"
-                        +       "<button disabled id='post-cover-btn' type='button' class='align-left btn btn-primary'>Post Shift Cover</button>"                        
-                        +       "<button type='button' class='align-right btn btn-default' data-toggle = 'modal' data-target = '#" + String(shiftsDay[shift].event_id) + "-modal' data-dismiss='modal'>Cancel</button>"
-                        +   "</div>"
-                        +   "</div>"
+                        )
+                        // These secondary modals are for confirming the shift posting
+                        $('#user-shift-modals').append(
+                            "<div id = 'post-conf-" + String(shiftsDay[shift].event_id) + "' class = 'modal fade'>"
+                            +"<div class='modal-dialog modal-md'>"
+                            +   "<div class='modal-content'>"
+                            +       "<div class='modal-header'>"
+                            +       shiftsDay[shift].title
+                            +       "<button type='button' class='close' data-dismiss='modal' data-toggle = 'modal' data-target = '#" + String(shiftsDay[shift].event_id) + "-modal'>&times;</button>"
+                            +       "<h4 class='modal-title'></h4>"
+                            +   "</div>"
+                            +   "<div class='modal-body'>"
+                            +       "<div id='post-det'>"
+                            +           "<p id='full-prompt'>Would you like to take the full shift?"
+                            +           "<label class='spaced-radio-btn radio-inline'><input class='full-take' type='radio' name='full-take'>Yes</label>"
+                            +           "<label class='spaced-radio-btn radio-inline'><input class='partial-take' type='radio' name='full-take'>No</label></p>"
+                            +           "<div style='display:none;' class='partial-selectors'>"
+                            +               "Start:<select class='partial-start' name='post-partial-start'></select>"
+                            +               "End:<select class='partial-end' name='post-partial-end'></select>"                        
+                            +           "</div>"
+                            +           "<p class='hidden' id='perm-prompt'>Do you want to take this shift permanently?"
+                            +           "<label class='spaced-radio-btn radio-inline'><input class='perm-take' type='radio' name='perm-post' checked='checked'>Yes</label>"
+                            +           "<label class='spaced-radio-btn radio-inline'><input class='temp-take' type='radio' name='perm-post'>No</label></p>"   
+                            +       "</div>"
+                            +   "</div>"
+                            +   "<div class='modal-footer'>"
+                            +       "<button disabled id='take-cover-btn' type='button' class='align-left btn btn-primary' data-dismiss='modal'>Take Shift Cover</button>"                        
+                            +       "<button type='button' class='align-right btn btn-default' data-toggle = 'modal' data-target = '#" + String(shiftsDay[shift].event_id) + "-modal' data-dismiss='modal'>Cancel</button>"
+                            +   "</div>"
+                            +      "</div>"
+                            +   "</div>"
+                            +"</div>"
+                        ) 
+                    }
+                    else { // If the shift isn't open, we display normally
+                        $('#' + weekDays[day] + '-shifts .panel-body').append( // Select the body of the current day we are looping through
+                            "<button type = 'button' id = '" + shiftsDay[shift].event_id  + "' class = 'btn btn-block shift-btn' data-toggle= 'modal' data-target= '#"
+                            + String(shiftsDay[shift].event_id) + "-modal' >" + locations[shiftsDay[shift].location] // This line labels the modal we will make and the location of the shift
+                            + ": " + formatTimeRange(shiftsDay[shift].shift_start, shiftsDay[shift].shift_end) // This line lays out the time range of the shift using a handy method
+                            +"</button>"                    
+                        )
+                        // Generate a modal for each shift
+                        $('#user-shift-modals').append(
+                            "<div id = '" + String(shiftsDay[shift].event_id) + "-modal' class = 'modal fade'>"
+                            + "<div class='modal-dialog modal-lg'>"
+                            +    "<div class='modal-content'>"
+                            +        "<div class='modal-header'>"
+                            +            shiftsDay[shift].title // The title of the shift becomes the title of the modal
+                            +            "<button type='button' class='close' data-dismiss='modal'>&times;</button>"
+                            +            "<h4 class='modal-title'></h4>"
+                            +        "</div>"
+                            +        "<div class='modal-body'>"
+                            +            "<div class='shift-body'>"
+                            +                "<p>[Not Final Design]</p>" // #TODO final design
+                            +                "<p id = shift-details></p>" // We will fill this when we actually click a modal
+                            +            "</div>"
+                            +        "</div>"
+                            +        "<div class='modal-footer'>"
+                            +            "<button type='button' class='align-left btn btn-default' data-dismiss='modal' data-toggle= 'modal' data-target = '#post-conf-" + String(shiftsDay[shift].event_id) + "'>Post Cover</button>"                        
+                            +            "<button type='button' class='align-right btn btn-default' data-dismiss='modal'>Close</button>"
+                            +        "</div>"
+                            +    "</div>"
+                            +"</div>"
                         +"</div>"
-                    )
-                    if (isPermanentShift(shiftsDay[shift])) {
-                        $('#post-conf-' + String(shiftsDay[shift].event_id)).find('#perm-prompt').removeClass('hidden')
-                    }                        
+                        )
+                        // These modals are the modals that actually handle posting details
+                        $('#user-shift-modals').append(
+                            "<div id = 'post-conf-" + String(shiftsDay[shift].event_id) + "' class = 'modal fade'>"
+                            +"<div class='modal-dialog modal-md'>"
+                            +   "<div class='modal-content'>"
+                            +       "<div class='modal-header'>"
+                            +       shiftsDay[shift].title // Once again the title is the title of the shift 
+                            +       "<button type='button' class='close' data-dismiss='modal' data-toggle = 'modal' data-target = '#" + String(shiftsDay[shift].event_id) + "-modal'>&times;</button>"
+                            +       "<h4 class='modal-title'></h4>"
+                            +   "</div>"
+                            +   "<div class='modal-body'>"
+                            +       "<div id='post-det'>"
+                            +           "<p id='full-prompt'>Would you like to post the full shift?"
+                            +           "<label class='spaced-radio-btn radio-inline'><input class='full-cover' type='radio' name='full-post'>Yes</label>"
+                            +           "<label class='spaced-radio-btn radio-inline'><input class='partial-cover' type='radio' name='full-post'>No</label></p>"
+                            +           "<div style='display:none;' class='partial-selectors'>"
+                            +               "Start:<select class='partial-start' name='post-partial-start'></select>"
+                            +               "End:<select class='partial-end' name='post-partial-end'></select>"                        
+                            +           "</div>"
+                            +           "<p class='hidden' id='perm-prompt'>Do you want to post this shift permanently?"
+                            +           "<label class='spaced-radio-btn radio-inline'><input class='perm-cover' type='radio' name='perm-post' checked='checked'>Yes</label>"
+                            +           "<label class='spaced-radio-btn radio-inline'><input class='temp-cover' type='radio' name='perm-post'>No</label></p>"
+                            +           "<div class='form-group'>"
+                            +               "<label for='sob-story'>Sob Story:</label>"
+                            +               "<textarea class='form-control' rows='2' id='sob-story'></textarea>"
+                            +           "</div>"                   
+                            +       "</div>"
+                            +   "</div>"
+                            +   "<div class='modal-footer'>"
+                            +       "<button disabled id='post-cover-btn' type='button' class='align-left btn btn-primary' data-dismiss='modal'>Post Shift Cover</button>"                        
+                            +       "<button type='button' class='align-right btn btn-default' data-toggle = 'modal' data-target = '#" + String(shiftsDay[shift].event_id) + "-modal' data-dismiss='modal'>Cancel</button>"
+                            +   "</div>"
+                            +   "</div>"
+                            +"</div>"
+                        )
+                        if (isPermanentShift(shiftsDay[shift])) {
+                            $('#post-conf-' + String(shiftsDay[shift].event_id)).find('#perm-prompt').removeClass('hidden')
+                        }    
+                    }
                 }
             }
         }
@@ -415,11 +482,11 @@ $(document).ready(function() {
                         +                "<p id = shift-details></p>" // Once again we will fill this when the shift is clicked
                         +                "<p id = cover-details-1></p>" // Open shifts have extra cover details that are filled on click     
                         +                "<p id = cover-details-2></p>"                                    
-                        +                "<button type = 'button' class = 'btn btn-default' data-dismiss = 'modal' data-toggle= 'modal' data-target = '#post-conf-" + String(shiftsDay[shift].event_id) + "'>Take Shift</button>"
                         +            "</div>"
                         +        "</div>"
                         +        "<div class='modal-footer'>"
-                        +            "<button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>"
+                        +            "<button type = 'button' class='align-left btn btn-default' data-dismiss = 'modal' data-toggle= 'modal' data-target = '#post-conf-" + String(shiftsDay[shift].event_id) + "'>Take Shift</button>"
+                        +            "<button type='button' class='align-right btn btn-default' data-dismiss='modal'>Close</button>"
                         +        "</div>"
                         +    "</div>"
                         +"</div>"
@@ -450,7 +517,7 @@ $(document).ready(function() {
                         +       "</div>"
                         +   "</div>"
                         +   "<div class='modal-footer'>"
-                        +       "<button disabled id='take-cover-btn' type='button' class='align-left btn btn-primary'>Take Shift Cover</button>"                        
+                        +       "<button disabled id='take-cover-btn' type='button' class='align-left btn btn-primary' data-dismiss='modal'>Take Shift Cover</button>"                        
                         +       "<button type='button' class='align-right btn btn-default' data-toggle = 'modal' data-target = '#" + String(shiftsDay[shift].event_id) + "-modal' data-dismiss='modal'>Cancel</button>"
                         +   "</div>"
                         +      "</div>"

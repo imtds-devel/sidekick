@@ -50,7 +50,8 @@ class Shifts(models.Model):
         default='F'
     )
     permanent_id = models.TextField(default="")  # Same as event id for non-permanent shifts
-    #sob_story = models.TextField(null=True, blank=True)
+    #sob_story = models.TextField(null=True, blank=True) # The current sob story for the shift, can be null if the shift isn't open
+    #delete = models.BooleanField(default=False) # Shifts can be deleted in the case of partial shifts, but we still need to be able to reference them 
 
     def __str__(self):
         return "%s: owned by %s, in %s from %s to %s" % (self.title, self.owner, self.location,
@@ -100,3 +101,9 @@ class SyncTokens(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     location = models.CharField(max_length=2)
     token = models.TextField(default="")
+'''
+class ShiftRecords(models.Model):
+    shift = models.ForeignKey(Shifts, on_delete=models.CASCADE)
+    actor = models.ForeignKey(Employees, on_delete=models.CASCADE)
+    timestamp = models.DateTimeField(default=datetime.now)
+    '''
