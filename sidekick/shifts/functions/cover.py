@@ -230,7 +230,9 @@ def get_duration(event):
 # Lowercase letters represent year, month, day, etc
 # Uppercase letters mean actual letters in the string
 # Note: timezone is UTC
-def get_end_repeat(date, permanent:bool):
+# Note: we increment the day to make sure the last instance of the shift doesn't get cut off
+def get_end_repeat(date: datetime, permanent: bool):
+    date = date + datetime.timedelta(days=1)
     return str(date).replace("-", "") + "T090000Z" if permanent else None
 
 
@@ -246,7 +248,7 @@ def cleanup(data: CoverInstructions):
 
 
 def shift_email(data: CoverInstructions):
-
+    # TODO: Program this
     return True if data else False
 
 
@@ -258,94 +260,6 @@ def mail_test():
         recipient_list=["nchera13@apu.edu"],
         fail_silently=False,
     )
-
-    return True
-
-
-# Post a single full shift
-def post_single_full(data: CoverInstructions):
-    # First, get all our required information
-    shift = Shifts.objects.get(id=data.shift_id)
-    owner = shift.owner
-
-    # Check for errors
-    if shift.is_open or not owner:  # You can't post an open shift!
-        print("ERROR: This shift is already open, it cannot be posted again :/")
-        return False
-
-    # Call Event Switch
-    data.update_params['post'] = True
-    event_switch("update", data)
-
-    # TODO: Program Consolidator
-
-    return True
-
-
-# Take a single full shift
-# Data dictionary *must* at least have the 'shift_id' and 'taker' keys defined
-'''
-def take_single_full(data):
-    shift_id = data['shift_id']
-    taker = data['taker']
-
-    # First, get all our required information
-    cover = ShiftCovers.objects.get(shift=shift_id)
-    g_id = cover.shift.google_id
-
-    # Now we gotta send the changes to Google
-    cal_id = CALENDAR_LOCATION_IDS[cover.shift.location]
-    service = google_api.build_service()
-
-    # Update our models (do it before calling the Google Cal because it auto-constructs the event title for us!)
-    cover.take(taker)
-
-    # Get shift from Google
-    g_shift = get_shift(service, cal_id, g_id).execute()
-
-    g_shift['summary'] = cover.shift.title
-
-    # Update the shift and send it back
-    updated = service.events().update(
-        calendarId=cal_id,
-        eventId=g_id,
-        body=g_shift
-    ).execute()
-
-    # TODO: Verify the event has been updated successfully (learn what updated var looks like on failure)
-    print(updated)
-
-    cover.save()
-    return True
-'''
-
-
-def post_permanent_full(data):
-
-    return True
-
-
-def take_permanent_full(data):
-
-    return True
-
-
-def post_single_partial(data):
-
-    return True
-
-
-def take_single_partial(data):
-
-    return True
-
-
-def post_permanent_partial(data):
-
-    return True
-
-
-def take_permanent_partial(data):
 
     return True
 
@@ -381,83 +295,3 @@ def build_event(title, start: datetime, end: datetime, end_repeat="", sob_story=
         },
         'recurrence': [recurrence],
     }
-
-
-def event_switch(e_type, data: CoverInstructions):
-    switch = {
-        'create': event_create,
-        'update': event_update,
-        'delete': event_delete,
-    }
-    return switch[e_type](data)
-
-
-def event_create(data: CoverInstructions):
-    # First create the event in the db, then select it for update!
-    return True
-
-'''
-def event_update(data: CoverInstructions):
-    # Create a write lock on the table while modification is taking place
-    shift = Shifts.objects.select_for_update().filter(id=data.shift_id)
-
-    # In general, we first update the models, then update Google, then save the updated model to the database
-    # Model updates take place here in this block of 'if's (it also checks for errors)
-    if data.update_params['post'] is None:
-        print("No update parameters specified to event update! Can't post the cover :(")
-        # Release write lock
-        shift.save()
-        return False
-
-    # If this is a posted shift cover
-    elif data.update_params['post']:
-        # If posting, create a ShiftCover object
-        new_title = "Open Shift (Cover for %s)" % (str(shift.owner))
-
-        # Build the shift cover model
-        cover = ShiftCovers(
-            shift=shift,
-            poster=shift.owner,
-            taker=None,
-            sob_story=data.sob_story,
-        )
-        shift.is_open = True
-        shift.title = new_title
-
-    # If this is a taken shift cover
-    else:
-        cover = ShiftCovers.objects.get(shift=shift)
-        new_title = cover.take(data.actor)
-
-    # Second, push changes to Google (works the same way regardless of post or take)
-    cal_id = CALENDAR_LOCATION_IDS[shift.location]
-    g_shift = get_shift(data.g_service, cal_id, shift.google_id)
-
-    g_shift['summary'] = new_title
-
-    # Update the shift and send it back
-    updated = data.g_service.events().update(
-        calendarId=cal_id,
-        eventId=shift.google_id,
-        body=g_shift
-    ).execute()
-
-    print(updated)
-
-    # Finally, save model changes to database
-    cover.save()
-    shift.save()
-    return True
-'''
-
-
-def event_delete(data: CoverInstructions):
-    shifts = Shifts.objects.select_for_update().filter(Q(id=data.shift_id) | Q(permanent=data.shift_id))
-
-    cal_id = CALENDAR_LOCATION_IDS[shifts.get(0).location]
-    delete = data.g_service.events().delete(calenderId=cal_id, eventId=data.shift_id).execute()
-    print(delete)  # so we can figure out what this looks like
-
-    # On success, delete all instances from our database
-    shifts.delete()
-    return True

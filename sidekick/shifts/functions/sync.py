@@ -139,13 +139,11 @@ def get_owner_open(title: str):
         is_open = True
         # This could either be a shift with no previous owner (eg a chapel shift) or a posted cover
         # If it's a cover, then there will be a "(Cover for fname lname)" type text, so we can analyze the name
-        print(t_split)
         if len(t_split) > 2:
             try:
                 t_split = t_split[2].split(" ")
                 f_name = t_split[2]
                 l_name = t_split[3].replace(")", "")
-                print(f_name+" "+l_name)
                 emps = Employees.objects.filter(fname__iexact=f_name, lname__iexact=l_name)
             except IndexError:  # Because of a glitch, some owned open shifts don't have names associated with them...
                 return None, True
