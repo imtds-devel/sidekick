@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 from django.utils import timezone
 from .functions.google_api import synchronize
-from .functions.cover import push_cover, CoverInstructions
+from .functions.cover import push_cover, mail_test, CoverInstructions
 from .models import Shifts
 from sidekick import views
 from datetime import timedelta
@@ -20,23 +20,20 @@ import pytz
 
 
 def post_cover(request):
-    
-    request.user = get_current_user(request)
+    request = get_current_user(request)
 
     permanent = request.POST.get('permanent', None) == 'true'
     partial = request.POST.get('partial', None) == 'true'
     sob_story = str(request.POST.get('sob_story', None))
-    # actor = Employees.objects.get(netid=str((Shifts.objects.get(event_id=request.GET.get('event_id', None))).owner))
+    actor = Employees.objects.get(netid=request.user)
     shift = Shifts.objects.get(event_id=request.POST.get('event_id', None))
     shift_owner = shift.owner
-    # If the owner of the shift is the one posting the shift, then we can proceed normally
-    if shift_owner == get_current_user(request):
-        actor = get_current_user(request)
-    elif get_access(get_current_user(request), "shift_postall"): # if the current user can post any shift
-        actor = get_current_user(request)
-    else: # if the user can't post this shift
+
+    # Check for bad user posting data
+    if shift_owner.netid != request.user or not get_access(request.user, "shift_postall"):
+        # if the user can't post this shift
         json_data = {
-            'pst_status' : False
+            'pst_status': False
         }
         return JsonResponse(json_data)
 
@@ -80,15 +77,13 @@ def post_cover(request):
 
 
 def take_cover(request):
-    request.user = get_current_user(request)
-    request_user = get_current_user(request)
+    request = get_current_user(request)
     permanent = request.POST.get('permanent', None) == 'true'
     partial = request.POST.get('partial', None) == 'true'
     sob_story = str(request.POST.get('sob_story', None))
-    #actor = Employees.objects.get(netid=str((Shifts.objects.get(event_id=request.GET.get('event_id', None))).owner))
-    shift = Shifts.objects.get(event_id=request.POST.get('event_id', None))
-    actor = Employees.objects.get(netid=request_user.user)
-    #actor = get_current_user(request)
+    # actor = Employees.objects.get(netid=str((Shifts.objects.get(event_id=request.GET.get('event_id', None))).owner))
+    actor = Employees.objects.get(netid=request.user)
+    # actor = get_current_user(request)
     if permanent:
         s_id = str(request.POST.get('permanent_id', None))
     else:
@@ -110,7 +105,7 @@ def take_cover(request):
         end_time=part_end,
         sob_story=sob_story,
     )
-    post_status = push_cover(data)
+    post_status = data.push()
     
     jsonData = {
         'pst_status' : post_status

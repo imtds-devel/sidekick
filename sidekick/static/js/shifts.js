@@ -199,6 +199,7 @@ $(document).ready(function() {
 
     // When the user clicks "post"
     $(document).on('click', '#post-cover-btn', function() {
+        console.log("Post cover triggered")
         modalID = $(this).closest('.modal').attr('id')
         eventID = modalID.slice(10) // Cuts the 'post-conf' off
         isPerm = $('#' + modalID).find('.perm-cover').prop('checked')
@@ -236,7 +237,6 @@ $(document).ready(function() {
         evt.stopPropagation();
         evt.preventDefault();
         console.log("take shift")
-        
         modalID = $(this).closest('.modal').attr('id')
         eventID = modalID.slice(10) // Cuts the 'post-conf' off
         isPerm = $('#' + modalID).find('.perm-cover').prop('checked')

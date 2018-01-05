@@ -148,7 +148,7 @@ def process_events(list_results, loc):
 
         # If the event has been deleted on the cal, delete it from our db as well
         if event.get('status') == 'cancelled':
-            shift_delete = Shifts.objects.filter(event_id=event['id'])
+            shift_delete = Shifts.objects.filter(event_id__contains=event['id'])
             print(loc+": Deleting "+str(shift_delete))
             shift_delete.delete()
             continue

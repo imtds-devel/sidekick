@@ -1,4 +1,5 @@
 from django.db.models import Q
+from django.core.mail import send_mail, send_mass_mail
 from shifts.models import Shifts
 from homebase.models import Employees
 from shifts.functions import google_api
@@ -34,6 +35,7 @@ class CoverInstructions:
 # Main post/take fns
 # Master routing fn (called by CoverInstructions, routes shift covers properly!)
 def push_cover(data: CoverInstructions):
+    # TODO: Verification before covers!
     return partial_cover(data) if data.partial else full_cover(data)
 
 
@@ -63,7 +65,7 @@ def full_cover(data: CoverInstructions):
 
     # Construct new title
     if data.post:
-        new_title = "Open Shift (Cover for %s)" % data.actor
+        new_title = "Open Shift (Cover for %s)" % owner
     else:
         new_title = "%s (Cover for %s)" % (data.actor, owner)
 
@@ -244,7 +246,20 @@ def cleanup(data: CoverInstructions):
 
 
 def shift_email(data: CoverInstructions):
+
     return True if data else False
+
+
+def mail_test():
+    send_mail(
+        subject="This is a test!",
+        message="Hi you!",
+        from_email="testy@sidekick.apu.edu",
+        recipient_list=["nchera13@apu.edu"],
+        fail_silently=False,
+    )
+
+    return True
 
 
 # Post a single full shift
