@@ -18,6 +18,7 @@ class Employees(models.Model):
         ('lbt', 'Lab Technician'),
         ('spt', 'Support Tech'),
         ('sst', 'Senior Support Tech'),
+        ('sdr', 'Support Desk Rep'),
         ('llt', 'Lead Lab Tech'),
         ('mgr', 'Manager'),
         ('stt', 'Staff Tech'),
@@ -135,6 +136,7 @@ class BrowserStats(models.Model):
             self.ie
         )
 
+
 class EmailSubscriptions(models.Model):
     SHIFT_EMAIL_SUBSCRIPTION_CHOICES = (
         ('no', 'No Emails'),
@@ -161,8 +163,10 @@ class EmailSubscriptions(models.Model):
         choices=BIO_EMAIL_SUBSCRIPTION_CHOICES,
         default='none'
     )
+
     def __str__(self):
         return "%s: shift=%s, bio=%s" % (self.netid, self.shift_sub, self.bio_sub)
+
 
 class Subscriptions(models.Model):
     netid = models.ForeignKey(Employees, on_delete=models.CASCADE)
@@ -196,6 +200,22 @@ class MessageFromThePast(models.Model):
     message = models.TextField()
     posted = models.DateField(auto_now_add=True)
 
+
 class Access(models.Model):
     netid = models.ForeignKey(Employees, on_delete=models.CASCADE)
     # TODO: Define here? Or maybe modify Django's auth system?
+
+
+class StaffStatus(models.Model):
+    STATUS_CHOICES = (
+        ('i', 'In Office'),
+        ('o', 'Out of Office'),
+        ('e', 'East Campus'),
+        ('w', 'West Campus'),
+        ('f', 'Off Campus'),
+        ('m', 'Meeting'),
+    )
+
+    netid = models.OneToOneField(Employees, on_delete=models.CASCADE, primary_key=True)
+    status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='o')
+    description = models.CharField(max_length=20, default="")
