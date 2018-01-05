@@ -1,6 +1,7 @@
 from django import forms
 from homebase.models import Employees
 
+
 class EmployeeForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(EmployeeForm, self).__init__(*args, **kwargs)

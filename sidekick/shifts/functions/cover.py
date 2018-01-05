@@ -96,6 +96,7 @@ def full_cover(data: CoverInstructions):
     ).execute()
 
     """
+    # This shouldn't be necessary if our synchronizer runs on changes!
     # 4. Save changes to db
     # Create new shifts in db
     for shift in shifts:

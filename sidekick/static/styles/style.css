@@ -15,6 +15,15 @@
     }
 }
 
+.pic-open-shift{
+    opacity: 0.5;
+}
+
+.navbar-brand
+{
+font-family: 'Raleway', Sans Serif;
+}
+
 /*Makes the round employee pic with shadow*/
 .employee-pic{
   border-radius: 50%;
@@ -22,12 +31,6 @@
   width: 70%;
   min-width: 60px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
-
-/*Creates the hover effect on the employee-pic*/
-.img-holder:hover .employee-pic{
-  transition: .5s ease;
-  opacity: 0.5;
 }
 
 /*Styles the tool to be bigger, maybe there is a better way to do this*/
@@ -47,11 +50,12 @@
   display: flex;
   position: relative;
   flex-flow: row;
+  flex-wrap: wrap;
   align-items: center;
-  justify-content: space-around;
+  justify-content: flex-start;
   width: 82%;
   background: white;
-  height: 160px;
+  height: 180px;
   text-align: center;
   border-right: solid 2px #9692A0;
   box-shadow: 3px 3px 3px grey;
@@ -63,9 +67,12 @@
 
 .beacon-left{
   width: 22%;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
   background: #548E8E;
   padding: 5px;
-  height: 160px;
+  height: 180px;
   margin-top: 5px;
   border-right: solid 3px #285858;
   border-top-right-radius: 5%;
@@ -83,10 +90,17 @@
   text-align: center;
 }
 
-/*Overrides the beacon-right*/
-.rc{
-  justify-content: flex-start;
+/*Overrides the beacon for staff*/
+.staff-beacon-left
+{
+  height: 360px;
 }
+
+.staff-beacon-right
+{
+  height: 360px;
+}
+
 
 .name-holder {
 
@@ -726,9 +740,11 @@ input[type=number]::-webkit-outer-spin-button {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
-*{
+*
+{
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
+
 .spaced-radio-btn {
     margin-left: 10px;
     margin-right: 10px;    
@@ -747,4 +763,30 @@ input[type=number]::-webkit-outer-spin-button {
 }
 .hidden {
     display: none;
+}
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
+.page-body
+{
+    height:84%;
+}
+.pass-tdiv
+{
+    height:80%;
+}
+.pass-table
+{
+    height:87%;
+}
+.pass-tbody
+{
+    height:40%;
+    overflow:auto;
 }
