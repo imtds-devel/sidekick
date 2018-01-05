@@ -39,9 +39,7 @@ def post_cover(request):
         json_data = {
             'pst_status' : False
         }
-    return JsonResponse(json_data)
-
-
+        return JsonResponse(json_data)
 
     if permanent:
         s_id = str(request.POST.get('permanent_id', None))
