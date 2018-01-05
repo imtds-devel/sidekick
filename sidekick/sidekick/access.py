@@ -1,7 +1,10 @@
 from homebase.models import Employees
+from sidekick.views import set_user_string
 
 
 def get_access(netid, area):
+    netid = set_user_string(netid) # in case we're not in production
+
     # we have to do this to get the user object itself since the get call will return a QuerySet
     user = Employees.objects.get(netid=netid)
     pos = user.position
@@ -103,7 +106,7 @@ def get_mgr_access(area):
         "nav_modtools",
 
         # Homebase page
-        "homingbeacon_checkin", "homingbeacon_requestpaper", "announcements_canedit",
+        "homingbeacon_checkin", "homingbeacon_requestpaper", "announcements_canedit", "homingbeacon_updatestatus",
 
         # Shift Covers Page
         "shift_modpanel", "shift_postall", "shift_viewall",
@@ -129,7 +132,7 @@ def get_stt_access(area):
         "nav_modtools",
 
         # Homebase page
-        "homingbeacon_checkin", "homingbeacon_requestpaper", "announcements_canedit",
+        "homingbeacon_checkin", "homingbeacon_requestpaper", "announcements_canedit", "homingbeacon_updatestatus",
 
         # Shift Covers Page
         "shift_modpanel", "shift_postall", "shift_viewall",
@@ -155,7 +158,7 @@ def get_stm_access(area):
         "nav_modtools",
 
         # Homebase page
-        "homingbeacon_checkin", "homingbeacon_requestpaper", "announcements_canedit",
+        "homingbeacon_checkin", "homingbeacon_requestpaper", "announcements_canedit", "homingbeacon_updatestatus",
 
         # Shift Covers Page
         "shift_modpanel", "shift_postall", "shift_viewall",
@@ -196,6 +199,7 @@ def get_dev_access(area):
         "passwords_all",
     ]
     return area in access_list
+
 
 MASTER_ACCESS_TEMPLATE = [
     # Nav access

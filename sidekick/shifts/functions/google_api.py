@@ -92,7 +92,7 @@ def sync_location(loc):
     page_token = None
 
     # Figure out sync token (retrieve from db or incorporate here)
-    token_data = SyncTokens.objects.filter(location=loc).order_by('timestamp').first()
+    token_data = SyncTokens.objects.filter(location=loc).order_by('-timestamp').first()
     if token_data is not None:
         sync_token = token_data.token
     else:
@@ -107,6 +107,14 @@ def sync_location(loc):
             singleEvents=True,
             pageToken=page_token
         ).execute()
+
+        new_sync_token = list_results.get('syncToken')
+
+        # If nothing has changed since last sync, the old sync token will match the new sync token
+        # So rather than re-processing events, just break
+        if new_sync_token and new_sync_token == sync_token:
+            print(loc+": No changes")
+            break
 
         process_events(list_results, loc)
 

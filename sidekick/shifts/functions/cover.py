@@ -26,10 +26,13 @@ class CoverInstructions:
         }
         self.g_service = google_api.build_service()  # build at create time
 
+    def push(self):
+        return push_cover(self)
 
-######################################################
+
+##############################################################
 # Main post/take fns
-# Master routing fn (call this to route shift covers properly!)
+# Master routing fn (called by CoverInstructions, routes shift covers properly!)
 def push_cover(data: CoverInstructions):
     return partial_cover(data) if data.partial else full_cover(data)
 
@@ -92,8 +95,9 @@ def full_cover(data: CoverInstructions):
         eventId=old_event_id
     ).execute()
 
+    """
+    # This code is completely unnecessary, but I'm saving it just in case I'm wrong about that
     # 4. Save changes to db
-
     # Create new shifts in db
     for shift in shifts:
         shift.title = new_title
@@ -122,8 +126,9 @@ def full_cover(data: CoverInstructions):
     for s in old_shifts:
         s.delete()
         print(s)
+    """
 
-    return consolidator(data)
+    return shift_email(data)
 
 
 # For partial covers of any kind
@@ -185,11 +190,12 @@ def partial_cover(data: CoverInstructions):
             sob_story="" if data.post else sob_story,
         )
     ]
-    # Now we validate and remove any zero-length shift
-    i=0
+    # Now we validate and remove any zero-length shifts
+    i = 0
     while i < len(events):
         event = events[i]
         duration = get_duration(event)
+        print(duration)
 
         if duration == 0:
             events.remove(event)
@@ -200,14 +206,23 @@ def partial_cover(data: CoverInstructions):
         i += 1
 
     # Now we should have a pruned and validated list of times
+    # Let's send them to Google!
+    new_events=[]
+    for event in events:
+        new_events.append(data.g_service.events().insert(calendarId=cal_id, body=event))
 
+    print(new_events)
 
-    return consolidator(data)
+    return shift_email(data)
 
 
 # Return the duration of an event in minutes!
 def get_duration(event):
-    return 5
+    # In order to do this, we'll have to create two datetime objects and get the timedelta
+    start = datetime.datetime.strptime(event.start, '%Y-%m-%dT%H:%M:%S')
+    end = datetime.datetime.strptime(event.end, '%Y-%m-%dT%H:%M:%S')
+    dur = end - start
+    return int(dur.seconds/60)
 
 
 # Google's format for specifying end repeat: yyyymmddThhmmssZ
