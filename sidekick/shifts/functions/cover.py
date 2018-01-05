@@ -1,5 +1,5 @@
 from django.db.models import Q
-from shifts.models import Shifts, ShiftCovers
+from shifts.models import Shifts
 from homebase.models import Employees
 from shifts.functions import google_api
 from sidekick.settings import CALENDAR_LOCATION_IDS
@@ -150,8 +150,7 @@ def partial_cover(data: CoverInstructions):
     og_start = datetime.datetime(first.shift_start)
     og_end = datetime.datetime(first.shift_end)
     if not data.post:
-        cover = ShiftCovers.objects.get(shift__contains=data.shift_id)
-        sob_story = cover.sob_story
+        sob_story = first.sob_story
     else:
         sob_story = ""
 
@@ -270,6 +269,7 @@ def post_single_full(data: CoverInstructions):
 
 # Take a single full shift
 # Data dictionary *must* at least have the 'shift_id' and 'taker' keys defined
+'''
 def take_single_full(data):
     shift_id = data['shift_id']
     taker = data['taker']
@@ -302,6 +302,7 @@ def take_single_full(data):
 
     cover.save()
     return True
+'''
 
 
 def post_permanent_full(data):
@@ -380,7 +381,7 @@ def event_create(data: CoverInstructions):
     # First create the event in the db, then select it for update!
     return True
 
-
+'''
 def event_update(data: CoverInstructions):
     # Create a write lock on the table while modification is taking place
     shift = Shifts.objects.select_for_update().filter(id=data.shift_id)
@@ -432,6 +433,7 @@ def event_update(data: CoverInstructions):
     cover.save()
     shift.save()
     return True
+'''
 
 
 def event_delete(data: CoverInstructions):

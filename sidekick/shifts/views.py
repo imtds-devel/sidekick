@@ -4,7 +4,6 @@ from django.utils import timezone
 from .functions.google_api import synchronize
 from .functions.cover import push_cover, CoverInstructions
 from .models import Shifts
-from .models import ShiftCovers
 from sidekick import views
 from datetime import timedelta
 from datetime import datetime

@@ -232,7 +232,11 @@ $(document).ready(function() {
         ajaxPostCover(data)
     });
     // When the user clicks "take"
-    $(document).on('click', '#take-cover-btn', function() {
+    $(document).on('click', '#take-cover-btn', function(evt) {
+        evt.stopPropagation();
+        evt.preventDefault();
+        console.log("take shift")
+        
         modalID = $(this).closest('.modal').attr('id')
         eventID = modalID.slice(10) // Cuts the 'post-conf' off
         isPerm = $('#' + modalID).find('.perm-cover').prop('checked')
@@ -324,7 +328,7 @@ $(document).ready(function() {
                             +            "</div>"
                             +        "</div>"
                             +        "<div class='modal-footer'>"
-                            +            "<button type='button' class='align-left btn btn-default' data-dismiss='modal' data-toggle= 'modal' data-target = '#post-conf-" + String(shiftsDay[shift].event_id) + "'>Take Shift</button>"
+                            +            "<button type='button' class='align-left btn btn-default' data-dismiss='modal' data-toggle='modal' data-target = '#post-conf-" + String(shiftsDay[shift].event_id) + "'>Take Shift</button>"
                             +            "<button type='button' class='align-right btn btn-default' data-dismiss='modal'>Close</button>"
                             +        "</div>"
                             +    "</div>"

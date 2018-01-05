@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+from django.utils import timezone
 from django.db import models
 from homebase.models import Employees
 import datetime
@@ -50,8 +51,8 @@ class Shifts(models.Model):
         default='F'
     )
     permanent_id = models.TextField(default="")  # Same as event id for non-permanent shifts
-    #sob_story = models.TextField(null=True, blank=True) # The current sob story for the shift, can be null if the shift isn't open
-    #delete = models.BooleanField(default=False) # Shifts can be deleted in the case of partial shifts, but we still need to be able to reference them 
+    sob_story = models.TextField(null=True, blank=True) # The current sob story for the shift, can be null if the shift isn't open
+    delete = models.BooleanField(default=False) # Shifts can be deleted in the case of partial shifts, but we still need to be able to reference them 
 
     def __str__(self):
         return "%s: owned by %s, in %s from %s to %s" % (self.title, self.owner, self.location,
@@ -90,32 +91,33 @@ class Shifts(models.Model):
         time = str(pytz.utc.localize(self.shift_start))
         return self.permanent_id
 
-
-class ShiftCovers(models.Model):
-    shift = models.ForeignKey(Shifts, on_delete=models.CASCADE)
-    poster = models.ForeignKey(Employees, related_name='shift_poster', on_delete=models.CASCADE)
-    taker = models.ForeignKey(Employees, null=True, blank=True, related_name='shift_taker', on_delete=models.CASCADE)
-    sobstory = models.TextField(default="")
-    post_date = models.DateField(default=datetime.date.today)
-
-    @property
-    def is_taken(self):
-        return self.taker is None
-
-    def __str__(self):
-        if self.taker:
-            return "Cover for %s was posted on %s and taken by %s" % (str(self.poster), str(self.post_date), str(self.taker))
-        else:
-            return "Cover for %s was posted on %s and is OPEN!" % (str(self.poster), str(self.post_date))
-
-
 class SyncTokens(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     location = models.CharField(max_length=2)
     token = models.TextField(default="")
-'''
+
 class ShiftRecords(models.Model):
+    ACTION_CHOICES = (
+        ('na', 'No Action'),
+        ('fpp', 'Full Permanent Post'),
+        ('fsp', 'Full Single Post'),
+        ('ppp', 'Partial Permanent Post'),
+        ('psp', 'Partial Single Post'),
+        ('fpt', 'Full Permanent Take'),
+        ('fst', 'Full Single Take'),
+        ('ppt', 'Parital Permanent Take'),
+        ('pst', 'Partial Single Take')
+    )
+
     shift = models.ForeignKey(Shifts, on_delete=models.CASCADE)
     actor = models.ForeignKey(Employees, on_delete=models.CASCADE)
-    timestamp = models.DateTimeField(default=datetime.now)
-    '''
+    timestamp = models.DateTimeField(default=timezone.now)
+    action = models.CharField(
+        max_length=3,
+        choices=ACTION_CHOICES,
+        default='na'
+    )
+
+    def __str__(self):
+        return "%s did a %s on %s" % (str(self.actor), str(self.get_action_display()), str(self.timestamp))
+
