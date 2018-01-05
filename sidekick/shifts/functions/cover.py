@@ -42,6 +42,7 @@ def push_cover(data: CoverInstructions):
 # For full covers of any kind
 def full_cover(data: CoverInstructions):
     print('FullCover called!')
+
     # 1. Get all shifts associated with this cover (could be one or many)
     shifts = Shifts.objects.filter(event_id__contains=data.shift_id).order_by('shift_date')
     print([s for s in shifts])
@@ -57,7 +58,7 @@ def full_cover(data: CoverInstructions):
     cal_id = CALENDAR_LOCATION_IDS[location]
     tz = pytz.timezone('America/Los_Angeles')
 
-    old_event_id = first.permanent_id
+    old_event_id = first.permanent_id if data.permanent else first.event_id
     print(old_event_id)
 
     # Define the shift owner
@@ -96,39 +97,6 @@ def full_cover(data: CoverInstructions):
         calendarId=cal_id,
         eventId=old_event_id
     ).execute()
-
-    """
-    # This code is completely unnecessary, but I'm saving it just in case I'm wrong about that
-    # 4. Save changes to db
-    # Create new shifts in db
-    for shift in shifts:
-        shift.title = new_title
-        shift.owner = owner
-        shift.is_open = True if data.post else False
-        if data.permanent:
-            # Individual instances of recurring events have IDs that are derivable using the start datetime of the event
-            # To build the ID, we'll need the recurring ID, the shift date (formatted as yyyymmdd), and the shift time
-            # (which is formatted in ThhmmssZ with the letters T and Z around the outside
-            # Note that the timezone has to be UTC :/
-            # Overall format : [eventId]_yyyymmddThhmmssZ
-            utc_start = shift.shift_start.astimezone(pytz.utc)
-
-            shift.event_id = str(new_event['id'])\
-                + "_"+str(shift.shift_date).replace("-", "")\
-                + "T"+str(utc_start.hour)+str(utc_start.minute)+"00Z"
-        else:
-            shift.event_id = new_event['id']
-
-        shift.permanent_id = new_event['iCalUID'][:-11]  # prune the @google.com
-        print(shift)
-        shift.save()
-
-    # delete old shifts
-    old_shifts = Shifts.objects.filter(event_id__contains=data.shift_id).order_by('shift_date')
-    for s in old_shifts:
-        s.delete()
-        print(s)
-    """
 
     return shift_email(data)
 

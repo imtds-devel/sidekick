@@ -142,7 +142,7 @@ $(document).ready(function() {
         var option = 'curr';
         ajaxOpenShifts(option);
     });
-    // When the user clicks the previous shift button for open shif
+    // When the user clicks the previous shift button for open shift
     $('#open-week-previous').click(function(){
         var option = 'prev';
         ajaxOpenShifts(option);
@@ -234,12 +234,11 @@ $(document).ready(function() {
     });
     // When the user clicks "take"
     $(document).on('click', '#take-cover-btn', function(evt) {
-        evt.stopPropagation();
-        evt.preventDefault();
         console.log("take shift")
         modalID = $(this).closest('.modal').attr('id')
         eventID = modalID.slice(10) // Cuts the 'post-conf' off
         isPerm = $('#' + modalID).find('.perm-cover').prop('checked')
+        console.log(isPerm);
         if (isPerm) {
             permID = eventID.slice(0, eventID.indexOf("_")) // Cuts the _ off the end                    
         }
@@ -355,8 +354,8 @@ $(document).ready(function() {
                             +               "End:<select class='partial-end' name='post-partial-end'></select>"                        
                             +           "</div>"
                             +           "<p class='hidden' id='perm-prompt'>Do you want to take this shift permanently?"
-                            +           "<label class='spaced-radio-btn radio-inline'><input class='perm-take' type='radio' name='perm-post' checked='checked'>Yes</label>"
-                            +           "<label class='spaced-radio-btn radio-inline'><input class='temp-take' type='radio' name='perm-post'>No</label></p>"   
+                            +           "<label class='spaced-radio-btn radio-inline'><input class='perm-cover' type='radio' name='perm-take'>Yes</label>"
+                            +           "<label class='spaced-radio-btn radio-inline'><input class='temp-cover' type='radio' name='perm-take' checked='checked'>No</label></p>"
                             +       "</div>"
                             +   "</div>"
                             +   "<div class='modal-footer'>"
@@ -419,8 +418,8 @@ $(document).ready(function() {
                             +               "End:<select class='partial-end' name='post-partial-end'></select>"                        
                             +           "</div>"
                             +           "<p class='hidden' id='perm-prompt'>Do you want to post this shift permanently?"
-                            +           "<label class='spaced-radio-btn radio-inline'><input class='perm-cover' type='radio' name='perm-post' checked='checked'>Yes</label>"
-                            +           "<label class='spaced-radio-btn radio-inline'><input class='temp-cover' type='radio' name='perm-post'>No</label></p>"
+                            +           "<label class='spaced-radio-btn radio-inline'><input class='perm-cover' type='radio' name='perm-post'>Yes</label>"
+                            +           "<label class='spaced-radio-btn radio-inline'><input class='temp-cover' type='radio' name='perm-post' checked='checked'>No</label></p>"
                             +           "<div class='form-group'>"
                             +               "<label for='sob-story'>Sob Story:</label>"
                             +               "<textarea class='form-control' rows='2' id='sob-story'></textarea>"
@@ -434,9 +433,10 @@ $(document).ready(function() {
                             +   "</div>"
                             +"</div>"
                         )
-                        if (isPermanentShift(shiftsDay[shift])) {
-                            $('#post-conf-' + String(shiftsDay[shift].event_id)).find('#perm-prompt').removeClass('hidden')
-                        }    
+                    }
+                    if (isPermanentShift(shiftsDay[shift])) {
+                        console.log("Permanent");
+                        $('#post-conf-' + String(shiftsDay[shift].event_id)).find('#perm-prompt').removeClass('hidden')
                     }
                 }
             }
@@ -527,7 +527,11 @@ $(document).ready(function() {
                         +      "</div>"
                         +   "</div>"
                         +"</div>"
-                    )                        
+                    )
+                    if (isPermanentShift(shiftsDay[shift])) {
+                        console.log('#post-conf-' + String(shiftsDay[shift].event_id));
+                        $('#post-conf-' + String(shiftsDay[shift].event_id)).find('#perm-prompt').removeClass('hidden')
+                    }
                 }
             }
         }
