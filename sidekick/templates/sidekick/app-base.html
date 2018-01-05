@@ -4,7 +4,7 @@
 <!-- The header, we get bootstrap and do other important neato things :) -->
 <html>
     <head>
-        <title>Sidekick 0.0.0</title>
+        <title>Sidekick 0.4.0</title>
         {% block head-meta %}
             <meta charset="utf-8">
             <meta name="keywords" content="sidekick, imt, device solutions">
@@ -26,17 +26,17 @@
     </head>
 
 <!-- The base of the page -->
-<div class='container-fluid'>
+<div class='container-fluid bodywrap'>
     <div class='body'>
     <!-- Where we define our wonderful navbelt -->
     {% include 'sidekick/navigation.html' %} 
-    <div class='row'>
+    <div class='row contentwrap'>
         <div class='col-sm-3 col-lg-2'>
             <!-- Side Panel -->
             {% include 'sidekick/side-panel.html' %}
             {% include 'sidekick/side-user.html' %}
         </div>
-        <div class='col-sm-9 col-lg-10'>
+        <div class='col-sm-9 col-lg-10 pagewrap'>
     {% block content %}<!-- PUT YOUR CONTENT HERE :D -->{% endblock %}
         </div>
     </div>
