@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.utils import timezone
-from .functions.google_api import synchronize
-from .functions.cover import push_cover, mail_test, CoverInstructions
+from .functions.sync import synchronize
+from .functions.cover import CoverInstructions
 from .models import Shifts
 from sidekick import views
 from datetime import timedelta
@@ -107,11 +107,11 @@ def take_cover(request):
     )
     post_status = data.push()
     
-    jsonData = {
+    json_data = {
         'pst_status' : post_status
     }
     # We return the data as JSON
-    return JsonResponse(jsonData)
+    return JsonResponse(json_data)
 
 
 def index(request):
