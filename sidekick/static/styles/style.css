@@ -761,6 +761,7 @@ input[type=number]::-webkit-outer-spin-button {
 .pass-tdiv
 {
     height:80%;
+    overflow:auto;
 }
 .pass-table
 {
