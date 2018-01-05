@@ -26,10 +26,13 @@ class CoverInstructions:
         }
         self.g_service = google_api.build_service()  # build at create time
 
+    def push(self):
+        return push_cover(self)
 
-######################################################
+
+##############################################################
 # Main post/take fns
-# Master routing fn (call this to route shift covers properly!)
+# Master routing fn (called by CoverInstructions, routes shift covers properly!)
 def push_cover(data: CoverInstructions):
     return partial_cover(data) if data.partial else full_cover(data)
 
@@ -92,8 +95,8 @@ def full_cover(data: CoverInstructions):
         eventId=old_event_id
     ).execute()
 
+    """
     # 4. Save changes to db
-
     # Create new shifts in db
     for shift in shifts:
         shift.title = new_title
@@ -122,8 +125,9 @@ def full_cover(data: CoverInstructions):
     for s in old_shifts:
         s.delete()
         print(s)
+    """
 
-    return consolidator(data)
+    return shift_email(data)
 
 
 # For partial covers of any kind
@@ -185,7 +189,7 @@ def partial_cover(data: CoverInstructions):
             sob_story="" if data.post else sob_story,
         )
     ]
-    # Now we validate and remove any zero-length shift
+    # Now we validate and remove any zero-length shifts
     i=0
     while i < len(events):
         event = events[i]
@@ -200,9 +204,7 @@ def partial_cover(data: CoverInstructions):
         i += 1
 
     # Now we should have a pruned and validated list of times
-
-
-    return consolidator(data)
+    return shift_email(data)
 
 
 # Return the duration of an event in minutes!

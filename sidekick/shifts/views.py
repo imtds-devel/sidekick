@@ -26,10 +26,10 @@ def post_cover(request):
     permanent = request.POST.get('permanent', None) == 'true'
     partial = request.POST.get('partial', None) == 'true'
     sob_story = str(request.POST.get('sob_story', None))
-    #actor = Employees.objects.get(netid=str((Shifts.objects.get(event_id=request.GET.get('event_id', None))).owner))
+    # actor = Employees.objects.get(netid=str((Shifts.objects.get(event_id=request.GET.get('event_id', None))).owner))
     shift = Shifts.objects.get(event_id=request.POST.get('event_id', None))
     actor = shift.owner
-    #actor = get_current_user(request)
+    # actor = get_current_user(request)
     if permanent:
         s_id = str(request.POST.get('permanent_id', None))
     else:
@@ -60,14 +60,13 @@ def post_cover(request):
         end_time=part_end,
         sob_story=sob_story,
     )
+    post_status = data.push()
     
-    post_status = push_cover(data)
-    
-    jsonData = {
-        'pst_status' : post_status
+    json_data = {
+        'pst_status': post_status
     }
     # We return the data as JSON
-    return JsonResponse(jsonData)
+    return JsonResponse(json_data)
 
 
 def take_cover(request):
