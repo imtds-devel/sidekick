@@ -62,18 +62,45 @@ var soft = skills.slice(21,22);
     + "<h5>" + birthday + "</h5>"
     );
 
+
+    function getProf(input) {
+        var proficient = "";
+        switch(parseInt(input)) {
+        case 0:
+            proficient = "Untrained";
+            break;
+        case 1:
+            proficient = "Training";
+            break;
+        case 2:
+            proficient = "Beginner";
+            break;
+        case 3:
+            proficient = "Proficient";
+            break;
+        case 4:
+            proficient = "Experienced";
+            break;
+        case 5:
+            proficient = "Master";
+            console.log(proficient);
+            break;
+        }
+        return proficient;
+    }
+
     $('#skills-div').append(
      "<div class='chart col-sm-' data-width='200' data-height='300' data-red='100' data-green='100' data-blue='400' style='margin-top:5px;'>"
      + "<div class='chartCanvasWrap col-md-7' style='left:5px'></div>"
      + "<div class='col-sm-4' style='text-align:right'>"
-     + "<p><b>Basic Hardware: </b>" + basic + "</p>"
-     + "<p><b>Advanced Hardware: </b>" + adv + "</p>"
-     + "<p><b>Field Support: </b>" + field + "</p>"
-     + "<p><b>Printers: </b>" + print + "</p>"
-     + "<p><b>Networking: </b>" + net + "</p>"
-     + "<p><b>Mobile: </b>" + mobile + "</p>"
-     + "<p><b>Refreshes: </b>" + ref + "</p>"
-     + "<p><b>Software: </b>" + soft + "</p>"
+     + "<p><b>Basic Hardware: </b>" + getProf(basic) + "</p>"
+     + "<p><b>Advanced Hardware: </b>" + getProf(adv) + "</p>"
+     + "<p><b>Field Support: </b>" + getProf(field) + "</p>"
+     + "<p><b>Printers: </b>" + getProf(print) + "</p>"
+     + "<p><b>Networking: </b>" + getProf(net) + "</p>"
+     + "<p><b>Mobile: </b>" + getProf(mobile) + "</p>"
+     + "<p><b>Refreshes: </b>" + getProf(ref) + "</p>"
+     + "<p><b>Software: </b>" + getProf(soft) + "</p>"
      + "</div>"
      + "</div>"
     );
@@ -114,14 +141,30 @@ var soft = skills.slice(21,22);
 
             $("#comment-div").html(" ");
 	        for (i = 0; i < data.comlist.length; i++) {
-		        var output = "<panel>";
-		        output += "<h4><b>Subject: </b>"+ data.comlist[i].subject +"</h4>";
-		        output += "<h5><b>Value: </b>"+ data.comlist[i].val +"</h5>";
-		        output += "<h5><b>Why: </b>"+ data.comlist[i].description +"</h5>";
-		        output += "<h5><b>When: </b>"+ data.comlist[i].time +"</h5>";
-		        output += "</panel>";
-		        $(output).appendTo("#comment-div");
+		        var output = "<div class='panel comment-panel' id='comment-list-" + i + "'><div class='panel-body'>";
+		        output += "<h4><b>Subject: </b>" + data.comlist[i].subject + "</h4>";
+
+		        if (data.comlist[i].val != 0 && data.comlist[i].val != null){
+		            if(data.comlist[i].val == 1){
+		                output += "<h5><b>Extent: </b> <u>Full Discipline</u> </h5>";
+		            }else{
+		                output += "<h5><b>Extent: </b> <u>Half Discipline</u> </h5>";
+		            }
 		        }
+		        output += "<h5><b>Why: </b>" + data.comlist[i].description + "</h5>";
+		        output += "<h5><b>When: </b>" + data.comlist[i].time + "</h5>";
+		        output += "</div></div>";
+
+
+		        $(output).appendTo("#comment-div");
+
+		            if(data.comlist[i].val == 1){
+		                $('#comment-list-' + i).attr('style', 'background-color: #ffad99;');
+		            }
+		            if(data.comlist[i].val == .5){
+		                $('#comment-list-' + i).attr('style', 'background-color: #ffffb3;');
+		            }
+		    }
         },
         error: function(data){
             console.log("Failure!")
@@ -441,6 +484,7 @@ $("#comform").on("submit", function(event) {
             console.log(data)
             alert("Comment has been posted!")
             $("#comform")[0].reset();
+
         },
         error: function(data){
             console.log("Failure!")

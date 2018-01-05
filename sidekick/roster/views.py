@@ -201,6 +201,14 @@ def get_comments(request):
 
     translated_comments = comments.values('about_id', 'subject', 'val', 'time', 'description')
 
+    translated_comments = [{
+        'about_id': comment.about_id,
+        'subject': comment.subject,
+        'val': comment.val,
+        'time': comment.time.strftime("%m/%d/%y"),
+        'description': comment.description
+    } for comment in comments]
+
     data = {
         'comlist': list(translated_comments)
     }
