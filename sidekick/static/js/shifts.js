@@ -351,16 +351,11 @@ $(document).ready(function() {
                             +           "<label class='spaced-radio-btn radio-inline'><input class='full-take' type='radio' name='full-take'>Yes</label>"
                             +           "<label class='spaced-radio-btn radio-inline'><input class='partial-take' type='radio' name='full-take'>No</label></p>"
                             +           "<div style='display:none;' class='partial-selectors'>"
-                            +               "Start:<select class='partial-start' name='post-partial-start'>"+getPartialTimes('std')+"</select>"
-                            +               "End:<select class='partial-end' name='post-partial-end'>"+getPartialTimes('invert')+"</select>"
+                            +               fillPartialTimes('std', shiftsDay[shift].shift_start, shiftsDay[shift].shift_end)
                             +           "</div>"
                             +           "<p class='hidden' id='perm-prompt'>Do you want to take this shift permanently?"
                             +           "<label class='spaced-radio-btn radio-inline'><input class='perm-cover' type='radio' name='perm-take'>Yes</label>"
                             +           "<label class='spaced-radio-btn radio-inline'><input class='temp-cover' type='radio' name='perm-take' checked='checked'>No</label></p>"
-                            +       "</div>"
-                            +       "<div id='shift-cover-meta' style='display:none'>"
-                            +           "<p id='sh-start'>"+shiftsDay[shift].shift_start+"</p>"
-                            +           "<p id='sh-end'>"+shiftsDay[shift].shift_end+"</p>"
                             +       "</div>"
                             +   "</div>"
                             +   "<div class='modal-footer'>"
@@ -419,8 +414,7 @@ $(document).ready(function() {
                             +           "<label class='spaced-radio-btn radio-inline'><input class='full-cover' type='radio' name='full-post'>Yes</label>"
                             +           "<label class='spaced-radio-btn radio-inline'><input class='partial-cover' type='radio' name='full-post'>No</label></p>"
                             +           "<div style='display:none;' class='partial-selectors'>"
-                            +               "Start:<select class='partial-start' name='post-partial-start'>"+getPartialTimes('std')+"</select>"
-                            +               "End:<select class='partial-end' name='post-partial-end'>"+getPartialTimes('invert')+"</select>"
+                            +               fillPartialTimes('std', shiftsDay[shift].shift_start, shiftsDay[shift].shift_end)
                             +           "</div>"
                             +           "<p class='hidden' id='perm-prompt'>Do you want to post this shift permanently?"
                             +           "<label class='spaced-radio-btn radio-inline'><input class='perm-cover' type='radio' name='perm-post'>Yes</label>"
@@ -429,10 +423,6 @@ $(document).ready(function() {
                             +               "<label for='sob-story'>Sob Story:</label>"
                             +               "<textarea class='form-control' rows='2' id='sob-story'></textarea>"
                             +           "</div>"
-                            +       "</div>"
-                            +       "<div id='shift-cover-meta' style='display:none'>"
-                            +           "<p id='sh-start'>"+shiftsDay[shift].shift_start+"</p>"
-                            +           "<p id='sh-end'>"+shiftsDay[shift].shift_end+"</p>"
                             +       "</div>"
                             +   "</div>"
                             +   "<div class='modal-footer'>"
@@ -454,15 +444,67 @@ $(document).ready(function() {
     }
 
     //Function to generate a list of time options for partial shift covers
-    function getPartialTimes(order) {
+    function fillPartialTimes(order, start, end) {
+        var out = "Start:<select class='partial-start' name='post-partial-start'>"+listPartialTimes('std', start, end)+"</select>";
+        out += "End:<select class='partial-end' name='post-partial-end'>"+listPartialTimes('invert', start, end)+"</select>";
+        return out;
+    }
 
-        var start = $("#shift-cover-meta #sh-start").text();
-        var end = $("#shift-cover-meta #sh-end").text();
+    function listPartialTimes(order, begin, end) {
+        var interval, start, stop;
+        var ord = order == "std";
+        if (ord) {
+            interval = 15;
+            start = begin;
+            stop = end;
+        } else {
+            interval = -15;
+            start = end;
+            stop = begin;
+        }
+        interval *= 60000; // We have to give it to JS in milliseconds
 
-        console.log(start);
-        console.log(end);
+        start = new Date(start);
+        stop = new Date(stop);
+        stop = stop.setTime(stop.getTime() - interval); //so that users can't create a 15-min long shift!
+        var printDate = start;
+        console.log(printDate);
+        var out = "";
 
-        return "<option value='cool'>Cool</option>";
+        // Here is where we generate the option html
+        while (true) {
+            if (ord && printDate >= stop)
+                break;
+            if (!ord && printDate <= stop)
+                break;
+
+            var hourMer = checkHour(printDate.getHours());
+            var hour = hourMer[0];
+            var min = checkTime(printDate.getMinutes());
+            var mer = hourMer[1]; //Meridiem (am or pm)
+            out += "<option>"+hour+":"+min+mer+"</option>";
+
+            printDate.setTime(printDate.getTime() + interval);
+            console.log(printDate);
+        }
+        return out;
+    }
+
+    function checkHour(hour) {
+        if (hour == 12)
+            return [hour, "pm"]
+        else if (hour == 0)
+            return [1, "am"]
+        else if (hour > 12)
+            return [hour%12, "pm"]
+        else
+            return [hour, "am"]
+    }
+
+    function checkTime(time) {
+        if (time < 10)
+            time = "0"+time;
+        return time;
     }
 
     // Like the other method with some small differences for open shifts
@@ -534,8 +576,7 @@ $(document).ready(function() {
                         +           "<label class='spaced-radio-btn radio-inline'><input class='full-take' type='radio' name='full-take'>Yes</label>"
                         +           "<label class='spaced-radio-btn radio-inline'><input class='partial-take' type='radio' name='full-take'>No</label></p>"
                         +           "<div style='display:none;' class='partial-selectors'>"
-                        +               "Start:<select class='partial-start' name='post-partial-start'></select>"
-                        +               "End:<select class='partial-end' name='post-partial-end'></select>"
+                        +               fillPartialTimes('std', shiftsDay[shift].shift_start, shiftsDay[shift].shift_end)
                         +           "</div>"
                         +           "<p class='hidden' id='perm-prompt'>Do you want to take this shift permanently?"
                         +           "<label class='spaced-radio-btn radio-inline'><input class='perm-cover' type='radio' name='perm-take'>Yes</label>"
