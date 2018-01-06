@@ -548,7 +548,16 @@
 {
     border: 1px solid darkgrey;
     padding: 2px;
-
+    width: 255px;
+}
+.trophy-modal
+{
+    position: fixed;
+    display: flex;
+    min width: 100%;
+    bottom: 50px;
+    height:120px;
+    width: 560px;
 }
 .comment-button
 {

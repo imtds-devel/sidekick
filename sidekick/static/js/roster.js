@@ -21,6 +21,7 @@ pic = $(this).find(".m-pic").text()
 color = $(this).find(".m-poscol").text()
 dev = $(this).find(".m-dev").text()
 skills = $(this).find(".m-profs").text();
+active_user = $(this).find(".m-activeuser").text();
 
 
 //grab all proficiencies from list
@@ -83,10 +84,14 @@ var soft = skills.slice(21,22);
             break;
         case 5:
             proficient = "Master";
-            console.log(proficient);
             break;
         }
         return proficient;
+    }
+
+    if(active_user != netid_1) {
+        $("#li-skills").empty()
+        $("#emp-skills").empty()
     }
 
     $('#skills-div').append(
@@ -135,9 +140,6 @@ var soft = skills.slice(21,22);
            'descrip': description
         },
         success: function(data){
-            console.log(data)
-
-            console.log(data.comlist)
 
             $("#comment-div").html(" ");
 	        for (i = 0; i < data.comlist.length; i++) {

@@ -17,6 +17,7 @@ class EmployeeForm(forms.ModelForm):
         fields = ('netid', 'fname', 'lname', 'phone', 'apuid', 'codename', 'position', 'position_desc',
                   'standing', 'birthday', 'aboutme')
 
+
 class StarForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(StarForm, self).__init__(*args, **kwargs)
@@ -25,6 +26,7 @@ class StarForm(forms.ModelForm):
         model = Trophies
         fields = ('giver', 'recipient', 'trophy_type', 'reason', 'name')
 
+
 class CommentForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(CommentForm, self).__init__(*args, **kwargs)
@@ -32,6 +34,7 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = Discipline
         fields = ('subject', 'poster', 'about', 'description')
+
 
 class DisciplineForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):

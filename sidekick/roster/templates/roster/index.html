@@ -2,6 +2,7 @@
 {% block content %}
 {% load staticfiles %}
 {% load roster_extras %}
+{% load sidekick_extras %}
 <div class='container-fluid'>
     <div class="search" align="right">
         <form class="search-bar" style="margin-right: 20px">
@@ -37,7 +38,10 @@
                                 <li class="m-birth">{{employee.birthday}}</li>
                                 <li class="m-poscol">{{employee.position}}</li>
                                 <li class="m-pic">{% static employee.picture|img_exists %}</li>
+                                <li class="m-activeuser">{{user_netid}}</li>
+                                {% if user_netid|has_access:"roster_prof_all" or user_netid == employee.netid %}
                                 <li class="m-profs">{{skills|first}}</li>
+                                {% endif %}
                             </ul>
                         </div>
                     </div>
@@ -64,7 +68,6 @@
             </button>
         </div>
     </div>
-
     <div id='drop-down'>
         <div id="netid-standin" class='modal fade'>
             <div class='modal-dialog modal-md'>
@@ -73,8 +76,10 @@
                         <h4 style='text-align: left; margin-left:30px; margin-top:15px; margin-bottom:-35px;' class='modal-title' id="title-name"></h4>
                         <ul class='nav nav-tabs' style='margin-left:250px'>
                             <li class='active'><a data-toggle='tab' href='#emp-home'>Info</a></li>
-                            <li><a data-toggle='tab' href='#emp-skills'>Skills</a></li>
+                            <li id="li-skills"><a data-toggle='tab' href='#emp-skills'>Skills</a></li>
+                            {% if user_netid|has_access:"roster_modfb_all" %}
                             <li><a data-toggle='tab' href='#emp-comment'>Comments</a></li>
+                            {% endif %}
                         </ul>
                     </div>
                     <div class='tab-content tab-card'>
@@ -89,6 +94,7 @@
                             <div id="skills-div">
                             </div>
                         </div>
+                        {% if user_netid|has_access:"roster_modfb_all" %}
                         <div id='emp-comment' class='modal-body hero-bio tab-pane fade'>
                             <div class='col-md-6'>
                                 <h4 style='text-align: left; margin-left: 100px;' class='modal-title'><b>Comments</b></h4>
@@ -102,6 +108,7 @@
                                 <div id='comarea' style='height: 299px; overflow-y: auto; margin-top: 5px;'></div>
                             </div>
                         </div>
+                        {% endif %}
                     </div>
                     <div class='modal-footer'>
                         <button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
