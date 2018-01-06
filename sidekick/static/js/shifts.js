@@ -3,7 +3,7 @@
 // Written by Josh Wood in Fall 2017
 /////////////////////////////////////////
 // Variables for the page
-var weekDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"] // Week days in order
+var weekDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]; // Week days in order
 var locations = {
     ma: "Marshburn",
     da: "Darling",
@@ -14,16 +14,15 @@ var locations = {
     md: "MoD Desk",
     ss: "SST",
     sf: "Staff"
-}
+};
 
 $(document).ready(function() {
     // On page load we want to load the correct shifts to update the display
     ajaxUserShifts('curr');
     ajaxOpenShifts('curr');
-    
     // This function sends an ajax request to django which responds with data
     function ajaxUserShifts(option){
-        console.log("Sent")
+        console.log("Sent");
         // Retreive the date that the user selected
         var date = $('#your-shift-date').val();
         console.log(date);
@@ -40,14 +39,13 @@ $(document).ready(function() {
                 if (data.date.slice(0,10) != date) {
                     $('#your-shift-date').val(data.date.slice(0,10));
                 }
-                console.log(data)
-                console.log("Received")
-                $('#your-week').text(data.week[0].slice(5,10) + ' to ' + data.week[6].slice(5,10));                                        
+                console.log(data);
+                console.log("Received");
+                $('#your-week').text(data.week[0].slice(5,10) + ' to ' + data.week[6].slice(5,10));
                 generateUserShiftPanels(data.week, data.shifts);
             }
         });
     }
-
     // This function sends an ajax request for open shifts for a given position
     function ajaxOpenShifts(option){
         var date = $('#open-shift-date').val();
@@ -65,10 +63,10 @@ $(document).ready(function() {
                 if (data.date.slice(0,10) != date) {
                     $('#open-shift-date').val(data.date.slice(0,10));
                 }
-                $('#open-week').text(data.week[0].slice(5,10) + ' to ' + data.week[6].slice(5,10));                                        
+                $('#open-week').text(data.week[0].slice(5,10) + ' to ' + data.week[6].slice(5,10));
                 generateOpenShiftPanels(data.week, data.shifts);
             }
-        })
+        });
     }
 
     function ajaxRelativeShifts(shiftID) {
@@ -81,31 +79,31 @@ $(document).ready(function() {
             success: function (data) {
                 console.log("Relative Shifts:");
                 console.log(data);
-                generateRelativeShifts(shiftID, data)
+                generateRelativeShifts(shiftID, data);
             }
-        })
+        });
     }
 
     function ajaxPostCover(data) {
         $.ajax({
             type:"POST",
             url: 'ajax/post_cover/',
-            data,
+            data: data,
             dataType: 'json',
             success : function (data) {
                 console.log("POSTED YES IT POSTED YES");
-                //$('.modal').modal('hide');              
+                //$('.modal').modal('hide');
                 ajaxUserShifts('curr');
                 ajaxOpenShifts('curr');
             }
-        })
+        });
     }
 
     function ajaxTakeCover(data) {
         $.ajax({
             type:"POST",
             url: 'ajax/take_cover/',
-            data,
+            data: data,
             dataType: 'json',
             success : function (data) {
                 console.log("TAKEN YES IT TOOK YES");
@@ -113,7 +111,7 @@ $(document).ready(function() {
                 ajaxUserShifts('curr');
                 ajaxOpenShifts('curr');
             }
-        })
+        });
     }
 
     // This triggers when the user selects a new date in the date selector
@@ -164,133 +162,136 @@ $(document).ready(function() {
     // When the user selects "yes" for full cover
     $(document).on('change', '.full-cover', function() {
         // Fetch the id of the post-conf modal
-        modalID = $(this).closest('.modal').attr('id')
-        // Hide the partial selectors and enable the post button 
-        $('#' + modalID).find('.partial-selectors').hide('fast')
-        $('#' + modalID).find('#post-cover-btn').prop('disabled', false)
+        modalID = $(this).closest('.modal').attr('id');
+        // Hide the partial selectors and enable the post button
+        $('#' + modalID).find('.partial-selectors').hide('fast');
+        $('#' + modalID).find('#post-cover-btn').prop('disabled', false);
     });
 
     // When the user selects "no" for full cover
     $(document).on('change', '.partial-cover', function() {
         // Fetch the id of the post-conf modal
-        modalID = $(this).closest('.modal').attr('id')
-        // Hide the partial selectors and enable the post button 
-        $('#' + modalID).find('.partial-selectors').show('fast')
-        $('#' + modalID).find('#post-cover-btn').prop('disabled', true) // Temporarily disabled until I code this
+        modalID = $(this).closest('.modal').attr('id');
+        // Hide the partial selectors and enable the post button
+        $('#' + modalID).find('.partial-selectors').show('fast');
+        $('#' + modalID).find('#post-cover-btn').prop('disabled', true); // Temporarily disabled until I code this
     });
 
     // When the user selects "yes" for full take
     $(document).on('change', '.full-take', function() {
         // Fetch the id of the post-conf modal
-        modalID = $(this).closest('.modal').attr('id')
-        // Hide the partial selectors and enable the post button 
-        $('#' + modalID).find('.partial-selectors').hide('fast')
-        $('#' + modalID).find('#take-cover-btn').prop('disabled', false)
+        modalID = $(this).closest('.modal').attr('id');
+        // Hide the partial selectors and enable the post button
+        $('#' + modalID).find('.partial-selectors').hide('fast');
+        $('#' + modalID).find('#take-cover-btn').prop('disabled', false);
     });
 
     // When the user selects "no" for full cover
     $(document).on('change', '.partial-take', function() {
         // Fetch the id of the post-conf modal
-        modalID = $(this).closest('.modal').attr('id')
-        // Hide the partial selectors and enable the post button 
-        $('#' + modalID).find('.partial-selectors').show('fast')
-        $('#' + modalID).find('#take-cover-btn').prop('disabled', true) // Temporarily disabled until I code this
+        modalID = $(this).closest('.modal').attr('id');
+        // Hide the partial selectors and enable the post button
+        $('#' + modalID).find('.partial-selectors').show('fast');
+        $('#' + modalID).find('#take-cover-btn').prop('disabled', true); // Temporarily disabled until I code this
     });
 
     // When the user clicks "post"
     $(document).on('click', '#post-cover-btn', function() {
-        console.log("Post cover triggered")
-        modalID = $(this).closest('.modal').attr('id')
-        eventID = modalID.slice(10) // Cuts the 'post-conf' off
-        isPerm = $('#' + modalID).find('.perm-cover').prop('checked')
+        console.log("Post cover triggered");
+        var modalID = $(this).closest('.modal').attr('id');
+        var eventID = modalID.slice(10); // Cuts the 'post-conf' off
+        var isPerm = $('#' + modalID).find('.perm-cover').prop('checked');
+        var permID;
         if (isPerm) {
-            permID = eventID.slice(0, eventID.indexOf("_")) // Cuts the _ off the end                    
+            permID = eventID.slice(0, eventID.indexOf("_")); // Cuts the _ off the end
         }
         else {
-            permID = eventID
+            permID = eventID;
         }
 
-        isPartial = $('#' + modalID).find('.partial-cover').prop('checked')
+        var isPartial = $('#' + modalID).find('.partial-cover').prop('checked');
+        var part_start, part_end;
         if (isPartial) {
-            part_start = $('#' + modalID).find('.partial-start').val()
-            part_en = $('#' + modalID).find('.partial-end').val()
-        } 
+            part_start = $('#' + modalID).find('.partial-start').val();
+            part_end = $('#' + modalID).find('.partial-end').val();
+        }
         else {
-            part_start = 'None'
-            part_end = 'None'
+            part_start = 'None';
+            part_end = 'None';
         }
 
-        sobStory = $('#' + modalID).find('#sob-story').val()
-        data = {
+        var sobStory = $('#' + modalID).find('#sob-story').val();
+        var data = {
             'event_id' : eventID,
             'permanent' : isPerm,
-            'permanent_id' : permID,            
+            'permanent_id' : permID,
             'partial' : isPartial,
             'part_start' : part_start,
             'part_end' : part_end,
             'sob_story' : sobStory
-        }
-        ajaxPostCover(data)
+        };
+        ajaxPostCover(data);
     });
     // When the user clicks "take"
     $(document).on('click', '#take-cover-btn', function(evt) {
-        console.log("take shift")
-        modalID = $(this).closest('.modal').attr('id')
-        eventID = modalID.slice(10) // Cuts the 'post-conf' off
-        isPerm = $('#' + modalID).find('.perm-cover').prop('checked')
-        console.log(isPerm);
+        console.log("take shift");
+        modalID = $(this).closest('.modal').attr('id');
+        eventID = modalID.slice(10); // Cuts the 'post-conf' off
+        isPerm = $('#' + modalID).find('.perm-cover').prop('checked');
+        var permID;
         if (isPerm) {
-            permID = eventID.slice(0, eventID.indexOf("_")) // Cuts the _ off the end                    
+            permID = eventID.slice(0, eventID.indexOf("_")); // Cuts the _ off the end
         }
         else {
-            permID = eventID
+            permID = eventID;
         }
 
-        isPartial = $('#' + modalID).find('.partial-cover').prop('checked')
+        var isPartial = $('#' + modalID).find('.partial-cover').prop('checked');
+        var part_start, part_end;
         if (isPartial) {
-            part_start = $('#' + modalID).find('.partial-start').val()
-            part_en = $('#' + modalID).find('.partial-end').val()
-        } 
+            part_start = $('#' + modalID).find('.partial-start').val();
+            part_end = $('#' + modalID).find('.partial-end').val();
+        }
         else {
-            part_start = 'None'
-            part_end = 'None'
+            part_start = 'None';
+            part_end = 'None';
         }
 
-        sobStory = $('#' + modalID).find('#sob-story').text()
-        console.log($('#' + modalID).find('.perm-cover').prop('checked')) 
-        data = {
+        var sobStory = $('#' + modalID).find('#sob-story').text();
+        console.log($('#' + modalID).find('.perm-cover').prop('checked'));
+        var data = {
             'event_id' : eventID,
             'permanent' : isPerm,
-            'permanent_id' : permID,            
+            'permanent_id' : permID,
             'partial' : isPartial,
             'part_start' : part_start,
             'part_end' : part_end,
             'sob_story' : sobStory
-        }
-        ajaxTakeCover(data)
+        };
+        ajaxTakeCover(data);
     });
 
-    // This function #TODO this function 
+    //TODO: This function
     function generateRelativeShifts(shiftID, shiftData){
         // We fill in the modal
         $('#' + String(shiftID) + '-modal').find('#shift-details').text(locations[shiftData.thisShift.location] + ": " + formatTimeRange(shiftData.thisShift.shift_start, shiftData.thisShift.shift_end));
         if (shiftData.thisShift.is_open) {
-            $('#' + String(shiftID) + '-modal').find('#cover-details-1').text("Shift cover posted by " + String(shiftData.shiftCover.poster) + " on " + String(shiftData.shiftCover.post_date))
-            $('#' + String(shiftID) + '-modal').find('#cover-details-2').text("Sob story: " + shiftData.shiftCover.sobstory) 
+            $('#' + String(shiftID) + '-modal').find('#cover-details-1').text("Shift cover posted by " + String(shiftData.shiftCover.poster) + " on " + String(shiftData.shiftCover.post_date));
+            $('#' + String(shiftID) + '-modal').find('#cover-details-2').text("Sob story: " + shiftData.shiftCover.sobstory);
         }
     }
     // This function is called by the AJAX function, it fills in the shifts on the page
     function generateUserShiftPanels(week, shifts){
-        // First we remove the current shifts 
+        // First we remove the current shifts
         $('#your-shifts-panel-group').empty();
         $('#user-shift-modals').empty();
         // Loop through the days in the given week
-        for (day = 0; day < week.length; day++){
+        for (var day = 0; day < week.length; day++){
             // Evaluate if we should be displaying this day
             // Hint: We should only display a day if there are shifts on that day
             if (isShiftOnDay(week[day], shifts)) {
                 // If there are shifts we start by adding the "days" in the week that have a shift on them
-                $('#your-shifts-panel-group').append(            
+                $('#your-shifts-panel-group').append(
                     "<div class = 'panel panel-primary shift-panel' id= '" + weekDays[day] + "-shifts' >" +
                         "<div class = 'panel-heading'>" + weekDays[day] + " " +  week[day].slice(5,10) + "</div>" + // Here we are displaying the week day and the date of that day
                         "<div class = 'panel-body'><div>" + // This is where the individual shifts will go
@@ -306,7 +307,7 @@ $(document).ready(function() {
                             "<button type = 'button' id = '" + shiftsDay[shift].event_id  + "' class = 'btn btn-block btn-warning shift-btn' data-toggle= 'modal' data-target= '#"
                             + String(shiftsDay[shift].event_id) + "-modal' >" + locations[shiftsDay[shift].location] // This line labels the modal we will make and the location of the shift
                             + ": " + formatTimeRange(shiftsDay[shift].shift_start, shiftsDay[shift].shift_end) // This line lays out the time range of the shift using a handy method
-                            +"</button>"          
+                            +"</button>"
                         )
                         // Generate a modal for each shift, this displays some information for the shift
                         $('#user-shift-modals').append(
@@ -320,10 +321,10 @@ $(document).ready(function() {
                             +        "</div>"
                             +        "<div class='modal-body'>"
                             +            "<div class='shift-body'>"
-                            +                "<p>[Not Final Design]</p>"                        
+                            +                "<p>[Not Final Design]</p>"
                             +                "<p id = shift-details></p>" // Once again we will fill this when the shift is clicked
-                            +                "<p id = cover-details-1></p>" // Open shifts have extra cover details that are filled on click     
-                            +                "<p id = cover-details-2></p>"                                    
+                            +                "<p id = cover-details-1></p>" // Open shifts have extra cover details that are filled on click
+                            +                "<p id = cover-details-2></p>"
                             +            "</div>"
                             +        "</div>"
                             +        "<div class='modal-footer'>"
@@ -333,7 +334,7 @@ $(document).ready(function() {
                             +    "</div>"
                             +"</div>"
                         +"</div>"
-                        )
+                        );
                         // These secondary modals are for confirming the shift posting
                         $('#user-shift-modals').append(
                             "<div id = 'post-conf-" + String(shiftsDay[shift].event_id) + "' class = 'modal fade'>"
@@ -363,20 +364,20 @@ $(document).ready(function() {
                             +       "</div>"
                             +   "</div>"
                             +   "<div class='modal-footer'>"
-                            +       "<button disabled id='take-cover-btn' type='button' class='align-left btn btn-primary' data-dismiss='modal'>Take Shift Cover</button>"                        
+                            +       "<button disabled id='take-cover-btn' type='button' class='align-left btn btn-primary' data-dismiss='modal'>Take Shift Cover</button>"
                             +       "<button type='button' class='align-right btn btn-default' data-toggle = 'modal' data-target = '#" + String(shiftsDay[shift].event_id) + "-modal' data-dismiss='modal'>Cancel</button>"
                             +   "</div>"
                             +      "</div>"
                             +   "</div>"
                             +"</div>"
-                        ) 
+                        );
                     }
                     else { // If the shift isn't open, we display normally
                         $('#' + weekDays[day] + '-shifts .panel-body').append( // Select the body of the current day we are looping through
                             "<button type = 'button' id = '" + shiftsDay[shift].event_id  + "' class = 'btn btn-block shift-btn' data-toggle= 'modal' data-target= '#"
                             + String(shiftsDay[shift].event_id) + "-modal' >" + locations[shiftsDay[shift].location] // This line labels the modal we will make and the location of the shift
                             + ": " + formatTimeRange(shiftsDay[shift].shift_start, shiftsDay[shift].shift_end) // This line lays out the time range of the shift using a handy method
-                            +"</button>"                    
+                            +"</button>"
                         )
                         // Generate a modal for each shift
                         $('#user-shift-modals').append(
@@ -390,12 +391,12 @@ $(document).ready(function() {
                             +        "</div>"
                             +        "<div class='modal-body'>"
                             +            "<div class='shift-body'>"
-                            +                "<p>[Not Final Design]</p>" // #TODO final design
+                            +                "<p>[Not Final Design]</p>" //TODO final design
                             +                "<p id = shift-details></p>" // We will fill this when we actually click a modal
                             +            "</div>"
                             +        "</div>"
                             +        "<div class='modal-footer'>"
-                            +            "<button type='button' class='align-left btn btn-default' data-dismiss='modal' data-toggle= 'modal' data-target = '#post-conf-" + String(shiftsDay[shift].event_id) + "'>Post Cover</button>"                        
+                            +            "<button type='button' class='align-left btn btn-default' data-dismiss='modal' data-toggle= 'modal' data-target = '#post-conf-" + String(shiftsDay[shift].event_id) + "'>Post Cover</button>"
                             +            "<button type='button' class='align-right btn btn-default' data-dismiss='modal'>Close</button>"
                             +        "</div>"
                             +    "</div>"
@@ -408,7 +409,7 @@ $(document).ready(function() {
                             +"<div class='modal-dialog modal-md'>"
                             +   "<div class='modal-content'>"
                             +       "<div class='modal-header'>"
-                            +       shiftsDay[shift].title // Once again the title is the title of the shift 
+                            +       shiftsDay[shift].title // Once again the title is the title of the shift
                             +       "<button type='button' class='close' data-dismiss='modal' data-toggle = 'modal' data-target = '#" + String(shiftsDay[shift].event_id) + "-modal'>&times;</button>"
                             +       "<h4 class='modal-title'></h4>"
                             +   "</div>"
@@ -435,7 +436,7 @@ $(document).ready(function() {
                             +       "</div>"
                             +   "</div>"
                             +   "<div class='modal-footer'>"
-                            +       "<button disabled id='post-cover-btn' type='button' class='align-left btn btn-primary' data-dismiss='modal'>Post Shift Cover</button>"                        
+                            +       "<button disabled id='post-cover-btn' type='button' class='align-left btn btn-primary' data-dismiss='modal'>Post Shift Cover</button>"
                             +       "<button type='button' class='align-right btn btn-default' data-toggle = 'modal' data-target = '#" + String(shiftsDay[shift].event_id) + "-modal' data-dismiss='modal'>Cancel</button>"
                             +   "</div>"
                             +   "</div>"
@@ -474,7 +475,7 @@ $(document).ready(function() {
             // Evaluate if we should be displaying this day
             // Hint: We should only display a day if there are shifts on that day
             if (isShiftOnDay(week[day], shifts)) {
-                $('#open-shifts-panel-group').append(            
+                $('#open-shifts-panel-group').append(
                     "<div class = 'panel panel-warning shift-panel' id= '" + weekDays[day] + "-open-shifts' >" +
                         "<div class = 'panel-heading'>" + weekDays[day] + " " +  week[day].slice(5,10) + "</div>" + // Here we are displaying the week day and the date of that day
                         "<div class = 'panel-body'><div>" + // This is where the individual shifts will go
@@ -487,9 +488,9 @@ $(document).ready(function() {
                     // Generate a shift "button" for each shift
                     $('#' + weekDays[day] + '-open-shifts .panel-body').append(
                         "<button type = 'button' id = '" + shiftsDay[shift].event_id  + "' class = 'btn btn-block shift-btn' data-toggle= 'modal' data-target= '#"
-                        + String(shiftsDay[shift].event_id) + "-modal' >" + locations[shiftsDay[shift].location] 
+                        + String(shiftsDay[shift].event_id) + "-modal' >" + locations[shiftsDay[shift].location]
                         + ": " + formatTimeRange(shiftsDay[shift].shift_start, shiftsDay[shift].shift_end)
-                        +"</button>"                    
+                        +"</button>"
                     )
                     // Generate a modal for each shift, this displays some information for the shift
                     $('#open-shift-modals').append(
@@ -503,10 +504,10 @@ $(document).ready(function() {
                         +        "</div>"
                         +        "<div class='modal-body'>"
                         +            "<div class='shift-body'>"
-                        +                "<p>[Not Final Design]</p>"                        
+                        +                "<p>[Not Final Design]</p>"
                         +                "<p id = shift-details></p>" // Once again we will fill this when the shift is clicked
-                        +                "<p id = cover-details-1></p>" // Open shifts have extra cover details that are filled on click     
-                        +                "<p id = cover-details-2></p>"                                    
+                        +                "<p id = cover-details-1></p>" // Open shifts have extra cover details that are filled on click
+                        +                "<p id = cover-details-2></p>"
                         +            "</div>"
                         +        "</div>"
                         +        "<div class='modal-footer'>"
@@ -534,15 +535,15 @@ $(document).ready(function() {
                         +           "<label class='spaced-radio-btn radio-inline'><input class='partial-take' type='radio' name='full-take'>No</label></p>"
                         +           "<div style='display:none;' class='partial-selectors'>"
                         +               "Start:<select class='partial-start' name='post-partial-start'></select>"
-                        +               "End:<select class='partial-end' name='post-partial-end'></select>"                        
+                        +               "End:<select class='partial-end' name='post-partial-end'></select>"
                         +           "</div>"
                         +           "<p class='hidden' id='perm-prompt'>Do you want to take this shift permanently?"
                         +           "<label class='spaced-radio-btn radio-inline'><input class='perm-take' type='radio' name='perm-post' checked='checked'>Yes</label>"
-                        +           "<label class='spaced-radio-btn radio-inline'><input class='temp-take' type='radio' name='perm-post'>No</label></p>"   
+                        +           "<label class='spaced-radio-btn radio-inline'><input class='temp-take' type='radio' name='perm-post'>No</label></p>"
                         +       "</div>"
                         +   "</div>"
                         +   "<div class='modal-footer'>"
-                        +       "<button disabled id='take-cover-btn' type='button' class='align-left btn btn-primary' data-dismiss='modal'>Take Shift Cover</button>"                        
+                        +       "<button disabled id='take-cover-btn' type='button' class='align-left btn btn-primary' data-dismiss='modal'>Take Shift Cover</button>"
                         +       "<button type='button' class='align-right btn btn-default' data-toggle = 'modal' data-target = '#" + String(shiftsDay[shift].event_id) + "-modal' data-dismiss='modal'>Cancel</button>"
                         +   "</div>"
                         +      "</div>"
@@ -564,9 +565,9 @@ $(document).ready(function() {
         // Loop through the shifts given
         for (shift = 0; shift < shifts.length; shift++) {
             if (shifts[shift].shift_date == day.slice(0,10))
-                return true; // If we found a shift on that date 
+                return true; // If we found a shift on that date
         }
-        // If we looked through the shifts but found nothing 
+        // If we looked through the shifts but found nothing
         return false
     }
     // This function evaulates a group of shifts and returns those shifts that are on the given day
@@ -579,7 +580,7 @@ $(document).ready(function() {
             if (shifts[shift].shift_date == day.slice(0,10)) // If there is a shift on that date
                 shiftsDay.push(shifts[shift]) // pushes that shift to the new set we made
         }
-        return shiftsDay; // Return the shifts found on that day 
+        return shiftsDay; // Return the shifts found on that day
     }
     // This function checks if a given shift is a part of recurring instance
     // We refer to this as a permanent shift
@@ -592,7 +593,7 @@ $(document).ready(function() {
         // Slice out just the time
         var startTime = shiftStart.slice(11, 16);
         var endTime = shiftEnd.slice(11, 16);
-        
+
         // Parse out the "hours"
         var sTimeNum = parseInt(startTime.slice(0,2));
         var eTimeNum = parseInt(endTime.slice(0,2));
@@ -602,52 +603,52 @@ $(document).ready(function() {
         {
             // If just noon then add PM
             if (sTimeNum == 12)
-                startTime += "PM"
+                startTime += "PM";
             // Else calculate the time and then add PM
             else
             {
-                sTimeNum -= 12
-                startTime = startTime.slice(2,5)
-                startTime = String(sTimeNum) + startTime + "PM"
+                sTimeNum -= 12;
+                startTime = startTime.slice(2,5);
+                startTime = String(sTimeNum) + startTime + "PM";
             }
         }
         // If it is before noon then just add AM
         else if (sTimeNum == 0)
         {
-            sTimeNum = 12
-            startTime = startTime.slice(2,5)
-            startTime = String(sTimeNum) + startTime + "AM"
+            sTimeNum = 12;
+            startTime = startTime.slice(2,5);
+            startTime = String(sTimeNum) + startTime + "AM";
         }
         else
         {
-            startTime += "AM"
+            startTime += "AM";
         }
 
-        // Now do the same thing for the ending time 
+        // Now do the same thing for the ending time
         if (eTimeNum > 11)
         {
             if (eTimeNum == 12)
-                endTime += "PM"
+                endTime += "PM";
             else
             {
-                eTimeNum -= 12
-                endTime = endTime.slice(2,5)
-                endTime = String(eTimeNum) + endTime + "PM"
+                eTimeNum -= 12;
+                endTime = endTime.slice(2,5);
+                endTime = String(eTimeNum) + endTime + "PM";
             }
         }
         else if (eTimeNum == 0)
         {
-            eTimeNum = 12
-            endTime = endTime.slice(2,5)
-            endTime = String(eTimeNum) + endTime + "AM"
+            eTimeNum = 12;
+            endTime = endTime.slice(2,5);
+            endTime = String(eTimeNum) + endTime + "AM";
         }
         else
         {
-            endTime += "AM"
+            endTime += "AM";
         }
 
         // Format the time range and return it
-        time = startTime + ' - ' + endTime
+        time = startTime + ' - ' + endTime;
         return time
     }
 
