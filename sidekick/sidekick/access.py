@@ -3,7 +3,7 @@ from sidekick.views import set_user_string
 
 
 def get_access(netid, area):
-    netid = set_user_string(netid) # in case we're not in production
+    netid = set_user_string(netid)  # in case we're not in production
 
     # we have to do this to get the user object itself since the get call will return a QuerySet
     user = Employees.objects.get(netid=netid)
@@ -23,6 +23,8 @@ def get_access(netid, area):
     return pos_fns[pos](area) if not user.developer else pos_fns[pos](area) or pos_fns["dev"](area)
 
 
+# NOTE: if you're having a trouble with a specific access area but the system as a whole seems functional,
+#       check for missing commas!
 def get_lbt_access(area):
     access_list = [
         # Page access
@@ -46,7 +48,7 @@ def get_spt_access(area):
         "homebase_access", "passwords_access", "shift_access", "roster_access", "quote_access", "printer_access",
 
         # Passwords page
-        "passwords_lab", "passwords_support"
+        "passwords_lab", "passwords_support",
         
         # Shift Covers page
         "shift_viewlabs", "shift_viewsupport",
@@ -63,7 +65,7 @@ def get_sst_access(area):
         "homebase_access", "passwords_access", "shift_access", "roster_access", "quote_access", "printer_access",
 
         # Passwords page
-        "passwords_lab", "passwords_support"
+        "passwords_lab", "passwords_support",
         
         # Shift Covers page
         "shift_viewall",

@@ -712,6 +712,8 @@ input[type=number]::-webkit-outer-spin-button {
 .shifts-panel-group
 {
     display: flex;
+    flex-direction:row;
+    overflow:auto;
 }
 .shift-panel
 {
@@ -783,7 +785,7 @@ input[type=number]::-webkit-outer-spin-button {
 }
 .pass-table
 {
-    height:87%;
+    max-height:87%;
 }
 .pass-tbody
 {

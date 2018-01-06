@@ -1,16 +1,10 @@
 import httplib2
 import os
-import datetime
-import pytz
 
 from apiclient import discovery
 from oauth2client import client
 from oauth2client import tools
 from oauth2client.file import Storage
-
-from sidekick.settings import CALENDAR_LOCATION_IDS
-from shifts.models import SyncTokens, Shifts
-from homebase.models import Employees
 
 
 SCOPES = 'https://www.googleapis.com/auth/calendar'

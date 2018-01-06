@@ -207,6 +207,7 @@ def get_end_repeat(date: datetime, permanent: bool):
 # Consolidate consecutive identical shifts into bigger blobs
 def consolidator(data: CoverInstructions):
     # TODO: Program this!
+    matching_shifts = Shifts.objects.filter()
     return cleanup(data)
 
 
