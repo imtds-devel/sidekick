@@ -23,6 +23,7 @@ dev = $(this).find(".m-dev").text()
 skills = $(this).find(".m-profs").text();
 active_user = $(this).find(".m-activeuser").text();
 
+console.log(active_user)
 
 //grab all proficiencies from list
 var netid_1 = netid_1.slice(2,);
