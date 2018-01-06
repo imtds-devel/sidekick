@@ -1,6 +1,6 @@
 from django.db.models import Q
 from django.core.mail import send_mail, send_mass_mail
-from shifts.models import Shifts
+from shifts.models import Shifts, Holidays
 from homebase.models import Employees
 from shifts.functions import google_api
 from sidekick.settings import CALENDAR_LOCATION_IDS
@@ -62,7 +62,7 @@ def full_cover(data: CoverInstructions):
     print(old_event_id)
 
     # Define the shift owner
-    owner = first.owner if data.post else data.actor
+    owner = data.actor if data.post else first.owner
 
     # Construct new title
     if data.post:
@@ -72,7 +72,7 @@ def full_cover(data: CoverInstructions):
 
     # 3. Create new Google Event
     # Start by figuring out the end repeat date if necessary
-    end_repeat = get_end_repeat(shifts.last().shift_date, data.permanent)
+    end_repeat = shifts.last().shift_date
 
     # Construct event
     event = build_event(
@@ -80,7 +80,8 @@ def full_cover(data: CoverInstructions):
         start=tz.localize(first.shift_start),
         end=tz.localize(first.shift_end),
         end_repeat=end_repeat,
-        sob_story=data.sob_story
+        sob_story=data.sob_story,
+        old_permanent_id=first.permanent_id if data.permanent else None,
     )
 
     print(event)
@@ -133,7 +134,7 @@ def partial_cover(data: CoverInstructions):
     padding_title = first.title
     center_title = "Open Shift (Cover for %s)" % data.actor if data.post else "%s (Cover for %s)" % (data.actor, first.owner)
     # See comment on end repeat in full_cover for explanation
-    end_repeat = get_end_repeat(shifts.last().shift_date, data.permanent)
+    end_repeat = shifts.last().shift_date
 
     # Build three events now and cut the ones we won't need
     events = [
@@ -143,6 +144,7 @@ def partial_cover(data: CoverInstructions):
             end=data.start_time,
             end_repeat=end_repeat,
             sob_story="" if data.post else sob_story,
+            old_permanent_id=first.permanent_id if data.permanent else None,
         ),
         build_event(
             title=center_title,
@@ -150,6 +152,7 @@ def partial_cover(data: CoverInstructions):
             end=data.end_time,
             end_repeat=end_repeat,
             sob_story=data.sob_story if data.post else "",
+            old_permanent_id=first.permanent_id if data.permanent else None,
         ),
         build_event(
             title=padding_title,
@@ -157,6 +160,7 @@ def partial_cover(data: CoverInstructions):
             end=og_end,
             end_repeat=end_repeat,
             sob_story="" if data.post else sob_story,
+            old_permanent_id=first.permanent_id if data.permanent else None,
         )
     ]
     # Now we validate and remove any zero-length shifts
@@ -194,16 +198,6 @@ def get_duration(event):
     return int(dur.seconds/60)
 
 
-# Google's format for specifying end repeat: yyyymmddThhmmssZ
-# Lowercase letters represent year, month, day, etc
-# Uppercase letters mean actual letters in the string
-# Note: timezone is UTC
-# Note: we increment the day to make sure the last instance of the shift doesn't get cut off
-def get_end_repeat(date: datetime, permanent: bool):
-    date = date + datetime.timedelta(days=1)
-    return str(date).replace("-", "") + "T090000Z" if permanent else None
-
-
 # Consolidate consecutive identical shifts into bigger blobs
 def consolidator(data: CoverInstructions):
     # TODO: Program this!
@@ -232,6 +226,7 @@ def mail_test():
 
     return True
 
+
 ######################################################
 # Helper functions
 
@@ -244,11 +239,15 @@ def get_shift(service, cal_id, event_id):
     ).execute()
 
 
+# fexc = f(ormat) exc(eption): fmt exception date object as an EXDATE string
+def fexc(exception: datetime.datetime):
+    return "EXDATE;VALUE=DATE:%s" % exception.strftime("%Y%m%d")
+
+
 # Expects start and end to be properly formatted datetime strings with timezone
 # Use the startdatetime and enddatetime methods
-def build_event(title, start: datetime, end: datetime, end_repeat="", sob_story=""):
-    print(end_repeat)
-    recurrence = "RRULE:FREQ=WEEKLY;UNTIL=%s" % end_repeat if end_repeat and end_repeat != "" else None
+def build_event(title: str, start: datetime, end: datetime, end_repeat=datetime.datetime.now(),
+                sob_story=None, old_permanent_id=None):
     # TODO: Research if people want to be added as attendees to the events
 
     return {
@@ -262,5 +261,69 @@ def build_event(title, start: datetime, end: datetime, end_repeat="", sob_story=
             'dateTime': end.strftime("%Y-%m-%dT%H:%M:%S%z")[:-2]+":00",
             'timeZone': 'America/Los_Angeles',
         },
-        'recurrence': [recurrence],
+        'recurrence': build_recurrence(end_repeat, old_permanent_id),
     }
+
+
+# Build the recurrence list for the Google calendar, making sure to list exceptions
+# For details, see https://developers.google.com/google-apps/calendar/concepts/events-calendars#recurring_events
+def build_recurrence(end_repeat: datetime.datetime, permanent_id: str):
+    # For non-permanent shifts
+    if not permanent_id:
+        return None
+
+    recurrence = ["RRULE:FREQ=WEEKLY;UNTIL=%s" % get_end_repeat(end_repeat)]
+    exceptions = get_exceptions(permanent_id)
+    if exceptions:
+        recurrence.append(exceptions)
+    return recurrence
+
+
+# Google's format for specifying end repeat: yyyymmddThhmmssZ
+# Lowercase letters represent year, month, day, etc
+# Uppercase letters mean actual letters in the string
+# Note: timezone is UTC
+# Note: we increment the day to make sure the last instance of the shift doesn't get cut off
+def get_end_repeat(date: datetime.datetime):
+    date = date + datetime.timedelta(days=1)
+    return str(date).replace("-", "") + "T090000Z"
+
+
+# Returns a list of EXDATE strings that will be used to exclude dates from a recurring event
+# There are two reasons this could happen:
+# 1. The user posted a single shift cover and then posted a permanent shift cover
+# 2. The day in question is a holiday
+def get_exceptions(permanent_id):
+    exceptions = []
+
+    shifts = Shifts.objects.filter(permanent_id=permanent_id).order_by('shift_start')
+    shift_dates = [s.shift_date for s in shifts]
+
+    # First, we need to get a list of holidays that the shift overlaps with
+    holidays = Holidays.objects.all()
+    holiday_dates = [h.date for h in holidays]
+
+    # Check to see if any of our dates are holidays
+    for s in shift_dates:
+        if s in holiday_dates:
+            exceptions.append(s)
+
+    # Next, check for excluded weeks (where single shift covers may have been posted or they were deleted from the cal)
+    date_increment = shifts.first().shift_start
+
+    index = 0
+    while date_increment <= shifts.last().shift_start:
+        shift = shifts[index]
+        if shift.shift_start != date_increment:
+            exceptions.append(date_increment)
+        else:
+            index += 1
+        date_increment += datetime.timedelta(weeks=1)
+
+    e_str = ""
+    if exceptions:
+        e_str = "EXDATE;TZID=America/Los_Angeles:"
+        for exception in exceptions:
+            e_str += exception.strftime("%Y%m%dT%H%M%S")+","
+
+    return e_str[:-1]

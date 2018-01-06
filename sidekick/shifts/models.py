@@ -85,16 +85,28 @@ class Shifts(models.Model):
 
         return "%sT%s" % (str(date), str(self.shift_start))
 
+    # TODO: Get this finished and experiment w/ using as replacement for single ID storage
     @property
     def google_single_id(self):
         date = str(self.shift_date).replace("-", "")
         time = str(pytz.utc.localize(self.shift_start))
         return self.permanent_id
 
+
 class SyncTokens(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     location = models.CharField(max_length=2)
     token = models.TextField(default="")
+
+
+class Holidays(models.Model):
+    date = models.DateField()
+    name = models.TextField()
+
+    @property
+    def exdate(self):
+        return "EXDATE;VALUE=DATE:%s" % self.date.strftime("%Y%m%d")
+
 
 class ShiftRecords(models.Model):
     ACTION_CHOICES = (
