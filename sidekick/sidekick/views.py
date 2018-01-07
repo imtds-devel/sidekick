@@ -10,10 +10,10 @@ from shifts.models import Shifts
 import datetime
 import pytz
 
-live = False  # Set to true for production!
+live = True  # Set to true for production!
 
 
-# @login_required # UNCOMMENT THIS BEFORE GOING LIVE
+@login_required # UNCOMMENT THIS BEFORE GOING LIVE
 def load_page(request, template: str, context: dict):
 
     request = get_current_user(request)
