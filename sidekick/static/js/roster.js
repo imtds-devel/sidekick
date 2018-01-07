@@ -99,9 +99,10 @@ var soft = skills.slice(21,22);
 
 
     $('#skills-div').append(
-     "<div class='chart col-sm-' data-width='200' data-height='300' data-red='100' data-green='100' data-blue='400' style='margin-top:5px;'>"
+       "<div class ='row'>"
+     + "<div class='chart col-sm-' data-width='200' data-height='300' data-red='100' data-green='100' data-blue='400' style='margin-top:5px;'>"
      + "<div class='chartCanvasWrap col-md-7' style='left:5px;'></div>"
-     + "<div class='col-sm-4' style='text-align:right; margin: 3px;'>"
+     + "<div class='col-sm-4' style='text-align:right;  margin-top: 30px; margin-left: 15px;'>"
      + "<p><b>Basic Hardware: </b>" + getProf(basic) + "</p>"
      + "<p><b>Adv. Hardware: </b>" + getProf(adv) + "</p>"
      + "<p><b>Field Support: </b>" + getProf(field) + "</p>"
@@ -110,6 +111,7 @@ var soft = skills.slice(21,22);
      + "<p><b>Mobile: </b>" + getProf(mobile) + "</p>"
      + "<p><b>Refreshes: </b>" + getProf(ref) + "</p>"
      + "<p><b>Software: </b>" + getProf(soft) + "</p>"
+     + "</div>"
      + "</div>"
      + "</div>"
     );
@@ -497,7 +499,9 @@ $("#searchbar").keyup(function () {
             dataType: 'json',
             success: function(data){
                 console.log(data)
+                alert("Star has been posted!")
                 $("#starform")[0].reset();
+                $('.modal').modal('hide');
             },
             error: function(data){
                 console.log("Failure!")
@@ -527,6 +531,7 @@ $("#searchbar").keyup(function () {
                 console.log(data)
                 alert("Comment has been posted!")
                 $("#comform")[0].reset();
+                $('.modal').modal('hide');
             },
             error: function(data){
                 console.log("Failure!")
@@ -561,6 +566,7 @@ $("#searchbar").keyup(function () {
                 console.log(data)
                 alert("Discipline has been posted!")
                 $("#disform")[0].reset();
+                $('.modal').modal('hide');
             },
             error: function(data){
                 console.log("Failure!")
@@ -570,6 +576,7 @@ $("#searchbar").keyup(function () {
         })
 
     });
+
 
 $(function() {
 

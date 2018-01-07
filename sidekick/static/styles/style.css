@@ -576,6 +576,11 @@ overflow:auto;
     flex-direction: row;
     flex-wrap: wrap;
 }
+.award-text{
+    width: 100%;
+    text-align: center;
+    margin-top: -20px;
+}
 .comment-panel
 {
     border: 1px solid darkgrey;
@@ -594,7 +599,7 @@ overflow:auto;
     min-width: auto;
     width: 100%;
     border: 1px solid darkgrey;
-    background: rgba(255,255,255,0.25);
+    background: rgba(233,233,233,0.25);
 }
 .comment-button
 {
@@ -740,7 +745,7 @@ input[type=number]::-webkit-outer-spin-button {
 
 .tab-card
 {
-    min-height:360px;
+    min-height:388px;
     min-width:600px;
 }
 

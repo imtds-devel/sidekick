@@ -42,6 +42,7 @@ def index(request):
 
     return views.load_page(request, 'roster/index.html', prep_context())
 
+
 def post_award(request):
     # Make sure it's a post request
     if not request.method == 'POST':
@@ -57,15 +58,21 @@ def post_award(request):
 
     print(request.user)
 
-    if recipient is None:
+    if recipient is not None:
+        emp = Employees.objects.get(netid=giver)
+        if emp.position == 'llt':
+            access_area = 'roster_modfb_lab'
+        else:
+            access_area = 'roster_modfb_all'
+    else:
         return HttpResponse(
-            json.dumps({"status": "Failed! Recipient is not specified."}),
+            json.dumps({"status": "Failed! User does not have access(1)"}),
             content_type="application/json"
         )
 
-    if not get_access(giver, 'roster_modfb_all'):
+    if not get_access(giver, access_area):
         return HttpResponse(
-            json.dumps({"status": "Success!"}),
+            json.dumps({"status": "Failed! User does not have access(2)"}),
             content_type="application/json"
         )
 
@@ -88,7 +95,6 @@ def post_award(request):
         json.dumps({"status": "Award successfully created!"}),
         content_type="application/json"
     )
-
 
 
 def post_comment(request):
