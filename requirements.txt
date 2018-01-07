@@ -4,3 +4,4 @@ pytz>=2017.2
 django-cas-client==1.3.0
 google-api-python-client
 httplib2
+gunicorn

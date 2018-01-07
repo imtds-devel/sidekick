@@ -18,7 +18,20 @@ config.read('config.ini')
 db = config['database']
 static_dir = config['static']
 cal = config['cal_ids']
+production = config['prod']['prod'] == "True"
 
+if production:
+    print("Using SSL Encryption")
+    SECURE_PROXY_SSL_HEADER = ('HTTPS_X_FORWARDED_PROTO', 'https')
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+else:
+    print("Using standard HTTP")
+    SECURE_PROXY_SSL_HEADER = None
+    SECURE_SSL_REDIRECT = False
+    SESSION_COOKIE_SECURE = False
+    CSRF_COOKIE_SECURE = False
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -36,7 +49,9 @@ DEBUG = bool(config['prod']['debug'])
 ALLOWED_HOSTS = [
     '192.168.8.33',
     'sidekick.devel.apu.edu',
-    '127.0.0.1'
+    '127.0.0.1',
+    '192.168.8.7',
+    'sidekick.apu.edu',
 ]
 
 
@@ -153,9 +168,12 @@ USE_TZ = False
 
 STATIC_URL = static_dir['url']
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static")
-]
+if production:
+    STATIC_ROOT = os.path.join(BASE_DIR, "static")
+else:
+    STATICFILES_DIRS = [
+        os.path.join(BASE_DIR, "static")
+    ]
 
 # Google Cal Settings
 CALENDAR_LOCATION_IDS = {

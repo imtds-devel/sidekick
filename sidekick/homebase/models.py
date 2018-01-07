@@ -92,6 +92,11 @@ class Employees(models.Model):
         """Returns the file path"""
         return "employees/%s.gif" % self.netid
 
+    @property
+    def search(self):
+        out = "%s%s%s%s%s".lower() % (self.fname, self.netid, self.nice_standing, self.nice_position, self.position)
+        return out.lower()
+
 
 class Announcements(models.Model):
     posted = models.DateTimeField(auto_now_add=True)

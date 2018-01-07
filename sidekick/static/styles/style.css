@@ -14,7 +14,18 @@
         margin-left: -80px;
     }
 }
-
+.bodywrap
+{
+height:100%;
+}
+.contentwrap
+{
+height:auto;
+}
+.pagewrap
+{
+height:90%;
+}
 .pic-open-shift{
     opacity: 0.5;
 }
@@ -22,6 +33,7 @@
 .navbar-brand
 {
 font-family: 'Raleway', Sans Serif;
+padding-left: 0.5rem;
 }
 
 /*Makes the round employee pic with shadow*/
@@ -455,10 +467,17 @@ font-family: 'Raleway', Sans Serif;
     margin-left:5px;
 }
 
-
+.hero-cards
+{
+display:flex;
+flex-direction:row;
+flex-wrap:wrap;
+max-height:90%;
+overflow:auto;
+}
 .hero-card
 {
-    max-width: 308px;
+    max-width: 306px;
     max-height: 138px;
     margin-left: 6px;
     display: inline-block;
@@ -494,7 +513,11 @@ font-family: 'Raleway', Sans Serif;
 }
 .hero-bio
 {
-    text-align: right;
+    text-align: left;
+}
+#comform
+{
+    margin:0px;
 }
 .hero-card-button
 {
@@ -515,7 +538,7 @@ font-family: 'Raleway', Sans Serif;
 .e_desc
 {
     text-align:right;
-    width:151px;
+    max-width:151px;
 }
 .e_field
 {
@@ -524,7 +547,7 @@ font-family: 'Raleway', Sans Serif;
 .img-herobio
 {
     display: block;
-    margin-bottom: -185px;
+    margin-bottom: -150px;
     height: 185px;
     width: 185px;
     border: 2px #b3b3b3 solid;
@@ -553,6 +576,52 @@ font-family: 'Raleway', Sans Serif;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+}
+.award-text{
+    width: 100%;
+    text-align: center;
+    margin-top: -20px;
+}
+.comment-panel
+{
+    border: 1px solid darkgrey;
+    padding: 2px;
+    width: 255px;
+}
+.trophy-modal
+{
+    display:flex;
+    flex-direction:row;
+    overflow: auto;
+    bottom: 0px;
+    min-height:130px;
+    height: auto;
+    margin: 0px;
+    min-width: auto;
+    width: 100%;
+    border: 1px solid darkgrey;
+    background: rgba(233,233,233,0.25);
+}
+.comment-button
+{
+    cursor:hand;
+    transition: all linear 0.2s;
+    height: 5px;
+    width: 5px;
+    border-radius: 2px;
+    display: flex-inline-block;
+    align-items: center;
+    padding: 3px;
+    border: 1px solid darkgrey;
+    background-color: #dbe5ec;
+}
+.comment-button:hover
+{
+    box-shadow: 0px 0px 8px #666666;
+}
+.comment-button-hov-button:hover
+{
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 }
 .trophy
 {
@@ -660,9 +729,10 @@ font-family: 'Raleway', Sans Serif;
 {
     background-color: white;
 }
-input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-inner-spin-button, 
 input[type=number]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
+
+  -webkit-appearance: none; 
   margin: 0;
 }
 .required-field
@@ -673,6 +743,13 @@ input[type=number]::-webkit-outer-spin-button {
 {
     display: none;
 }
+
+.tab-card
+{
+    min-height:388px;
+    min-width:600px;
+}
+
 .shift-btn
 {
     border-radius: 4px;
@@ -782,6 +859,7 @@ input[type=number]::-webkit-outer-spin-button {
 .pass-tdiv
 {
     height:80%;
+    overflow:auto;
 }
 .pass-table
 {

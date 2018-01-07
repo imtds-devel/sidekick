@@ -10,7 +10,7 @@ from shifts.models import Shifts
 import datetime
 import pytz
 
-live = False  # Set to true for production!
+live = False # Set to true for production!
 
 
 # @login_required # UNCOMMENT THIS BEFORE GOING LIVE
