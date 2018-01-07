@@ -22,6 +22,7 @@
 .navbar-brand
 {
 font-family: 'Raleway', Sans Serif;
+padding-left: 0.5rem;
 }
 
 /*Makes the round employee pic with shadow*/
@@ -760,6 +761,7 @@ input[type=number]::-webkit-outer-spin-button {
 .pass-tdiv
 {
     height:80%;
+    overflow:auto;
 }
 .pass-table
 {
