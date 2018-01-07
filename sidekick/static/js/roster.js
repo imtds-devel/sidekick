@@ -38,7 +38,7 @@ var ref = skills.slice(18,19);
 var soft = skills.slice(21,22);
 //Append the mother-modal div upon click
 
-    if (basic == 0, adv == 0, field == 0, print == 0, net == 0, mobile == 0, ref == 0, soft == 0){
+    if (basic == 0 && adv == 0 && field == 0 && print == 0 && net == 0 && mobile == 0 && ref == 0 && soft == 0){
         basic = 0
         adv = 0
         field = 0
@@ -100,8 +100,8 @@ var soft = skills.slice(21,22);
 
     $('#skills-div').append(
      "<div class='chart col-sm-' data-width='200' data-height='300' data-red='100' data-green='100' data-blue='400' style='margin-top:5px;'>"
-     + "<div class='chartCanvasWrap col-md-7' style='left:5px'></div>"
-     + "<div class='col-sm-4' style='text-align:right'>"
+     + "<div class='chartCanvasWrap col-md-7' style='left:5px;'></div>"
+     + "<div class='col-sm-4' style='text-align:right; margin: 3px;'>"
      + "<p><b>Basic Hardware: </b>" + getProf(basic) + "</p>"
      + "<p><b>Adv. Hardware: </b>" + getProf(adv) + "</p>"
      + "<p><b>Field Support: </b>" + getProf(field) + "</p>"
