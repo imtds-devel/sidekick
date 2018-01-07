@@ -120,7 +120,7 @@ def get_mgr_access(area):
         "printer_all", "printer_all_edit",
 
         # Passwords page
-        "passwords_manager",
+        "passwords_lab", "passwords_support", "passwords_manager",
     ]
     return area in access_list
 
@@ -146,7 +146,7 @@ def get_stt_access(area):
         "printer_all", "printer_all_edit",
 
         # Passwords page
-        "passwords_manager",
+        "passwords_lab", "passwords_support", "passwords_manager",
     ]
     return area in access_list
 
@@ -172,7 +172,7 @@ def get_stm_access(area):
         "printer_all", "printer_all_edit",
 
         # Passwords page
-        "passwords_manager",
+        "passwords_lab", "passwords_support", "passwords_manager",
     ]
     return area in access_list
 
