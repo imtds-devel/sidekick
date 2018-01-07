@@ -1,7 +1,7 @@
 $(window).load(function() {
     $("#modCarousel").carousel('cycle');
 
-    //Run once/30 sec
+    //Run once/min
     var shiftInfo;
     var techType = $(".shMeta .tech-type").text();
     if ($(".shMeta") && techType != "stt" && techType != "stm") {
@@ -12,7 +12,7 @@ $(window).load(function() {
     }
 
     function updateShiftInfo() {
-        console.log("Updating Shift Info");
+        console.log("Updating Shift Sidebar Info");
         var end = new Date($(".shMeta > .sh-end").text());
         var now = new Date();
         $("#shEndsIn").text(parseInt((end-now)/60000));

@@ -276,7 +276,7 @@ $(document).ready(function() {
         // We fill in the modal
         $('#' + String(shiftID) + '-modal').find('#shift-details').text(locations[shiftData.thisShift.location] + ": " + formatTimeRange(shiftData.thisShift.shift_start, shiftData.thisShift.shift_end));
         if (shiftData.thisShift.is_open) {
-            $('#' + String(shiftID) + '-modal').find('#cover-details-1').text("Shift cover posted by " + String(shiftData.shiftCover.poster) + " on " + String(shiftData.shiftCover.post_date));
+            $('#' + String(shiftID) + '-modal').find('#cover-details-1').text("Shift cover posted by " + String(shiftData.shiftCover.poster));
             $('#' + String(shiftID) + '-modal').find('#cover-details-2').text("Sob story: " + shiftData.shiftCover.sobstory);
         }
     }
@@ -321,7 +321,6 @@ $(document).ready(function() {
                             +        "</div>"
                             +        "<div class='modal-body'>"
                             +            "<div class='shift-body'>"
-                            +                "<p>[Not Final Design]</p>"
                             +                "<p id = shift-details></p>" // Once again we will fill this when the shift is clicked
                             +                "<p id = cover-details-1></p>" // Open shifts have extra cover details that are filled on click
                             +                "<p id = cover-details-2></p>"
@@ -386,7 +385,6 @@ $(document).ready(function() {
                             +        "</div>"
                             +        "<div class='modal-body'>"
                             +            "<div class='shift-body'>"
-                            +                "<p>[Not Final Design]</p>" //TODO final design
                             +                "<p id = shift-details></p>" // We will fill this when we actually click a modal
                             +            "</div>"
                             +        "</div>"
@@ -468,7 +466,6 @@ $(document).ready(function() {
         stop = new Date(stop);
         stop = stop.setTime(stop.getTime() - interval); //so that users can't create a 15-min long shift!
         var printDate = start;
-        console.log(printDate);
         var out = "";
 
         // Here is where we generate the option html
@@ -485,7 +482,6 @@ $(document).ready(function() {
             out += "<option value='"+printDate.toISOString()+"'>"+hour+":"+min+mer+"</option>";
 
             printDate.setTime(printDate.getTime() + interval);
-            console.log(printDate);
         }
         return out;
     }
@@ -546,7 +542,6 @@ $(document).ready(function() {
                         +        "</div>"
                         +        "<div class='modal-body'>"
                         +            "<div class='shift-body'>"
-                        +                "<p>[Not Final Design]</p>"
                         +                "<p id = shift-details></p>" // Once again we will fill this when the shift is clicked
                         +                "<p id = cover-details-1></p>" // Open shifts have extra cover details that are filled on click
                         +                "<p id = cover-details-2></p>"

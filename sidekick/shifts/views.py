@@ -19,6 +19,46 @@ from sidekick.views import get_current_user
 import pytz
 
 
+def index(request):
+    request_user = get_current_user(request)
+    user = Employees.objects.get(netid=request_user.user)
+    user_position = user.position
+
+    # The possible positions for an employee in the database
+    positions = {
+        'lbt': "Lab Tech",
+        'llt': "Lead Lab Tech",
+        'spt': "Support Tech",
+        'sst': "Senior Support Tech",
+        'sdr': "Support Desk Rep",
+        'mgr': "Manager"
+    }
+    # The possible locations for a location in the database
+    locations = {
+        'ma': "Marshburn",
+        'da': "Darling",
+        'st': "Stamps",
+        'rc': "Repair Center",
+        'sd': "Support Desk",
+        'md': "MoD Desk"
+    }
+
+    # We import the current time
+    now = timezone.now()
+
+    # Synchronize our db with the Google Cal
+    synchronize(flush=False)
+
+    # We build our context for the page
+    context = {
+        "date": now,
+        "positions": positions,
+        "locations": locations,
+        "user_position": user_position
+    }
+    return views.load_page(request, 'shifts/index.html', context)
+
+
 def post_cover(request):
     request = get_current_user(request)
 
@@ -112,46 +152,6 @@ def take_cover(request):
     }
     # We return the data as JSON
     return JsonResponse(json_data)
-
-
-def index(request):
-    request_user = get_current_user(request)
-    user = Employees.objects.get(netid=request_user.user)
-    user_position = user.position
-
-    # The possible positions for an employee in the database 
-    positions = {
-        'lbt': "Lab Tech",
-        'llt': "Lead Lab Tech",
-        'spt': "Support Tech",
-        'sst': "Senior Support Tech",
-        'sdr': "Support Desk Rep",
-        'mgr': "Manager"
-    }
-    # The possible locations for a location in the database
-    locations = {
-        'ma': "Marshburn",
-        'da': "Darling",
-        'st': "Stamps",
-        'rc': "Repair Center",
-        'sd': "Support Desk",
-        'md': "MoD Desk"
-    }
-
-    # We import the current time
-    now = timezone.now()
-
-    # Synchronize our db with the Google Cal
-    synchronize(flush=False)
-
-    # We build our context for the page
-    context = {
-        "date": now,
-        "positions": positions,
-        "locations": locations,
-        "user_position": user_position
-    }
-    return views.load_page(request, 'shifts/index.html', context)
 
 
 # This function responds to the AJAX request for user shifts
@@ -283,22 +283,15 @@ def filter_near_shifts(request):
         print(start)
         print(end)
 
-
     # If this is an open shift, we also need the information from the corresponding shift_cover entry
-    '''
     if this_shift.is_open:
-        shift_cover = ShiftCovers.objects.get(shift=this_shift.event_id)
         translated_shift_cover = {
-            'id': shift_cover.event_id,
-            'poster': str(shift_cover.poster),
-            'taker': str(shift_cover.taker),
-            'type': shift_cover.type,
-            'sobstory': shift_cover.sobstory,
-            'post_date': shift_cover.post_date
+            'poster': str(this_shift.owner),
+            'sobstory': this_shift.sob_story if this_shift.sob_story else "No sob story recorded",
         }
     else:
-        '''
-    translated_shift_cover = ['Not an Open Shift']
+        translated_shift_cover = ['Not an Open Shift']
+
     # We construct a dictonary of the values contained in this shift
     translated_this_shift = {
         'event_id': this_shift.event_id,
