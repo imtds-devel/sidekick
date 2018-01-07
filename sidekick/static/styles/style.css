@@ -584,12 +584,17 @@ overflow:auto;
 }
 .trophy-modal
 {
-    position: fixed;
-    display: flex;
-    min width: 100%;
-    bottom: 50px;
-    height:120px;
-    width: 560px;
+    display:flex;
+    flex-direction:row;
+    overflow: auto;
+    bottom: 0px;
+    min-height:140px;
+    height: auto;
+    margin: 0px;
+    min-width: auto;
+    width: 100%;
+    border: 1px solid darkgrey;
+    background: rgba(255,255,255,0.25);
 }
 .comment-button
 {

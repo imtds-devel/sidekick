@@ -105,20 +105,20 @@ def post_comment(request):
     about = request.POST.get('about', None)
 
     if about is not None:
-        emp = Employees.objects.get(netid=about)
-        if emp.position == 'lbt':
+        emp = Employees.objects.get(netid=poster)
+        if emp.position == 'llt':
             access_area = 'roster_modfb_lab'
         else:
             access_area = 'roster_modfb_all'
     else:
         return HttpResponse(
-            json.dumps({"status": "Failed! User does not have access"}),
+            json.dumps({"status": "Failed! User does not have access(1)"}),
             content_type="application/json"
         )
 
     if not get_access(poster, access_area):
         return HttpResponse(
-            json.dumps({"status": "Failed! User does not have access"}),
+            json.dumps({"status": "Failed! User does not have access(2)"}),
             content_type="application/json"
         )
 
@@ -154,16 +154,16 @@ def post_discipline(request):
     poster = request.user
     about = request.POST.get('about', None)
 
-    print(about)
     if about is not None:
-        emp = Employees.objects.get(netid=about)
-        if emp.position == 'lbt':
+        emp = Employees.objects.get(netid=poster)
+        if emp.position == 'llt':
             access_area = 'roster_modfb_lab'
         else:
             access_area = 'roster_modfb_all'
+        print(access_area)
     else:
         return HttpResponse(
-            json.dumps({"status": "Failed! User does not have access"}),
+            json.dumps({"status": "Failed! About netid not found"}),
             content_type="application/json"
         )
 
@@ -211,6 +211,26 @@ def get_comments(request):
 
     data = {
         'comlist': list(translated_comments)
+    }
+
+    return JsonResponse(data)
+
+
+def get_trophies(request):
+    netid = request.GET.get('netid', None)
+
+    trophies = Trophies.objects.filter(recipient=netid)
+
+    translated_trophies = [{
+        'giver': str(trophy.giver),
+        'reason': str(trophy.reason),
+        'name': trophy.name,
+        'trophy_type': trophy.trophy_type,
+        'url': trophy.url
+    } for trophy in trophies]
+
+    data = {
+        'trophlist': list(translated_trophies)
     }
 
     return JsonResponse(data)

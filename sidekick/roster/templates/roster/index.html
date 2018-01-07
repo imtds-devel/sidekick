@@ -37,6 +37,9 @@
                                 <li class="m-phone">{{employee.nice_phone}}</li>
                                 <li class="m-birth">{{employee.birthday}}</li>
                                 <li class="m-poscol">{{employee.position}}</li>
+                                <li id="m-activeuser">{{user_netid}}</li>
+                                <li id="m-mgr">{{ user_netid|has_access:"roster_prof_all" }}</li>
+                                <li id="m-lead">{{ user_netid|has_access:"roster_modfb_lab" }}</li>
                                 <li class="m-pic">{% static employee.picture|img_exists %}</li>
                                 {% if user_netid|has_access:"roster_prof_all" or user_netid == employee.netid %}
                                 <li class="m-profs">{{skills|first}}</li>
@@ -48,53 +51,55 @@
             </button>
         </div>
         {% endfor %}
-    </div>
-    {% else %}
-    <div class='page-header'>Ain't got none</div>
-    {% endif %}
-    <div class="panel panel-default hero-card">
-        <button type="button"
-                class="btn hero-card-button btn-block new-user-btn"
-                data-toggle="modal" data-target="#new-user">
-            <div class="panel-body">
-                <div class="media">
-                    <div class="media-body">
-                        <img src="{% static 'roster/plus.png' %}" class="new-plus">
+        {% else %}
+        <div class='page-header'>Ain't got none</div>
+        {% endif %}
+        {% if user_netid|has_access:"roster_modfb_all" %}
+        <div class="panel panel-default hero-card">
+            <button type="button"
+                    class="btn hero-card-button btn-block new-user-btn"
+                    data-toggle="modal" data-target="#new-user">
+                <div class="panel-body">
+                    <div class="media">
+                        <div class="media-body">
+                            <img src="{% static 'roster/plus.png' %}" class="new-plus">
+                        </div>
                     </div>
                 </div>
-            </div>
-        </button>
+            </button>
+        </div>
     </div>
+    {% endif %}
     <div id='drop-down'>
         <div id="netid-standin" class='modal fade'>
-            <ul style="display: none">
-            <li class="m-activeuser">{{user_netid}}</li>
-            </ul>
             <div class='modal-dialog modal-md'>
                 <div class='modal-content' id="content-standin">
                     <div class='modal-header'>
                         <h4 style='text-align: left; margin-left:30px; margin-top:15px; margin-bottom:-35px;' class='modal-title' id="title-name"></h4>
                         <ul class='nav nav-tabs' style='margin-left:250px'>
-                            <li class='active'><a data-toggle='tab' href='#emp-home'>Info</a></li>
-                            <li id="li-skills"><a data-toggle='tab' href='#emp-skills'>Skills</a></li>
-                            {% if user_netid|has_access:"roster_modfb_all" %}
-                            <li><a data-toggle='tab' href='#emp-comment'>Comments</a></li>
+                            <li id="li-home" class='active'><a data-toggle='tab' href='#emp-home'>Info</a></li>
+                            <li id="li-skills"></li>
+                            {% if user_netid|has_access:"roster_modfb_all" or "roster_modfb_lab" %}
+                            <li id="li-comment"></li>
                             {% endif %}
                         </ul>
                     </div>
                     <div class='tab-content tab-card'>
                         <div id='emp-home' class='modal-body hero-bio tab-pane fade in active'>
-                            <div class="col-md-7">
+                            <div class="col-md-5" style="height: 20%">
                                 <img id='pic-standin' src='pic' class='img-circle img-herobio'>
                             </div>
-                            <div class='col-md-5' id='bio-div' style="text-align:right">
+                            <div class='col-md-7' id='bio-div' style="text-align:right">
+                            </div>
+                            <div class="panel trophy-modal">
+                                <div class="panel-body">
+                                    <div id="trophy-m" class="trophy-wrap"></div>
+                                </div>
                             </div>
                         </div>
                         <div id='emp-skills' class='tab-pane row fade'>"
-                            <div id="skills-div">
-                            </div>
                         </div>
-                        {% if user_netid|has_access:"roster_modfb_all" %}
+                        {% if user_netid|has_access:"roster_modfb_all" or "roster_modfb_lab"%}
                         <div id='emp-comment' class='modal-body hero-bio tab-pane fade'>
                             <div class='col-md-6'>
                                 <h4 style='text-align: left; margin-left: 100px;' class='modal-title'><b>Comments</b></h4>
@@ -102,9 +107,9 @@
                                 </div>
                             </div>
                             <div class='col-md-6'>
-                                <div class="panel comment-button" style='margin:7px' id='starpanel'>Award</div>
-                                <div class="panel comment-button" style='margin:7px' id='companel'>Comment</div>
-                                <div class="panel comment-button" style='margin:7px' id='dispanel'>Discipline</div>
+                                <panel class="comment-button" style='margin:7px' id='starpanel'>Award</panel>
+                                <panel class="comment-button" style='margin:7px' id='companel'>Comment</panel>
+                                <panel class="comment-button" style='margin:7px' id='dispanel'>Discipline</panel>
                                 <div id='comarea' style='height: 299px; overflow-y: auto; margin-top: 5px;'></div>
                             </div>
                         </div>
@@ -117,6 +122,7 @@
             </div>
         </div>
     </div>
+    {% if user_netid|has_access:"roster_modfb_all" %}
     <div id="new-user" class="modal fade">
         <div class="modal-dialog modal-md">
             <div class="modal-content">
@@ -144,6 +150,8 @@
             </div>
         </div>
     </div>
+    {% endif %}
+    {% if user_netid|has_access:"roster_modfb_all" or "roster_modfb_lab"%}
     <div id="star-form">
         <form method="post" class="form-horizontal" id="starform" style="display:none">
             {% csrf_token %}
@@ -207,6 +215,7 @@
             <h5 align="right"><button class="btn btn-success" id="submit-discipline">Submit</button></h5>
         </form>
     </div>
+    {% endif %}
 </div>
 <script src="{% static "js/roster.js" %}"></script>
 {% endblock %}

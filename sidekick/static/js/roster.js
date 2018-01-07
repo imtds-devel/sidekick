@@ -21,12 +21,13 @@ pic = $(this).find(".m-pic").text()
 color = $(this).find(".m-poscol").text()
 dev = $(this).find(".m-dev").text()
 skills = $(this).find(".m-profs").text();
-active_user = $(this).find(".m-activeuser").text();
+active_user = $(this).find("#m-activeuser").text();
+manager = $(this).find("#m-mgr").text();
+leadlab = $(this).find("#m-lead").text();
 
-console.log(active_user)
 
 //grab all proficiencies from list
-var netid_1 = netid_1.slice(2,);
+var netid_1 = netid_1.slice(2);
 var basic = skills.slice(0,1);
 var adv = skills.slice(3,4);
 var field = skills.slice(6,7);
@@ -90,17 +91,19 @@ var soft = skills.slice(21,22);
         return proficient;
     }
 
-    if(active_user != netid_1) {
-        $("#li-skills").empty()
-        $("#emp-skills").empty()
+    if((active_user == netid_1 || manager == "True") && (position != "Lab Technician" && position != "Lead Lab Tech")) {
+        $("#li-skills").append("<a data-toggle='tab' href='#emp-skills'>Skills</a>")
+        $("#emp-skills").append("<div id='skills-div'></div>")
     }
+
+
 
     $('#skills-div').append(
      "<div class='chart col-sm-' data-width='200' data-height='300' data-red='100' data-green='100' data-blue='400' style='margin-top:5px;'>"
      + "<div class='chartCanvasWrap col-md-7' style='left:5px'></div>"
      + "<div class='col-sm-4' style='text-align:right'>"
      + "<p><b>Basic Hardware: </b>" + getProf(basic) + "</p>"
-     + "<p><b>Advanced Hardware: </b>" + getProf(adv) + "</p>"
+     + "<p><b>Adv. Hardware: </b>" + getProf(adv) + "</p>"
      + "<p><b>Field Support: </b>" + getProf(field) + "</p>"
      + "<p><b>Printers: </b>" + getProf(print) + "</p>"
      + "<p><b>Networking: </b>" + getProf(net) + "</p>"
@@ -123,10 +126,33 @@ var soft = skills.slice(21,22);
     $("input[name='recipient']").val(netid_1);
     $("input[name='about']").val(netid_1);
 
-    var subject
-    var time
-    var description
-    var extent
+    $.ajax({
+        method: "GET",
+        dataType: "json",
+        url: 'ajax/gettrophies/',
+        dataType: 'json',
+        data: {
+            'netid': netid_1,
+        },
+        success: function(data){
+            console.log("LET THE STARS SHINE!")
+            console.log(data)
+
+            for (i = 0; i < data.trophlist.length; i++) {
+                    var output = "<a href='#' class='trophy' data-toggle='popover' data-placement='auto top' data-trigger='hover' title='" + data.trophlist[i].name;
+                    output += "' data-content='" + data.trophlist[i].reason + " -- " + data.trophlist[i].giver + "'>";
+                    output += "<img class='trophy-img' src='/static/" + data.trophlist[i].url + "'></a>";
+                    $(output).appendTo("#trophy-m");
+            }
+
+            $('[data-toggle="popover"]').popover();
+        },
+        error: function(data){
+            console.log("Failure!")
+            console.log(data)
+            alert("Oh no! Something went wrong with your STARS!")
+        }
+    });
 
     $.ajax({
         method: "GET",
@@ -135,39 +161,38 @@ var soft = skills.slice(21,22);
         dataType: 'json',
         data: {
            'netid': netid_1,
-           'subject': subject,
-           'extent': extent,
-           'time': time,
-           'descrip': description
         },
         success: function(data){
 
-            $("#comment-div").html(" ");
-	        for (i = 0; i < data.comlist.length; i++) {
-		        var output = "<div class='panel comment-panel' id='comment-list-" + i + "'><div class='panel-body'>";
-		        output += "<h4><b>Subject: </b>" + data.comlist[i].subject + "</h4>";
+            if((active_user != netid_1 && leadlab == "True" && position == "Lab Technician") || manager == "True"){
+                $("#li-comment").append("<a data-toggle='tab' href='#emp-comment'>Comments</a>")
 
-		        if (data.comlist[i].val != 0 && data.comlist[i].val != null){
-		            if(data.comlist[i].val == 1){
-		                output += "<h5><b>Extent: </b> <u>Full Discipline</u> </h5>";
-		            }else{
-		                output += "<h5><b>Extent: </b> <u>Half Discipline</u> </h5>";
-		            }
-		        }
-		        output += "<h5><b>Why: </b>" + data.comlist[i].description + "</h5>";
-		        output += "<h5><b>When: </b>" + data.comlist[i].time + "</h5>";
-		        output += "</div></div>";
+                $("#comment-div").html(" ");
+                for (i = 0; i < data.comlist.length; i++) {
+                    var output = "<div class='panel comment-panel' id='comment-list-" + i + "'><div class='panel-body'>";
+                    output += "<h4><b>Subject: </b>" + data.comlist[i].subject + "</h4>";
 
+                    if (data.comlist[i].val != 0 && data.comlist[i].val != null){
+                        if(data.comlist[i].val == 1){
+                            output += "<h5><b>Extent: </b> <u>Full Discipline</u> </h5>";
+                        }else{
+                            output += "<h5><b>Extent: </b> <u>Half Discipline</u> </h5>";
+                        }
+                    }
+                    output += "<h5><b>Why: </b>" + data.comlist[i].description + "</h5>";
+                    output += "<h5><b>When: </b>" + data.comlist[i].time + "</h5>";
+                    output += "</div></div>";
 
-		        $(output).appendTo("#comment-div");
+                    $(output).appendTo("#comment-div");
 
-		            if(data.comlist[i].val == 1){
-		                $('#comment-list-' + i).attr('style', 'background-color: #ffad99;');
-		            }
-		            if(data.comlist[i].val == .5){
-		                $('#comment-list-' + i).attr('style', 'background-color: #ffffb3;');
-		            }
-		    }
+                        if(data.comlist[i].val == 1){
+                            $('#comment-list-' + i).attr('style', 'background-color: #ffad99;');
+                        }
+                        if(data.comlist[i].val == .5){
+                            $('#comment-list-' + i).attr('style', 'background-color: #ffffb3;');
+                        }
+                }
+            }
         },
         error: function(data){
             console.log("Failure!")
@@ -176,14 +201,28 @@ var soft = skills.slice(21,22);
         }
     });
 
+
 //Delete the modal info when modal is hidden
 $("#" + netid_1).on("hidden.bs.modal", function(){
+    $("#li-home").attr('class', 'active')
+    $("#li-skills").attr('class', '')
+    $("#li-comment").attr('class', '')
+    $("#emp-home").attr('class', 'modal-body hero-bio tab-pane fade in active')
+    $("#emp-skills").attr('class', 'tab-pane row fade')
+    $("#emp-comment").attr('class', 'modal-body hero-bio tab-pane fade')
+
+    $("#li-skills").empty();
+    $("#li-comment").empty();
+    $("#emp-skills").empty();
+
     $("#comform").appendTo("#comment-form");
     $("#starform").appendTo("#star-form");
     $("#disform").appendTo("#dis-form");
     $("#comment-form").hide();
     $("#star-form").hide();
     $("#disform").hide();
+
+    $("#trophy-m").empty();
     $('#bio-div').empty();
     $('#skills-div').empty();
     $('#title-name').empty();
@@ -437,100 +476,100 @@ $("#searchbar").keyup(function () {
     }
 });
 
-$("#starform").on("submit", function(event) {
-    event.preventDefault();
 
-    var short = $("#award-subject").val();
-    var type = $("#award-type").val();
-    var reason = $("#award-reason").val();
-    var recip = $("#recipient").val();
+    $("#starform").on("submit", function(event) {
+        event.preventDefault();
 
-    $.ajax({
-        url: 'ajax/postaward/',
-        type: 'POST',
-        data: {
-            'name': short,
-            'type': type,
-            'reason': reason,
-            'recipient': recip
-        },
-        dataType: 'json',
-        success: function(data){
-            console.log(data)
-            $("#starform")[0].reset();
-        },
-        error: function(data){
-            console.log("Failure!")
-            console.log(data)
-        }
-    })
-});
+        var short = $("#award-subject").val();
+        var type = $("#award-type").val();
+        var reason = $("#award-reason").val();
+        var recip = $("#recipient").val();
+
+        $.ajax({
+            url: 'ajax/postaward/',
+            type: 'POST',
+            data: {
+                'name': short,
+                'type': type,
+                'reason': reason,
+                'recipient': recip
+            },
+            dataType: 'json',
+            success: function(data){
+                console.log(data)
+                $("#starform")[0].reset();
+            },
+            error: function(data){
+                console.log("Failure!")
+                console.log(data)
+            }
+        })
+    });
 
 
-$("#comform").on("submit", function(event) {
-    event.preventDefault();
+    $("#comform").on("submit", function(event) {
+        event.preventDefault();
 
-    var subject = $("#comm-subject").val();
-    var body = $("#comm-body").val();
-    var about = $("#comm-about").val();
+        var subject = $("#comm-subject").val();
+        var body = $("#comm-body").val();
+        var about = $("#comm-about").val();
 
-    $.ajax({
-        url: 'ajax/postcomment/',
-        type: 'POST',
-        data: {
-            'subject': subject,
-            'body': body,
-            'about': about,
-        },
-        dataType: 'json',
-        success: function(data){
-            console.log(data)
-            alert("Comment has been posted!")
-            $("#comform")[0].reset();
+        $.ajax({
+            url: 'ajax/postcomment/',
+            type: 'POST',
+            data: {
+                'subject': subject,
+                'body': body,
+                'about': about,
+            },
+            dataType: 'json',
+            success: function(data){
+                console.log(data)
+                alert("Comment has been posted!")
+                $("#comform")[0].reset();
+            },
+            error: function(data){
+                console.log("Failure!")
+                console.log(data)
+                alert("Oh no! Something went wrong!")
+            }
+        })
 
-        },
-        error: function(data){
-            console.log("Failure!")
-            console.log(data)
-            alert("Oh no! Something went wrong!")
-        }
-    })
+    });
 
-});
+    $("#disform").on("submit", function(event) {
+        event.preventDefault();
 
-$("#disform").on("submit", function(event) {
-    event.preventDefault();
+        var subject = $("#disc-subject").val();
+        var body = $("#disc-body").val();
+        var extent = $("input[name='extent']:checked").val();
+        var about = $("#disc-about").val();
 
-    var subject = $("#disc-subject").val();
-    var body = $("#disc-body").val();
-    var extent = $("input[name='extent']:checked").val();
-    var about = $("#disc-about").val();
+        console.log(extent)
 
-    console.log(extent)
+        $.ajax({
+            url: 'ajax/postdiscipline/',
+            type: 'POST',
+            data: {
+                'subject': subject,
+                'body': body,
+                'extent': extent,
+                'about': about,
+            },
+            dataType: 'json',
+            success: function(data){
+                console.log(data)
+                alert("Discipline has been posted!")
+                $("#disform")[0].reset();
+            },
+            error: function(data){
+                console.log("Failure!")
+                console.log(data)
+                alert("Oh no! Something went wrong!")
+            }
+        })
 
-    $.ajax({
-        url: 'ajax/postdiscipline/',
-        type: 'POST',
-        data: {
-            'subject': subject,
-            'body': body,
-            'extent': extent,
-            'about': about,
-        },
-        dataType: 'json',
-        success: function(data){
-            console.log(data)
-            alert("Discipline has been posted!")
-            $("#disform")[0].reset();
-        },
-        error: function(data){
-            console.log("Failure!")
-            console.log(data)
-            alert("Oh no! Something went wrong!")
-        }
-    })
-
-});
+    });
 
 $(function() {
 
