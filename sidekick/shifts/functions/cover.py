@@ -11,8 +11,8 @@ import pytz
 # Class that details instructions for posting and taking shift covers
 # Note: because this initializes a google service, it should only be created when we *know* a cover will take place
 class CoverInstructions:
-    def __init__(self, post, permanent, partial, shift_id, actor: Employees, start_time: datetime.datetime=None,
-                 end_time: datetime.datetime=None, sob_story=""):
+    def __init__(self, post, permanent, partial, shift_id, actor: Employees, start_time=None,
+                 end_time=None, sob_story=""):
         self.post = post
         self.permanent = permanent
         self.partial = partial
@@ -105,6 +105,7 @@ def full_cover(data: CoverInstructions):
 # For partial covers of any kind
 # Unfortunately, this is a good deal more complex than full covers :/
 def partial_cover(data: CoverInstructions):
+    tz = pytz.timezone('America/Los_Angeles')
     # 1. Get all shifts associated with cover (could be 1 or many)
     shifts = Shifts.objects.filter(event_id__contains=data.shift_id).order_by('shift_date')
 
@@ -118,8 +119,14 @@ def partial_cover(data: CoverInstructions):
     location = first.location
     cal_id = CALENDAR_LOCATION_IDS[location]
     old_event_id = first.permanent_id
-    og_start = datetime.datetime(first.shift_start)
-    og_end = datetime.datetime(first.shift_end)
+    og_start = tz.localize(first.shift_start)
+    og_end = tz.localize(first.shift_end)
+    print(data.start_time)
+    print(data.end_time)
+    new_start = pytz.utc.localize(datetime.datetime.strptime(data.start_time, "%Y-%m-%dT%H:%M:%S.000Z"))
+    new_end = pytz.utc.localize(datetime.datetime.strptime(data.end_time, "%Y-%m-%dT%H:%M:%S.000Z"))
+    print(new_start)
+    print(new_end)
     if not data.post:
         sob_story = first.sob_story
     else:
@@ -141,22 +148,22 @@ def partial_cover(data: CoverInstructions):
         build_event(
             title=padding_title,
             start=og_start,
-            end=data.start_time,
+            end=new_start,
             end_repeat=end_repeat,
             sob_story="" if data.post else sob_story,
             old_permanent_id=first.permanent_id if data.permanent else None,
         ),
         build_event(
             title=center_title,
-            start=data.start_time,
-            end=data.end_time,
+            start=new_start,
+            end=new_end,
             end_repeat=end_repeat,
             sob_story=data.sob_story if data.post else "",
             old_permanent_id=first.permanent_id if data.permanent else None,
         ),
         build_event(
             title=padding_title,
-            start=data.end_time,
+            start=new_end,
             end=og_end,
             end_repeat=end_repeat,
             sob_story="" if data.post else sob_story,
@@ -182,7 +189,7 @@ def partial_cover(data: CoverInstructions):
     # Let's send them to Google!
     new_events=[]
     for event in events:
-        new_events.append(data.g_service.events().insert(calendarId=cal_id, body=event))
+        new_events.append(data.g_service.events().insert(calendarId=cal_id, body=event).execute())
 
     print(new_events)
 
@@ -191,9 +198,10 @@ def partial_cover(data: CoverInstructions):
 
 # Return the duration of an event in minutes!
 def get_duration(event):
+    print(event)
     # In order to do this, we'll have to create two datetime objects and get the timedelta
-    start = datetime.datetime.strptime(event.start, '%Y-%m-%dT%H:%M:%S')
-    end = datetime.datetime.strptime(event.end, '%Y-%m-%dT%H:%M:%S')
+    start = datetime.datetime.strptime(event['start']['dateTime'][:-3]+"00", '%Y-%m-%dT%H:%M:%S%z')
+    end = datetime.datetime.strptime(event['end']['dateTime'][:-3]+"00", '%Y-%m-%dT%H:%M:%S%z')
     dur = end - start
     return int(dur.seconds/60)
 

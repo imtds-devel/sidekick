@@ -482,7 +482,7 @@ $(document).ready(function() {
             var hour = hourMer[0];
             var min = checkTime(printDate.getMinutes());
             var mer = hourMer[1]; //Meridiem (am or pm)
-            out += "<option>"+hour+":"+min+mer+"</option>";
+            out += "<option value='"+printDate.toISOString()+"'>"+hour+":"+min+mer+"</option>";
 
             printDate.setTime(printDate.getTime() + interval);
             console.log(printDate);
