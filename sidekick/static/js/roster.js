@@ -1,42 +1,57 @@
 /////////////////////////////////////////
-// JavaScript/Jquery for the quotes module
+// JavaScript/Jquery for the roster page
 // Written by Brooks Duggan in Fall 2017
 /////////////////////////////////////////
+
 $(document).ready(function(){
-  $('.img').load(function() {
-     $('.img').show()
-     });
+$('.img').load(function() {
+    $('.img').show();
+});
+
+
+$("#searchbar").keyup(function () {
+    console.log("Search");
+    var value = $(this).val().toLowerCase();
+
+    console.log(value);
+
+    if (value.length >= 1) {
+        $(".panelemp[id*=" + value + "]").fadeIn(150);
+        $(".panelemp:not([id*=" + value + "])").fadeOut(100);
+    } else {
+        $(".panelemp").fadeIn(100);
+    }
 });
 
 $('.btn').click(function showModal(){
 
-//grab all info from HTML load for each employee
-netid_1 = $(this).find(".emp-meta").attr('id')
-fullname = $(this).find(".m-fullname").text()
-codename = $(this).find(".m-code").text()
-position = $(this).find(".m-position").text()
-phone = $(this).find(".m-phone").text()
-birthday = $(this).find(".m-birth").text()
-pic = $(this).find(".m-pic").text()
-color = $(this).find(".m-poscol").text()
-dev = $(this).find(".m-dev").text()
-skills = $(this).find(".m-profs").text();
-active_user = $(this).find("#m-activeuser").text();
-manager = $(this).find("#m-mgr").text();
-leadlab = $(this).find("#m-lead").text();
+    //grab all info from HTML load for each employee
+    netid_1 = $(this).find(".emp-meta").attr('id')
+    fullname = $(this).find(".m-fullname").text()
+    codename = $(this).find(".m-code").text()
+    position = $(this).find(".m-position").text()
+    phone = $(this).find(".m-phone").text()
+    birthday = $(this).find(".m-birth").text()
+    pic = $(this).find(".m-pic").text()
+    color = $(this).find(".m-poscol").text()
+    dev = $(this).find(".m-dev").text()
+    skills = $(this).find(".m-profs").text();
+    active_user = $(this).find("#m-activeuser").text();
+    manager = $(this).find("#m-mgr").text();
+    leadlab = $(this).find("#m-lead").text();
 
 
-//grab all proficiencies from list
-var netid_1 = netid_1.slice(2);
-var basic = skills.slice(0,1);
-var adv = skills.slice(3,4);
-var field = skills.slice(6,7);
-var print = skills.slice(9,10);
-var net = skills.slice(12,13);
-var mobile = skills.slice(15,16);
-var ref = skills.slice(18,19);
-var soft = skills.slice(21,22);
-//Append the mother-modal div upon click
+    //grab all proficiencies from list
+    var netid_1 = netid_1.slice(2);
+    var basic = skills.slice(0,1);
+    var adv = skills.slice(3,4);
+    var field = skills.slice(6,7);
+    var print = skills.slice(9,10);
+    var net = skills.slice(12,13);
+    var mobile = skills.slice(15,16);
+    var ref = skills.slice(18,19);
+    var soft = skills.slice(21,22);
+    //Append the mother-modal div upon click
 
     if (basic == 0 && adv == 0 && field == 0 && print == 0 && net == 0 && mobile == 0 && ref == 0 && soft == 0){
         basic = 0
@@ -204,74 +219,74 @@ var soft = skills.slice(21,22);
     });
 
 
-//Delete the modal info when modal is hidden
-$("#" + netid_1).on("hidden.bs.modal", function(){
-    $("#li-home").attr('class', 'active')
-    $("#li-skills").attr('class', '')
-    $("#li-comment").attr('class', '')
-    $("#emp-home").attr('class', 'modal-body hero-bio tab-pane fade in active')
-    $("#emp-skills").attr('class', 'tab-pane row fade')
-    $("#emp-comment").attr('class', 'modal-body hero-bio tab-pane fade')
+    //Delete the modal info when modal is hidden
+    $("#" + netid_1).on("hidden.bs.modal", function(){
+        $("#li-home").attr('class', 'active')
+        $("#li-skills").attr('class', '')
+        $("#li-comment").attr('class', '')
+        $("#emp-home").attr('class', 'modal-body hero-bio tab-pane fade in active')
+        $("#emp-skills").attr('class', 'tab-pane row fade')
+        $("#emp-comment").attr('class', 'modal-body hero-bio tab-pane fade')
 
-    $("#li-skills").empty();
-    $("#li-comment").empty();
-    $("#emp-skills").empty();
+        $("#li-skills").empty();
+        $("#li-comment").empty();
+        $("#emp-skills").empty();
 
-    $("#comform").appendTo("#comment-form");
-    $("#starform").appendTo("#star-form");
-    $("#disform").appendTo("#dis-form");
-    $("#comment-form").hide();
-    $("#star-form").hide();
-    $("#disform").hide();
+        $("#comform").appendTo("#comment-form");
+        $("#starform").appendTo("#star-form");
+        $("#disform").appendTo("#dis-form");
+        $("#comment-form").hide();
+        $("#star-form").hide();
+        $("#disform").hide();
 
-    $("#trophy-m").empty();
-    $('#bio-div').empty();
-    $('#skills-div').empty();
-    $('#title-name').empty();
-    $('#' + netid_1).attr('id', 'netid-standin')
+        $("#trophy-m").empty();
+        $('#bio-div').empty();
+        $('#skills-div').empty();
+        $('#title-name').empty();
+        $('#' + netid_1).attr('id', 'netid-standin')
+    });
+
+    $('#starpanel').click(function(){
+        $("#starform")[0].reset();
+        $("#comform").hide();
+        $("#disform").hide();
+        $('#starform').fadeIn(200);
+    });
+
+    $('#companel').click(function(){
+        $("#comform")[0].reset();
+        $("#starform").hide();
+        $("#disform").hide();
+        $('#comform').fadeIn(200);
+    });
+
+    $('#dispanel').click(function(){
+        $("#disform")[0].reset();
+        $("#starform").hide();
+        $("#comform").hide();
+        $('#disform').fadeIn(200);
+    });
+
+    //radar chart function
+    $(function(){
+    $('.chart').radarChart({
+        size: [325, 325],
+        step: 1,
+        values: {
+        "Basic": basic,
+        "Advanced": adv,
+        "Field": field,
+        "Printer": print,
+        "Network": net,
+        "Mobile": mobile,
+        "Refresh": ref,
+        "Software": soft,
+        },
+        showAxisLabels: true
+    });
+    });
 });
 
-$('#starpanel').click(function(){
-    $("#starform")[0].reset();
-    $("#comform").hide();
-    $("#disform").hide();
-    $('#starform').fadeIn(200);
-});
-
-$('#companel').click(function(){
-    $("#comform")[0].reset();
-    $("#starform").hide();
-    $("#disform").hide();
-    $('#comform').fadeIn(200);
-});
-
-$('#dispanel').click(function(){
-    $("#disform")[0].reset();
-    $("#starform").hide();
-    $("#comform").hide();
-    $('#disform').fadeIn(200);
-});
-
-//radar chart function
-$(function(){
-  $('.chart').radarChart({
-    size: [325, 325],
-    step: 1,
-    values: {
-      "Basic": basic,
-      "Advanced": adv,
-      "Field": field,
-      "Printer": print,
-      "Network": net,
-      "Mobile": mobile,
-      "Refresh": ref,
-      "Software": soft,
-    },
-    showAxisLabels: true
-  });
-});
-
-});
 (function($) {
 
   var Radar = (function() {
@@ -284,11 +299,11 @@ $(function(){
         step: $(ele).data("step"),
         values: $(ele).data("values"),
         color: [$(ele).data("red"),$(ele).data("green"),$(ele).data("blue")],
-		insertFirst : $(ele).data("insert-first"),
-		fixedMaxValue:$(ele).data("fixed-max-value"),
-		size : [$(ele).data("width"),$(ele).data("height")],
-		additionalLineDistance: $(ele).data("additional-line-distance"),
-		annimationDelay: $(ele).data("annimation-delay")
+        insertFirst : $(ele).data("insert-first"),
+        fixedMaxValue:$(ele).data("fixed-max-value"),
+        size : [$(ele).data("width"),$(ele).data("height")],
+        additionalLineDistance: $(ele).data("additional-line-distance"),
+        annimationDelay: $(ele).data("annimation-delay")
       },settings);
       this.width = this.settings.size[0];
       this.height = this.settings.size[1];
@@ -301,11 +316,11 @@ $(function(){
 
     Radar.prototype.newCanvas = function() {
 
-	var div = $(this.ele).find(".chartCanvasWrap").first();
+        var div = $(this.ele).find(".chartCanvasWrap").first();
 
-	$(div).css({
-		'position': 'relative'
-	});
+    $(div).css({
+        'position': 'relative'
+    });
 
       var canvas = document.createElement('canvas');
       canvas.width = this.width;
@@ -465,117 +480,104 @@ $(function(){
 
 })(jQuery);
 
-$("#searchbar").keyup(function () {
-    var value = $("#searchbar").val().toLowerCase();
 
-    console.log(value)
+$("#starform").on("submit", function(event) {
+    event.preventDefault();
 
-    if (value.length >= 1) {
-        $(".panelemp[id*=" + value + "]").fadeIn(150);
-        $(".panelemp:not([id*=" + value + "])").fadeOut(100);
-    } else {
-        $(".panelemp").fadeIn(100);
-    }
+    var short = $("#award-subject").val();
+    var type = $("#award-type").val();
+    var reason = $("#award-reason").val();
+    var recip = $("#recipient").val();
+
+    $.ajax({
+        url: 'ajax/postaward/',
+        type: 'POST',
+        data: {
+            'name': short,
+            'type': type,
+            'reason': reason,
+            'recipient': recip
+        },
+        dataType: 'json',
+        success: function(data){
+            console.log(data)
+            alert("Star has been posted!")
+            $("#starform")[0].reset();
+            $('.modal').modal('hide');
+        },
+        error: function(data){
+            console.log("Failure!")
+            console.log(data)
+        }
+    })
 });
 
 
-    $("#starform").on("submit", function(event) {
-        event.preventDefault();
+$("#comform").on("submit", function(event) {
+    event.preventDefault();
 
-        var short = $("#award-subject").val();
-        var type = $("#award-type").val();
-        var reason = $("#award-reason").val();
-        var recip = $("#recipient").val();
+    var subject = $("#comm-subject").val();
+    var body = $("#comm-body").val();
+    var about = $("#comm-about").val();
 
-        $.ajax({
-            url: 'ajax/postaward/',
-            type: 'POST',
-            data: {
-                'name': short,
-                'type': type,
-                'reason': reason,
-                'recipient': recip
-            },
-            dataType: 'json',
-            success: function(data){
-                console.log(data)
-                alert("Star has been posted!")
-                $("#starform")[0].reset();
-                $('.modal').modal('hide');
-            },
-            error: function(data){
-                console.log("Failure!")
-                console.log(data)
-            }
-        })
-    });
+    $.ajax({
+        url: 'ajax/postcomment/',
+        type: 'POST',
+        data: {
+            'subject': subject,
+            'body': body,
+            'about': about,
+        },
+        dataType: 'json',
+        success: function(data){
+            console.log(data)
+            alert("Comment has been posted!")
+            $("#comform")[0].reset();
+            $('.modal').modal('hide');
+        },
+        error: function(data){
+            console.log("Failure!")
+            console.log(data)
+            alert("Oh no! Something went wrong!")
+        }
+    })
 
+});
 
-    $("#comform").on("submit", function(event) {
-        event.preventDefault();
+$("#disform").on("submit", function(event) {
+    event.preventDefault();
 
-        var subject = $("#comm-subject").val();
-        var body = $("#comm-body").val();
-        var about = $("#comm-about").val();
+    var subject = $("#disc-subject").val();
+    var body = $("#disc-body").val();
+    var extent = $("input[name='extent']:checked").val();
+    var about = $("#disc-about").val();
 
-        $.ajax({
-            url: 'ajax/postcomment/',
-            type: 'POST',
-            data: {
-                'subject': subject,
-                'body': body,
-                'about': about,
-            },
-            dataType: 'json',
-            success: function(data){
-                console.log(data)
-                alert("Comment has been posted!")
-                $("#comform")[0].reset();
-                $('.modal').modal('hide');
-            },
-            error: function(data){
-                console.log("Failure!")
-                console.log(data)
-                alert("Oh no! Something went wrong!")
-            }
-        })
+    console.log(extent)
 
-    });
+    $.ajax({
+        url: 'ajax/postdiscipline/',
+        type: 'POST',
+        data: {
+            'subject': subject,
+            'body': body,
+            'extent': extent,
+            'about': about,
+        },
+        dataType: 'json',
+        success: function(data){
+            console.log(data)
+            alert("Discipline has been posted!")
+            $("#disform")[0].reset();
+            $('.modal').modal('hide');
+        },
+        error: function(data){
+            console.log("Failure!")
+            console.log(data)
+            alert("Oh no! Something went wrong!")
+        }
+    })
 
-    $("#disform").on("submit", function(event) {
-        event.preventDefault();
-
-        var subject = $("#disc-subject").val();
-        var body = $("#disc-body").val();
-        var extent = $("input[name='extent']:checked").val();
-        var about = $("#disc-about").val();
-
-        console.log(extent)
-
-        $.ajax({
-            url: 'ajax/postdiscipline/',
-            type: 'POST',
-            data: {
-                'subject': subject,
-                'body': body,
-                'extent': extent,
-                'about': about,
-            },
-            dataType: 'json',
-            success: function(data){
-                console.log(data)
-                alert("Discipline has been posted!")
-                $("#disform")[0].reset();
-                $('.modal').modal('hide');
-            },
-            error: function(data){
-                console.log("Failure!")
-                console.log(data)
-                alert("Oh no! Something went wrong!")
-            }
-        })
-
-    });
+});
 
 
 $(function() {
@@ -631,4 +633,5 @@ $(function() {
         }
     });
 
+});
 });
