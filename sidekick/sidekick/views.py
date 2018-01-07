@@ -52,7 +52,7 @@ def get_current_user(request):
 
 def set_user_string(user):
     if not live:
-        return "jwood14"
+        return "nchera13"
     else:
         return user
 
