@@ -44,6 +44,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config['prod']['secret_key']
 
+# Location of client_secret.json goes here
+GOOGLE_OAUTH2_CLIENT_SECRETS_JSON = config['google']['client_secret']
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = debug
 

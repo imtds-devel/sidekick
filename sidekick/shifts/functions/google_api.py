@@ -12,7 +12,7 @@ CLIENT_SECRET_FILE = 'client_secret.json'
 
 
 def get_refresh_token():
-    flow = client.flow_from_clientsecrets (CLIENT_SECRET_FILE, SCOPES)
+    flow = client.flow_from_clientsecrets(CLIENT_SECRET_FILE, SCOPES)
 
     storage = Storage("store-oauth2.json")
     args = tools.argparser.parse_args([])
@@ -35,7 +35,7 @@ def get_credentials():
     """
     flags = tools.argparser.parse_args([])
 
-    credential_dir="/var/www/html/.credentials"
+    credential_dir = "/var/www/html/.credentials"
     if not os.path.exists(credential_dir):
         os.makedirs(credential_dir)
     credential_path = os.path.join(credential_dir,
@@ -43,6 +43,7 @@ def get_credentials():
 
     store = Storage(credential_path)
     credentials = store.get()
+
     if not credentials or credentials.invalid:
         flow = client.flow_from_clientsecrets(CLIENT_SECRET_FILE, SCOPES)
         if flags:

@@ -11,10 +11,10 @@ import datetime
 import pytz
 
 
-live = True # Set to true for production!
+live = False  # Set to true for production!
 
 
-@login_required # UNCOMMENT THIS BEFORE GOING LIVE
+# @login_required # UNCOMMENT THIS BEFORE GOING LIVE
 def load_page(request, template: str, context: dict):
 
     request = get_current_user(request)

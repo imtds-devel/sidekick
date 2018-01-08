@@ -1,11 +1,17 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+from oauth2client.contrib.django_util.models import CredentialsField
 from django.utils import timezone
 from django.db import models
 from homebase.models import Employees
 import datetime
 import pytz
 from django.utils.timezone import make_aware, make_naive
+
+
+class CredentialsModel(models.Model):
+    lookup = models.ForeignKey(Employees, on_delete=models.CASCADE)
+    credential = CredentialsField()
 
 
 class Shifts(models.Model):
@@ -52,7 +58,6 @@ class Shifts(models.Model):
     )
     permanent_id = models.TextField(default="")  # Same as event id for non-permanent shifts
     sob_story = models.TextField(null=True, blank=True) # The current sob story for the shift, can be null if the shift isn't open
-    delete = models.BooleanField(default=False) # Shifts can be deleted in the case of partial shifts, but we still need to be able to reference them 
 
     def __str__(self):
         return "%s: owned by %s, in %s from %s to %s" % (self.title, self.owner, self.location,

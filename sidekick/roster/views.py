@@ -244,7 +244,7 @@ def get_trophies(request):
 
 # Helper Functions
 def prep_context():
-    employee_list = Employees.objects.all().order_by('lname')
+    employee_list = Employees.objects.filter(delete=False).order_by('lname')
     empform = EmployeeForm()
     comform = CommentForm()
     starform = StarForm()
