@@ -166,6 +166,7 @@ $(document).ready(function() {
         // Hide the partial selectors and enable the post button
         $('#' + modalID).find('.partial-selectors').hide('fast');
         $('#' + modalID).find('#post-cover-btn').prop('disabled', false);
+        $("#" + modalID).find(".modal-footer > p").remove();
     });
 
     // When the user selects "no" for full cover
@@ -175,6 +176,7 @@ $(document).ready(function() {
         // Hide the partial selectors and enable the post button
         $('#' + modalID).find('.partial-selectors').show('fast');
         $('#' + modalID).find('#post-cover-btn').prop('disabled', true); // Temporarily disabled until I code this
+        $("#" + modalID).find(".modal-footer").append("<p>(psst, partial covers aren't supported yet, sorry!)</p>");
     });
 
     // When the user selects "yes" for full take
