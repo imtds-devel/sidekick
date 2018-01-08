@@ -35,8 +35,7 @@ def get_credentials():
     """
     flags = tools.argparser.parse_args([])
 
-    home_dir = os.path.expanduser('~')
-    credential_dir = os.path.join(home_dir, '.credentials')
+    credential_dir="/var/www/html/.credentials"
     if not os.path.exists(credential_dir):
         os.makedirs(credential_dir)
     credential_path = os.path.join(credential_dir,

@@ -92,6 +92,7 @@ $(document).ready(function() {
             dataType: 'json',
             success : function (data) {
                 console.log("POSTED YES IT POSTED YES");
+		console.log(data);
                 alert("Your cover has been posted! Don't forget: you are still responsible for it until it's taken.");
                 $('.modal').modal('hide');
                 $('body').removeClass('modal-open');
@@ -110,6 +111,7 @@ $(document).ready(function() {
             dataType: 'json',
             success: function (data) {
                 console.log("TAKEN YES IT TOOK YES");
+		console.log(data);
                 alert("You've taken the cover successfully!");
                 $('.modal').modal('hide');
                 $('body').removeClass('modal-open');
