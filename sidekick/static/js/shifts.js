@@ -92,7 +92,10 @@ $(document).ready(function() {
             dataType: 'json',
             success : function (data) {
                 console.log("POSTED YES IT POSTED YES");
-                //$('.modal').modal('hide');
+                alert("Your cover has been posted! Don't forget: you are still responsible for it until it's taken.");
+                $('.modal').modal('hide');
+                $('body').removeClass('modal-open');
+                $('.modal-backdrop').remove();
                 ajaxUserShifts('curr');
                 ajaxOpenShifts('curr');
             }
@@ -105,9 +108,12 @@ $(document).ready(function() {
             url: 'ajax/take_cover/',
             data: data,
             dataType: 'json',
-            success : function (data) {
+            success: function (data) {
                 console.log("TAKEN YES IT TOOK YES");
-                //$('.modal').modal('hide');
+                alert("You've taken the cover successfully!");
+                $('.modal').modal('hide');
+                $('body').removeClass('modal-open');
+                $('.modal-backdrop').remove();
                 ajaxUserShifts('curr');
                 ajaxOpenShifts('curr');
             }
@@ -176,7 +182,7 @@ $(document).ready(function() {
         // Hide the partial selectors and enable the post button
         $('#' + modalID).find('.partial-selectors').show('fast');
         $('#' + modalID).find('#post-cover-btn').prop('disabled', true); // Temporarily disabled until I code this
-        $("#" + modalID).find(".modal-footer").append("<p>(psst, partial covers aren't supported yet, sorry!)</p>");
+        $("#" + modalID).find(".modal-footer").append("<p style='text-align:center'>(psst, partial covers aren't supported yet, sorry!)</p>");
     });
 
     // When the user selects "yes" for full take
@@ -200,6 +206,9 @@ $(document).ready(function() {
     // When the user clicks "post"
     $(document).on('click', '#post-cover-btn', function() {
         console.log("Post cover triggered");
+        modalID = $(this).closest('.modal').attr('id');
+        $('#' + modalID).find('#post-cover-btn').prop('disabled', true);
+        $("#" + modalID).find(".modal-footer").append("<p style='text-align:center'>Posting Cover now</p>");
         var modalID = $(this).closest('.modal').attr('id');
         var eventID = modalID.slice(10); // Cuts the 'post-conf' off
         var isPerm = $('#' + modalID).find('.perm-cover').prop('checked');
@@ -237,6 +246,9 @@ $(document).ready(function() {
     // When the user clicks "take"
     $(document).on('click', '#take-cover-btn', function(evt) {
         console.log("take shift");
+        modalID = $(this).closest('.modal').attr('id');
+        $('#' + modalID).find('#take-cover-btn').prop('disabled', true);
+        $("#" + modalID).find(".modal-footer").append("<p style='text-align:center'>Taking cover now</p>");
         modalID = $(this).closest('.modal').attr('id');
         eventID = modalID.slice(10); // Cuts the 'post-conf' off
         isPerm = $('#' + modalID).find('.perm-cover').prop('checked');
@@ -360,7 +372,7 @@ $(document).ready(function() {
                             +       "</div>"
                             +   "</div>"
                             +   "<div class='modal-footer'>"
-                            +       "<button disabled id='take-cover-btn' type='button' class='align-left btn btn-primary' data-dismiss='modal'>Take Shift Cover</button>"
+                            +       "<button disabled id='take-cover-btn' type='button' class='align-left btn btn-primary'>Take Shift Cover</button>"
                             +       "<button type='button' class='align-right btn btn-default' data-toggle = 'modal' data-target = '#" + String(shiftsDay[shift].event_id) + "-modal' data-dismiss='modal'>Cancel</button>"
                             +   "</div>"
                             +      "</div>"
@@ -426,7 +438,7 @@ $(document).ready(function() {
                             +       "</div>"
                             +   "</div>"
                             +   "<div class='modal-footer'>"
-                            +       "<button disabled id='post-cover-btn' type='button' class='align-left btn btn-primary' data-dismiss='modal'>Post Shift Cover</button>"
+                            +       "<button disabled id='post-cover-btn' type='button' class='align-left btn btn-primary'>Post Shift Cover</button>"
                             +       "<button type='button' class='align-right btn btn-default' data-toggle = 'modal' data-target = '#" + String(shiftsDay[shift].event_id) + "-modal' data-dismiss='modal'>Cancel</button>"
                             +   "</div>"
                             +   "</div>"
@@ -516,7 +528,7 @@ $(document).ready(function() {
             // Hint: We should only display a day if there are shifts on that day
             if (isShiftOnDay(week[day], shifts)) {
                 $('#open-shifts-panel-group').append(
-                    "<div class = 'panel panel-warning shift-panel' id= '" + weekDays[day] + "-open-shifts' >" +
+                    "<div class = 'panel panel-primary shift-panel' id= '" + weekDays[day] + "-open-shifts' >" +
                         "<div class = 'panel-heading'>" + weekDays[day] + " " +  week[day].slice(5,10) + "</div>" + // Here we are displaying the week day and the date of that day
                         "<div class = 'panel-body'><div>" + // This is where the individual shifts will go
                     "</div>");
@@ -527,7 +539,7 @@ $(document).ready(function() {
                 {
                     // Generate a shift "button" for each shift
                     $('#' + weekDays[day] + '-open-shifts .panel-body').append(
-                        "<button type = 'button' id = '" + shiftsDay[shift].event_id  + "' class = 'btn btn-block shift-btn' data-toggle= 'modal' data-target= '#"
+                        "<button type = 'button' id = '" + shiftsDay[shift].event_id  + "' class = 'btn btn-block btn-warning shift-btn' data-toggle= 'modal' data-target= '#"
                         + String(shiftsDay[shift].event_id) + "-modal' >" + locations[shiftsDay[shift].location]
                         + ": " + formatTimeRange(shiftsDay[shift].shift_start, shiftsDay[shift].shift_end)
                         +"</button>"
@@ -581,7 +593,7 @@ $(document).ready(function() {
                         +       "</div>"
                         +   "</div>"
                         +   "<div class='modal-footer'>"
-                        +       "<button disabled id='take-cover-btn' type='button' class='align-left btn btn-primary' data-dismiss='modal'>Take Shift Cover</button>"
+                        +       "<button disabled id='take-cover-btn' type='button' class='align-left btn btn-primary'>Take Shift Cover</button>"
                         +       "<button type='button' class='align-right btn btn-default' data-toggle = 'modal' data-target = '#" + String(shiftsDay[shift].event_id) + "-modal' data-dismiss='modal'>Cancel</button>"
                         +   "</div>"
                         +      "</div>"

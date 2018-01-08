@@ -16,6 +16,7 @@ from django.db.models import TimeField
 from django.http import HttpResponse
 from django.utils.timezone import make_aware, make_naive
 from sidekick.views import get_current_user
+from time import sleep
 import pytz
 
 
@@ -89,6 +90,7 @@ def post_cover(request):
         part_end = None
 
     """
+    # Test data
     permanent = True
     partial = False
     actor = Employees.objects.get(netid='nchera13')
@@ -108,7 +110,11 @@ def post_cover(request):
         sob_story=sob_story,
     )
     post_status = data.push()
-    
+    synchronize(flush=False)
+
+    sleep(2)  # Wait for async fns to finish
+
+
     json_data = {
         'pst_status': post_status
     }
@@ -146,9 +152,12 @@ def take_cover(request):
         sob_story=sob_story,
     )
     post_status = data.push()
-    
+    synchronize(flush=False)
+
+    sleep(2)  # Wait for async fns to finish
+
     json_data = {
-        'pst_status' : post_status
+        'pst_status': post_status
     }
     # We return the data as JSON
     return JsonResponse(json_data)
