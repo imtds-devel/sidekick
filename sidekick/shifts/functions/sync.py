@@ -118,7 +118,8 @@ def process_events(list_results, loc):
             shift_end=event['end']['dateTime'],
             location=loc,
             is_open=is_open,
-            permanent_id=event['iCalUID'][:-11]  # cut out the @google.com in the permanent ID
+            permanent_id=event['iCalUID'][:-11],  # cut out the @google.com in the permanent ID
+            sob_story=event.get('description', None)  # We save the sob story in the event description
         )
         print(loc+": "+str(shift))
         shift.save()
