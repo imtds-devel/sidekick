@@ -19,6 +19,7 @@ db = config['database']
 static_dir = config['static']
 cal = config['cal_ids']
 production = config['prod']['prod'] == "True"
+debug = config['prod']['debug'] == "True"
 
 if production:
     print("Using SSL Encryption")
@@ -44,7 +45,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = config['prod']['secret_key']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = bool(config['prod']['debug'])
+DEBUG = debug
 
 ALLOWED_HOSTS = [
     '192.168.8.33',
