@@ -60,7 +60,7 @@ def set_user_string(user):
 
 def authorize(request):
     uname = str(request.user)
-    return Employees.objects.filter(netid__iexact=uname)
+    return Employees.objects.filter(netid__iexact=uname, delete=False)
 
 
 def oauth_handler(request):
