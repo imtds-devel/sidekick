@@ -74,7 +74,7 @@ def post_cover(request):
     if shift_owner.netid != request.user or not get_access(request.user, "shift_postall"):
         # if the user can't post this shift
         json_data = {
-            'pst_status': False
+            'pst_status': "Bad user"
         }
         return JsonResponse(json_data)
 
@@ -113,7 +113,6 @@ def post_cover(request):
     synchronize(flush=False)
 
     sleep(2)  # Wait for async fns to finish
-
 
     json_data = {
         'pst_status': post_status

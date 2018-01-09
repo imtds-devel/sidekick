@@ -220,7 +220,7 @@ def cleanup(data: CoverInstructions):
 
 def shift_email(data: CoverInstructions):
     # TODO: Program this
-    return True if data else False
+    return True
 
 
 def mail_test():
