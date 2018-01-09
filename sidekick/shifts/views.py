@@ -75,7 +75,6 @@ def post_cover(request):
         # if the user can't post this shift
         json_data = {
             'shift_owner': shift_owner.netid,
-            'request_user': request.user,
             'pst_status': "Bad user",
         }
         return JsonResponse(json_data)
