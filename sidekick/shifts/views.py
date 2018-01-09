@@ -74,7 +74,9 @@ def post_cover(request):
     if shift_owner.netid != request.user or not get_access(request.user, "shift_postall"):
         # if the user can't post this shift
         json_data = {
-            'pst_status': "Bad user"
+            'shift_owner': shift_owner.netid,
+            'request_user': request.user,
+            'pst_status': "Bad user",
         }
         return JsonResponse(json_data)
 
