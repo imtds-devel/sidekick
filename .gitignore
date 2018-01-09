@@ -2,6 +2,7 @@
 **/*.ini
 **/*.pyc
 **/*.json
+**/*.log
 #ignore files
 .idea
 

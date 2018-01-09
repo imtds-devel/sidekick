@@ -3,15 +3,13 @@ from __future__ import unicode_literals
 
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
+from sidekick.settings import PRODUCTION
 from django.http import HttpResponse
 from roster.models import Trophies
 from homebase.models import Employees
 from shifts.models import Shifts
 import datetime
 import pytz
-
-
-live = False  # Set to true for production!
 
 
 # @login_required # UNCOMMENT THIS BEFORE GOING LIVE
@@ -45,14 +43,14 @@ def load_page(request, template: str, context: dict):
 
 
 def get_current_user(request):
-    if not live:
+    if not PRODUCTION:
         request.user = set_user_string(request.user)
 
     return request
 
 
 def set_user_string(user):
-    if not live:
+    if not PRODUCTION:
         return "nchera13"
     else:
         return user

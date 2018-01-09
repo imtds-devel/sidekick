@@ -18,10 +18,10 @@ config.read('config.ini')
 db = config['database']
 static_dir = config['static']
 cal = config['cal_ids']
-production = config['prod']['prod'] == "True"
 debug = config['prod']['debug'] == "True"
+PRODUCTION = config['prod']['prod'] == "True"
 
-if production:
+if PRODUCTION:
     print("Using SSL Encryption")
     SECURE_PROXY_SSL_HEADER = ('HTTPS_X_FORWARDED_PROTO', 'https')
     SECURE_SSL_REDIRECT = True
@@ -172,7 +172,7 @@ USE_TZ = False
 
 STATIC_URL = static_dir['url']
 
-if production:
+if PRODUCTION:
     STATIC_ROOT = os.path.join(BASE_DIR, "static")
 else:
     STATICFILES_DIRS = [
@@ -188,4 +188,8 @@ CALENDAR_LOCATION_IDS = {
     'rc': cal['rc'],
     'md': cal['md'],
     'te': cal['te']
+}
+
+LOGGING = {
+
 }

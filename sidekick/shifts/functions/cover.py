@@ -52,7 +52,7 @@ def full_cover(data: CoverInstructions):
     # Verify shift exists in our db
     if first is None:
         print("Shift does not exist!")
-        return False
+        return "Failed: Shift does not exist in db"
 
     location = first.location
     cal_id = CALENDAR_LOCATION_IDS[location]
@@ -114,7 +114,7 @@ def partial_cover(data: CoverInstructions):
     # Verify shift exists in our db
     if first is None:
         print("Shift does not exist!")
-        return False
+        return "Failed: Shift does not exist in db"
 
     location = first.location
     cal_id = CALENDAR_LOCATION_IDS[location]
@@ -136,7 +136,7 @@ def partial_cover(data: CoverInstructions):
     # Start by doing basic validation on start & end time
     if data.start_time is None or data.end_time is None:
         print("ERROR: Start and end time for partial cover unset!")
-        return False
+        return "Failed: Start and end time for partial cover are unset!"
 
     padding_title = first.title
     center_title = "Open Shift (Cover for %s)" % data.actor if data.post else "%s (Cover for %s)" % (data.actor, first.owner)
@@ -182,7 +182,7 @@ def partial_cover(data: CoverInstructions):
             continue
         elif duration == 15:
             print("ERROR: Events MUST be at least 30 min long!")
-            return False
+            return "Failed: All shifts must be at least 30 min long!"
         i += 1
 
     # Now we should have a pruned and validated list of times
