@@ -7,6 +7,7 @@ from django.http import HttpResponseRedirect
 from sidekick import views
 from .forms import StatusLogForm
 
+
 # Create your views here.
 def index(request):
     # If this is a form submission
@@ -19,13 +20,14 @@ def index(request):
         # Remove this line before production!
         request = views.get_current_user(request)
 
-        data['netid'] = request.user
+        data['netid'] = str(request.user)
         form = StatusLogForm(data)
         if form.is_valid():
             form.save(commit=True)
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
     return views.load_page(request, 'printinfo/index.html', prep_context())
+
 
 def prep_context():
     library_list = Location.objects.all()

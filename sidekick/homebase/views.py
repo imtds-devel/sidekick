@@ -21,7 +21,7 @@ def index(request):
             # In case we're not in production
             # Remove this line before production!
             request = views.get_current_user(request)
-            data['announcer'] = request.user
+            data['announcer'] = str(request.user)
             form = EventForm(data)
             print(form.fields)
 
@@ -29,7 +29,7 @@ def index(request):
             # In case we're not in production
             # Remove this line before production!
             request = views.get_current_user(request)
-            data['announcer'] = request.user
+            data['announcer'] = str(request.user)
             form = AnnouncmentForm(data)
             print(form)
 

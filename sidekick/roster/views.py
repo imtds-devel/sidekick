@@ -23,13 +23,13 @@ def index(request):
         # Remove this line before production!
         request = views.get_current_user(request)
 
-        data['poster'] = request.user
+        data['poster'] = str(request.user)
         form = CommentForm(data)
         if form.is_valid():
             form.save(commit=True)
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
-        data['giver'] = request.user
+        data['giver'] = str(request.user)
         form = StarForm(data)
         if form.is_valid():
             form.save(commit=True)
@@ -53,10 +53,8 @@ def post_award(request):
 
     # Make sure the user has proper access rights to do this
     request = views.get_current_user(request)
-    giver = request.user
+    giver = str(request.user)
     recipient = request.POST.get('recipient', None)
-
-    print(request.user)
 
     if recipient is not None:
         emp = Employees.objects.get(netid=giver)
@@ -107,7 +105,7 @@ def post_comment(request):
 
     # Make sure the user has proper access rights to do this
     request = views.get_current_user(request)
-    poster = request.user
+    poster = str(request.user)
     about = request.POST.get('about', None)
 
     if about is not None:
@@ -157,7 +155,7 @@ def post_discipline(request):
 
     # Make sure the user has proper access rights to do this
     request = views.get_current_user(request)
-    poster = request.user
+    poster = str(request.user)
     about = request.POST.get('about', None)
 
     if about is not None:

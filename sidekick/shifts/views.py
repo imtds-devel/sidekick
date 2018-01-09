@@ -66,12 +66,12 @@ def post_cover(request):
     permanent = request.POST.get('permanent', None) == 'true'
     partial = request.POST.get('partial', None) == 'true'
     sob_story = str(request.POST.get('sob_story', None))
-    actor = Employees.objects.get(netid=request.user)
+    actor = Employees.objects.get(netid=str(request.user))
     shift = Shifts.objects.get(event_id=request.POST.get('event_id', None))
     shift_owner = shift.owner
 
     # Check for bad user posting data
-    if shift_owner.netid != str(request.user) or not get_access(request.user, "shift_postall"):
+    if shift_owner.netid != str(request.user) or not get_access(str(request.user), "shift_postall"):
         # if the user can't post this shift
         json_data = {
             'shift_owner': shift_owner.netid,
@@ -129,7 +129,7 @@ def take_cover(request):
     partial = request.POST.get('partial', None) == 'true'
     sob_story = str(request.POST.get('sob_story', None))
     # actor = Employees.objects.get(netid=str((Shifts.objects.get(event_id=request.GET.get('event_id', None))).owner))
-    actor = Employees.objects.get(netid=request.user)
+    actor = Employees.objects.get(netid=str(request.user))
     # actor = get_current_user(request)
     if permanent:
         s_id = str(request.POST.get('permanent_id', None))

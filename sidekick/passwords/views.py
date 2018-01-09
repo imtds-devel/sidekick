@@ -12,13 +12,13 @@ def index(request):
 
     # First, get a list of areas that the user is allowed to access
     access_areas = []
-    if access.get_access(request.user, "passwords_lab"):
+    if access.get_access(str(request.user), "passwords_lab"):
         access_areas.append('lab')  # Notice that these correspond to the names from the passwords models file
-    if access.get_access(request.user, "passwords_support"):
+    if access.get_access(str(request.user), "passwords_support"):
         access_areas.append('spt')
-    if access.get_access(request.user, "passwords_manager"):
+    if access.get_access(str(request.user), "passwords_manager"):
         access_areas.append('mgr')
-    if access.get_access(request.user, "passwords_all"):
+    if access.get_access(str(request.user), "passwords_all"):
         access_areas.append('all')
 
     # Next, get a list of passwords based off of that list

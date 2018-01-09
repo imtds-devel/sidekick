@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 from sidekick import views
 from .models import ServicePrices
 
+
 # Create your views here.
 def index(request):
     services_list = ServicePrices.objects.all().order_by('placement_order')
