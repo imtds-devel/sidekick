@@ -171,8 +171,6 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = static_dir['url']
-<<<<<<< HEAD
-=======
 
 if PRODUCTION:
     STATIC_ROOT = os.path.join(BASE_DIR, "static")
@@ -195,4 +193,3 @@ CALENDAR_LOCATION_IDS = {
 LOGGING = {
 
 }
->>>>>>> develop
