@@ -5,3 +5,9 @@
 .idea
 
 **/.vscode
+**/*.ini
+**/*.pyc
+**/*.json
+**/*.log
+
+**/node_modules

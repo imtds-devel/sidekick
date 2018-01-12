@@ -16,8 +16,21 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 from django.views.generic import RedirectView
+from django.conf import settings
+from django.conf.urls.static import static
+from cas import views
+from shifts.functions import sync
 
 urlpatterns = [
-    url(r'^', include('homebase.urls')),
+    url(r'^admin/', admin.site.urls),
+    url(r'^$', RedirectView.as_view(url=('homebase/'))),
     url(r'^homebase/', include('homebase.urls')),
-]
+    url(r'^passwords/', include('passwords.urls')),
+    url(r'^printinfo/', include('printinfo.urls')),
+    url(r'^quotes/', include('quotes.urls')),
+    url(r'^roster/', include('roster.urls')),
+    url(r'^shifts/', include('shifts.urls')),
+    url(r'^accounts/login/$', views.login, name='login'),
+    url(r'^accounts/logout/$', views.logout, name='logout'),
+
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -1,38 +1,51 @@
-<!-- Load our static files, this is for bootstrap :) -->
+
+<!-- Load our static files, this is for bootstrap, images, and our icon :) -->
 {% load staticfiles %}
 
 <!-- The header, we get bootstrap and do other important neato things :) -->
 <html>
     <head>
+        <title>Sidekick 0.4.0</title>
         {% block head-meta %}
             <meta charset="utf-8">
             <meta name="keywords" content="sidekick, imt, device solutions">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1">
-            <link rel="sidekick icon" type="image/png" href="{% static 'favicon.ico' %}"/>
+            <link rel="sidekick icon" type="image/png" href="{% static 'favicon.ico' %}">
         {% endblock %}
 
-        {% block head-css %}
-            <link href="{% static 'bootstrap/dist/css/bootstrap.min.css' %}"
-                rel="stylesheet" media="screen">
+        {% block head-css %}  
+            <link rel="stylesheet" href="{% static 'bootstrap/dist/css/bootstrap.css' %}">
+            <link rel="stylesheet" href="{% static 'bootstrap/dist/css/bootstrap-theme.css' %}">
+            <link href="https://fonts.googleapis.com/css?family=Play" rel="stylesheet">
+            <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+            <link rel="stylesheet" href="{% static 'styles/style.css' %}"/>
+        {% endblock %}
+        {% block load-javascript %}
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+            <script type="text/javascript" src="{% static 'bootstrap/dist/js/bootstrap.min.js' %}"></script>
+            <script type="text/javascript" src="{% static 'js/base.js' %}"></script>
+            <script type="text/javascript" src="{% static 'js/'|add:curr_page|add:'.js' %}"></script>
         {% endblock %}
     </head>
 
-<!-- The base of the page -->
-<div class='container-fluid'>
-    <!-- Where we define our wonderful navbelt -->
-    {% include 'sidekick/navigation.html' %} 
-    <div class='row'>
-        <div class='col-sm-3 col-lg-2'>
-            <!-- Side Panel (Alfred) -->
-            {% include 'sidekick/sidebar.html' %} 
+    <!-- The base of the page -->
+    <body>
+        <div class='container-fluid bodywrap'>
+            <div class='body'>
+            <!-- Where we define our wonderful navbar -->
+            {% include 'sidekick/navigation.html' %}
+            <div class='row contentwrap'>
+                <div class='col-sm-3 col-lg-2'>
+                    <!-- Side Panel -->
+                    {% include 'sidekick/side-panel.html' %}
+                    {% include 'sidekick/side-user.html' %}
+                </div>
+                <div class='col-sm-9 col-lg-10 pagewrap'>
+            {% block content %}<!-- PUT YOUR CONTENT HERE :D -->{% endblock %}
+                </div>
+            </div>
+            </div>
         </div>
-        <div class='col-sm-9 col-lg-10'>
-    {% block content %}<!-- PUT YOUR CONTENT HERE -->{% endblock %}
-        </div>
-    </div>
-</div>
-    {% block load-javascript %}
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    {% endblock %}
+    </body>
 </html>

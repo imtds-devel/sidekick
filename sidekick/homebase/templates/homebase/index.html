@@ -1,3 +1,14 @@
-{% extends "sidekick/app-base.html" %}
+{% extends 'sidekick/app-base.html' %}
+{% load staticfiles %}
 {% block content %}
+
+  <div class = "row homebase-row">
+      <!-- Loads homing beacon panel-->
+      {% include "homebase/homingbeacon.html" %}
+
+      <!-- Loads the announcements panel-->
+      {% include "homebase/announcements.html" %}
+  </div>
+
+
 {% endblock %}

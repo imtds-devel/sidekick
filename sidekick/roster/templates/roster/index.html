@@ -1,0 +1,223 @@
+{% extends 'sidekick/app-base.html' %}
+{% block content %}
+{% load staticfiles %}
+{% load roster_extras %}
+{% load sidekick_extras %}
+    <div class="search" align="right">
+        <form class="search-bar" style="margin-right: 20px">
+            <span class="glyphicon glyphicon-search"></span>
+            <input type="text" name="search" placeholder=" Search..." id="searchbar" value="">
+        </form>
+    </div>
+    <div class='hero-cards'>
+        {% if employee_list %}
+        {% for employee, skills in employee_list %}
+        <div class='panelemp panel-default hero-card' id="{{employee.search}}">
+            <button type='button' id="b-{{employee.netid}}"
+                    class='btn hero-card-button btn-block {{employee.position}} dev_{{employee.developer}}'
+                    data-toggle='modal'>
+                <div class='panel-body'>
+                    <div class="media">
+                        <div class="media-left">
+                            <img src='{% static employee.picture|img_exists %}' class='img img-circle img-herocard'>
+                        </div>
+                        <div class="media-body e_desc">
+                            <p class="e_field"><b>{{employee.full_name}}</b></p>
+                            <p class="e_field"> {{employee.short_desc}} </p>
+                            <p class="e_field"> {{employee.netid}}</p>
+                            <p class="e_field"> {{employee.nice_phone}} </p>
+                        </div>
+                        <div id="m-{{employee.netid}}" class="emp-meta" style="display:none">
+                            <ul class="m-info">
+                                <li class="m-fullname">{{employee.full_name}}</li>
+                                <li class="m-id">{{employee.netid}}</li>
+                                <li class="m-code">{{employee.codename}}</li>
+                                <li class="m-position">{{employee.nice_position}}</li>
+                                <li class="m-phone">{{employee.nice_phone}}</li>
+                                <li class="m-birth">{{employee.birthday}}</li>
+                                <li class="m-poscol">{{employee.position}}</li>
+                                <li id="m-activeuser">{{user_netid}}</li>
+                                <li id="m-mgr">{{ user_netid|has_access:"roster_prof_all" }}</li>
+                                <li id="m-lead">{{ user_netid|has_access:"roster_modfb_lab" }}</li>
+                                <li class="m-pic">{% static employee.picture|img_exists %}</li>
+                                {% if user_netid|has_access:"roster_prof_all" or user_netid == employee.netid %}
+                                <li class="m-profs">{{skills|first}}</li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </button>
+        </div>
+        {% endfor %}
+        {% else %}
+        <div class='page-header'>Ain't got none</div>
+        {% endif %}
+        {% if user_netid|has_access:"roster_modfb_all" %}
+        <div class="panel panel-default hero-card">
+            <button type="button"
+                    class="btn hero-card-button btn-block new-user-btn"
+                    data-toggle="modal" data-target="#new-user">
+                <div class="panel-body">
+                    <div class="media">
+                        <div class="media-body">
+                            <img src="{% static 'roster/plus.png' %}" class="new-plus">
+                        </div>
+                    </div>
+                </div>
+            </button>
+        </div>
+    </div>
+    {% endif %}
+    <div id='drop-down'>
+        <div id="netid-standin" class='modal fade'>
+            <div class='modal-dialog modal-md'>
+                <div class='modal-content' id="content-standin">
+                    <div class='modal-header'>
+                        <h4 style='text-align: left; margin-left:30px; margin-top:15px; margin-bottom:-35px;' class='modal-title' id="title-name"></h4>
+                        <ul class='nav nav-tabs' style='margin-left:250px'>
+                            <li id="li-home" class='active'><a data-toggle='tab' href='#emp-home'>Info</a></li>
+                            <li id="li-skills"></li>
+                            {% if user_netid|has_access:"roster_modfb_all" or "roster_modfb_lab" %}
+                            <li id="li-comment"></li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                    <div class='tab-content tab-card'>
+                        <div id='emp-home' class='modal-body hero-bio tab-pane fade in active'>
+                            <div class="row">
+                                <div class="col-md-4" style="height: 20%">
+                                    <img id='pic-standin' src='pic' class='img-circle img-herobio'>
+                                </div>
+                                <div class='col-md-8' id='bio-div' style="text-align:right">
+                                </div>
+                            </div>
+                            <div class="award-text"><h3>Awards</h3></div>
+                            <div class="panel trophy-modal">
+                                <div class="panel-body">
+                                    <div id="trophy-m" class="trophy-wrap"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id='emp-skills' class='tab-pane row fade'>"
+                        </div>
+                        {% if user_netid|has_access:"roster_modfb_all" or "roster_modfb_lab"%}
+                        <div id='emp-comment' class='modal-body hero-bio tab-pane fade'>
+                            <div class="row">
+                            <div class='col-md-6'>
+                                <h4 style='text-align: left; margin-left: 100px;' class='modal-title'><b>Comments</b></h4>
+                                <div id="comment-div" class="panel-default" style='height: 328px; overflow-y: auto; margin-top:5px'>
+                                </div>
+                            </div>
+                            <div class='col-md-6'>
+                                <panel class="comment-button" style='margin:7px' id='starpanel'>Award</panel>
+                                <panel class="comment-button" style='margin:7px' id='companel'>Comment</panel>
+                                <panel class="comment-button" style='margin:7px' id='dispanel'>Discipline</panel>
+                                <div id='comarea' style='height: 299px; overflow-y: auto; margin-top: 5px;'></div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class='modal-footer'>
+                    <button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% if user_netid|has_access:"roster_modfb_all" %}
+<div id="new-user" class="modal fade">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Add User</h4>
+            </div>
+            <div class="modal-body">
+                <form method="post" class="form-horizontal">
+                    {% csrf_token %}
+                    {% for field in empform.visible_fields %}
+                    <div class="form-group">
+                        {{ field.errors }}
+                        <label class="control-lavel col-sm-2" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        <div class="col-sm-10">
+                            {{ field }}
+                        </div>
+                    </div>
+
+                    {% endfor %}
+                    <button class="btn btn-success">Create</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% if user_netid|has_access:"roster_modfb_all" or "roster_modfb_lab"%}
+<div id="star-form">
+    <form method="post" class="form-horizontal" id="starform" style="display:none">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="award-subject">Subject:</label>
+            <input type="text" class="form-control" id="award-subject" title="Subject">
+        </div>
+        <div class="form-group">
+            <label for="award-type">Award:</label>
+            <select id="award-type" style="margin: 10px">
+                <option value="hst">Half Star</option>
+                <option value="str">Star</option>
+                <option value="bdg">Badge</option>
+                <option value="mil">Milestone</option>
+                <option value="udb">Under the Bus</option>
+                <option value="mas">Mastery</option>
+                <option value="pst">Puzzle Star</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="award-reason">Reason:</label>
+            <textarea class="form-control" id="award-reason" rows="3" title="Reason"></textarea>
+        </div>
+        <input type="hidden" name="giver" id = "giver" value="">
+        <input type="hidden" name="recipient" id = "recipient" value="">
+        <h5 align="right"><button class="btn btn-success" id="submit-star">Go You!</button></h5>
+    </form>
+</div>
+<div id="comment-form">
+    <form method="post" class="form-horizontal" id="comform" style="display:none">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="comm-subject">Subject:</label>
+            <input type="text" class="form-control" id="comm-subject" title="Subject">
+        </div>
+        <div class="form-group">
+            <label for="comm-body">Comment:</label>
+            <textarea class="form-control" id="comm-body" rows="4" title="Commment"></textarea>
+        </div>
+        <input type="hidden" name="about" id = "comm-about" value="">
+        <h5 align="right"><button class="btn btn-success" id="submit-comment">Submit</button></h5>
+    </form>
+
+</div>
+<div id="dis-form">
+    <form method="post" class="form-horizontal" id="disform" style="display:none">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="disc-subject">Subject:</label>
+            <input type="text" class="form-control" id="disc-subject" title="Subject">
+        </div>
+        <div class="form-group" id="dis-radio">
+            <input type="radio" name="extent" value=".5" style="margin: 10px"> Half
+            <input type="radio" name="extent" value="1" style="margin: 10px"> Full
+        </div>
+        <div class="form-group">
+            <label for="disc-body">Comment:</label>
+            <textarea class="form-control" id="disc-body" rows="3" title="Commment"></textarea>
+        </div>
+        <input type="hidden" name="about" id = "disc-about" value="">
+        <h5 align="right"><button class="btn btn-success" id="submit-discipline">Submit</button></h5>
+    </form>
+</div>
+{% endif %}
+{% endblock %}
