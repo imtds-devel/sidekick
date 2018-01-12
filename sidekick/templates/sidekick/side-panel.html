@@ -1,0 +1,128 @@
+{% load staticfiles %}
+{% load roster_extras %}
+
+<div class='panel-group sidebarTools'>
+    <div class="panel panel-default">
+        <div class="panel-heading"><h4>MoD Tracker</h4></div>
+        <div class="panel-body">
+            <div class="carousel slide modTrack" id="modCarousel">
+
+                <div class="carousel-inner" role="listbox">
+                    <div class="item active">
+                        <div class="media curMoD">
+                            {% if curr_mod %}
+                            <div class="media-left">
+                                <img src="{% static curr_mod.owner.picture|img_exists %}" class='img-circle sideMoDImg'>
+                            </div>
+                            <div class="media-body">
+                                <h4 class='media-heading modName'>Now: {{curr_mod.owner}}</h4>
+                                <p>{{curr_mod.pretty_duration}}</p>
+                            </div>
+                            {% else %}
+                            <div class="media-body">
+                                <h4 class="media-heading modName">Current: None</h4>
+                                <p>Try the MoD phone or Slack!</p>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="item">
+                        <div class="media nextMoD">
+                            {% if next_mod %}
+                            <div class="media-left">
+                                <img src="{% static next_mod.owner.picture|img_exists %}" class='img-circle sideMoDImg'>
+                            </div>
+                            <div class="media-body">
+                                <h4 class='media-heading modName'>Next: {{next_mod.owner}}</h4>
+                                <p>{{next_mod.pretty_duration}}</p>
+                            </div>
+                            {% else %}
+                            <div class="media-body">
+                                <h4 class="media-heading modName">Next: None</h4>
+                                <p>Sorry about that!</p>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <a class="right carousel-control modTrack modNext" href="#modCarousel" role="button" data-slide="next">
+                    <span class="icon-next" id="modNextIcon"> </span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class='panel-heading'>
+            <div class="media">
+                <div class="media-body">
+                    <h4>
+                        {% if my_shift %}
+                            {% if my_shift_happening %}
+                                My Shift<br>
+                                <small> {{my_shift.pretty_location}}: {{my_shift.pretty_duration}}</small>
+                            {% else %}
+                                My Next Shift:
+                            {% endif %}
+                        {% else %}
+                        No Upcoming Shifts
+                        {% endif %}
+                    </h4>
+                </div>
+                <div class="media-right">
+                    <!--<img class="sh-checkin-img img-circle" src="{% static 'roster/checked-in-False-time.png'%}">-->
+                </div>
+            </div>
+
+        </div>
+        <div class="panel-body">
+            <div class="media">
+                <div class="media-body">
+                    <!-- Pending shift status in release 1.2
+                    <div class="shLine shStatus">
+                        <p class="shText">Shift Status: </p>
+                        <p class="shText" id="shStatusIn">Checked In</p>
+                    </div>
+                    -->
+
+                    {% if my_shift %}
+                    {% if my_shift_happening %}
+                    <div class="shMeta" style="display:none">
+                        <p class="sh-end">{{my_shift.shift_end|date:"c"}}</p>
+                        <p class="tech-type">{{user.position}}</p>
+                    </div>
+                    <div class="shLine shEnd">
+                        <p class="shText">Shift ends in: </p>
+                        <p class="shText" id="shEndsIn"></p>
+                        <p class="shText">min</p>
+                    </div>
+                    <div class="shLine shRounds">
+                        <p class="shText">Report due in:</p>
+                        <p class="shText" id="shRoundsIn"></p>
+                        <p class="shText">min</p>
+                    </div>
+                    <!--
+                    <div class="shLine shBreak">
+                        <p class="shText">Break length: </p>
+                        <p class="shText" id="shBreakIn"></p>
+                        <p class="shText">min</p>
+                    </div>
+                    -->
+                    {% else %}
+                    <p>{{my_shift.pretty_location}},<br>{{my_shift.pretty_duration}}, <br>{{my_shift.shift_date}}</p>
+
+                    {% endif %}
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading"><h4>My Awards</h4></div>
+        <div class="panel-body">
+            {% include 'trophycase/trophycase.html' with trophy_list=trophy_list %}
+        </div>
+    </div>
+</div>

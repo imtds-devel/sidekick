@@ -1,0 +1,28 @@
+/* Page Styling */
+.bodywrap
+{
+height:100%;
+}
+.contentwrap
+{
+height:auto;
+}
+.pagewrap
+{
+height:90%;
+}
+
+
+/* Navbar Styling */
+.navbar-brand
+{
+font-family: 'Raleway', Sans Serif;
+padding: 0rem 0.5rem;
+font-size: 3rem;
+}
+.navbar-nav a
+{
+transition: all ease 0.3s;
+}
+
+
