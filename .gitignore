@@ -1,0 +1,11 @@
+#ignore config files
+**/*.ini
+**/*.pyc
+**/*.json
+**/*.log
+#ignore files
+.idea
+
+**/.vscode
+
+**/node_modules
