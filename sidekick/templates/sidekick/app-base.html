@@ -1,0 +1,38 @@
+<!-- Load our static files, this is for bootstrap :) -->
+{% load staticfiles %}
+
+<!-- The header, we get bootstrap and do other important neato things :) -->
+<html>
+    <head>
+        {% block head-meta %}
+            <meta charset="utf-8">
+            <meta name="keywords" content="sidekick, imt, device solutions">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <link rel="sidekick icon" type="image/png" href="{% static 'favicon.ico' %}"/>
+        {% endblock %}
+
+        {% block head-css %}
+            <link href="{% static 'bootstrap/dist/css/bootstrap.min.css' %}"
+                rel="stylesheet" media="screen">
+        {% endblock %}
+    </head>
+
+<!-- The base of the page -->
+<div class='container-fluid'>
+    <!-- Where we define our wonderful navbelt -->
+    {% include 'sidekick/navigation.html' %} 
+    <div class='row'>
+        <div class='col-sm-3 col-lg-2'>
+            <!-- Side Panel (Alfred) -->
+            {% include 'sidekick/sidebar.html' %} 
+        </div>
+        <div class='col-sm-9 col-lg-10'>
+    {% block content %}<!-- PUT YOUR CONTENT HERE -->{% endblock %}
+        </div>
+    </div>
+</div>
+    {% block load-javascript %}
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    {% endblock %}
+</html>

@@ -15,9 +15,9 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
+from django.views.generic import RedirectView
 
 urlpatterns = [
-    url(r'^/', include('homebase.urls')),
+    url(r'^', include('homebase.urls')),
     url(r'^homebase/', include('homebase.urls')),
-    url(r'^admin/', admin.site.urls),
 ]

@@ -17,6 +17,7 @@ import psycopg2
 config = configparser.ConfigParser()
 config.read('config.ini')
 db = config['database']
+static_dir = config['static']
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -39,6 +40,11 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'homebase.apps.HomebaseConfig',
+    'passwords.apps.PasswordsConfig',
+    'printinfo.apps.PrintinfoConfig',
+    'quotes.apps.QuotesConfig',
+    'roster.apps.RosterConfig',
+    'shifts.apps.ShiftsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -62,7 +68,7 @@ ROOT_URLCONF = 'sidekick.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -129,4 +135,4 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = static_dir['url']
