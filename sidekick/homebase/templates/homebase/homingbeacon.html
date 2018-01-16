@@ -1,0 +1,180 @@
+{% load staticfiles %}
+{% load sidekick_extras %}
+{% load roster_extras %}
+
+<!-- Creates the homing beacon-->
+<div class="col-md-6">
+  <div class="panel panel-default homebase-group">
+    <div class="panel-heading app-head">Homing Beacon</div>
+    <div class="panel-body app-body">
+
+      <div class="beacon">
+
+        <div class="beacon-left">
+            <p class="beacon-location">Labs</p>
+            {% if user_netid|has_access:"homingbeacon_checkin" %}
+                <button role="button" class="btn btn-success user-checkin">Check In</button>
+            {% endif %}
+        </div>
+
+        <div class="beacon-right">
+            {% if lab_shifts %}
+                {% for shift in lab_shifts %}
+                <div class="info-emp">
+                    <h4>{{shift.pretty_location}}</h4>
+                    <div class="img-holder">
+                        {% if shift.is_open %}
+
+                        {% endif %}
+                        <img src="{% static shift.owner.picture|img_exists %}" alt="{{shift.owner}}"
+                             class="employee-pic {% if shift.is_open %} pic-open-shift {% endif %}">
+                    </div>
+                    <div class="name-holder">
+                        <p>{{shift.short_title}}</p>
+                    </div>
+                </div>
+
+                {% endfor %}
+
+                {% if user_netid|has_access:"homingbeacon_requestpaper" %}
+                <div class="info-emp">
+                  <h4>Paper Count</h4>
+                  <div class="img-holder">
+                    <span class="glyphicon glyphicon-file"></span>
+                  </div>
+                </div>
+                {% endif %}
+            {% else %}
+                <h3 style="margin-left: 1rem;">No one's in the labs right now</h3>
+            {% endif %}
+
+
+        </div>
+      </div>
+        <div class="beacon">
+            <div class="beacon-left">
+                <p class="beacon-location">Building 5</p>
+                {% if user_netid|has_access:"homingbeacon_checkin" %}
+                <button role="button" class="btn btn-success user-checkin">Check In</button>
+                {% endif %}
+            </div>
+
+            <div class="beacon-right rc">
+                {% if support_shifts %}
+                    {% for shift in support_shifts %}
+                    <div class="info-emp">
+                        <h4>{{shift.pretty_location}}</h4>
+                        <div class="img-holder">
+                            <img src="{% static shift.owner.picture|img_exists %}" alt="{{shift.owner}}"
+                             class="employee-pic {% if shift.is_open %} pic-open-shift {% endif %}">
+                        </div>
+                        <div class="name-holder">
+                            <p>{{shift.short_title}}</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <h3 style="margin-left:1rem;">No one's in Building 5 right now</h3>
+                {% endif %}
+            </div>
+        </div>
+
+      <div class="beacon">
+
+        <div class="beacon-left staff-beacon-left">
+            <p class="beacon-location">Faculty and Staff</p>
+            {% if user_netid|has_access:"homingbeacon_updatestatus" %}
+            <button role="button" class="btn btn-success staff-status">Update Status</button>
+            {% endif %}
+        </div>
+
+        <div class="beacon-right staff-beacon-right">
+            {% for staff in staff_stats %}
+            <div class="info-emp" title="{{staff.description}}">
+                <h4>{{staff.get_status_display}}</h4>
+                <div class="img-holder">
+                    <img src="{% static staff.netid.picture|img_exists %}" class="employee-pic">
+                </div>
+                <div class="name-holder staff-holder">
+                    <p>{{staff.netid.full_name}}</p>
+                    <div class="netid-meta" style="display:none">{{staff.netid.pk}}</div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% if user_netid|has_access:"homingbeacon_checkin" %}
+<div class="modal fade" id="checkin-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Check in user</h4>
+            </div>
+            <div class="modal-body">
+                <h4>Coming soon!</h4>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% if user_netid|has_access:"homingbeacon_updatestatus" %}
+<div class="modal fade" id="status-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Update Status</h4>
+            </div>
+            <div class="modal-body">
+                <form method="post" class="form-horizontal" id="s-form">
+                    {% csrf_token %}
+                    {% for field in s_form.visible_fields %}
+                    <div class="form-group">
+                        {{field.errors}}
+                        <label class="col-sm-2" for="{{field.id_for_label}}">{{field.label}}</label>
+                        <div class="col-sm-10">
+                            {{field}}
+                        </div>
+                    </div>
+                    {% endfor %}
+                    <button class="btn btn-success" name="s-form">Update</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+    <script type="text/javascript">
+      $(document).ready(function() {
+
+        $(".user-checkin").click( function() {
+            $("#checkin-modal").modal('show');
+        });
+
+        $(".staff-status").click(function() {
+            $("#status-modal #id_netid").empty();
+
+            var names = $(".staff-holder p").toArray();
+            var netids = $(".staff-holder .netid-meta").toArray();
+
+            for (var i=0; i<names.length; i++) {
+                $("#status-modal #id_netid").append("<option value='"+netids[i].innerText+"'>"+names[i].innerText+"</option>");
+            }
+
+            $("#status-modal").modal('show');
+        });
+      });
+    </script>

@@ -12,11 +12,12 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 
 import os
 import configparser
-import psycopg2
 
 config = configparser.ConfigParser()
 config.read('config.ini')
 db = config['database']
+static_dir = config['static']
+cal = config['cal_ids']
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -27,24 +28,34 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'nz_um@06uk+dk4)42z8=@7+!*hea&+!#x!$-qpacs!kwue_qn%'
+SECRET_KEY = config['prod']['secret_key']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(config['prod']['debug'])
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '192.168.8.33',
+    'sidekick.devel.apu.edu',
+    '127.0.0.1'
+]
 
 
 # Application definition
 
 INSTALLED_APPS = [
     'homebase.apps.HomebaseConfig',
+    'passwords.apps.PasswordsConfig',
+    'printinfo.apps.PrintinfoConfig',
+    'quotes.apps.QuotesConfig',
+    'roster.apps.RosterConfig',
+    'shifts.apps.ShiftsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cas.apps.CASConfig'
 ]
 
 MIDDLEWARE = [
@@ -54,6 +65,7 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'cas.middleware.CASMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
@@ -62,7 +74,7 @@ ROOT_URLCONF = 'sidekick.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -92,6 +104,16 @@ DATABASES = {
     }
 }
 
+# Authentication
+CAS_SERVER_URL = config['cas']['url']
+CAS_LOGOUT_COMPLETELY = True
+CAS_PROVIDE_URL_TO_LOGOUT = True
+CAS_FORCE_SSL_SERVICE_URL = False
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'cas.backends.CASBackend'
+]
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
@@ -123,10 +145,25 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = static_dir['url']
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static")
+]
+
+# Google Cal Settings
+CALENDAR_LOCATION_IDS = {
+    'ma': cal['ma'],
+    'da': cal['da'],
+    'st': cal['st'],
+    'sd': cal['sd'],
+    'rc': cal['rc'],
+    'md': cal['md'],
+    'te': cal['te']
+}
