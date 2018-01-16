@@ -11,4 +11,5 @@ urlpatterns = [
     url(r'^ajax/gettrophies/', views.get_trophies),
     url(r'^ajax/updatebio/', views.update_bio),
     url(r'^ajax/updateprof/', views.update_prof),
+    url(r'^ajax/deleteemployee/', views.delete_employee),
 ]

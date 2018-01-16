@@ -88,24 +88,24 @@ def update_bio(request):
     developer = request.POST.get('developer', None)
 
     # Construct discipline object
-    employee = Employees(
-        fname=fname,
-        lname=lname,
-        phone=phone,
-        apuid=apuid,
-        netid=about,
-        codename=code,
-        position=position,
-        standing=standing,
-        birthday=bday,
-        developer=developer,
-    )
+    employee = Employees.objects.get(netid=about)
+    employee.fname = fname,
+    employee.fname =lname,
+    employee.phone =phone,
+    employee.apuid =apuid,
+    employee.codename =code,
+    employee.position =position,
+    employee.standing =standing,
+    employee.birthday =bday,
+    employee.developer =developer,
+
     print(employee)
     employee.save()
     return HttpResponse(
         json.dumps({"status": "Bio successfully updated!"}),
         content_type="application/json"
     )
+
 
 def update_prof(request):
     # Make sure it's a post request
@@ -151,17 +151,16 @@ def update_prof(request):
     soft = request.POST.get('soft', None)
 
     # Construct discipline object
-    profic = Proficiencies(
-        basic=basic,
-        advanced=adv,
-        field=field,
-        printer=printer,
-        netid_id=about,
-        network=net,
-        mobile=mobile,
-        refresh=ref,
-        software=soft,
-    )
+    profic = Proficiencies.objects.get(netid_id=about)
+    profic.basic = basic,
+    profic.advanced = adv,
+    profic.field = field,
+    profic.printer = printer,
+    profic.network = net,
+    profic.mobile = mobile,
+    profic.refresh = ref,
+    profic.software = soft,
+
     print(profic)
     profic.save()
     return HttpResponse(
@@ -367,6 +366,49 @@ def get_trophies(request):
     }
 
     return JsonResponse(data)
+
+
+def delete_employee(request):
+    # Make sure it's a post request
+    if not request.method == 'POST':
+        return HttpResponse(
+            json.dumps({"status": "Failed!"}),
+            content_type="application/json"
+        )
+
+    # Make sure the user has proper access rights to do this
+    request = views.get_current_user(request)
+    poster = request.user
+    about = request.POST.get('about', None)
+
+    if about is not None:
+        emp = Employees.objects.get(netid=poster)
+        if emp.position == 'llt':
+            access_area = 'roster_modfb_lab'
+        else:
+            access_area = 'roster_modfb_all'
+        print(access_area)
+    else:
+        return HttpResponse(
+            json.dumps({"status": "Failed! About netid not found"}),
+            content_type="application/json"
+        )
+
+    if not get_access(poster, access_area):
+        return HttpResponse(
+            json.dumps({"status": "Failed! User does not have access"}),
+            content_type="application/json"
+        )
+
+    # Construct discipline object
+    employee = Employees.objects.get(netid=about)
+    employee.delete = "False"
+    print(employee)
+    employee.save()
+    return HttpResponse(
+        json.dumps({"status": "Employee successfully deleted!"}),
+        content_type="application/json"
+    )
 
 
 # Helper Functions

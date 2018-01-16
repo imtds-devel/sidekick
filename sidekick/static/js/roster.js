@@ -300,6 +300,7 @@ $('.panelemp').click(function showModal(){
         $("#cur-profs").hide();
         $("#bioform").fadeIn(300);
         $("#profform").fadeIn(300);
+        $("#delete-emp").fadeIn(300);
     });
 
 
@@ -330,6 +331,7 @@ $('.panelemp').click(function showModal(){
         $("#comment-form").hide();
         $("#star-form").hide();
         $("#disform").hide();
+        $("#delete-emp").hide();
 
         // Fully clear the modal-fade info and set it to standard
         $("#trophy-m").empty();
@@ -582,11 +584,13 @@ $("#bioform").on("submit", function(event) {
     var about = $("#bio-about").val();
     var developer = $("input[name='status']:checked").val();
 
-    if (developer == true){
+    if (developer == "True"){
         developer = "True"
     } else{
         developer = "False"
     }
+
+    console.log(developer)
 
 
     $.ajax({
@@ -752,6 +756,33 @@ $("#disform").on("submit", function(event) {
             alert("Discipline has been posted!")
             $("#disform")[0].reset();
             $('.modal').modal('hide');
+        },
+        error: function(data){
+            console.log("Failure!")
+            console.log(data)
+            alert("Oh no! Something went wrong!")
+        }
+    })
+
+});
+
+$("#delete-emp").click(function(event) {
+    event.preventDefault();
+
+    var about = $("#prof-about").val();
+
+    $.ajax({
+        url: 'ajax/deleteemployee/',
+        type: 'POST',
+        data: {
+            'about': about,
+        },
+        dataType: 'json',
+        success: function(data){
+            console.log(data)
+            alert("Employee has been deleted!")
+            $('.modal').modal('hide');
+            location.reload();
         },
         error: function(data){
             console.log("Failure!")

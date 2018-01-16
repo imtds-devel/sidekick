@@ -132,11 +132,21 @@
                         {% endif %}
                     </div>
                     <div class='modal-footer'>
-                        {% if user_netid|has_access:"roster_modfb_all" %}
-                        <button type='button' id="edit-btn" class='btn btn-info' style="margin-right: 25px">Edit</button>
-                        <button type='button' id="delete-emp" class='btn btn-danger' style="margin-right: 50px; display:none">Delete</button>
-                        {% endif %}
-                        <button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
+                        <div class="row">
+                            {% if user_netid|has_access:"roster_modfb_all" %}
+                            <div class="col-md-1">
+                                <button type='button' id="delete-emp" class='btn btn-danger' style="display:none">
+                                    <span class="glyphicon glyphicon-warning-sign"></span> Delete
+                                </button>
+                            </div>
+                            <div class="col-md-9">
+                                <button type='button' id="edit-btn" class='btn btn-info'>Edit</button>
+                            </div>
+                            {% endif %}
+                            <div class="col-sm-2">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -197,7 +207,9 @@
             </div>
             <input type="hidden" name="giver" id = "giver" value="">
             <input type="hidden" name="recipient" id = "recipient" value="">
-            <h5 align="right"><button class="btn btn-success" id="submit-star">Go You!</button></h5>
+            <h5 align="right"><button class="btn btn-success" id="submit-star">
+                <span class="glyphicon glyphicon-thumbs-up"></span> Go You!
+            </button></h5>
         </form>
     </div>
     <div id="comment-form">
@@ -232,7 +244,8 @@
                 <textarea class="form-control" id="disc-body" rows="3" title="Commment"></textarea>
             </div>
             <input type="hidden" name="about" id = "disc-about" value="">
-            <h5 align="right"><button class="btn btn-success" id="submit-discipline">Submit</button></h5>
+            <h5 align="right"><button class="btn btn-danger" id="submit-discipline">
+                <span class="glyphicon glyphicon-thumbs-down"></span> Discipline</button></h5>
         </form>
     </div>
     {% if user_netid|has_access:"roster_modfb_all" %}
