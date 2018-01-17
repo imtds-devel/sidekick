@@ -84,20 +84,23 @@ def update_bio(request):
     code = request.POST.get('code', None)
     bday = request.POST.get('bday', None)
     position = request.POST.get('position', None)
+    pos_desc = request.POST.get('pos_desc', None)
     standing = request.POST.get('standing', None)
     developer = request.POST.get('developer', None)
 
     # Construct discipline object
     employee = Employees.objects.get(netid=about)
-    employee.fname = fname,
-    employee.fname =lname,
-    employee.phone =phone,
-    employee.apuid =apuid,
-    employee.codename =code,
-    employee.position =position,
-    employee.standing =standing,
-    employee.birthday =bday,
-    employee.developer =developer,
+
+    employee.fname = fname
+    employee.lname = lname
+    employee.phone = phone
+    employee.apuid = apuid
+    employee.codename = code
+    employee.position = position
+    employee.position_desc = pos_desc
+    employee.standing = standing
+    employee.birthday = bday
+    employee.developer = developer
 
     print(employee)
     employee.save()
@@ -151,18 +154,18 @@ def update_prof(request):
     soft = request.POST.get('soft', None)
 
     # Construct discipline object
-    profic = Proficiencies.objects.get(netid_id=about)
-    profic.basic = basic,
-    profic.advanced = adv,
-    profic.field = field,
-    profic.printer = printer,
-    profic.network = net,
-    profic.mobile = mobile,
-    profic.refresh = ref,
-    profic.software = soft,
+    profic = Proficiencies.objects.get(netid=about)
+    profic.basic = basic
+    profic.advanced = adv
+    profic.field = field
+    profic.printer = printer
+    profic.network = net
+    profic.mobile = mobile
+    profic.refresh = ref
+    profic.software = soft
 
     print(profic)
-    profic.save()
+    str(profic).save()
     return HttpResponse(
         json.dumps({"status": "Proficiencies successfully updated!"}),
         content_type="application/json"
@@ -402,7 +405,7 @@ def delete_employee(request):
 
     # Construct discipline object
     employee = Employees.objects.get(netid=about)
-    employee.delete = "False"
+    employee.delete = True
     print(employee)
     employee.save()
     return HttpResponse(

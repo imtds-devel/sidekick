@@ -183,7 +183,8 @@ $('.panelemp').click(function showModal(){
     $('#phone-input').attr('value', notnicephone);
     $('#apu-input').attr('value', apuid);
     $('#code-input').attr('value', codename);
-    $('#bday-input').attr('value', bday)
+    $('#bday-input').attr('value', bday);
+    $('#pos_desc-input').attr('value', position);
     $('#opt-'+ pos).prop('selected', true);
     $('#opt-' + standing).prop('selected', true);
     $('#status-' + developer).prop('checked',true);
@@ -235,8 +236,8 @@ $('.panelemp').click(function showModal(){
                 $("#comment-div").html(" ");
                 for (i = 0; i < data.comlist.length; i++) {
                     var output = "<div class='panel comment-panel' id='comment-list-" + i + "'><div class='panel-body'>";
-                    output += "<h4><b>Subject: </b>" + data.comlist[i].subject + "</h4>";
-
+                    output += "<div class='row'><div class='col-sm-10'><h4><b>Subject: </b></h4><h4>" + data.comlist[i].subject + "</h4></div>";
+                    output += "<div class='col-sm-2'><button type='button' style='display:none' onclick=DeleteComment('list-"+ i + "','"+ netid_1 +"') class='btn delete-btn btn-default btn-sm' id='list-"+i+"'><span class='glyphicon glyphicon-trash'></span> </button></div>"
                     if (data.comlist[i].val != 0 && data.comlist[i].val != null){
                         if(data.comlist[i].val == 1){
                             output += "<h5><b>Extent: </b> <u>Full Discipline</u> </h5>";
@@ -244,9 +245,9 @@ $('.panelemp').click(function showModal(){
                             output += "<h5><b>Extent: </b> <u>Half Discipline</u> </h5>";
                         }
                     }
-                    output += "<h5><b>Why: </b>" + data.comlist[i].description + "</h5>";
+                    output += "<div class='row'><div class='col-sm-12'><h5><b>Why: </b></h5><p>" + data.comlist[i].description + "</p>";
                     output += "<h5><b>When: </b>" + data.comlist[i].time + "</h5>";
-                    output += "</div></div>";
+                    output += "</div</div></div></div>";
 
                     $(output).appendTo("#comment-div");
 
@@ -301,6 +302,7 @@ $('.panelemp').click(function showModal(){
         $("#bioform").fadeIn(300);
         $("#profform").fadeIn(300);
         $("#delete-emp").fadeIn(300);
+        $(".delete-btn").fadeIn(200);
     });
 
 
@@ -580,6 +582,7 @@ $("#bioform").on("submit", function(event) {
     var code = $("#code-input").val();
     var bday = $("#bday-input").val();
     var position = $("#position-input").val();
+    var pos_desc = $("#pos_desc-input").val();
     var standing = $("#standing-input").val();
     var about = $("#bio-about").val();
     var developer = $("input[name='status']:checked").val();
@@ -604,6 +607,7 @@ $("#bioform").on("submit", function(event) {
             'phone': phone,
             'bday': bday,
             'about': about,
+            'pos_desc': pos_desc,
             'position': position,
             'standing': standing,
             'developer': developer,
@@ -765,6 +769,16 @@ $("#disform").on("submit", function(event) {
     })
 
 });
+
+function DeleteComment(comment,netid) {
+    if (confirm("Are you sure you want to delete this comment for " + netid + "?") == true) {
+        $("#comment-"+comment).fadeOut(1400)
+    } else {
+
+    }
+
+}
+
 
 $("#delete-emp").click(function(event) {
     event.preventDefault();

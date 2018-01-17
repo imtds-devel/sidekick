@@ -13,6 +13,7 @@
     <div class='hero-cards'>
         {% if employee_list %}
         {% for employee, skills in employee_list %}
+        {% if employee.delete is False %}
         <div class='panelemp panel-default hero-card' id="{{employee.search}}">
             <button type='button' id="b-{{employee.netid}}"
                     class='btn hero-card-button btn-block {{employee.position}} dev_{{employee.developer}}'
@@ -59,6 +60,7 @@
                 </div>
             </button>
         </div>
+        {% endif %}
         {% endfor %}
         {% else %}
         <div class='page-header'>Ain't got none</div>
@@ -318,6 +320,10 @@
             <div class="form-group">
                 <label for="bday-input">Birthday (YYYY-MM-DD): </label>
                 <input id='bday-input' class = 'bio-input' size='20' value=''>
+            </div>
+            <div class="form-group">
+                <label for="pos_desc-input">Position Desc: </label>
+                <input id='pos_desc-input' class = 'bio-input' size='20' value=''>
             </div>
             <div class="form-group">
                 <label for="position-input">Position: </label>
