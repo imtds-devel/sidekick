@@ -596,8 +596,7 @@ overflow:auto;
     min-height:130px;
     height: auto;
     margin: 0px;
-    min-width: auto;
-    width: 100%;
+    width: 99%;
     border: 1px solid darkgrey;
     background: rgba(233,233,233,0.25);
 }

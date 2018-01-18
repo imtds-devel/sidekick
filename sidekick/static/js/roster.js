@@ -30,6 +30,7 @@ $('.panelemp').click(function showModal(){
     color = $(this).find(".m-poscol").text();
     dev = $(this).find(".m-dev").text();
     skills = $(this).find(".m-profs").text();
+
     // These are used more for security reasons to check access
     active_user = $(this).find("#m-activeuser").text();
     manager = $(this).find("#m-mgr").text();
@@ -125,9 +126,10 @@ $('.panelemp').click(function showModal(){
     // Skills and Radar Chart are appended to modal
     $('#skills-div').append(
        "<div class ='row'>"
-     + "<div class='chart col-sm-' data-width='200' data-height='300' data-red='100' data-green='100' data-blue='400' style='margin-top:5px;'>"
-     + "<div class='chartCanvasWrap col-md-7' style='left:5px;'></div>"
-     + "<div class='col-sm-4' id='cur-profs' style='text-align:right;  margin-top: 30px; margin-left: 15px;'>"
+     + "<div class='chart col-xs-5 col-sm-5 col-md-7' data-width='90%' data-height='90%' data-red='100' data-green='100' data-blue='400' style='margin-top:5px;'>"
+     + "<div class='chartCanvasWrap' style='left:5px;'></div>"
+     + "</div>"
+     + "<div class='col-xs-5 col-sm-4 col-md-4' id='cur-profs' style='text-align:right;  margin-top: 30px; margin-left: 15px;'>"
      + "<p><b>Basic Hardware: </b>" + getProf(basic) + "</p>"
      + "<p><b>Adv. Hardware: </b>" + getProf(adv) + "</p>"
      + "<p><b>Field Support: </b>" + getProf(field) + "</p>"
@@ -137,9 +139,7 @@ $('.panelemp').click(function showModal(){
      + "<p><b>Refreshes: </b>" + getProf(ref) + "</p>"
      + "<p><b>Software: </b>" + getProf(soft) + "</p>"
      + "</div>"
-     + "</div>"
-     + "<div id='prof-update' class='col-sm-4' style:'text-align:right'></div>"
-     + "</div>"
+     + "<div id='prof-update' class='col-xs-8 col-sm-7 col-md-4' style:'text-align:right'></div>"
      + "</div>"
     );
 
@@ -235,9 +235,9 @@ $('.panelemp').click(function showModal(){
 
                 $("#comment-div").html(" ");
                 for (i = 0; i < data.comlist.length; i++) {
-                    var output = "<div class='panel comment-panel' id='comment-list-" + i + "'><div class='panel-body'>";
-                    output += "<div class='row'><div class='col-sm-10'><h4><b>Subject: </b></h4><h4>" + data.comlist[i].subject + "</h4></div>";
-                    output += "<div class='col-sm-2'><button type='button' style='display:none' onclick=DeleteComment('list-"+ i + "','"+ netid_1 +"') class='btn delete-btn btn-default btn-sm' id='list-"+i+"'><span class='glyphicon glyphicon-trash'></span> </button></div>"
+                    var output = "<div class='panel comment-panel' id='comment-list-" + data.comlist[i].pk + "'><div class='panel-body'>";
+                    output += "<div class='row'><div class='col-xs-10 col-sm-10 col-md-10'><h4><b>Subject: </b></h4><h4>" + data.comlist[i].subject + "</h4></div>";
+                    output += "<div class='col-xs-2 col-sm-2 col-md-2'><button type='button' style='display:none' onclick=DeleteComment('list-"+ data.comlist[i].pk + "','"+ netid_1 +"') class='btn delete-btn btn-default btn-sm' id='list-"+i+"'><span class='glyphicon glyphicon-trash'></span> </button></div>"
                     if (data.comlist[i].val != 0 && data.comlist[i].val != null){
                         if(data.comlist[i].val == 1){
                             output += "<h5><b>Extent: </b> <u>Full Discipline</u> </h5>";
@@ -245,7 +245,7 @@ $('.panelemp').click(function showModal(){
                             output += "<h5><b>Extent: </b> <u>Half Discipline</u> </h5>";
                         }
                     }
-                    output += "<div class='row'><div class='col-sm-12'><h5><b>Why: </b></h5><p>" + data.comlist[i].description + "</p>";
+                    output += "<div class='row'><div class='col-xs-12 col-sm-12 col-md-12'><h5><b>Why: </b></h5><p>" + data.comlist[i].description + "</p>";
                     output += "<h5><b>When: </b>" + data.comlist[i].time + "</h5>";
                     output += "</div</div></div></div>";
 
@@ -771,12 +771,34 @@ $("#disform").on("submit", function(event) {
 });
 
 function DeleteComment(comment,netid) {
-    if (confirm("Are you sure you want to delete this comment for " + netid + "?") == true) {
-        $("#comment-"+comment).fadeOut(1400)
-    } else {
-
+    if (confirm("Are you sure you want to delete this comment for " + comment.slice(5) + "?") == true) {
+        $("#comment-"+comment).fadeOut(1600)
+        setTimeout(DeleteCommentAJAX(comment,netid), 2000);
     }
+}
 
+function DeleteCommentAJAX(comment,netid){
+
+        var del_comment = comment.slice(5)
+        var about = netid
+
+        $.ajax({
+            url: 'ajax/deletecomment/',
+            type: 'POST',
+            data: {
+                'about': about,
+                'del_comment': del_comment
+            },
+            dataType: 'json',
+            success: function(data){
+                console.log(data)
+                alert("Comment has been deleted!")
+            },
+            error: function(data){
+                console.log("Failure to delete comment!")
+                console.log(data)
+            }
+        })
 }
 
 

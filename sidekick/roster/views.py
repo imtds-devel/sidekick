@@ -337,6 +337,7 @@ def get_comments(request):
     translated_comments = comments.values('about_id', 'subject', 'val', 'time', 'description')
 
     translated_comments = [{
+        'pk': comment.id,
         'about_id': comment.about_id,
         'subject': comment.subject,
         'val': comment.val,
@@ -369,6 +370,47 @@ def get_trophies(request):
     }
 
     return JsonResponse(data)
+
+
+def delete_comment(request):
+    # Make sure it's a post request
+    if not request.method == 'POST':
+        return HttpResponse(
+            json.dumps({"status": "Failed!"}),
+            content_type="application/json"
+        )
+
+    # Make sure the user has proper access rights to do this
+    request = views.get_current_user(request)
+    deleter = request.user
+    about = request.POST.get('about', None)
+    disc_id = request.POST.get('del_comment', None)
+
+    if about is not None:
+        emp = Employees.objects.get(netid=deleter)
+        if emp.position == 'llt':
+            access_area = 'roster_modfb_lab'
+        else:
+            access_area = 'roster_modfb_all'
+        print(access_area)
+    else:
+        return HttpResponse(
+            json.dumps({"status": "Failed! About netid not found"}),
+            content_type="application/json"
+        )
+
+    if not get_access(deleter, access_area):
+        return HttpResponse(
+            json.dumps({"status": "Failed! User does not have access"}),
+            content_type="application/json"
+        )
+
+    # Construct discipline object
+    Discipline.objects.get(id=disc_id).delete()
+    return HttpResponse(
+        json.dumps({"status": "Comment successfully deleted!"}),
+        content_type="application/json"
+    )
 
 
 def delete_employee(request):
@@ -416,7 +458,7 @@ def delete_employee(request):
 
 # Helper Functions
 def prep_context():
-    employee_list = Employees.objects.all().order_by('lname')
+    employee_list = Employees.objects.filter(delete=False).order_by('lname')
     empform = EmployeeForm()
     comform = CommentForm()
     starform = StarForm()

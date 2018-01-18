@@ -13,7 +13,6 @@
     <div class='hero-cards'>
         {% if employee_list %}
         {% for employee, skills in employee_list %}
-        {% if employee.delete is False %}
         <div class='panelemp panel-default hero-card' id="{{employee.search}}">
             <button type='button' id="b-{{employee.netid}}"
                     class='btn hero-card-button btn-block {{employee.position}} dev_{{employee.developer}}'
@@ -60,7 +59,6 @@
                 </div>
             </button>
         </div>
-        {% endif %}
         {% endfor %}
         {% else %}
         <div class='page-header'>Ain't got none</div>
@@ -98,18 +96,22 @@
                     <div class='tab-content tab-card'>
                         <div id='emp-home' class='modal-body hero-bio tab-pane fade in active'>
                             <div class="row">
-                                <div class="col-md-4" style="height: 20%">
+                                <div class="col-xs-6 col-md-4 " style="height: 20%">
                                     <img id='pic-standin' src='pic' class='img-circle img-herobio'>
                                 </div>
-                                <div class='col-md-8' id='bio-div' style="text-align:right">
-                                    <div id='bio-update' style="text-align:right">
+                                <div class='col-xs-4 col-md-8 ' id='bio-div' style="text-align:right">
+                                    <div id='bio-update'>
                                     </div>
                                 </div>
                             </div>
-                            <div class="award-text"><h3>Awards</h3></div>
-                            <div class="panel trophy-modal">
-                                <div class="panel-body">
-                                    <div id="trophy-m" class="trophy-wrap"></div>
+                            <div class="row">
+                                <div class="award-text col-xs-12 col-sm-12 col-md-12"><h3>Awards</h3></div>
+                            </div>
+                            <div class="row">
+                                <div class="panel trophy-modal col-xs-12 col-sm-12 col-md-12">
+                                    <div class="panel-body">
+                                        <div id="trophy-m" class="trophy-wrap"></div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -118,12 +120,12 @@
                         {% if user_netid|has_access:"roster_modfb_all" or "roster_modfb_lab"%}
                         <div id='emp-comment' class='modal-body hero-bio tab-pane fade'>
                             <div class="row">
-                                <div class='col-md-6'>
+                                <div class='col-md-6 col-xs-6'>
                                     <h4 style='text-align: left; margin-left: 100px;' class='modal-title'><b>Comments</b></h4>
                                     <div id="comment-div" class="panel-default" style='height: 328px; overflow-y: auto; margin-top:5px'>
                                     </div>
                                 </div>
-                                <div class='col-md-6'>
+                                <div class='col-md-6 col-xs-6'>
                                     <panel class="comment-button" style='margin:7px' id='starpanel'>Award</panel>
                                     <panel class="comment-button" style='margin:7px' id='companel'>Comment</panel>
                                     <panel class="comment-button" style='margin:7px' id='dispanel'>Discipline</panel>
@@ -136,16 +138,16 @@
                     <div class='modal-footer'>
                         <div class="row">
                             {% if user_netid|has_access:"roster_modfb_all" %}
-                            <div class="col-md-1">
+                            <div class="col-md-1 col-xs-2">
                                 <button type='button' id="delete-emp" class='btn btn-danger' style="display:none">
                                     <span class="glyphicon glyphicon-warning-sign"></span> Delete
                                 </button>
                             </div>
-                            <div class="col-md-9">
+                            <div class="col-md-9 col-xs-8">
                                 <button type='button' id="edit-btn" class='btn btn-info'>Edit</button>
                             </div>
                             {% endif %}
-                            <div class="col-sm-2">
+                            <div class="col-md-2 col-xs-2">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                             </div>
                         </div>
