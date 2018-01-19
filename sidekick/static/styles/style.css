@@ -313,6 +313,7 @@
   margin-right: 5;
 
   height: 90%;
+  width: 500px;
 }
 
 .e-subject{
@@ -711,10 +712,10 @@ overflow:auto;
 {
     background-color: white;
 }
-input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
 
-  -webkit-appearance: none; 
+  -webkit-appearance: none;
   margin: 0;
 }
 .required-field
@@ -735,7 +736,7 @@ input[type=number]::-webkit-outer-spin-button {
 .shift-btn
 {
     border-radius: 4px;
-    border: lightgray 2px solid;    
+    border: lightgray 2px solid;
     background-color: white;
     transition: all linear 0.2s;
 }
@@ -808,7 +809,7 @@ input[type=number]::-webkit-outer-spin-button {
 
 .spaced-radio-btn {
     margin-left: 10px;
-    margin-right: 10px;    
+    margin-right: 10px;
 }
 .align-left {
     float: left;

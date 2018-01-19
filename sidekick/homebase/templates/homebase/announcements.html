@@ -59,10 +59,9 @@
 
     <div class="row homebase-row">
     <div class="col-md-6">
-      <div class="panel-group">
-      <div class="panel panel-default homebase-group">
+      <div class="card homebase-group">
 
-        <div class="panel-heading app-head">Announcements and Events
+        <div class="card-header app-head">Announcements and Events
             {% if user_netid|has_access:"announcements_canedit" %}
             <div data-toggle="modal" data-target="#announcement-modal" class="button-box">
               <span class="glyphicon glyphicon-plus" id="new-icon"></span>
@@ -70,7 +69,7 @@
             {% endif %}
         </div>
 
-              <div class="panel-body scrollable">
+              <div class="card-block scrollable">
 
               {% if ordered_list %}
                 {% for post in ordered_list %}
@@ -106,8 +105,6 @@
               </div>
 
             </div>
-
-        </div>
 
         </div>
       </div>

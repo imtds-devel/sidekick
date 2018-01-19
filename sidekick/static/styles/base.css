@@ -20,9 +20,10 @@ font-family: 'Raleway', Sans Serif;
 padding: 0rem 0.5rem;
 font-size: 3rem;
 }
+.navbar-brand{
+  background-color: red;
+}
 .navbar-nav a
 {
 transition: all ease 0.3s;
 }
-
-
