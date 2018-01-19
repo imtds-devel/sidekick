@@ -1,0 +1,64 @@
+/* CSS for the printer info page */
+
+
+
+.printer-area
+{
+    width: 750px;
+    height: 400px;
+    margin-bottom: 30px;
+    display: inline-block-fixed;
+
+}
+.printer-card
+{
+    width: 175px;
+    height: 300px;
+    margin: 10px;
+    display: inline-block;
+    margin-bottom: 50px;
+    justify-content: center;
+}
+.printer-bio
+{
+    text-align: right;
+}
+.printer-button
+{
+    width: 100px;
+    height: 100px;
+    border-radius: 4px;
+    border: #A0A0A0 2px solid;
+    direction: right;
+    display: block-inline;
+    background-color: #BEBEBE !important;
+    transition: all linear 0.2s;
+}
+.panel-printer-btn
+{
+    cursor:hand;
+    transition: all linear 0.2s;
+    height: 215px;
+    width: 175px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+}
+.panel-printer-btn:hover
+{
+    box-shadow: 0px 0px 8px #666666;
+}
+.printer-hov-button:hover
+{
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+.img-printer
+{
+    max-height: 325px;
+    max-width: 175px;
+}
+.print-log{
+    border-color: black;
+    border-bottom: solid;
+    border-style: solid;
+}

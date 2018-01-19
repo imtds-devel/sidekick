@@ -1,0 +1,180 @@
+/* CSS for the roster page */
+
+.e_desc
+{
+    text-align:right;
+    max-width:151px;
+}
+.e_field
+{
+    margin:0 0 2px;
+}
+
+/* CSS for bio cards, many of these recolor employee types for positions */
+
+.hero-cards
+{
+display:flex;
+flex-direction:row;
+flex-wrap:wrap;
+max-height:90%;
+overflow:auto;
+}
+.hero-card
+{
+    max-width: 306px;
+    max-height: 138px;
+    margin-left: 6px;
+    display: inline-block;
+    margin-bottom: 6px;
+}
+.spt
+{
+    background-color: #BEBEBE !important;
+}
+.sst
+{
+    background-color:#AFFFAF !important;
+}
+.llt
+{
+    background-color: #C4ADFF !important;
+}
+.mgr
+{
+    background-color: #AADAFF !important;
+}
+.stt
+{
+    background-color:#FFECA1 !important;
+}
+.stm
+{
+    background-color:#FFB1B1 !important;
+}
+.dev_True
+{
+    border: orange 2px solid !important;
+}
+
+/* CSS for expanded hero cards */
+.img-herobio
+{
+    display: block;
+    margin-bottom: -150px;
+    height: 185px;
+    width: 185px;
+    border: 2px #b3b3b3 solid;
+}
+
+.new-user-btn
+{
+    height: 136px;
+    width: 306px;
+    background-color: #BEBEBE !important;
+    overflow: hidden;
+}
+.plus-wrap
+{
+    display: flex;
+    justify-content: center;
+    align-items:center;
+}
+.new-plus
+{
+    height: 96px;
+    width:96px;
+}
+.trophy-wrap
+{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.award-text{
+    width: 100%;
+    text-align: center;
+    margin-top: -20px;
+}
+.comment-panel
+{
+    border: 1px solid darkgrey;
+    padding: 2px;
+    width: 255px;
+}
+.trophy-modal
+{
+    display:flex;
+    flex-direction:row;
+    overflow: auto;
+    bottom: 0px;
+    min-height:130px;
+    height: auto;
+    margin: 0px;
+    min-width: auto;
+    width: 100%;
+    border: 1px solid darkgrey;
+    background: rgba(233,233,233,0.25);
+}
+.comment-button
+{
+    cursor:hand;
+    transition: all linear 0.2s;
+    height: 5px;
+    width: 5px;
+    border-radius: 2px;
+    display: flex-inline-block;
+    align-items: center;
+    padding: 3px;
+    border: 1px solid darkgrey;
+    background-color: #dbe5ec;
+}
+.comment-button:hover
+{
+    box-shadow: 0px 0px 8px #666666;
+}
+.comment-button-hov-button:hover
+{
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+.trophy
+{
+    margin:3px;
+}
+.trophy-img
+{
+    height: 40px;
+    width: 40px;
+    border-radius: 3px;
+}
+
+.hero-bio
+{
+    text-align: left;
+}
+#comform
+{
+    margin:0px;
+}
+.hero-card-button
+{
+    border-radius: 4px;
+    border: #A0A0A0 2px solid;
+    background-color: white;
+    transition: all linear 0.2s;
+}
+.hero-card-button:hover
+{
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+.img-herocard
+{
+    height: 87px;
+    width: 87px;
+}
+
+.tab-card
+{
+    min-height:388px;
+    min-width:600px;
+}
