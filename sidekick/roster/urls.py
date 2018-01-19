@@ -4,13 +4,13 @@ from . import views
 app_name = 'roster'
 urlpatterns = [
     url(r'^$', views.index, name='index'),
-    url(r'^ajax/postaward/', views.post_award),
-    url(r'^ajax/postcomment/', views.post_comment),
-    url(r'^ajax/postdiscipline/', views.post_discipline),
-    url(r'^ajax/getcomments/', views.get_comments),
-    url(r'^ajax/gettrophies/', views.get_trophies),
-    url(r'^ajax/updatebio/', views.update_bio),
-    url(r'^ajax/updateprof/', views.update_prof),
-    url(r'^ajax/deleteemployee/', views.delete_employee),
-    url(r'^ajax/deletecomment/', views.delete_comment)
+    url(r'^ajax/awardpost/', views.post_award),
+    url(r'^ajax/awardsget/', views.get_trophies),
+    url(r'^ajax/commentpost/', views.post_comment),
+    url(r'^ajax/commentsget/', views.get_comments),
+    url(r'^ajax/commentdelete/', views.delete_comment),
+    url(r'^ajax/disciplinepost/', views.post_discipline),
+    url(r'^ajax/employeeupdate/', views.update_bio),
+    url(r'^ajax/employeedelete/', views.delete_employee),
+    url(r'^ajax/proficienciesupdate/', views.update_prof)
 ]

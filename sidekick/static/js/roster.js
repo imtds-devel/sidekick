@@ -10,7 +10,7 @@ $(document).ready(function(){
      });
 });
 
-// Upon panel click, function of Modal population initiates
+// Upon panel click with panelemp class, function of Modal population initiates
 $('.panelemp').click(function showModal(){
 
     // Grab all info from HTML load for each employee
@@ -61,13 +61,13 @@ $('.panelemp').click(function showModal(){
         ref = 0
         soft = 0
     }
-
+    // Conditional for if the employee is a developer
     if (developer == "True"){
         developer = true
     } else{
         developer = false
     }
-
+    // Conditional if someone has not input their phone number or birthday to not let DB break
     if (birthday == 'None' || notnicephone == 'None'){
         birthday = null
         notnicephone == null
@@ -177,7 +177,6 @@ $('.panelemp').click(function showModal(){
         var day = bday.split("/")[1]
         var year = bday.split("/")[2]
         bday = year + "-" + month + "-" + day;
-
     $('#fname-input').attr('value', fname);
     $('#lname-input').attr('value', lname);
     $('#phone-input').attr('value', notnicephone);
@@ -194,7 +193,7 @@ $('.panelemp').click(function showModal(){
     $.ajax({
         method: "GET",
         dataType: "json",
-        url: 'ajax/gettrophies/',
+        url: 'ajax/awardsget/',
         dataType: 'json',
         data: {
             'netid': netid_1,
@@ -209,7 +208,7 @@ $('.panelemp').click(function showModal(){
                     output += "<img class='trophy-img' src='/static/" + data.trophlist[i].url + "'></a>";
                     $(output).appendTo("#trophy-m");
             }
-
+            // Allows for hover effect over each trophy
             $('[data-toggle="popover"]').popover();
         },
         error: function(data){
@@ -223,7 +222,7 @@ $('.panelemp').click(function showModal(){
     $.ajax({
         method: "GET",
         dataType: "json",
-        url: 'ajax/getcomments/',
+        url: 'ajax/commentsget/',
         dataType: 'json',
         data: {
            'netid': netid_1,
@@ -572,9 +571,10 @@ $("#searchbar").keyup(function () {
     }
 });
 
+// AJAX call for when someone submits and update to someone's bio
 $("#bioform").on("submit", function(event) {
     event.preventDefault();
-
+    // Variable collection according the values input to form
     var fname = $("#fname-input").val();
     var lname = $("#lname-input").val();
     var phone = $("#phone-input").val();
@@ -586,18 +586,15 @@ $("#bioform").on("submit", function(event) {
     var standing = $("#standing-input").val();
     var about = $("#bio-about").val();
     var developer = $("input[name='status']:checked").val();
-
+    // Convert developer input back to a string
     if (developer == "True"){
         developer = "True"
     } else{
         developer = "False"
     }
 
-    console.log(developer)
-
-
     $.ajax({
-        url: 'ajax/updatebio/',
+        url: 'ajax/employeeupdate/',
         type: 'POST',
         data: {
             'fname': fname,
@@ -626,10 +623,10 @@ $("#bioform").on("submit", function(event) {
         }
     })
 });
-
+// AJAX call for when proficiencies are updated for employee
 $("#profform").on("submit", function(event) {
     event.preventDefault();
-
+    // Variables are collected from form according to input values
     var basic = $("#basic-input").val();
     var adv = $("#adv-input").val();
     var field = $("#field-input").val();
@@ -642,7 +639,7 @@ $("#profform").on("submit", function(event) {
 
 
     $.ajax({
-        url: 'ajax/updateprof/',
+        url: 'ajax/proficienciesupdate/',
         type: 'POST',
         data: {
             'basic': basic,
@@ -680,7 +677,7 @@ $("#starform").on("submit", function(event) {
     var recip = $("#recipient").val();
 
     $.ajax({
-        url: 'ajax/postaward/',
+        url: 'ajax/awardpost/',
         type: 'POST',
         data: {
             'name': short,
@@ -711,7 +708,7 @@ $("#comform").on("submit", function(event) {
     var about = $("#comm-about").val();
 
     $.ajax({
-        url: 'ajax/postcomment/',
+        url: 'ajax/commentpost/',
         type: 'POST',
         data: {
             'subject': subject,
@@ -746,7 +743,7 @@ $("#disform").on("submit", function(event) {
     console.log(extent)
 
     $.ajax({
-        url: 'ajax/postdiscipline/',
+        url: 'ajax/disciplinepost/',
         type: 'POST',
         data: {
             'subject': subject,
@@ -769,21 +766,23 @@ $("#disform").on("submit", function(event) {
     })
 
 });
-
+// Function to confirm the deletion of a comment
 function DeleteComment(comment,netid) {
-    if (confirm("Are you sure you want to delete this comment for " + comment.slice(5) + "?") == true) {
+    // Conditional for if confirmed, AJAX call is initiated AFTER comment fades out
+    if (confirm("Are you sure you want to delete this comment for " + netid + "?") == true) {
+        // Receives the comment primary key from DB and deletes accordingly
         $("#comment-"+comment).fadeOut(1600)
         setTimeout(DeleteCommentAJAX(comment,netid), 2000);
     }
 }
-
+// AJAX call for when comment is deleted
 function DeleteCommentAJAX(comment,netid){
 
         var del_comment = comment.slice(5)
         var about = netid
 
         $.ajax({
-            url: 'ajax/deletecomment/',
+            url: 'ajax/commentdelete/',
             type: 'POST',
             data: {
                 'about': about,
@@ -801,14 +800,14 @@ function DeleteCommentAJAX(comment,netid){
         })
 }
 
-
+// AJAX call for when Employee deletion is instantiated
 $("#delete-emp").click(function(event) {
     event.preventDefault();
-
+    // This does not delete the row from the DB, but changes the employee column "Delete" to true
     var about = $("#prof-about").val();
 
     $.ajax({
-        url: 'ajax/deleteemployee/',
+        url: 'ajax/employeedelete/',
         type: 'POST',
         data: {
             'about': about,
@@ -829,7 +828,7 @@ $("#delete-emp").click(function(event) {
 
 });
 
-
+// Function that clears cookies from forms to cleanly submit forms
 $(function() {
 
     // This function gets cookie with a given name
