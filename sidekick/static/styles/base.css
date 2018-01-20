@@ -32,20 +32,11 @@ height:90%;
 }
 
 
-.navbar-brand
-{
-font-family: 'Raleway', Sans Serif;
-padding: 0rem 0.5rem;
-font-size: 3rem;
-}
-.navbar-brand{
-  background-color: red;
-}
+
 .navbar-nav a
 {
 transition: all ease 0.3s;
 }
-<<<<<<< HEAD
 
 /* Sidebar Styling */
 .sidebarWrap
@@ -143,5 +134,3 @@ transition: all ease 0.3s;
 {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
-=======
->>>>>>> c24b5c2f278251204e72e877eb1a33413a3cf6b4
