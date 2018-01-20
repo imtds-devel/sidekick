@@ -5,4 +5,8 @@ django-cas-client==1.3.0
 google-api-python-client
 httplib2
 gunicorn
+<<<<<<< HEAD
 jsonpickle
+=======
+jsonpickle
+>>>>>>> 6cf7ff4aba6a8a1b86a3d77d5064bdc6abb453e3

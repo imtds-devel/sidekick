@@ -1,12 +1,12 @@
-#ignore config files
+#ignore files
+.idea
+
+**/node_modules
+**/__pycache__
 **/*.ini
 **/*.pyc
 **/*.json
 **/*.log
-#ignore files
-.idea
-
-**/.vscode
 
 **/node_modules
 **/__pycache__

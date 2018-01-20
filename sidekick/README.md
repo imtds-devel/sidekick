@@ -1,5 +1,5 @@
-# [Project Sidekick](https://sidekick.apu.edu)
-Project Sidekick is a web portal for IMT Device Solutions at APU that offers a shift covers system, a quote creation tool, quick links to helpful tools, and more!
+# [Sidekick](https://sidekick.apu.edu)
+Sidekick is a web portal for IMT Device Solutions at APU that offers a shift covers system, a quote creation tool, quick links to helpful tools, and more!
 
 ## Table of Contents
 
@@ -82,7 +82,7 @@ Sidekick uses the following tools and frameworks:
 * [PostgreSQL Database](https://www.postgresql.org/about/)
 
 ### Documentation
-For information about documentation, please see our [Wiki](https://github.com/azusapacificuniversity/sidekick/wiki)
+For information about documentation, please see our [Wiki](https://github.com/imtds-devel/sidekick/wiki)
 
 ### Versioning
 When possible, Sidekick uses [Semantic Versioning](http://semver.org) for version numbering. 
