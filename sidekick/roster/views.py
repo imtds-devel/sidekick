@@ -51,13 +51,13 @@ def update_bio(request):
             content_type="application/json"
         )
 
-    # Make sure the user has proper access rights to do this
     request = views.get_current_user(request)
     updater = request.user
     about = request.POST.get('about', None)
 
     print(request.user)
 
+    # Make sure the user has proper access rights to do this
     if about is not None:
         emp = Employees.objects.get(netid=updater)
         if emp.position == 'llt':
@@ -102,6 +102,7 @@ def update_bio(request):
     employee.birthday = bday
     employee.developer = developer
 
+    # Update Database
     print(employee)
     employee.save()
     return HttpResponse(
@@ -118,13 +119,13 @@ def update_prof(request):
             content_type="application/json"
         )
 
-    # Make sure the user has proper access rights to do this
     request = views.get_current_user(request)
     updater = request.user
     about = request.POST.get('about', None)
 
     print(request.user)
 
+    # Make sure the user has proper access rights to do this
     if about is not None:
         emp = Employees.objects.get(netid=updater)
         if emp.position == 'llt':
@@ -164,6 +165,7 @@ def update_prof(request):
     profic.refresh = ref
     profic.software = soft
 
+    # Update proficiencies in Database
     print(profic)
     str(profic).save()
     return HttpResponse(
@@ -180,13 +182,13 @@ def post_award(request):
             content_type="application/json"
         )
 
-    # Make sure the user has proper access rights to do this
     request = views.get_current_user(request)
     giver = request.user
     recipient = request.POST.get('recipient', None)
 
     print(request.user)
 
+    # Make sure the user has proper access rights to do this
     if recipient is not None:
         emp = Employees.objects.get(netid=giver)
         if emp.position == 'llt':
@@ -218,6 +220,8 @@ def post_award(request):
         recipient=Employees.objects.get(netid=recipient),
         reason=reason,
     )
+
+    # Post award into Database
     print(award)
     award.save()
     return HttpResponse(
@@ -234,11 +238,11 @@ def post_comment(request):
             content_type="application/json"
         )
 
-    # Make sure the user has proper access rights to do this
     request = views.get_current_user(request)
     poster = request.user
     about = request.POST.get('about', None)
 
+    # Make sure the user has proper access rights to do this
     if about is not None:
         emp = Employees.objects.get(netid=poster)
         if emp.position == 'llt':
@@ -268,6 +272,8 @@ def post_comment(request):
         about=Employees.objects.get(netid=about),
         description=body,
     )
+
+    # Post comment into Database
     print(comment)
     comment.save()
     return HttpResponse(
@@ -284,11 +290,11 @@ def post_discipline(request):
             content_type="application/json"
         )
 
-    # Make sure the user has proper access rights to do this
     request = views.get_current_user(request)
     poster = request.user
     about = request.POST.get('about', None)
 
+    # Make sure the user has proper access rights to do this
     if about is not None:
         emp = Employees.objects.get(netid=poster)
         if emp.position == 'llt':
@@ -314,15 +320,17 @@ def post_discipline(request):
     extent = request.POST.get('extent', None)
 
     # Construct discipline object
-    comment = Discipline(
+    discipline = Discipline(
         subject=subject,
         poster=Employees.objects.get(netid=poster),
         about=Employees.objects.get(netid=about),
         val=extent,
         description=body,
     )
-    print(comment)
-    comment.save()
+
+    # Post discipline into Database
+    print(discipline)
+    discipline.save()
     return HttpResponse(
         json.dumps({"status": "Comment successfully created!"}),
         content_type="application/json"
@@ -334,8 +342,7 @@ def get_comments(request):
 
     comments = Discipline.objects.filter(about_id=netid)
 
-    translated_comments = comments.values('about_id', 'subject', 'val', 'time', 'description')
-
+    # Construct query of comments according to each netid
     translated_comments = [{
         'pk': comment.id,
         'about_id': comment.about_id,
@@ -357,6 +364,7 @@ def get_trophies(request):
 
     trophies = Trophies.objects.filter(recipient=netid)
 
+    # Construct query of awards according to each netid
     translated_trophies = [{
         'giver': str(trophy.giver),
         'reason': str(trophy.reason),
@@ -380,12 +388,12 @@ def delete_comment(request):
             content_type="application/json"
         )
 
-    # Make sure the user has proper access rights to do this
     request = views.get_current_user(request)
     deleter = request.user
     about = request.POST.get('about', None)
     disc_id = request.POST.get('del_comment', None)
 
+    # Make sure the user has proper access rights to do this
     if about is not None:
         emp = Employees.objects.get(netid=deleter)
         if emp.position == 'llt':
@@ -405,7 +413,7 @@ def delete_comment(request):
             content_type="application/json"
         )
 
-    # Construct discipline object
+    # Delete the discipline/comment from the database according to the primary key
     Discipline.objects.get(id=disc_id).delete()
     return HttpResponse(
         json.dumps({"status": "Comment successfully deleted!"}),
@@ -421,11 +429,11 @@ def delete_employee(request):
             content_type="application/json"
         )
 
-    # Make sure the user has proper access rights to do this
     request = views.get_current_user(request)
     poster = request.user
     about = request.POST.get('about', None)
 
+    # Make sure the user has proper access rights to do this
     if about is not None:
         emp = Employees.objects.get(netid=poster)
         if emp.position == 'llt':
@@ -445,7 +453,7 @@ def delete_employee(request):
             content_type="application/json"
         )
 
-    # Construct discipline object
+    # Update the "delete" column in the Database to "True" for the employee
     employee = Employees.objects.get(netid=about)
     employee.delete = True
     print(employee)

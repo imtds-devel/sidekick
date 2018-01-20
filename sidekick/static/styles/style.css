@@ -591,15 +591,17 @@ overflow:auto;
 {
     display:flex;
     flex-direction: row;
-    overflow: auto;
+    resize: 90%;
     bottom: 0px;
     min-height:130px;
-    min-width: 470px;
+    min-width: 40px;
     height: auto;
-    margin: 0px;
-    max-width: 570px;
     border: 1px solid darkgrey;
     background: rgba(233,233,233,0.25);
+}
+.magic-container
+{
+    width: 550px;
 }
 .comment-button
 {

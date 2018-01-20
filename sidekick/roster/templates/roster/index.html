@@ -95,60 +95,66 @@
                     </div>
                     <div class='tab-content tab-card'>
                         <div id='emp-home' class='modal-body hero-bio tab-pane fade in active'>
-                            <div class="row">
-                                <div class="col-xs-6 col-md-4 " style="height: 20%">
-                                    <img id='pic-standin' src='pic' class='img-circle img-herobio'>
-                                </div>
-                                <div class='col-xs-4 col-md-8 ' id='bio-div' style="text-align:right">
-                                    <div id='bio-update'>
+                            <div class="container magic-container">
+                                <div class="row">
+                                    <div class="col-xs-3 col-md-4 " style="height: 20%">
+                                        <img id='pic-standin' src='pic' class='img-circle img-herobio'>
+                                    </div>
+                                    <div class='col-xs-4 col-md-8 ' id='bio-div' style="text-align:right">
+                                        <div id='bio-update'>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="award-text col-xs-12 col-sm-12 col-md-12"><h3>Awards</h3></div>
-                            </div>
-                            <div class="row">
-                                <div class="panel trophy-modal col-xs-12 col-sm-12 col-md-12">
-                                    <div class="panel-body">
-                                        <div id="trophy-m" class="trophy-wrap"></div>
+                                <div class="row">
+                                    <div class="award-text col-xs-12 col-sm-8 col-md-12"><h3>Awards</h3></div>
+                                </div>
+                                <div class="row">
+                                    <div class="panel trophy-modal col-xs-7 col-sm-12 col-md-12">
+                                        <div class="panel-body">
+                                            <div id="trophy-m" class="trophy-wrap"></div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div id='emp-skills' class='tab-pane row fade'>"
+                        <div id='emp-skills' class='tab-pane row fade'>
                         </div>
                         {% if user_netid|has_access:"roster_modfb_all" or "roster_modfb_lab"%}
                         <div id='emp-comment' class='modal-body hero-bio tab-pane fade'>
-                            <div class="row">
-                                <div class='col-md-6 col-xs-6'>
-                                    <h4 style='text-align: left; margin-left: 100px;' class='modal-title'><b>Comments</b></h4>
-                                    <div id="comment-div" class="panel-default" style='height: 328px; overflow-y: auto; margin-top:5px'>
+                            <div class="container magic-container">
+                                <div class="row">
+                                    <div class='col-xs-6 col-sm-4 col-md-6'>
+                                        <h4 style='text-align: left; margin-left: 100px;' class='modal-title'><b>Comments</b></h4>
+                                        <div id="comment-div" class="panel-default" style='height: 328px; overflow-y: auto; margin-top:5px'>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class='col-md-6 col-xs-6'>
-                                    <panel class="comment-button" style='margin:7px' id='starpanel'>Award</panel>
-                                    <panel class="comment-button" style='margin:7px' id='companel'>Comment</panel>
-                                    <panel class="comment-button" style='margin:7px' id='dispanel'>Discipline</panel>
-                                    <div id='comarea' style='height: 299px; overflow-y: auto; margin-top: 5px;'></div>
+                                    <div class='col-xs-7 col-sm-7 col-md-6'>
+                                        <panel class="comment-button" style='margin:12px' id='starpanel'>Award</panel>
+                                        <panel class="comment-button" style='margin:12px' id='companel'>Comment</panel>
+                                        <panel class="comment-button" style='margin:12px' id='dispanel'>Discipline</panel>
+                                        <div id='comarea' style='height: 299px; overflow-y: auto; margin-top: 5px;'></div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         {% endif %}
                     </div>
                     <div class='modal-footer'>
-                        <div class="row">
-                            {% if user_netid|has_access:"roster_modfb_all" %}
-                            <div class="col-md-1 col-xs-2">
-                                <button type='button' id="delete-emp" class='btn btn-danger' style="display:none">
-                                    <span class="glyphicon glyphicon-warning-sign"></span> Delete
-                                </button>
-                            </div>
-                            <div class="col-md-9 col-xs-8">
-                                <button type='button' id="edit-btn" class='btn btn-info'>Edit</button>
-                            </div>
-                            {% endif %}
-                            <div class="col-md-2 col-xs-2">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <div class="container magic-container">
+                            <div class="row">
+                                {% if user_netid|has_access:"roster_modfb_all" %}
+                                <div class="col-xs-1 col-md-1">
+                                    <button type='button' id="delete-emp" class='btn btn-danger' style="display:none">
+                                        <span class="glyphicon glyphicon-warning-sign"></span> Delete
+                                    </button>
+                                </div>
+                                <div class="col-xs-4 col-md-9">
+                                    <button type='button' id="edit-btn" class='btn btn-info'>Edit</button>
+                                </div>
+                                {% endif %}
+                                <div class="col-xs-2 col-md-2">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                </div>
                             </div>
                         </div>
                     </div>

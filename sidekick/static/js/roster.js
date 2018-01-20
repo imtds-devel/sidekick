@@ -125,11 +125,12 @@ $('.panelemp').click(function showModal(){
 
     // Skills and Radar Chart are appended to modal
     $('#skills-div').append(
-       "<div class ='row'>"
-     + "<div class='chart col-xs-5 col-sm-5 col-md-7' data-width='90%' data-height='90%' data-red='100' data-green='100' data-blue='400' style='margin-top:5px;'>"
+       "<div class='container magic-container'"
+     + "<div class ='row'>"
+     + "<div class='chart col-xs-6 col-sm-6 col-md-7' data-width='90%' data-height='90%' data-red='100' data-green='100' data-blue='400' style='margin-top:5px;'>"
      + "<div class='chartCanvasWrap' style='left:5px;'></div>"
      + "</div>"
-     + "<div class='col-xs-5 col-sm-4 col-md-4' id='cur-profs' style='text-align:right;  margin-top: 30px; margin-left: 15px;'>"
+     + "<div class='col-xs-7 col-sm-7 col-md-5' id='cur-profs' style='text-align:right;  margin-top: 30px; margin-left: 15px;'>"
      + "<p><b>Basic Hardware: </b>" + getProf(basic) + "</p>"
      + "<p><b>Adv. Hardware: </b>" + getProf(adv) + "</p>"
      + "<p><b>Field Support: </b>" + getProf(field) + "</p>"
@@ -139,7 +140,8 @@ $('.panelemp').click(function showModal(){
      + "<p><b>Refreshes: </b>" + getProf(ref) + "</p>"
      + "<p><b>Software: </b>" + getProf(soft) + "</p>"
      + "</div>"
-     + "<div id='prof-update' class='col-xs-8 col-sm-7 col-md-4' style:'text-align:right'></div>"
+     + "<div id='prof-update' class='col-xs-7 col-sm-7 col-md-5' style:'text-align:right'></div>"
+     + "</div>"
      + "</div>"
     );
 
