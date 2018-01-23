@@ -204,12 +204,17 @@ logging.config.dictConfig({
         'console': {
             'class': 'logging.StreamHandler',
             'formatter': 'console',
+        },
+        'logfile': {
+            'class': 'logging.FileHandler',
+            'formatter': 'console',
+            'filename': 'sk_log.log'
         }
     },
     'loggers': {
         '': {
             'level': 'WARNING',
-            'handlers': ['console'],
+            'handlers': ['console', 'logfile'],
         },
     },
 })
