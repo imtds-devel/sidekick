@@ -31,6 +31,25 @@ class CoverInstructions:
         return push_cover(self)
 
 
+def push_cover_new(data: CoverInstructions):
+    # Validation
+        # On error: notify user
+
+    # Variable Definitions
+        # On error: notify me, notify user about fail
+
+    # Event Creation
+        # On error: notify me, notify user about fail
+
+    # Synchronization
+        # On error: Notify Me! notify user about fail
+
+    # Update Notifications
+        # On error: notify me and user
+
+    return {"outcome": "Your cover was successfully pushed!"}
+
+
 ##############################################################
 # Main post/take fns
 # Master routing fn (called by CoverInstructions, routes shift covers properly!)
