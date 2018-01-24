@@ -97,7 +97,6 @@ class Employees(models.Model):
         out = "%s%s%s%s%s".lower() % (self.fname, self.netid, self.nice_standing, self.nice_position, self.position)
         return out.lower()
 
-
 class Announcements(models.Model):
     posted = models.DateTimeField(auto_now_add=True)
     announcer = models.ForeignKey('Employees', on_delete=models.CASCADE)

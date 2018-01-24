@@ -296,3 +296,8 @@ def filter_near_shifts(request):
         'shifts': list(translated_shifts)
     }
     return JsonResponse(data)
+
+# Create your views here.
+def index(request):
+    context = {}
+    return views.load_page(request, 'shifts/index.html', context)

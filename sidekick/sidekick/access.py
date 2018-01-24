@@ -55,7 +55,7 @@ def get_spt_access(area):
         "printer_all", "printer_all_edit",
 
         # Roster page
-        # "roster_prof_all",
+        "roster_prof_all",
     ]
     return area in access_list
 

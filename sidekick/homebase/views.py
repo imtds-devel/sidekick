@@ -7,6 +7,8 @@ from shifts.models import Shifts
 import datetime
 import pytz
 
+from homebase.models import Announcements, Events
+from .forms import AnnouncmentForm, EventForm
 
 # Create your views here.
 def index(request):

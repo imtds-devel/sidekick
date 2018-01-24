@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-
 from django.http import HttpResponse, HttpResponseRedirect
+from .models import Employees, Proficiencies, Discipline, Trophies
+from .forms import EmployeeForm, StarForm, CommentForm
 from sidekick import views
-from homebase.models import Employees
-from .models import Proficiencies, Discipline, Trophies
-from .forms import EmployeeForm, StarForm, CommentForm, DisciplineForm
 from sidekick.access import get_access
 import json
 from django.http import JsonResponse
@@ -482,4 +480,12 @@ def prep_context():
         'empform': empform,
         'comform': comform,
         'starform': starform
+    }
+# Helper Functions
+def prep_context():
+    employee_list = Employees.objects.all().order_by('lname')
+    form = EmployeeForm()
+    return {
+        'employee_list': employee_list,
+        'form': form
     }

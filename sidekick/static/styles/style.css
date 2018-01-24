@@ -43,7 +43,6 @@ font-family: 'Raleway', Sans Serif;
   min-width: 60px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
-
 /*Styles the tool to be bigger, maybe there is a better way to do this*/
 .glyphicon.glyphicon-file {
     font-size: 400%;
@@ -100,7 +99,6 @@ font-family: 'Raleway', Sans Serif;
   font-color: blue;
   text-align: center;
 }
-
 /*Overrides the beacon for staff*/
 .staff-beacon-left
 {
@@ -111,8 +109,6 @@ font-family: 'Raleway', Sans Serif;
 {
   height: 360px;
 }
-
-
 .name-holder {
 
 }
@@ -465,7 +461,6 @@ font-family: 'Raleway', Sans Serif;
 {
     margin-left:5px;
 }
-
 .hero-cards
 {
 display:flex;
@@ -517,6 +512,7 @@ overflow:auto;
 #comform
 {
     margin:0px;
+    text-align: right;
 }
 .hero-card-button
 {
@@ -538,6 +534,7 @@ overflow:auto;
 {
     text-align:right;
     max-width:151px;
+    width:151px;
 }
 .e_field
 {
@@ -547,6 +544,7 @@ overflow:auto;
 {
     display: block;
     margin-bottom: -150px;
+    margin-bottom: -185px;
     height: 185px;
     width: 185px;
     border: 2px #b3b3b3 solid;
@@ -733,7 +731,10 @@ overflow:auto;
 input[type=number]::-webkit-inner-spin-button, 
 input[type=number]::-webkit-outer-spin-button {
 
-  -webkit-appearance: none; 
+  -webkit-appearance: none;
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
   margin: 0;
 }
 .required-field
@@ -744,7 +745,6 @@ input[type=number]::-webkit-outer-spin-button {
 {
     display: none;
 }
-
 .tab-card
 {
     min-height:388px;

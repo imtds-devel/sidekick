@@ -47,7 +47,6 @@ class Trophies(models.Model):
 
         return "trophies/%s.gif" % out
 
-
 class Discipline(models.Model):
     subject = models.TextField(default="")
     time = models.DateTimeField(auto_now_add=True)

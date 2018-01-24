@@ -8,9 +8,16 @@ import os
 
 register = template.Library()
 
+<<<<<<< HEAD
 
 @register.filter(name='img_exists')
 def img_exists(filepath):
+=======
+@register.filter(name='img_exists')
+def img_exists(filepath):
+
+
+>>>>>>> develop
     """ # For use if hosting static content in a remote location
 
     try:

@@ -112,3 +112,7 @@ class SyncTokens(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     location = models.CharField(max_length=2)
     token = models.TextField(default="")
+
+from django.db import models
+
+# Create your models here.
