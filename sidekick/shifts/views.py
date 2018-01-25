@@ -47,9 +47,6 @@ def index(request):
     # We import the current time
     now = timezone.now()
 
-    # Synchronize our db with the Google Cal
-    synchronize(flush=False)
-
     # We build our context for the page
     context = {
         "date": now,
