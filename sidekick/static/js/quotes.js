@@ -7,15 +7,15 @@ var subTotal = 0; // Will contain the current subtotal (before tax and shipping)
 var total = 0; // Will contain the current quote total
 var partsCost = 0; // Contains the current subtotal of parts in the quote
 var shippingTotal = 0; // Contains the current total of all shipping in the quote
-var taxRate = .095 // !! Contains the sales tax rate, update this when sales tax changes !! - 9.5% as of Fall 2017
+var taxRate = 0.095; // !! Contains the sales tax rate, update this when sales tax changes !! - 9.5% as of Fall 2017
 var taxPartsCost = 0; // Contains the calculated tax on the part
 var addService; // For use with clicking a service
 var addDiscount; // For use with clicking a discount
 
-$(document).ready(function() {
+$(document).ready(function () {
 
     // When the "Reset Quote" button is pressed, 
-    $('#reset-button').click(function(){
+    $('#reset-button').click(function () {
         $('#quote-items').empty();
         $('#text-quote').empty();
         $('input').val("");
@@ -25,10 +25,10 @@ $(document).ready(function() {
         partsCost = 0;
         shippingTotal = 0;
         taxPartsCost = 0;
-    })
+    });
 
     // When the "Copy Quote to Clipboard" button is pressed 
-    $('#clipboard-button').click(function(){
+    $('#clipboard-button').click(function () {
         // Select the text in the quote        
         document.querySelector('#text-quote').select();        
         // The copy is in a try because some browsers do not support the feature to copy this way
@@ -36,7 +36,7 @@ $(document).ready(function() {
         try {
             document.execCommand('copy');
         } catch (err) {
-            alert("Sorry, your browser does not support this feature!")
+            alert("Sorry, your browser does not support this feature! " + err);
         }
     });
         

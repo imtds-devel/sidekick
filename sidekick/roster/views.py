@@ -481,11 +481,4 @@ def prep_context():
         'comform': comform,
         'starform': starform
     }
-# Helper Functions
-def prep_context():
-    employee_list = Employees.objects.all().order_by('lname')
-    form = EmployeeForm()
-    return {
-        'employee_list': employee_list,
-        'form': form
-    }
+

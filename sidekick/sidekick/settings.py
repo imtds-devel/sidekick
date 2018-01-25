@@ -18,7 +18,21 @@ config.read('config.ini')
 db = config['database']
 static_dir = config['static']
 cal = config['cal_ids']
+debug = config['prod']['debug'] == "True"
+PRODUCTION = config['prod']['prod'] == "True"
 
+if PRODUCTION:
+    print("Using SSL Encryption")
+    SECURE_PROXY_SSL_HEADER = ('HTTPS_X_FORWARDED_PROTO', 'https')
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+else:
+    print("Using standard HTTP")
+    SECURE_PROXY_SSL_HEADER = None
+    SECURE_SSL_REDIRECT = False
+    SESSION_COOKIE_SECURE = False
+    CSRF_COOKIE_SECURE = False
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -30,13 +44,18 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config['prod']['secret_key']
 
+# Location of client_secret.json goes here
+GOOGLE_OAUTH2_CLIENT_SECRETS_JSON = config['google']['client_secret']
+
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = bool(config['prod']['debug'])
+DEBUG = debug
 
 ALLOWED_HOSTS = [
     '192.168.8.33',
     'sidekick.devel.apu.edu',
-    '127.0.0.1'
+    '127.0.0.1',
+    '192.168.8.7',
+    'sidekick.apu.edu',
 ]
 
 
@@ -153,9 +172,12 @@ USE_TZ = False
 
 STATIC_URL = static_dir['url']
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static")
-]
+if PRODUCTION:
+    STATIC_ROOT = os.path.join(BASE_DIR, "static")
+else:
+    STATICFILES_DIRS = [
+        os.path.join(BASE_DIR, "static")
+    ]
 
 # Google Cal Settings
 CALENDAR_LOCATION_IDS = {
@@ -166,4 +188,8 @@ CALENDAR_LOCATION_IDS = {
     'rc': cal['rc'],
     'md': cal['md'],
     'te': cal['te']
+}
+
+LOGGING = {
+
 }

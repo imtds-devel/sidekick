@@ -13,12 +13,14 @@ STATUS_CHOICES = (
     ('down', 'Printer Down!')
 )
 
+
 class Location(models.Model):
     name = models.CharField(max_length=15)
 
     def __str__(self):
         """Returns the reference of the Location Name"""
         return self.name
+
 
 class Printer(models.Model):
     name = models.CharField(max_length=15, default='')                                       # printer name (external)
@@ -33,6 +35,7 @@ class Printer(models.Model):
     def __str__(self):
         """formatted string for printer Location and Print Type"""
         return str(self.location) + " " + str(self.type)
+
 
 class StatusLog(models.Model):
     printer = models.ForeignKey(Printer, on_delete=models.CASCADE)                                   # printer id in database

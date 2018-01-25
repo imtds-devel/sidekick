@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% load sidekick_extras %}
 <!-- Creates a list group and calls modal when clicked-->
 
 
@@ -60,11 +61,12 @@
     <div class="col-md-6">
         <div class="panel-group">
             <div class="panel panel-default homebase-group">
-
                 <div class="panel-heading app-head">Announcements and Events
+                    {% if user_netid|has_access:"announcements_canedit" %}
                     <div data-toggle="modal" data-target="#announcement-modal" class="button-box">
-                        <span class="glyphicon glyphicon-plus" id="new-icon"></span>
+                      <span class="glyphicon glyphicon-plus" id="new-icon"></span>
                     </div>
+                    {% endif %}
                 </div>
 
                 <div class="panel-body scrollable">
@@ -73,12 +75,10 @@
                     {% for post in ordered_list %}
                     {% if post.posted%}
                     <div class="announcement">
-
                         <div class="a-left">
                             <p class="a-subject">{{post.subject}}</p>
                             <p class="a-meta">{{post.announcer}} on {{post.posted}}/p>
                         </div>
-
                         <div class="a-right">
                             <p class="a-description">{{post.announcement}}</p>
                         </div>

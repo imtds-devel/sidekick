@@ -31,3 +31,6 @@ class PassPermission(models.Model):
         choices=PASS_PERM_OPTIONS,
         default='non'
     )
+
+    def __str__(self):
+        return "Pass_Perm for "+str(self.pass_id)+": "+str(self.permission)

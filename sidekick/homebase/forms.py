@@ -5,6 +5,7 @@ from homebase.models import Announcements, Events, StaffStatus
 class DateInput(forms.DateInput):
     input_type = 'date'
 
+
 class AnnouncmentForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(AnnouncmentForm, self).__init__(*args, **kwargs)

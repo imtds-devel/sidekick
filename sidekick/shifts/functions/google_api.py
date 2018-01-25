@@ -1,24 +1,34 @@
 import httplib2
 import os
+<<<<<<< HEAD
 import datetime
 import pytz
+=======
+>>>>>>> develop
 
 from apiclient import discovery
 from oauth2client import client
 from oauth2client import tools
 from oauth2client.file import Storage
 
+<<<<<<< HEAD
 from sidekick.settings import CALENDAR_LOCATION_IDS
 from shifts.models import SyncTokens, Shifts
 from homebase.models import Employees
 from shifts.functions.decorators import async
+=======
+>>>>>>> develop
 
 SCOPES = 'https://www.googleapis.com/auth/calendar'
 CLIENT_SECRET_FILE = 'client_secret.json'
 
 
 def get_refresh_token():
+<<<<<<< HEAD
     flow = client.flow_from_clientsecrets (CLIENT_SECRET_FILE, SCOPES)
+=======
+    flow = client.flow_from_clientsecrets(CLIENT_SECRET_FILE, SCOPES)
+>>>>>>> develop
 
     storage = Storage("store-oauth2.json")
     args = tools.argparser.parse_args([])
@@ -41,8 +51,12 @@ def get_credentials():
     """
     flags = tools.argparser.parse_args([])
 
+<<<<<<< HEAD
     home_dir = os.path.expanduser('~')
     credential_dir = os.path.join(home_dir, '.credentials')
+=======
+    credential_dir = "/var/www/html/.credentials"
+>>>>>>> develop
     if not os.path.exists(credential_dir):
         os.makedirs(credential_dir)
     credential_path = os.path.join(credential_dir,
@@ -50,6 +64,10 @@ def get_credentials():
 
     store = Storage(credential_path)
     credentials = store.get()
+<<<<<<< HEAD
+=======
+
+>>>>>>> develop
     if not credentials or credentials.invalid:
         flow = client.flow_from_clientsecrets(CLIENT_SECRET_FILE, SCOPES)
         if flags:
@@ -66,6 +84,7 @@ def build_service():
     return discovery.build('calendar', 'v3', http=http)
 
 
+<<<<<<< HEAD
 def synchronize(flush: bool):
     if flush:
         print("FLUSHING DATABASE NOW")
@@ -210,3 +229,5 @@ def get_owner_open(title: str):
         return emps.first(), is_open
     else:
         return None, False
+=======
+>>>>>>> develop
