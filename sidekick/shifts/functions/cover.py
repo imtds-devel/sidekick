@@ -1,4 +1,4 @@
-from django.db.models import Q
+from django.db.models import Q, ObjectDoesNotExist
 from django.core.mail import send_mail, send_mass_mail
 from shifts.models import Shifts, Holidays
 from homebase.models import Employees
@@ -28,12 +28,19 @@ class CoverInstructions:
         self.g_service = google_api.build_service()  # build at create time
 
     def push(self):
-        return push_cover(self)
+        return push_cover_new(self)
 
 
 def push_cover_new(data: CoverInstructions):
     # Validation
         # On error: notify user
+    data, outcome = validate_cover(data)
+
+    if outcome != "valid":
+        return {"result": "failed", "description": outcome}
+
+
+
 
     # Variable Definitions
         # On error: notify me, notify user about fail
@@ -47,7 +54,57 @@ def push_cover_new(data: CoverInstructions):
     # Update Notifications
         # On error: notify me and user
 
-    return {"outcome": "Your cover was successfully pushed!"}
+    return {"result": "success", "description": "Your cover was successfully pushed!"}
+
+
+def validate_cover(data: CoverInstructions):
+    outcome = "valid"
+    # Ensure booleans for type indicators
+    data.post = bool(data.post)
+    data.permanent = bool(data.permanent)
+    data.partial = bool(data.partial)
+
+    data.shift_id = str(data.shift_id)
+
+    # Validate actor
+    if not isinstance(data.actor, Employees):
+        outcome = "Bad actor data!"
+        return data, outcome
+
+    # Validate shift (ensure the shift id is valid)
+    shifts = Shifts.objects.filter(event_id__contains=data.shift_id)
+    if len(shifts) == 0:
+        outcome = "Bad shift ID specified"
+        return data, outcome
+
+    if data.partial and (data.start_time or data.end_time):
+        if not isinstance(data.start_time, datetime.datetime) and isinstance(data.end_time, datetime.datetime):
+            outcome = "Start and end times are not datetime objects"
+            return data, outcome
+
+    # Validate start and end times for partial cover or set start/end times for full cover
+    shift = shifts.first()
+    start = shift.shift_start
+    end = shift.shift_end
+
+    if data.partial and data.start_time and data.end_time:
+        if start < data.start_time or end > data.end_time:
+            outcome = "Start and end times are not in acceptable range!"
+            return data, outcome
+
+        # Enforce no 15 minute shift rule
+        fifteen = datetime.timedelta(minutes=15)
+        if data.start_time-start == fifteen or data.end_time-end == fifteen:
+            outcome = "Fifteen minute shifts are not allowed!"
+            return data, outcome
+    elif data.partial:
+        outcome = "Partial start and end times unset"
+        return data, outcome
+    else:
+        data.start_time = start
+        data.end_time = end
+
+    return data, outcome
 
 
 ##############################################################
