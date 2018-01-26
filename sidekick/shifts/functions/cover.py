@@ -77,15 +77,26 @@ def validate_cover(data: CoverInstructions):
         outcome = "Bad shift ID specified"
         return data, outcome
 
-    if data.partial and (data.start_time or data.end_time):
-        if not isinstance(data.start_time, datetime.datetime) and isinstance(data.end_time, datetime.datetime):
-            outcome = "Start and end times are not datetime objects"
-            return data, outcome
+    tz = pytz.timezone("America/Los_Angeles")
+    if data.start_time or data.end_time and data.partial:
+        if not isinstance(data.start_time, datetime.datetime) or not isinstance(data.end_time, datetime.datetime):
+            try:
+                data.start_time = pytz.utc.localize(datetime.datetime.strptime(data.start_time+"UTC", "%Y-%m-%dT%H:%M:%S.000Z%Z"))
+                data.end_time = pytz.utc.localize(datetime.datetime.strptime(data.end_time+"UTC", "%Y-%m-%dT%H:%M:%S.000Z%Z"))
+            except ValueError:
+                outcome = "Invalid partial start and end times"
+                return data, outcome
 
     # Validate start and end times for partial cover or set start/end times for full cover
     shift = shifts.first()
-    start = shift.shift_start
-    end = shift.shift_end
+    start = tz.localize(shift.shift_start)
+    end = tz.localize(shift.shift_end)
+
+    print("Shift start & end times")
+    print(start)
+    print(data.start_time)
+    print(data.end_time)
+    print(end)
 
     if data.partial and data.start_time and data.end_time:
         if start < data.start_time or end > data.end_time:
