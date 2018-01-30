@@ -1,12 +1,3 @@
-<<<<<<< HEAD
-# This function is called when Google Calendars detects an update
-# It synchronizes our database with the various Google Calendars :D
-
-# TODO: Code this!
-
-def sync(request):
-    return "Cool stuff!"
-=======
 from shifts.models import Shifts, SyncTokens
 from homebase.models import Employees
 from .google_api import build_service
@@ -167,4 +158,3 @@ def get_owner_open(title: str):
         return emps.first(), is_open
     else:
         return None, False
->>>>>>> develop
