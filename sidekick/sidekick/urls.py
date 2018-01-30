@@ -13,24 +13,22 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import include, url
+from django.urls import include, path
 from django.contrib import admin
 from django.views.generic import RedirectView
 from django.conf import settings
 from django.conf.urls.static import static
 from cas import views
-from shifts.functions import sync
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'^$', RedirectView.as_view(url=('homebase/'))),
-    url(r'^homebase/', include('homebase.urls')),
-    url(r'^passwords/', include('passwords.urls')),
-    url(r'^printinfo/', include('printinfo.urls')),
-    url(r'^quotes/', include('quotes.urls')),
-    url(r'^roster/', include('roster.urls')),
-    url(r'^shifts/', include('shifts.urls')),
-    url(r'^accounts/login/$', views.login, name='login'),
-    url(r'^accounts/logout/$', views.logout, name='logout'),
-
+    path('admin/', admin.site.urls),
+    path('', RedirectView.as_view(url=('homebase/'))),
+    path('homebase/', include('homebase.urls')),
+    path('passwords/', include('passwords.urls')),
+    path('printinfo/', include('printinfo.urls')),
+    path('quotes/', include('quotes.urls')),
+    path('roster/', include('roster.urls')),
+    path('shifts/', include('shifts.urls')),
+    path('accounts/login/', views.login, name='login'),
+    path('accounts/logout/', views.logout, name='logout'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
