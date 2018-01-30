@@ -30,7 +30,6 @@ class CoverInstructions:
     def push(self):
         return push_cover(self)
 
-
 ##############################################################
 # Main post/take fns
 # Master routing fn (called by CoverInstructions, routes shift covers properly!)
@@ -115,7 +114,6 @@ def partial_cover(data: CoverInstructions):
     if first is None:
         print("Shift does not exist!")
         return "Failed: Shift does not exist in db"
-
     location = first.location
     cal_id = CALENDAR_LOCATION_IDS[location]
     old_event_id = first.permanent_id
@@ -194,7 +192,6 @@ def partial_cover(data: CoverInstructions):
     print(new_events)
 
     return shift_email(data)
-
 
 # Return the duration of an event in minutes!
 def get_duration(event):

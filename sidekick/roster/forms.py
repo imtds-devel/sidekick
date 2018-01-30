@@ -4,7 +4,6 @@ from .models import Discipline
 from .models import Trophies
 
 
-
 class EmployeeForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(EmployeeForm, self).__init__(*args, **kwargs)
@@ -44,3 +43,4 @@ class DisciplineForm(forms.ModelForm):
     class Meta:
         model = Discipline
         fields = ('subject', 'poster', 'about', 'description', 'val')
+
