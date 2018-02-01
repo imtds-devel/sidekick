@@ -118,7 +118,7 @@ def update_prof(request):
         )
 
     request = views.get_current_user(request)
-    updater = request.user
+    updater = str(request.user)
     about = request.POST.get('about', None)
 
     print(request.user)
@@ -165,7 +165,7 @@ def update_prof(request):
 
     # Update proficiencies in Database
     print(profic)
-    str(profic).save()
+    profic.save()
     return HttpResponse(
         json.dumps({"status": "Proficiencies successfully updated!"}),
         content_type="application/json"
