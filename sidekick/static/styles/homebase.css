@@ -42,7 +42,7 @@
     border-top-left-radius: 0%;
     z-index: 0;
   }
-  
+
 .beacon-left{
     width: 22%;
     display:flex;
@@ -61,19 +61,19 @@
     z-index: 1;
     padding-top: 5%;
   }
-  
+
 .beacon-location{
     font-size: 22px;
     font-color: blue;
     text-align: center;
   }
-  
+
   /*Overrides the beacon for staff*/
 .staff-beacon-left
   {
     height: 360px;
   }
-  
+
   .staff-beacon-right
   {
     height: 360px;
@@ -86,7 +86,7 @@
     min-width: 60px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   }
-  
+
   /* When a shift is open, we make the employee picture slightly transparent */
 .pic-open-shift{
     opacity: 0.5;
@@ -157,7 +157,7 @@ color: white;
     align-items: center;
     justify-content: center;
   }
-  
+
   .create-e{
     font-size: 14px;
     padding-right: 10px;
@@ -173,12 +173,12 @@ color: white;
     align-items: center;
     justify-content: center;
 }
-  
+
   .create-a:hover{
     background-color: #9692A0;
     color: white;
 }
-  
+
   .create-e:hover{
     background-color: #9692A0;
     color: white;
@@ -191,7 +191,7 @@ color: white;
     margin: 5px;
     position: relative;
 }
-  
+
 .add-a-e span{
     color: white;
     position: absolute;
@@ -204,7 +204,7 @@ color: white;
     top: 50%;                         /* 3 */
     transform: translate(0, -50%)
   }
-  
+
   .a-left{
     width: 32%;
     background: #548E8E;
@@ -220,7 +220,7 @@ color: white;
     z-index: 1;
     padding-top: 5%;
   }
-  
+
   .event {
     display: flex;
     margin-left: 2px;
@@ -248,7 +248,7 @@ color: white;
     top: 50%;                         /* 3 */
     transform: translate(0, -50%)
   }
-  
+
   .e-left{
     width: 32%;
     background: #3C4934;
@@ -291,7 +291,7 @@ color: white;
     top: 50%;                         /* 3 */
     transform: translate(0, -50%)
   }
-  
+
   .a-left{
     width: 32%;
     background: #548E8E;
@@ -307,7 +307,7 @@ color: white;
     z-index: 1;
     padding-top: 5%;
   }
-  
+
   .event {
     display: flex;
     margin-left: 2px;
@@ -335,7 +335,7 @@ color: white;
     top: 50%;                         /* 3 */
     transform: translate(0, -50%)
   }
-  
+
   .e-left{
     width: 32%;
     background: #3C4934;
@@ -352,41 +352,41 @@ color: white;
     padding-top: 5%;
   }
 
-  
+
 .e-subject{
     font-size: 22px;
     font-color: blue;
     text-align: center;
   }
-  
+
   .e-meta{
     font-size: 12px;
     font-color: black;
     text-align: center;
   }
-  
+
   .e-description{
     font-size: 16px;
     text-align: center;
   }
-  
+
   .a-subject{
     font-size: 22px;
     font-color: blue;
     text-align: center;
   }
-  
+
   .a-meta{
     font-size: 12px;
     font-color: black;
     text-align: center;
   }
-  
+
   .a-description{
     font-size: 16px;
     text-align: center;
   }
-  
+
   .newsletter{
     background-color: #ADD8E6;
     position: absolute;
@@ -394,9 +394,3 @@ color: white;
     width: 98%;
     text-align: center;
   }
-  
-  
-  
-  
-
-  

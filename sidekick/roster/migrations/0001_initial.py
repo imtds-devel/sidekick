@@ -11,7 +11,7 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('homebase', '0003_auto_20170816_1250'),
+        ('homebase', '0001_initial'),
     ]
 
     operations = [

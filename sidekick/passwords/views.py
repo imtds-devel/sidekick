@@ -22,7 +22,7 @@ def index(request):
         access_areas.append('all')
 
     # Next, get a list of passwords based off of that list
-    
+
     passwords = []
     for area in access_areas:  # for each access area
         # get all passwords the current area is authorized to access
@@ -33,8 +33,4 @@ def index(request):
 
     context['passwords'] = passwords
 
-<<<<<<< HEAD
     return views.load_page(request, 'passwords/index.html', context)
-=======
-    return views.load_page(request, 'passwords/index.html', context)
->>>>>>> develop
