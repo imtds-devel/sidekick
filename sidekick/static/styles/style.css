@@ -44,7 +44,6 @@ padding-left: 0.5rem;
   min-width: 60px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
-
 /*Styles the tool to be bigger, maybe there is a better way to do this*/
 .glyphicon.glyphicon-file {
     font-size: 400%;
@@ -101,7 +100,6 @@ padding-left: 0.5rem;
   font-color: blue;
   text-align: center;
 }
-
 /*Overrides the beacon for staff*/
 .staff-beacon-left
 {
@@ -112,8 +110,6 @@ padding-left: 0.5rem;
 {
   height: 360px;
 }
-
-
 .name-holder {
 
 }
@@ -466,7 +462,6 @@ padding-left: 0.5rem;
 {
     margin-left:5px;
 }
-
 .hero-cards
 {
 display:flex;
@@ -518,6 +513,7 @@ overflow:auto;
 #comform
 {
     margin:0px;
+    text-align: right;
 }
 .hero-card-button
 {
@@ -539,6 +535,7 @@ overflow:auto;
 {
     text-align:right;
     max-width:151px;
+    width:151px;
 }
 .e_field
 {
@@ -548,6 +545,7 @@ overflow:auto;
 {
     display: block;
     margin-bottom: -150px;
+    margin-bottom: -185px;
     height: 185px;
     width: 185px;
     border: 2px #b3b3b3 solid;
@@ -591,16 +589,18 @@ overflow:auto;
 .trophy-modal
 {
     display:flex;
-    flex-direction:row;
-    overflow: auto;
+    flex-direction: row;
+    resize: 90%;
     bottom: 0px;
     min-height:130px;
+    min-width: 40px;
     height: auto;
-    margin: 0px;
-    min-width: auto;
-    width: 100%;
     border: 1px solid darkgrey;
     background: rgba(233,233,233,0.25);
+}
+.magic-container
+{
+    width: 550px;
 }
 .comment-button
 {
@@ -729,7 +729,11 @@ overflow:auto;
 {
     background-color: white;
 }
-input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
+input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
 
   -webkit-appearance: none; 
@@ -743,7 +747,6 @@ input[type=number]::-webkit-outer-spin-button {
 {
     display: none;
 }
-
 .tab-card
 {
     min-height:388px;
