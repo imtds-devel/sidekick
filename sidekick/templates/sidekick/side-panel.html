@@ -5,10 +5,13 @@
     <div class="panel panel-default">
         <div class="panel-heading"><h4>MoD Tracker</h4></div>
         <div class="panel-body">
-            <div class="carousel slide modTrack" id="modCarousel">
-
-                <div class="carousel-inner" role="listbox">
-                    <div class="item active">
+            <div class="carousel slide modTrack" id="modCarousel" data-ride='carousel'>
+                <ul class="carousel-indicators">
+                        <li data-target="#modCarousel" data-slide-to="0" class="active"></li>
+                        <li data-target="#modCarousel" data-slide-to="1"></li>
+                </ul>
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
                         <div class="media curMoD">
                             {% if curr_mod %}
                             <div class="media-left">
@@ -24,10 +27,9 @@
                                 <p>Try the MoD phone or Slack!</p>
                             </div>
                             {% endif %}
+                            </div>
                         </div>
-                    </div>
-
-                    <div class="item">
+                    <div class="carousel-item">
                         <div class="media nextMoD">
                             {% if next_mod %}
                             <div class="media-left">
@@ -46,9 +48,11 @@
                         </div>
                     </div>
                 </div>
-                <a class="right carousel-control modTrack modNext" href="#modCarousel" role="button" data-slide="next">
-                    <span class="icon-next" id="modNextIcon"> </span>
-                    <span class="sr-only">Next</span>
+                <a class="carousel-control-prev" href="#modCarousel" data-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                </a>
+                <a class="carousel-control-next" href="#modCarousel" data-slide="next">
+                    <span class="carousel-control-next-icon"></span>
                 </a>
             </div>
         </div>
