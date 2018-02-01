@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> develop
 <!-- Load our static files, this is for bootstrap, images, and our icon :) -->
 {% load staticfiles %}
 
@@ -12,12 +16,22 @@
             <meta name="viewport" content="width=device-width, initial-scale=1">
             <link rel="sidekick icon" type="image/png" href="{% static 'favicon.ico' %}">
         {% endblock %}
+<<<<<<< HEAD
         {% block head-css %}
             <link rel="stylesheet" href="{% static 'bootstrap/dist/css/bootstrap.min.css' %}">
             <link href="https://fonts.googleapis.com/css?family=Play" rel="stylesheet">
             <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
             <link rel="stylesheet" href="{% static 'styles/base.css' %}"/>
             <link rel="stylesheet" href="{% static 'styles/'|add:curr_page|add:'.css' %}"/>                    
+=======
+
+        {% block head-css %}  
+            <link rel="stylesheet" href="{% static 'bootstrap/dist/css/bootstrap.css' %}">
+            <link rel="stylesheet" href="{% static 'bootstrap/dist/css/bootstrap-theme.css' %}">
+            <link href="https://fonts.googleapis.com/css?family=Play" rel="stylesheet">
+            <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+            <link rel="stylesheet" href="{% static 'styles/style.css' %}"/>
+>>>>>>> develop
         {% endblock %}
         {% block load-javascript %}
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
@@ -26,6 +40,7 @@
             <script type="text/javascript" src="{% static 'js/'|add:curr_page|add:'.js' %}"></script>
         {% endblock %}
     </head>
+<<<<<<< HEAD
     <!-- The base of the page -->
     <body>
         <!-- Where we define our wonderful navbar -->
@@ -46,3 +61,26 @@
         </div>
     </body>
 </html>
+=======
+
+    <!-- The base of the page -->
+    <body>
+        <div class='container-fluid bodywrap'>
+            <div class='body'>
+            <!-- Where we define our wonderful navbar -->
+            {% include 'sidekick/navigation.html' %}
+            <div class='row contentwrap'>
+                <div class='col-sm-3 col-lg-2'>
+                    <!-- Side Panel -->
+                    {% include 'sidekick/side-panel.html' %}
+                    {% include 'sidekick/side-user.html' %}
+                </div>
+                <div class='col-sm-9 col-lg-10 pagewrap'>
+            {% block content %}<!-- PUT YOUR CONTENT HERE :D -->{% endblock %}
+                </div>
+            </div>
+            </div>
+        </div>
+    </body>
+</html>
+>>>>>>> develop

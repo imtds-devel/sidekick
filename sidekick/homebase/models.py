@@ -121,6 +121,7 @@ class Events(models.Model):
         return "%s: from %s to %s" % (self.title, self.event_start, self.event_end)
 
 
+
 class BrowserStats(models.Model):
     hits = models.IntegerField(default=0)
     chrome = models.IntegerField(default=0)

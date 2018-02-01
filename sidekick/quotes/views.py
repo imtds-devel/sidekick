@@ -8,4 +8,8 @@ from .models import ServicePrices
 def index(request):
     services_list = ServicePrices.objects.all().order_by('placement_order')
     context={'services_list': services_list}
+<<<<<<< HEAD
     return views.load_page(request, 'quotes/index.html', context)
+=======
+    return views.load_page(request, 'quotes/index.html', context)
+>>>>>>> develop

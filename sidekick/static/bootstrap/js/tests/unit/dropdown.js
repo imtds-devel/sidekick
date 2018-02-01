@@ -1,5 +1,9 @@
 $(function () {
+<<<<<<< HEAD
   'use strict'
+=======
+  'use strict';
+>>>>>>> develop
 
   QUnit.module('dropdowns plugin')
 
@@ -21,6 +25,7 @@ $(function () {
 
   QUnit.test('should provide no conflict', function (assert) {
     assert.expect(1)
+<<<<<<< HEAD
     assert.strictEqual(typeof $.fn.dropdown, 'undefined', 'dropdown was set back to undefined (org value)')
   })
 
@@ -33,6 +38,9 @@ $(function () {
     } catch (err) {
       assert.strictEqual(err.message, 'No method named "noMethod"')
     }
+=======
+    assert.strictEqual($.fn.dropdown, undefined, 'dropdown was set back to undefined (org value)')
+>>>>>>> develop
   })
 
   QUnit.test('should return jquery collection containing the element', function (assert) {
@@ -45,6 +53,7 @@ $(function () {
 
   QUnit.test('should not open dropdown if target is disabled via attribute', function (assert) {
     assert.expect(1)
+<<<<<<< HEAD
     var done = assert.async()
     var dropdownHTML = '<div class="tabs">' +
         '<div class="dropdown">' +
@@ -108,10 +117,27 @@ $(function () {
         done()
       })
     $dropdown.trigger('click')
+=======
+    var dropdownHTML = '<ul class="tabs">'
+        + '<li class="dropdown">'
+        + '<button disabled href="#" class="btn dropdown-toggle" data-toggle="dropdown">Dropdown</button>'
+        + '<ul class="dropdown-menu">'
+        + '<li><a href="#">Secondary link</a></li>'
+        + '<li><a href="#">Something else here</a></li>'
+        + '<li class="divider"/>'
+        + '<li><a href="#">Another link</a></li>'
+        + '</ul>'
+        + '</li>'
+        + '</ul>'
+    var $dropdown = $(dropdownHTML).find('[data-toggle="dropdown"]').bootstrapDropdown().trigger('click')
+
+    assert.ok(!$dropdown.parent('.dropdown').hasClass('open'), '"open" class added on click')
+>>>>>>> develop
   })
 
   QUnit.test('should set aria-expanded="true" on target when dropdown menu is shown', function (assert) {
     assert.expect(1)
+<<<<<<< HEAD
     var done = assert.async()
     var dropdownHTML = '<div class="tabs">' +
         '<div class="dropdown">' +
@@ -135,11 +161,31 @@ $(function () {
         done()
       })
     $dropdown.trigger('click')
+=======
+    var dropdownHTML = '<ul class="tabs">'
+        + '<li class="dropdown">'
+        + '<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Dropdown</a>'
+        + '<ul class="dropdown-menu">'
+        + '<li><a href="#">Secondary link</a></li>'
+        + '<li><a href="#">Something else here</a></li>'
+        + '<li class="divider"/>'
+        + '<li><a href="#">Another link</a></li>'
+        + '</ul>'
+        + '</li>'
+        + '</ul>'
+    var $dropdown = $(dropdownHTML)
+      .find('[data-toggle="dropdown"]')
+      .bootstrapDropdown()
+      .trigger('click')
+
+    assert.strictEqual($dropdown.attr('aria-expanded'), 'true', 'aria-expanded is set to string "true" on click')
+>>>>>>> develop
   })
 
   QUnit.test('should set aria-expanded="false" on target when dropdown menu is hidden', function (assert) {
     assert.expect(1)
     var done = assert.async()
+<<<<<<< HEAD
     var dropdownHTML = '<div class="tabs">' +
         '<div class="dropdown">' +
         '<a href="#" class="dropdown-toggle" aria-expanded="false" data-toggle="dropdown">Dropdown</a>' +
@@ -151,6 +197,19 @@ $(function () {
         '</div>' +
         '</div>' +
         '</div>'
+=======
+    var dropdownHTML = '<ul class="tabs">'
+        + '<li class="dropdown">'
+        + '<a href="#" class="dropdown-toggle" aria-expanded="false" data-toggle="dropdown">Dropdown</a>'
+        + '<ul class="dropdown-menu">'
+        + '<li><a href="#">Secondary link</a></li>'
+        + '<li><a href="#">Something else here</a></li>'
+        + '<li class="divider"/>'
+        + '<li><a href="#">Another link</a></li>'
+        + '</ul>'
+        + '</li>'
+        + '</ul>'
+>>>>>>> develop
     var $dropdown = $(dropdownHTML)
       .appendTo('#qunit-fixture')
       .find('[data-toggle="dropdown"]')
@@ -169,6 +228,7 @@ $(function () {
 
   QUnit.test('should not open dropdown if target is disabled via class', function (assert) {
     assert.expect(1)
+<<<<<<< HEAD
     var done = assert.async()
     var dropdownHTML = '<div class="tabs">' +
         '<div class="dropdown">' +
@@ -213,10 +273,45 @@ $(function () {
         done()
       })
     $dropdown.trigger('click')
+=======
+    var dropdownHTML = '<ul class="tabs">'
+        + '<li class="dropdown">'
+        + '<button href="#" class="btn dropdown-toggle disabled" data-toggle="dropdown">Dropdown</button>'
+        + '<ul class="dropdown-menu">'
+        + '<li><a href="#">Secondary link</a></li>'
+        + '<li><a href="#">Something else here</a></li>'
+        + '<li class="divider"/>'
+        + '<li><a href="#">Another link</a></li>'
+        + '</ul>'
+        + '</li>'
+        + '</ul>'
+    var $dropdown = $(dropdownHTML).find('[data-toggle="dropdown"]').bootstrapDropdown().trigger('click')
+
+    assert.ok(!$dropdown.parent('.dropdown').hasClass('open'), '"open" class added on click')
+  })
+
+  QUnit.test('should add class open to menu if clicked', function (assert) {
+    assert.expect(1)
+    var dropdownHTML = '<ul class="tabs">'
+        + '<li class="dropdown">'
+        + '<a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown</a>'
+        + '<ul class="dropdown-menu">'
+        + '<li><a href="#">Secondary link</a></li>'
+        + '<li><a href="#">Something else here</a></li>'
+        + '<li class="divider"/>'
+        + '<li><a href="#">Another link</a></li>'
+        + '</ul>'
+        + '</li>'
+        + '</ul>'
+    var $dropdown = $(dropdownHTML).find('[data-toggle="dropdown"]').bootstrapDropdown().trigger('click')
+
+    assert.ok($dropdown.parent('.dropdown').hasClass('open'), '"open" class added on click')
+>>>>>>> develop
   })
 
   QUnit.test('should test if element has a # before assuming it\'s a selector', function (assert) {
     assert.expect(1)
+<<<<<<< HEAD
     var done = assert.async()
     var dropdownHTML = '<div class="tabs">' +
         '<div class="dropdown">' +
@@ -284,10 +379,43 @@ $(function () {
         '</div>' +
         '</div>' +
         '</div>'
+=======
+    var dropdownHTML = '<ul class="tabs">'
+        + '<li class="dropdown">'
+        + '<a href="/foo/" class="dropdown-toggle" data-toggle="dropdown">Dropdown</a>'
+        + '<ul class="dropdown-menu">'
+        + '<li><a href="#">Secondary link</a></li>'
+        + '<li><a href="#">Something else here</a></li>'
+        + '<li class="divider"/>'
+        + '<li><a href="#">Another link</a></li>'
+        + '</ul>'
+        + '</li>'
+        + '</ul>'
+    var $dropdown = $(dropdownHTML).find('[data-toggle="dropdown"]').bootstrapDropdown().trigger('click')
+
+    assert.ok($dropdown.parent('.dropdown').hasClass('open'), '"open" class added on click')
+  })
+
+
+  QUnit.test('should remove "open" class if body is clicked', function (assert) {
+    assert.expect(2)
+    var dropdownHTML = '<ul class="tabs">'
+        + '<li class="dropdown">'
+        + '<a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown</a>'
+        + '<ul class="dropdown-menu">'
+        + '<li><a href="#">Secondary link</a></li>'
+        + '<li><a href="#">Something else here</a></li>'
+        + '<li class="divider"/>'
+        + '<li><a href="#">Another link</a></li>'
+        + '</ul>'
+        + '</li>'
+        + '</ul>'
+>>>>>>> develop
     var $dropdown = $(dropdownHTML)
       .appendTo('#qunit-fixture')
       .find('[data-toggle="dropdown"]')
       .bootstrapDropdown()
+<<<<<<< HEAD
     $dropdown
       .parent('.dropdown')
       .on('shown.bs.dropdown', function () {
@@ -366,12 +494,40 @@ $(function () {
         '<a class="dropdown-item" href="#">Action 1</a>' +
         '</div>' +
         '</div>'
+=======
+      .trigger('click')
+
+    assert.ok($dropdown.parent('.dropdown').hasClass('open'), '"open" class added on click')
+    $(document.body).trigger('click')
+    assert.ok(!$dropdown.parent('.dropdown').hasClass('open'), '"open" class removed')
+  })
+
+  QUnit.test('should remove "open" class if body is clicked, with multiple dropdowns', function (assert) {
+    assert.expect(7)
+    var dropdownHTML = '<ul class="nav">'
+        + '<li><a href="#menu1">Menu 1</a></li>'
+        + '<li class="dropdown" id="testmenu">'
+        + '<a class="dropdown-toggle" data-toggle="dropdown" href="#testmenu">Test menu <span class="caret"/></a>'
+        + '<ul class="dropdown-menu">'
+        + '<li><a href="#sub1">Submenu 1</a></li>'
+        + '</ul>'
+        + '</li>'
+        + '</ul>'
+        + '<div class="btn-group">'
+        + '<button class="btn">Actions</button>'
+        + '<button class="btn dropdown-toggle" data-toggle="dropdown"><span class="caret"/></button>'
+        + '<ul class="dropdown-menu">'
+        + '<li><a href="#">Action 1</a></li>'
+        + '</ul>'
+        + '</div>'
+>>>>>>> develop
     var $dropdowns = $(dropdownHTML).appendTo('#qunit-fixture').find('[data-toggle="dropdown"]')
     var $first = $dropdowns.first()
     var $last = $dropdowns.last()
 
     assert.strictEqual($dropdowns.length, 2, 'two dropdowns')
 
+<<<<<<< HEAD
     $first.parent('.dropdown')
       .on('shown.bs.dropdown', function () {
         assert.strictEqual($first.parents('.show').length, 1, '"show" class added on click')
@@ -396,10 +552,24 @@ $(function () {
         done()
       })
     $first.trigger('click')
+=======
+    $first.trigger('click')
+    assert.strictEqual($first.parents('.open').length, 1, '"open" class added on click')
+    assert.strictEqual($('#qunit-fixture .open').length, 1, 'only one dropdown is open')
+    $(document.body).trigger('click')
+    assert.strictEqual($('#qunit-fixture .open').length, 0, '"open" class removed')
+
+    $last.trigger('click')
+    assert.strictEqual($last.parent('.open').length, 1, '"open" class added on click')
+    assert.strictEqual($('#qunit-fixture .open').length, 1, 'only one dropdown is open')
+    $(document.body).trigger('click')
+    assert.strictEqual($('#qunit-fixture .open').length, 0, '"open" class removed')
+>>>>>>> develop
   })
 
   QUnit.test('should fire show and hide event', function (assert) {
     assert.expect(2)
+<<<<<<< HEAD
     var dropdownHTML = '<div class="tabs">' +
         '<div class="dropdown">' +
         '<a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown</a>' +
@@ -411,6 +581,19 @@ $(function () {
         '</div>' +
         '</div>' +
         '</div>'
+=======
+    var dropdownHTML = '<ul class="tabs">'
+        + '<li class="dropdown">'
+        + '<a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown</a>'
+        + '<ul class="dropdown-menu">'
+        + '<li><a href="#">Secondary link</a></li>'
+        + '<li><a href="#">Something else here</a></li>'
+        + '<li class="divider"/>'
+        + '<li><a href="#">Another link</a></li>'
+        + '</ul>'
+        + '</li>'
+        + '</ul>'
+>>>>>>> develop
     var $dropdown = $(dropdownHTML)
       .appendTo('#qunit-fixture')
       .find('[data-toggle="dropdown"]')
@@ -432,6 +615,7 @@ $(function () {
     $(document.body).trigger('click')
   })
 
+<<<<<<< HEAD
   QUnit.test('should fire shown and hidden event', function (assert) {
     assert.expect(2)
     var dropdownHTML = '<div class="tabs">' +
@@ -445,6 +629,22 @@ $(function () {
         '</div>' +
         '</div>' +
         '</div>'
+=======
+
+  QUnit.test('should fire shown and hidden event', function (assert) {
+    assert.expect(2)
+    var dropdownHTML = '<ul class="tabs">'
+        + '<li class="dropdown">'
+        + '<a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown</a>'
+        + '<ul class="dropdown-menu">'
+        + '<li><a href="#">Secondary link</a></li>'
+        + '<li><a href="#">Something else here</a></li>'
+        + '<li class="divider"/>'
+        + '<li><a href="#">Another link</a></li>'
+        + '</ul>'
+        + '</li>'
+        + '</ul>'
+>>>>>>> develop
     var $dropdown = $(dropdownHTML)
       .appendTo('#qunit-fixture')
       .find('[data-toggle="dropdown"]')
@@ -468,6 +668,7 @@ $(function () {
 
   QUnit.test('should fire shown and hidden event with a relatedTarget', function (assert) {
     assert.expect(2)
+<<<<<<< HEAD
     var dropdownHTML = '<div class="tabs">' +
         '<div class="dropdown">' +
         '<a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown</a>' +
@@ -479,6 +680,19 @@ $(function () {
         '</div>' +
         '</div>' +
         '</div>'
+=======
+    var dropdownHTML = '<ul class="tabs">'
+        + '<li class="dropdown">'
+        + '<a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown</a>'
+        + '<ul class="dropdown-menu">'
+        + '<li><a href="#">Secondary link</a></li>'
+        + '<li><a href="#">Something else here</a></li>'
+        + '<li class="divider"/>'
+        + '<li><a href="#">Another link</a></li>'
+        + '</ul>'
+        + '</li>'
+        + '</ul>'
+>>>>>>> develop
     var $dropdown = $(dropdownHTML)
       .appendTo('#qunit-fixture')
       .find('[data-toggle="dropdown"]')
@@ -502,6 +716,7 @@ $(function () {
     assert.expect(3)
     var done = assert.async()
 
+<<<<<<< HEAD
     var dropdownHTML = '<div class="tabs">' +
         '<div class="dropdown">' +
         '<a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown</a>' +
@@ -515,6 +730,21 @@ $(function () {
         '</div>' +
         '</div>' +
         '</div>'
+=======
+    var dropdownHTML = '<ul class="tabs">'
+        + '<li class="dropdown">'
+        + '<a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown</a>'
+        + '<ul class="dropdown-menu">'
+        + '<li><a href="#">Secondary link</a></li>'
+        + '<li><a href="#">Something else here</a></li>'
+        + '<li class="divider"/>'
+        + '<li><a href="#">Another link</a></li>'
+        + '<li><input type="text" id="input"></li>'
+        + '<li><textarea id="textarea"/></li>'
+        + '</ul>'
+        + '</li>'
+        + '</ul>'
+>>>>>>> develop
     var $dropdown = $(dropdownHTML)
       .appendTo('#qunit-fixture')
       .find('[data-toggle="dropdown"]')
@@ -528,6 +758,7 @@ $(function () {
       .on('shown.bs.dropdown', function () {
         assert.ok(true, 'shown was fired')
 
+<<<<<<< HEAD
         $input.trigger('focus').trigger($.Event('keydown', {
           which: 38
         }))
@@ -536,6 +767,12 @@ $(function () {
         $textarea.trigger('focus').trigger($.Event('keydown', {
           which: 38
         }))
+=======
+        $input.trigger('focus').trigger($.Event('keydown', { which: 38 }))
+        assert.ok($(document.activeElement).is($input), 'input still focused')
+
+        $textarea.trigger('focus').trigger($.Event('keydown', { which: 38 }))
+>>>>>>> develop
         assert.ok($(document.activeElement).is($textarea), 'textarea still focused')
 
         done()
@@ -545,6 +782,7 @@ $(function () {
   })
 
   QUnit.test('should skip disabled element when using keyboard navigation', function (assert) {
+<<<<<<< HEAD
     assert.expect(2)
     var done = assert.async()
     var dropdownHTML = '<div class="tabs">' +
@@ -556,10 +794,23 @@ $(function () {
         '</div>' +
         '</div>' +
         '</div>'
+=======
+    assert.expect(1)
+    var dropdownHTML = '<ul class="tabs">'
+        + '<li class="dropdown">'
+        + '<a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown</a>'
+        + '<ul class="dropdown-menu">'
+        + '<li class="disabled"><a href="#">Disabled link</a></li>'
+        + '<li><a href="#">Another link</a></li>'
+        + '</ul>'
+        + '</li>'
+        + '</ul>'
+>>>>>>> develop
     var $dropdown = $(dropdownHTML)
       .appendTo('#qunit-fixture')
       .find('[data-toggle="dropdown"]')
       .bootstrapDropdown()
+<<<<<<< HEAD
 
     $dropdown
       .parent('.dropdown')
@@ -626,10 +877,29 @@ $(function () {
         '<input id="textField" type="text" />' +
         '</div>' +
         '</div>'
+=======
+      .trigger('click')
+
+    $dropdown.trigger($.Event('keydown', { which: 40 }))
+    $dropdown.trigger($.Event('keydown', { which: 40 }))
+
+    assert.ok(!$(document.activeElement).parent().is('.disabled'), '.disabled is not focused')
+  })
+
+  QUnit.test('should not close the dropdown if the user clicks on a text field', function (assert) {
+    assert.expect(1)
+    var dropdownHTML = '<div class="btn-group">'
+        + '<button type="button" data-toggle="dropdown">Dropdown</button>'
+        + '<ul class="dropdown-menu">'
+        + '<li><input id="textField" type="text" /></li>'
+        + '</ul>'
+        + '</div>'
+>>>>>>> develop
     var $dropdown = $(dropdownHTML)
       .appendTo('#qunit-fixture')
       .find('[data-toggle="dropdown"]')
       .bootstrapDropdown()
+<<<<<<< HEAD
 
     var $textfield = $('#textField')
     $textfield.on('click', function () {
@@ -721,10 +991,28 @@ $(function () {
         '</div>' +
         '</div>' +
         '</div>'
+=======
+      .trigger('click')
+
+    $('#textField').trigger('click')
+
+    assert.ok($dropdown.parent('.btn-group').hasClass('open'), 'dropdown menu is open')
+  })
+
+  QUnit.test('should not close the dropdown if the user clicks on a textarea', function (assert) {
+    assert.expect(1)
+    var dropdownHTML = '<div class="btn-group">'
+        + '<button type="button" data-toggle="dropdown">Dropdown</button>'
+        + '<ul class="dropdown-menu">'
+        + '<li><textarea id="textArea"></textarea></li>'
+        + '</ul>'
+        + '</div>'
+>>>>>>> develop
     var $dropdown = $(dropdownHTML)
       .appendTo('#qunit-fixture')
       .find('[data-toggle="dropdown"]')
       .bootstrapDropdown()
+<<<<<<< HEAD
 
     var $input = $('#input')
     var $textarea = $('#textarea')
@@ -907,5 +1195,12 @@ $(function () {
         $textarea.trigger('click')
       })
     $textarea.trigger('click')
+=======
+      .trigger('click')
+
+    $('#textArea').trigger('click')
+
+    assert.ok($dropdown.parent('.btn-group').hasClass('open'), 'dropdown menu is open')
+>>>>>>> develop
   })
 })

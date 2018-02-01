@@ -1,5 +1,9 @@
 $(function () {
+<<<<<<< HEAD
   'use strict'
+=======
+  'use strict';
+>>>>>>> develop
 
   QUnit.module('modal plugin')
 
@@ -9,6 +13,7 @@ $(function () {
   })
 
   QUnit.module('modal', {
+<<<<<<< HEAD
     before: function () {
       // Enable the scrollbar measurer
       $('<style type="text/css"> .modal-scrollbar-measure { position: absolute; top: -9999px; width: 50px; height: 50px; overflow: scroll; } </style>').appendTo('head')
@@ -24,13 +29,18 @@ $(function () {
       // Simulate scrollbars in PhantomJS
       $('html').css('padding-right', '16px')
     },
+=======
+>>>>>>> develop
     beforeEach: function () {
       // Run all tests in noConflict mode -- it's the only way to ensure that the plugin works in noConflict mode
       $.fn.bootstrapModal = $.fn.modal.noConflict()
     },
     afterEach: function () {
+<<<<<<< HEAD
       $('.modal-backdrop, #modal-test').remove()
       $(document.body).removeClass('modal-open')
+=======
+>>>>>>> develop
       $.fn.modal = $.fn.bootstrapModal
       delete $.fn.bootstrapModal
     }
@@ -38,6 +48,7 @@ $(function () {
 
   QUnit.test('should provide no conflict', function (assert) {
     assert.expect(1)
+<<<<<<< HEAD
     assert.strictEqual(typeof $.fn.modal, 'undefined', 'modal was set back to undefined (orig value)')
   })
 
@@ -50,6 +61,9 @@ $(function () {
     } catch (err) {
       assert.strictEqual(err.message, 'No method named "noMethod"')
     }
+=======
+    assert.strictEqual($.fn.modal, undefined, 'modal was set back to undefined (orig value)')
+>>>>>>> develop
   })
 
   QUnit.test('should return jquery collection containing the element', function (assert) {
@@ -62,7 +76,11 @@ $(function () {
 
   QUnit.test('should expose defaults var for settings', function (assert) {
     assert.expect(1)
+<<<<<<< HEAD
     assert.ok($.fn.bootstrapModal.Constructor.Default, 'default object exposed')
+=======
+    assert.ok($.fn.bootstrapModal.Constructor.DEFAULTS, 'default object exposed')
+>>>>>>> develop
   })
 
   QUnit.test('should insert into dom when show method is called', function (assert) {
@@ -190,6 +208,7 @@ $(function () {
       .bootstrapModal('show')
   })
 
+<<<<<<< HEAD
   QUnit.test('should not close modal when clicking outside of modal-content if data-backdrop="true"', function (assert) {
     assert.expect(1)
     var done = assert.async()
@@ -203,6 +222,8 @@ $(function () {
       .bootstrapModal('show')
   })
 
+=======
+>>>>>>> develop
   QUnit.test('should close modal when escape key is pressed via keydown', function (assert) {
     assert.expect(3)
     var done = assert.async()
@@ -212,9 +233,13 @@ $(function () {
       .on('shown.bs.modal', function () {
         assert.ok($('#modal-test').length, 'modal inserted into dom')
         assert.ok($('#modal-test').is(':visible'), 'modal visible')
+<<<<<<< HEAD
         $div.trigger($.Event('keydown', {
           which: 27
         }))
+=======
+        $div.trigger($.Event('keydown', { which: 27 }))
+>>>>>>> develop
 
         setTimeout(function () {
           assert.ok(!$('#modal-test').is(':visible'), 'modal hidden')
@@ -234,9 +259,13 @@ $(function () {
       .on('shown.bs.modal', function () {
         assert.ok($('#modal-test').length, 'modal inserted into dom')
         assert.ok($('#modal-test').is(':visible'), 'modal visible')
+<<<<<<< HEAD
         $div.trigger($.Event('keyup', {
           which: 27
         }))
+=======
+        $div.trigger($.Event('keyup', { which: 27 }))
+>>>>>>> develop
 
         setTimeout(function () {
           assert.ok($div.is(':visible'), 'modal still visible')
@@ -266,6 +295,7 @@ $(function () {
       .bootstrapModal('show')
   })
 
+<<<<<<< HEAD
   QUnit.test('should remove aria-hidden attribute when shown, add it back when hidden', function (assert) {
     assert.expect(3)
     var done = assert.async()
@@ -283,6 +313,8 @@ $(function () {
       .bootstrapModal('show')
   })
 
+=======
+>>>>>>> develop
   QUnit.test('should close reopened modal with [data-dismiss="modal"] click', function (assert) {
     assert.expect(2)
     var done = assert.async()
@@ -292,7 +324,11 @@ $(function () {
         $('#close').trigger('click')
       })
       .one('hidden.bs.modal', function () {
+<<<<<<< HEAD
         // After one open-close cycle
+=======
+        // after one open-close cycle
+>>>>>>> develop
         assert.ok(!$('#modal-test').is(':visible'), 'modal hidden')
         $(this)
           .one('shown.bs.modal', function () {
@@ -356,6 +392,7 @@ $(function () {
     $toggleBtn.trigger('click')
   })
 
+<<<<<<< HEAD
   QUnit.test('should adjust the inline padding of the modal when opening', function (assert) {
     assert.expect(1)
     var done = assert.async()
@@ -402,10 +439,26 @@ $(function () {
     $('<div id="modal-test"/>')
       .on('hidden.bs.modal', function () {
         assert.strictEqual(typeof $body.data('padding-right'), 'undefined', 'data-padding-right should be cleared after closing')
+=======
+  QUnit.test('should restore inline body padding after closing', function (assert) {
+    assert.expect(2)
+    var done = assert.async()
+    var originalBodyPad = 0
+    var $body = $(document.body)
+
+    $body.css('padding-right', originalBodyPad)
+
+    $('<div id="modal-test"/>')
+      .on('hidden.bs.modal', function () {
+        var currentBodyPad = parseInt($body.css('padding-right'), 10)
+        assert.notStrictEqual($body.attr('style'), '', 'body has non-empty style attribute')
+        assert.strictEqual(currentBodyPad, originalBodyPad, 'original body padding was not changed')
+>>>>>>> develop
         $body.removeAttr('style')
         done()
       })
       .on('shown.bs.modal', function () {
+<<<<<<< HEAD
         assert.strictEqual($body.data('padding-right'), originalPadding, 'original body padding should be stored in data-padding-right')
         $(this).bootstrapModal('hide')
       })
@@ -557,6 +610,8 @@ $(function () {
       })
       .on('shown.bs.modal', function () {
         assert.strictEqual($element.data('margin-right'), originalMargin, 'original navbar-toggler margin should be stored in data-margin-right')
+=======
+>>>>>>> develop
         $(this).bootstrapModal('hide')
       })
       .bootstrapModal('show')
@@ -570,7 +625,11 @@ $(function () {
 
     $('<div id="modal-test"/>')
       .on('hidden.bs.modal', function () {
+<<<<<<< HEAD
         assert.strictEqual($body.attr('style').indexOf('padding-right'), -1, 'body does not have inline padding set')
+=======
+        assert.ok(!$body.attr('style'), 'body does not have inline padding set')
+>>>>>>> develop
         $style.remove()
         done()
       })
@@ -620,6 +679,7 @@ $(function () {
       })
       .bootstrapModal('show')
   })
+<<<<<<< HEAD
 
   QUnit.test('should not follow link in area tag', function (assert) {
     assert.expect(2)
@@ -694,4 +754,6 @@ $(function () {
       .bootstrapModal('show')
       .bootstrapModal('hide')
   })
+=======
+>>>>>>> develop
 })

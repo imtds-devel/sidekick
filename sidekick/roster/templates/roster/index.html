@@ -12,6 +12,7 @@
     <div class='hero-cards'>
         {% if employee_list %}
         {% for employee, skills in employee_list %}
+<<<<<<< HEAD
         <div class='panelemp hero-card' id="{{employee.search}}">
             <button type='button' id="b-{{employee.netid}}"
                     class='btn hero-card-button btn-block {{employee.position}} dev_{{employee.developer}}'
@@ -20,6 +21,16 @@
                     <div class="media">
                         <div class="media-left">
                             <img src='{% static employee.picture|img_exists %}' class='img rounded-circle img-herocard'>
+=======
+        <div class='panelemp panel-default hero-card' id="{{employee.search}}">
+            <button type='button' id="b-{{employee.netid}}"
+                    class='btn hero-card-button btn-block {{employee.position}} dev_{{employee.developer}}'
+                    data-toggle='modal'>
+                <div class='panel-body'>
+                    <div class="media">
+                        <div class="media-left">
+                            <img src='{% static employee.picture|img_exists %}' class='img img-circle img-herocard'>
+>>>>>>> develop
                         </div>
                         <div class="media-body e_desc">
                             <p class="e_field"><b>{{employee.full_name}}</b></p>
@@ -54,11 +65,19 @@
         <div class='page-header'>Ain't got none</div>
         {% endif %}
         {% if user_netid|has_access:"roster_modfb_all" %}
+<<<<<<< HEAD
         <div class="card hero-card">
             <button type="button"
                     class="btn hero-card-button btn-block new-user-btn"
                     data-toggle="modal" data-target="#new-user">
                 <div class="card-block">
+=======
+        <div class="panel panel-default hero-card">
+            <button type="button"
+                    class="btn hero-card-button btn-block new-user-btn"
+                    data-toggle="modal" data-target="#new-user">
+                <div class="panel-body">
+>>>>>>> develop
                     <div class="media">
                         <div class="media-body">
                             <img src="{% static 'roster/plus.png' %}" class="new-plus">
@@ -93,8 +112,13 @@
                                 </div>
                             </div>
                             <div class="award-text"><h3>Awards</h3></div>
+<<<<<<< HEAD
                             <div class="card trophy-modal">
                                 <div class="card-block">
+=======
+                            <div class="panel trophy-modal">
+                                <div class="panel-body">
+>>>>>>> develop
                                     <div id="trophy-m" class="trophy-wrap"></div>
                                 </div>
                             </div>
@@ -106,7 +130,11 @@
                             <div class="row">
                             <div class='col-md-6'>
                                 <h4 style='text-align: left; margin-left: 100px;' class='modal-title'><b>Comments</b></h4>
+<<<<<<< HEAD
                                 <div id="comment-div" class="card" style='height: 328px; overflow-y: auto; margin-top:5px'>
+=======
+                                <div id="comment-div" class="panel-default" style='height: 328px; overflow-y: auto; margin-top:5px'>
+>>>>>>> develop
                                 </div>
                             </div>
                             <div class='col-md-6'>

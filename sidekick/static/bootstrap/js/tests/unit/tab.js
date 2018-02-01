@@ -1,5 +1,9 @@
 $(function () {
+<<<<<<< HEAD
   'use strict'
+=======
+  'use strict';
+>>>>>>> develop
 
   QUnit.module('tabs plugin')
 
@@ -21,6 +25,7 @@ $(function () {
 
   QUnit.test('should provide no conflict', function (assert) {
     assert.expect(1)
+<<<<<<< HEAD
     assert.strictEqual(typeof $.fn.tab, 'undefined', 'tab was set back to undefined (org value)')
   })
 
@@ -33,6 +38,9 @@ $(function () {
     } catch (err) {
       assert.strictEqual(err.message, 'No method named "noMethod"')
     }
+=======
+    assert.strictEqual($.fn.tab, undefined, 'tab was set back to undefined (org value)')
+>>>>>>> develop
   })
 
   QUnit.test('should return jquery collection containing the element', function (assert) {
@@ -45,6 +53,7 @@ $(function () {
 
   QUnit.test('should activate element by tab id', function (assert) {
     assert.expect(2)
+<<<<<<< HEAD
     var tabsHTML = '<ul class="nav">' +
         '<li><a href="#home">Home</a></li>' +
         '<li><a href="#profile">Profile</a></li>' +
@@ -56,11 +65,25 @@ $(function () {
     assert.strictEqual($('#qunit-fixture').find('.active').attr('id'), 'profile')
 
     $(tabsHTML).find('li:first-child a').bootstrapTab('show')
+=======
+    var tabsHTML = '<ul class="tabs">'
+        + '<li><a href="#home">Home</a></li>'
+        + '<li><a href="#profile">Profile</a></li>'
+        + '</ul>'
+
+    $('<ul><li id="home"/><li id="profile"/></ul>').appendTo('#qunit-fixture')
+
+    $(tabsHTML).find('li:last a').bootstrapTab('show')
+    assert.strictEqual($('#qunit-fixture').find('.active').attr('id'), 'profile')
+
+    $(tabsHTML).find('li:first a').bootstrapTab('show')
+>>>>>>> develop
     assert.strictEqual($('#qunit-fixture').find('.active').attr('id'), 'home')
   })
 
   QUnit.test('should activate element by tab id', function (assert) {
     assert.expect(2)
+<<<<<<< HEAD
     var pillsHTML = '<ul class="nav nav-pills">' +
         '<li><a href="#home">Home</a></li>' +
         '<li><a href="#profile">Profile</a></li>' +
@@ -120,6 +143,19 @@ $(function () {
     assert.strictEqual($('#qunit-fixture').find('.active').attr('id'), 'profile')
 
     $(tabsHTML).find('a:first-child').bootstrapTab('show')
+=======
+    var pillsHTML = '<ul class="pills">'
+        + '<li><a href="#home">Home</a></li>'
+        + '<li><a href="#profile">Profile</a></li>'
+        + '</ul>'
+
+    $('<ul><li id="home"/><li id="profile"/></ul>').appendTo('#qunit-fixture')
+
+    $(pillsHTML).find('li:last a').bootstrapTab('show')
+    assert.strictEqual($('#qunit-fixture').find('.active').attr('id'), 'profile')
+
+    $(pillsHTML).find('li:first a').bootstrapTab('show')
+>>>>>>> develop
     assert.strictEqual($('#qunit-fixture').find('.active').attr('id'), 'home')
   })
 
@@ -127,7 +163,11 @@ $(function () {
     assert.expect(1)
     var done = assert.async()
 
+<<<<<<< HEAD
     $('<div class="nav"/>')
+=======
+    $('<div class="tab"/>')
+>>>>>>> develop
       .on('show.bs.tab', function (e) {
         e.preventDefault()
         assert.ok(true, 'show event fired')
@@ -139,6 +179,7 @@ $(function () {
       .bootstrapTab('show')
   })
 
+<<<<<<< HEAD
   QUnit.test('should not fire shown when tab is already active', function (assert) {
     assert.expect(0)
     var tabsHTML = '<ul class="nav nav-tabs" role="tablist">' +
@@ -177,10 +218,13 @@ $(function () {
       .bootstrapTab('show')
   })
 
+=======
+>>>>>>> develop
   QUnit.test('show and shown events should reference correct relatedTarget', function (assert) {
     assert.expect(2)
     var done = assert.async()
 
+<<<<<<< HEAD
     var dropHTML =
         '<ul class="drop nav">' +
         '  <li class="dropdown"><a data-toggle="dropdown" href="#">1</a>' +
@@ -204,12 +248,37 @@ $(function () {
         done()
       })
       .bootstrapTab('show')
+=======
+    var dropHTML = '<ul class="drop">'
+        + '<li class="dropdown"><a data-toggle="dropdown" href="#">1</a>'
+        + '<ul class="dropdown-menu">'
+        + '<li><a href="#1-1" data-toggle="tab">1-1</a></li>'
+        + '<li><a href="#1-2" data-toggle="tab">1-2</a></li>'
+        + '</ul>'
+        + '</li>'
+        + '</ul>'
+
+    $(dropHTML)
+      .find('ul > li:first a')
+        .bootstrapTab('show')
+      .end()
+      .find('ul > li:last a')
+        .on('show.bs.tab', function (e) {
+          assert.strictEqual(e.relatedTarget.hash, '#1-1', 'references correct element as relatedTarget')
+        })
+        .on('shown.bs.tab', function (e) {
+          assert.strictEqual(e.relatedTarget.hash, '#1-1', 'references correct element as relatedTarget')
+          done()
+        })
+        .bootstrapTab('show')
+>>>>>>> develop
   })
 
   QUnit.test('should fire hide and hidden events', function (assert) {
     assert.expect(2)
     var done = assert.async()
 
+<<<<<<< HEAD
     var tabsHTML = '<ul class="nav">' +
         '<li><a href="#home">Home</a></li>' +
         '<li><a href="#profile">Profile</a></li>' +
@@ -235,12 +304,40 @@ $(function () {
       .end()
       .find('li:last-child a')
       .bootstrapTab('show')
+=======
+    var tabsHTML = '<ul class="tabs">'
+        + '<li><a href="#home">Home</a></li>'
+        + '<li><a href="#profile">Profile</a></li>'
+        + '</ul>'
+
+    $(tabsHTML)
+      .find('li:first a')
+        .on('hide.bs.tab', function () {
+          assert.ok(true, 'hide event fired')
+        })
+        .bootstrapTab('show')
+      .end()
+      .find('li:last a')
+        .bootstrapTab('show')
+
+    $(tabsHTML)
+      .find('li:first a')
+        .on('hidden.bs.tab', function () {
+          assert.ok(true, 'hidden event fired')
+          done()
+        })
+        .bootstrapTab('show')
+      .end()
+      .find('li:last a')
+        .bootstrapTab('show')
+>>>>>>> develop
   })
 
   QUnit.test('should not fire hidden when hide is prevented', function (assert) {
     assert.expect(1)
     var done = assert.async()
 
+<<<<<<< HEAD
     var tabsHTML = '<ul class="nav">' +
         '<li><a href="#home">Home</a></li>' +
         '<li><a href="#profile">Profile</a></li>' +
@@ -260,12 +357,34 @@ $(function () {
       .end()
       .find('li:last-child a')
       .bootstrapTab('show')
+=======
+    var tabsHTML = '<ul class="tabs">'
+        + '<li><a href="#home">Home</a></li>'
+        + '<li><a href="#profile">Profile</a></li>'
+        + '</ul>'
+
+    $(tabsHTML)
+      .find('li:first a')
+        .on('hide.bs.tab', function (e) {
+          e.preventDefault()
+          assert.ok(true, 'hide event fired')
+          done()
+        })
+        .on('hidden.bs.tab', function () {
+          assert.ok(false, 'hidden event fired')
+        })
+        .bootstrapTab('show')
+      .end()
+      .find('li:last a')
+        .bootstrapTab('show')
+>>>>>>> develop
   })
 
   QUnit.test('hide and hidden events contain correct relatedTarget', function (assert) {
     assert.expect(2)
     var done = assert.async()
 
+<<<<<<< HEAD
     var tabsHTML = '<ul class="nav">' +
         '<li><a href="#home">Home</a></li>' +
         '<li><a href="#profile">Profile</a></li>' +
@@ -413,4 +532,51 @@ $(function () {
       })
       .trigger($.Event('click'))
   })
+=======
+    var tabsHTML = '<ul class="tabs">'
+        + '<li><a href="#home">Home</a></li>'
+        + '<li><a href="#profile">Profile</a></li>'
+        + '</ul>'
+
+    $(tabsHTML)
+      .find('li:first a')
+        .on('hide.bs.tab', function (e) {
+          assert.strictEqual(e.relatedTarget.hash, '#profile', 'references correct element as relatedTarget')
+        })
+        .on('hidden.bs.tab', function (e) {
+          assert.strictEqual(e.relatedTarget.hash, '#profile', 'references correct element as relatedTarget')
+          done()
+        })
+        .bootstrapTab('show')
+      .end()
+      .find('li:last a')
+        .bootstrapTab('show')
+  })
+
+  QUnit.test('selected tab should have aria-expanded', function (assert) {
+    assert.expect(8)
+    var tabsHTML = '<ul class="nav nav-tabs">'
+        + '<li class="active"><a href="#home" toggle="tab" aria-expanded="true">Home</a></li>'
+        + '<li><a href="#profile" toggle="tab" aria-expanded="false">Profile</a></li>'
+        + '</ul>'
+    var $tabs = $(tabsHTML).appendTo('#qunit-fixture')
+
+    $tabs.find('li:first a').bootstrapTab('show')
+    assert.strictEqual($tabs.find('.active a').attr('aria-expanded'), 'true', 'shown tab has aria-expanded = true')
+    assert.strictEqual($tabs.find('li:not(.active) a').attr('aria-expanded'), 'false', 'hidden tab has aria-expanded = false')
+
+    $tabs.find('li:last a').trigger('click')
+    assert.strictEqual($tabs.find('.active a').attr('aria-expanded'), 'true', 'after click, shown tab has aria-expanded = true')
+    assert.strictEqual($tabs.find('li:not(.active) a').attr('aria-expanded'), 'false', 'after click, hidden tab has aria-expanded = false')
+
+    $tabs.find('li:first a').bootstrapTab('show')
+    assert.strictEqual($tabs.find('.active a').attr('aria-expanded'), 'true', 'shown tab has aria-expanded = true')
+    assert.strictEqual($tabs.find('li:not(.active) a').attr('aria-expanded'), 'false', 'hidden tab has aria-expanded = false')
+
+    $tabs.find('li:first a').trigger('click')
+    assert.strictEqual($tabs.find('.active a').attr('aria-expanded'), 'true', 'after second show event, shown tab still has aria-expanded = true')
+    assert.strictEqual($tabs.find('li:not(.active) a').attr('aria-expanded'), 'false', 'after second show event, hidden tab has aria-expanded = false')
+  })
+
+>>>>>>> develop
 })
