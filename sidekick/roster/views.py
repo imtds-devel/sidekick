@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-
 from django.http import HttpResponse, HttpResponseRedirect
+from .models import Employees, Proficiencies, Discipline, Trophies
+from .forms import EmployeeForm, StarForm, CommentForm
 from sidekick import views
-from homebase.models import Employees
-from .models import Proficiencies, Discipline, Trophies
-from .forms import EmployeeForm, StarForm, CommentForm, DisciplineForm
 from sidekick.access import get_access
 import json
 from django.http import JsonResponse
@@ -23,13 +21,13 @@ def index(request):
         # Remove this line before production!
         request = views.get_current_user(request)
 
-        data['poster'] = str(request.user)
+        data['poster'] = request.user
         form = CommentForm(data)
         if form.is_valid():
             form.save(commit=True)
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
-        data['giver'] = str(request.user)
+        data['giver'] = request.user
         form = StarForm(data)
         if form.is_valid():
             form.save(commit=True)
@@ -43,6 +41,137 @@ def index(request):
     return views.load_page(request, 'roster/index.html', prep_context())
 
 
+def update_bio(request):
+    # Make sure it's a post request
+    if not request.method == 'POST':
+        return HttpResponse(
+            json.dumps({"status": "Failed!"}),
+            content_type="application/json"
+        )
+
+    request = views.get_current_user(request)
+    updater = request.user
+    about = request.POST.get('about', None)
+
+    print(request.user)
+
+    # Make sure the user has proper access rights to do this
+    if about is not None:
+        emp = Employees.objects.get(netid=updater)
+        if emp.position == 'llt':
+            access_area = 'roster_modfb_lab'
+        else:
+            access_area = 'roster_modfb_all'
+    else:
+        return HttpResponse(
+            json.dumps({"status": "Failed! User does not have access(1)"}),
+            content_type="application/json"
+        )
+
+    if not get_access(updater, access_area):
+        return HttpResponse(
+            json.dumps({"status": "Failed! User does not have access(2)"}),
+            content_type="application/json"
+        )
+
+    # Finish getting variables
+    fname = request.POST.get('fname', None)
+    lname = request.POST.get('lname', None)
+    apuid = request.POST.get('apuid', None)
+    phone = request.POST.get('phone', None)
+    code = request.POST.get('code', None)
+    bday = request.POST.get('bday', None)
+    position = request.POST.get('position', None)
+    pos_desc = request.POST.get('pos_desc', None)
+    standing = request.POST.get('standing', None)
+    developer = request.POST.get('developer', None)
+
+    # Construct discipline object
+    employee = Employees.objects.get(netid=about)
+
+    employee.fname = fname
+    employee.lname = lname
+    employee.phone = phone
+    employee.apuid = apuid
+    employee.codename = code
+    employee.position = position
+    employee.position_desc = pos_desc
+    employee.standing = standing
+    employee.birthday = bday
+    employee.developer = developer
+
+    # Update Database
+    print(employee)
+    employee.save()
+    return HttpResponse(
+        json.dumps({"status": "Bio successfully updated!"}),
+        content_type="application/json"
+    )
+
+
+def update_prof(request):
+    # Make sure it's a post request
+    if not request.method == 'POST':
+        return HttpResponse(
+            json.dumps({"status": "Failed!"}),
+            content_type="application/json"
+        )
+
+    request = views.get_current_user(request)
+    updater = request.user
+    about = request.POST.get('about', None)
+
+    print(request.user)
+
+    # Make sure the user has proper access rights to do this
+    if about is not None:
+        emp = Employees.objects.get(netid=updater)
+        if emp.position == 'llt':
+            access_area = 'roster_modfb_lab'
+        else:
+            access_area = 'roster_modfb_all'
+    else:
+        return HttpResponse(
+            json.dumps({"status": "Failed! User does not have access(1)"}),
+            content_type="application/json"
+        )
+
+    if not get_access(updater, access_area):
+        return HttpResponse(
+            json.dumps({"status": "Failed! User does not have access(2)"}),
+            content_type="application/json"
+        )
+
+    # Finish getting variables
+    basic = request.POST.get('basic', None)
+    adv = request.POST.get('adv', None)
+    field = request.POST.get('field', None)
+    printer = request.POST.get('print', None)
+    net = request.POST.get('net', None)
+    mobile = request.POST.get('mobile', None)
+    ref = request.POST.get('ref', None)
+    soft = request.POST.get('soft', None)
+
+    # Construct discipline object
+    profic = Proficiencies.objects.get(netid=about)
+    profic.basic = basic
+    profic.advanced = adv
+    profic.field = field
+    profic.printer = printer
+    profic.network = net
+    profic.mobile = mobile
+    profic.refresh = ref
+    profic.software = soft
+
+    # Update proficiencies in Database
+    print(profic)
+    str(profic).save()
+    return HttpResponse(
+        json.dumps({"status": "Proficiencies successfully updated!"}),
+        content_type="application/json"
+    )
+
+
 def post_award(request):
     # Make sure it's a post request
     if not request.method == 'POST':
@@ -51,11 +180,13 @@ def post_award(request):
             content_type="application/json"
         )
 
-    # Make sure the user has proper access rights to do this
     request = views.get_current_user(request)
-    giver = str(request.user)
+    giver = request.user
     recipient = request.POST.get('recipient', None)
 
+    print(request.user)
+
+    # Make sure the user has proper access rights to do this
     if recipient is not None:
         emp = Employees.objects.get(netid=giver)
         if emp.position == 'llt':
@@ -87,6 +218,8 @@ def post_award(request):
         recipient=Employees.objects.get(netid=recipient),
         reason=reason,
     )
+
+    # Post award into Database
     print(award)
     award.save()
     return HttpResponse(
@@ -103,11 +236,11 @@ def post_comment(request):
             content_type="application/json"
         )
 
-    # Make sure the user has proper access rights to do this
     request = views.get_current_user(request)
-    poster = str(request.user)
+    poster = request.user
     about = request.POST.get('about', None)
 
+    # Make sure the user has proper access rights to do this
     if about is not None:
         emp = Employees.objects.get(netid=poster)
         if emp.position == 'llt':
@@ -137,6 +270,8 @@ def post_comment(request):
         about=Employees.objects.get(netid=about),
         description=body,
     )
+
+    # Post comment into Database
     print(comment)
     comment.save()
     return HttpResponse(
@@ -153,11 +288,11 @@ def post_discipline(request):
             content_type="application/json"
         )
 
-    # Make sure the user has proper access rights to do this
     request = views.get_current_user(request)
-    poster = str(request.user)
+    poster = request.user
     about = request.POST.get('about', None)
 
+    # Make sure the user has proper access rights to do this
     if about is not None:
         emp = Employees.objects.get(netid=poster)
         if emp.position == 'llt':
@@ -183,15 +318,17 @@ def post_discipline(request):
     extent = request.POST.get('extent', None)
 
     # Construct discipline object
-    comment = Discipline(
+    discipline = Discipline(
         subject=subject,
         poster=Employees.objects.get(netid=poster),
         about=Employees.objects.get(netid=about),
         val=extent,
         description=body,
     )
-    print(comment)
-    comment.save()
+
+    # Post discipline into Database
+    print(discipline)
+    discipline.save()
     return HttpResponse(
         json.dumps({"status": "Comment successfully created!"}),
         content_type="application/json"
@@ -203,9 +340,9 @@ def get_comments(request):
 
     comments = Discipline.objects.filter(about_id=netid)
 
-    translated_comments = comments.values('about_id', 'subject', 'val', 'time', 'description')
-
+    # Construct query of comments according to each netid
     translated_comments = [{
+        'pk': comment.id,
         'about_id': comment.about_id,
         'subject': comment.subject,
         'val': comment.val,
@@ -225,6 +362,7 @@ def get_trophies(request):
 
     trophies = Trophies.objects.filter(recipient=netid)
 
+    # Construct query of awards according to each netid
     translated_trophies = [{
         'giver': str(trophy.giver),
         'reason': str(trophy.reason),
@@ -238,6 +376,90 @@ def get_trophies(request):
     }
 
     return JsonResponse(data)
+
+
+def delete_comment(request):
+    # Make sure it's a post request
+    if not request.method == 'POST':
+        return HttpResponse(
+            json.dumps({"status": "Failed!"}),
+            content_type="application/json"
+        )
+
+    request = views.get_current_user(request)
+    deleter = request.user
+    about = request.POST.get('about', None)
+    disc_id = request.POST.get('del_comment', None)
+
+    # Make sure the user has proper access rights to do this
+    if about is not None:
+        emp = Employees.objects.get(netid=deleter)
+        if emp.position == 'llt':
+            access_area = 'roster_modfb_lab'
+        else:
+            access_area = 'roster_modfb_all'
+        print(access_area)
+    else:
+        return HttpResponse(
+            json.dumps({"status": "Failed! About netid not found"}),
+            content_type="application/json"
+        )
+
+    if not get_access(deleter, access_area):
+        return HttpResponse(
+            json.dumps({"status": "Failed! User does not have access"}),
+            content_type="application/json"
+        )
+
+    # Delete the discipline/comment from the database according to the primary key
+    Discipline.objects.get(id=disc_id).delete()
+    return HttpResponse(
+        json.dumps({"status": "Comment successfully deleted!"}),
+        content_type="application/json"
+    )
+
+
+def delete_employee(request):
+    # Make sure it's a post request
+    if not request.method == 'POST':
+        return HttpResponse(
+            json.dumps({"status": "Failed!"}),
+            content_type="application/json"
+        )
+
+    request = views.get_current_user(request)
+    poster = request.user
+    about = request.POST.get('about', None)
+
+    # Make sure the user has proper access rights to do this
+    if about is not None:
+        emp = Employees.objects.get(netid=poster)
+        if emp.position == 'llt':
+            access_area = 'roster_modfb_lab'
+        else:
+            access_area = 'roster_modfb_all'
+        print(access_area)
+    else:
+        return HttpResponse(
+            json.dumps({"status": "Failed! About netid not found"}),
+            content_type="application/json"
+        )
+
+    if not get_access(poster, access_area):
+        return HttpResponse(
+            json.dumps({"status": "Failed! User does not have access"}),
+            content_type="application/json"
+        )
+
+    # Update the "delete" column in the Database to "True" for the employee
+    employee = Employees.objects.get(netid=about)
+    employee.delete = True
+    print(employee)
+    employee.save()
+    return HttpResponse(
+        json.dumps({"status": "Employee successfully deleted!"}),
+        content_type="application/json"
+    )
 
 
 # Helper Functions
@@ -259,3 +481,4 @@ def prep_context():
         'comform': comform,
         'starform': starform
     }
+

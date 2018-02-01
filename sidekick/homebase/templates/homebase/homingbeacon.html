@@ -9,7 +9,6 @@
     <div class="panel-body app-body">
 
       <div class="beacon">
-
         <div class="beacon-left">
             <p class="beacon-location">Labs</p>
             {% if user_netid|has_access:"homingbeacon_checkin" %}
@@ -55,7 +54,7 @@
             <div class="beacon-left">
                 <p class="beacon-location">Building 5</p>
                 {% if user_netid|has_access:"homingbeacon_checkin" %}
-                <button role="button" class="btn btn-success user-checkin">Checkin</button>
+                    <button role="button" class="btn btn-success user-checkin">Checkin</button>
                 {% endif %}
             </div>
 

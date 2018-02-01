@@ -13,7 +13,6 @@ CLIENT_SECRET_FILE = 'client_secret.json'
 
 def get_refresh_token():
     flow = client.flow_from_clientsecrets(CLIENT_SECRET_FILE, SCOPES)
-
     storage = Storage("store-oauth2.json")
     args = tools.argparser.parse_args([])
     args.noauth_local_webserver = True
