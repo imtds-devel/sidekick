@@ -4,22 +4,14 @@
   "keywords": [
     "css",
     "js",
-<<<<<<< HEAD
     "sass",
-=======
-    "less",
->>>>>>> develop
     "mobile-first",
     "responsive",
     "front-end",
     "framework",
     "web"
   ],
-<<<<<<< HEAD
   "homepage": "https://getbootstrap.com",
-=======
-  "homepage": "http://getbootstrap.com",
->>>>>>> develop
   "authors": [
     {
       "name": "Mark Otto",

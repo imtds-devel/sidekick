@@ -1,20 +1,12 @@
 /*!
-<<<<<<< HEAD
  * QUnit 2.4.1
-=======
- * QUnit 1.22.0
->>>>>>> develop
  * https://qunitjs.com/
  *
  * Copyright jQuery Foundation and other contributors
  * Released under the MIT license
  * https://jquery.org/license
  *
-<<<<<<< HEAD
  * Date: 2017-10-22T05:12Z
-=======
- * Date: 2016-02-23T15:57Z
->>>>>>> develop
  */
 
 /** Font Family and Sizes */
@@ -35,11 +27,7 @@
 }
 
 
-<<<<<<< HEAD
 /** Header (excluding toolbar) */
-=======
-/** Header */
->>>>>>> develop
 
 #qunit-header {
 	padding: 0.5em 0 0.5em 1em;
@@ -64,41 +52,18 @@
 	color: #FFF;
 }
 
-<<<<<<< HEAD
-=======
-#qunit-testrunner-toolbar label {
-	display: inline-block;
-	padding: 0 0.5em 0 0.1em;
-}
-
->>>>>>> develop
 #qunit-banner {
 	height: 5px;
 }
 
-<<<<<<< HEAD
 #qunit-filteredTest {
 	padding: 0.5em 1em 0.5em 1em;
 	color: #366097;
 	background-color: #F4FF77;
-=======
-#qunit-testrunner-toolbar {
-	padding: 0.5em 1em 0.5em 1em;
-	color: #5E740B;
-	background-color: #EEE;
-	overflow: hidden;
-}
-
-#qunit-filteredTest {
-	padding: 0.5em 1em 0.5em 1em;
-	background-color: #F4FF77;
-	color: #366097;
->>>>>>> develop
 }
 
 #qunit-userAgent {
 	padding: 0.5em 1em 0.5em 1em;
-<<<<<<< HEAD
 	color: #FFF;
 	background-color: #2B81AF;
 	text-shadow: rgba(0, 0, 0, 0.5) 2px 2px 1px;
@@ -242,29 +207,6 @@
 }
 
 
-=======
-	background-color: #2B81AF;
-	color: #FFF;
-	text-shadow: rgba(0, 0, 0, 0.5) 2px 2px 1px;
-}
-
-#qunit-modulefilter-container {
-	float: right;
-	padding: 0.2em;
-}
-
-.qunit-url-config {
-	display: inline-block;
-	padding: 0.1em;
-}
-
-.qunit-filter {
-	display: block;
-	float: right;
-	margin-left: 1em;
-}
-
->>>>>>> develop
 /** Tests: Pass/Fail */
 
 #qunit-tests {
@@ -284,12 +226,8 @@
 #qunit-tests li.running,
 #qunit-tests li.pass,
 #qunit-tests li.fail,
-<<<<<<< HEAD
 #qunit-tests li.skipped,
 #qunit-tests li.aborted {
-=======
-#qunit-tests li.skipped {
->>>>>>> develop
 	display: list-item;
 }
 
@@ -298,11 +236,7 @@
 }
 
 #qunit-tests.hidepass li.running,
-<<<<<<< HEAD
 #qunit-tests.hidepass li.pass:not(.todo) {
-=======
-#qunit-tests.hidepass li.pass {
->>>>>>> develop
 	visibility: hidden;
 	position: absolute;
 	width:   0;
@@ -379,24 +313,14 @@
 }
 
 #qunit-tests del {
-<<<<<<< HEAD
 	color: #374E0C;
 	background-color: #E0F2BE;
-=======
-	background-color: #E0F2BE;
-	color: #374E0C;
->>>>>>> develop
 	text-decoration: none;
 }
 
 #qunit-tests ins {
-<<<<<<< HEAD
 	color: #500;
 	background-color: #FFCACA;
-=======
-	background-color: #FFCACA;
-	color: #500;
->>>>>>> develop
 	text-decoration: none;
 }
 
@@ -451,22 +375,16 @@
 
 #qunit-banner.qunit-fail                    { background-color: #EE5757; }
 
-<<<<<<< HEAD
 
 /*** Aborted tests */
 #qunit-tests .aborted { color: #000; background-color: orange; }
-=======
->>>>>>> develop
 /*** Skipped tests */
 
 #qunit-tests .skipped {
 	background-color: #EBECE9;
 }
 
-<<<<<<< HEAD
 #qunit-tests .qunit-todo-label,
-=======
->>>>>>> develop
 #qunit-tests .qunit-skipped-label {
 	background-color: #F4FF77;
 	display: inline-block;
@@ -477,7 +395,6 @@
 	margin: -0.4em 0.4em -0.4em 0;
 }
 
-<<<<<<< HEAD
 #qunit-tests .qunit-todo-label {
 	background-color: #EEE;
 }
@@ -485,19 +402,11 @@
 /** Result */
 
 #qunit-testresult {
-=======
-/** Result */
-
-#qunit-testresult {
-	padding: 0.5em 1em 0.5em 1em;
-
->>>>>>> develop
 	color: #2B81AF;
 	background-color: #D2E0E6;
 
 	border-bottom: 1px solid #FFF;
 }
-<<<<<<< HEAD
 #qunit-testresult .clearfix {
 	height: 0;
 	clear: both;
@@ -515,11 +424,6 @@
   width: 10%;
 	float:left;
 }
-=======
-#qunit-testresult .module-name {
-	font-weight: 700;
-}
->>>>>>> develop
 
 /** Fixture */
 
