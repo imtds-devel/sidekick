@@ -9,11 +9,7 @@
             {% for printer, status in printer_list %}
             {% if printer.location == location %}
             <div class="col-md-3 printer-card">
-<<<<<<< HEAD
                 <div type="card" class="panel-printer-btn" id="panel" data-toggle="modal"
-=======
-                <div type="panel" class="panel-printer-btn" id="panel" data-toggle="modal"
->>>>>>> develop
                      data-target={{printer.data_targ}}>
                     {% with printer_list|first as first %}
                     <img src='{% static status.first.pic %}'
@@ -44,11 +40,7 @@
                             <h1 align="center"><b>Recent Reports</b></h1>
                             <div style="height: 500px; overflow-y: auto;">
                                 {% for status in status_list %}
-<<<<<<< HEAD
                                 <div class="card panel-print-log">
-=======
-                                <div class="panel panel-print-log">
->>>>>>> develop
                                     <h4><b>By:</b> {{status.netid }}</h4>
                                     <p><b>On:</b> {{status.date}} <b>Status:</b> {{status.print_stat}}</p>
                                     <p><b>Report:</b> {{status.desc}}</p>

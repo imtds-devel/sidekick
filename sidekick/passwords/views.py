@@ -33,8 +33,4 @@ def index(request):
 
     context['passwords'] = passwords
 
-<<<<<<< HEAD
     return views.load_page(request, 'passwords/index.html', context)
-=======
-    return views.load_page(request, 'passwords/index.html', context)
->>>>>>> develop

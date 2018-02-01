@@ -1,9 +1,5 @@
 $(function () {
-<<<<<<< HEAD
   'use strict'
-=======
-  'use strict';
->>>>>>> develop
 
   QUnit.module('button plugin')
 
@@ -25,11 +21,7 @@ $(function () {
 
   QUnit.test('should provide no conflict', function (assert) {
     assert.expect(1)
-<<<<<<< HEAD
     assert.strictEqual(typeof $.fn.button, 'undefined', 'button was set back to undefined (org value)')
-=======
-    assert.strictEqual($.fn.button, undefined, 'button was set back to undefined (org value)')
->>>>>>> develop
   })
 
   QUnit.test('should return jquery collection containing the element', function (assert) {
@@ -40,67 +32,6 @@ $(function () {
     assert.strictEqual($button[0], $el[0], 'collection contains element')
   })
 
-<<<<<<< HEAD
-=======
-  QUnit.test('should return set state to loading', function (assert) {
-    assert.expect(4)
-    var $btn = $('<button class="btn" data-loading-text="fat">mdo</button>')
-    assert.strictEqual($btn.html(), 'mdo', 'btn text equals mdo')
-    $btn.bootstrapButton('loading')
-    var done = assert.async()
-    setTimeout(function () {
-      assert.strictEqual($btn.html(), 'fat', 'btn text equals fat')
-      assert.ok($btn[0].hasAttribute('disabled'), 'btn is disabled')
-      assert.ok($btn.hasClass('disabled'), 'btn has disabled class')
-      done()
-    }, 0)
-  })
-
-  QUnit.test('should return reset state', function (assert) {
-    assert.expect(7)
-    var $btn = $('<button class="btn" data-loading-text="fat">mdo</button>')
-    assert.strictEqual($btn.html(), 'mdo', 'btn text equals mdo')
-    $btn.bootstrapButton('loading')
-    var doneOne = assert.async()
-    setTimeout(function () {
-      assert.strictEqual($btn.html(), 'fat', 'btn text equals fat')
-      assert.ok($btn[0].hasAttribute('disabled'), 'btn is disabled')
-      assert.ok($btn.hasClass('disabled'), 'btn has disabled class')
-      doneOne()
-      var doneTwo = assert.async()
-      $btn.bootstrapButton('reset')
-      setTimeout(function () {
-        assert.strictEqual($btn.html(), 'mdo', 'btn text equals mdo')
-        assert.ok(!$btn[0].hasAttribute('disabled'), 'btn is not disabled')
-        assert.ok(!$btn.hasClass('disabled'), 'btn does not have disabled class')
-        doneTwo()
-      }, 0)
-    }, 0)
-  })
-
-  QUnit.test('should work with an empty string as reset state', function (assert) {
-    assert.expect(7)
-    var $btn = $('<button class="btn" data-loading-text="fat"/>')
-    assert.strictEqual($btn.html(), '', 'btn text equals ""')
-    $btn.bootstrapButton('loading')
-    var doneOne = assert.async()
-    setTimeout(function () {
-      assert.strictEqual($btn.html(), 'fat', 'btn text equals fat')
-      assert.ok($btn[0].hasAttribute('disabled'), 'btn is disabled')
-      assert.ok($btn.hasClass('disabled'), 'btn has disabled class')
-      doneOne()
-      var doneTwo = assert.async()
-      $btn.bootstrapButton('reset')
-      setTimeout(function () {
-        assert.strictEqual($btn.html(), '', 'btn text equals ""')
-        assert.ok(!$btn[0].hasAttribute('disabled'), 'btn is not disabled')
-        assert.ok(!$btn.hasClass('disabled'), 'btn does not have disabled class')
-        doneTwo()
-      }, 0)
-    }, 0)
-  })
-
->>>>>>> develop
   QUnit.test('should toggle active', function (assert) {
     assert.expect(2)
     var $btn = $('<button class="btn" data-toggle="button">mdo</button>')
@@ -129,7 +60,6 @@ $(function () {
     assert.strictEqual($btn.attr('aria-pressed'), 'true', 'btn aria-pressed state is true')
   })
 
-<<<<<<< HEAD
   QUnit.test('should toggle aria-pressed on buttons with container', function (assert) {
     assert.expect(1)
     var groupHTML = '<div class="btn-group" data-toggle="buttons">' +
@@ -141,8 +71,6 @@ $(function () {
     assert.strictEqual($('#btn1').attr('aria-pressed'), 'true')
   })
 
-=======
->>>>>>> develop
   QUnit.test('should toggle aria-pressed when btn children are clicked', function (assert) {
     assert.expect(2)
     var $btn = $('<button class="btn" data-toggle="button" aria-pressed="false">redux</button>')
@@ -155,7 +83,6 @@ $(function () {
     assert.strictEqual($btn.attr('aria-pressed'), 'true', 'btn aria-pressed state is true')
   })
 
-<<<<<<< HEAD
   QUnit.test('should trigger input change event when toggled button has input field', function (assert) {
     assert.expect(1)
     var done = assert.async()
@@ -189,21 +116,6 @@ $(function () {
       '<input type="radio" name="options" id="option3"> Option 3' +
       '</label>' +
       '</div>'
-=======
-  QUnit.test('should check for closest matching toggle', function (assert) {
-    assert.expect(12)
-    var groupHTML = '<div class="btn-group" data-toggle="buttons">'
-      + '<label class="btn btn-primary active">'
-      + '<input type="radio" name="options" id="option1" checked="true"> Option 1'
-      + '</label>'
-      + '<label class="btn btn-primary">'
-      + '<input type="radio" name="options" id="option2"> Option 2'
-      + '</label>'
-      + '<label class="btn btn-primary">'
-      + '<input type="radio" name="options" id="option3"> Option 3'
-      + '</label>'
-      + '</div>'
->>>>>>> develop
     var $group = $(groupHTML).appendTo('#qunit-fixture')
 
     var $btn1 = $group.children().eq(0)
@@ -219,18 +131,13 @@ $(function () {
     assert.ok($btn2.hasClass('active'), 'btn2 has active class')
     assert.ok($btn2.find('input').prop('checked'), 'btn2 is checked')
 
-<<<<<<< HEAD
     $btn2.find('input').trigger('click') // Clicking an already checked radio should not un-check it
-=======
-    $btn2.find('input').trigger('click') // clicking an already checked radio should not un-check it
->>>>>>> develop
     assert.ok(!$btn1.hasClass('active'), 'btn1 does not have active class')
     assert.ok(!$btn1.find('input').prop('checked'), 'btn1 is not checked')
     assert.ok($btn2.hasClass('active'), 'btn2 has active class')
     assert.ok($btn2.find('input').prop('checked'), 'btn2 is checked')
   })
 
-<<<<<<< HEAD
   QUnit.test('should not add aria-pressed on labels for radio/checkbox inputs in a data-toggle="buttons" group', function (assert) {
     assert.expect(2)
     var groupHTML = '<div class="btn-group" data-toggle="buttons">' +
@@ -265,6 +172,4 @@ $(function () {
     assert.ok($btn.is(':not(.active)'), 'button did not become active')
     assert.ok(!$input.is(':checked'), 'checkbox did not get checked')
   })
-=======
->>>>>>> develop
 })
