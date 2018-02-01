@@ -12,9 +12,8 @@
             <meta name="viewport" content="width=device-width, initial-scale=1">
             <link rel="sidekick icon" type="image/png" href="{% static 'favicon.ico' %}">
         {% endblock %}
-
         {% block head-css %}
-            <link rel="stylesheet" href="{% static 'bootstrap/dist/css/bootstrap.css' %}">
+            <link rel="stylesheet" href="{% static 'bootstrap/dist/css/bootstrap.min.css' %}">
             <link href="https://fonts.googleapis.com/css?family=Play" rel="stylesheet">
             <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
             <link rel="stylesheet" href="{% static 'styles/base.css' %}"/>
@@ -27,23 +26,22 @@
             <script type="text/javascript" src="{% static 'js/'|add:curr_page|add:'.js' %}"></script>
         {% endblock %}
     </head>
-
     <!-- The base of the page -->
     <body>
-        <div class='container-fluid bodywrap'>
-            <div class='body'>
-            <!-- Where we define our wonderful navbar -->
+        <!-- Where we define our wonderful navbar -->
+        <div class='row no-gutters'>
+            <div class='col no-gutters'>
             {% include 'sidekick/navigation.html' %}
-            <div class='row contentwrap'>
-                <div class='col-sm-3 col-lg-2'>
-                    <!-- Side Panel -->
-                    {% include 'sidekick/side-panel.html' %}
-                    {% include 'sidekick/side-user.html' %}
-                </div>
-                <div class='col-sm-9 col-lg-10 pagewrap'>
-            {% block content %}<!-- PUT YOUR CONTENT HERE :D -->{% endblock %}
-                </div>
             </div>
+        </div>
+        <div class='row no-gutters'>
+            <div class='col-sm-2'>
+                <!-- Side Panel -->
+                {% include 'sidekick/side-panel.html' %}
+                {% include 'sidekick/side-user.html' %}
+            </div>
+            <div class='col-sm-10'>
+                {% block content %}<!-- PUT YOUR CONTENT HERE :D -->{% endblock %}
             </div>
         </div>
     </body>
