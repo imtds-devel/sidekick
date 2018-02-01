@@ -85,12 +85,6 @@ overflow:auto;
     height: 96px;
     width:96px;
 }
-.trophy-wrap
-{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-}
 .award-text{
     width: 100%;
     text-align: center;
@@ -137,16 +131,7 @@ overflow:auto;
 {
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 }
-.trophy
-{
-    margin:3px;
-}
-.trophy-img
-{
-    height: 40px;
-    width: 40px;
-    border-radius: 3px;
-}
+
 
 .hero-bio
 {

@@ -108,3 +108,21 @@ height:90%;
 {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
+
+/* Trophy css */
+.trophy
+{
+    margin:3px;
+}
+.trophy-img
+{
+    height: 40px;
+    width: 40px;
+    border-radius: 3px;
+}
+.trophy-wrap
+{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}

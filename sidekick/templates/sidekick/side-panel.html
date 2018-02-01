@@ -1,10 +1,10 @@
 {% load staticfiles %}
 {% load roster_extras %}
 
-<div class='panel-group sidebarTools'>
-    <div class="panel panel-default">
-        <div class="panel-heading"><h4>MoD Tracker</h4></div>
-        <div class="panel-body">
+<div>
+    <div class="card">
+        <div class="card-header"><h4>MoD Tracker</h4></div>
+        <div class="card-body">
             <div class="carousel slide modTrack" id="modCarousel" data-ride='carousel'>
                 <ul class="carousel-indicators">
                         <li data-target="#modCarousel" data-slide-to="0" class="active"></li>
@@ -57,8 +57,8 @@
             </div>
         </div>
     </div>
-    <div class="panel panel-default">
-        <div class='panel-heading'>
+    <div class="card">
+        <div class="card-header">
             <div class="media">
                 <div class="media-body">
                     <h4>
@@ -78,9 +78,8 @@
                     <!--<img class="sh-checkin-img img-circle" src="{% static 'roster/checked-in-False-time.png'%}">-->
                 </div>
             </div>
-
         </div>
-        <div class="panel-body">
+        <div class="card-body">
             <div class="media">
                 <div class="media-body">
                     <!-- Pending shift status in release 1.2
@@ -123,9 +122,9 @@
             </div>
         </div>
     </div>
-    <div class="panel panel-default">
-        <div class="panel-heading"><h4>My Awards</h4></div>
-        <div class="panel-body">
+    <div class="card">
+        <div class="card-header"><h4>My Awards</h4></div>
+        <div class="card-body">
             {% include 'trophycase/trophycase.html' with trophy_list=trophy_list %}
         </div>
     </div>
