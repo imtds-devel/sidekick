@@ -1,5 +1,9 @@
 /* CSS For the Homing Beacon */
 
+.col{
+  padding: 0px;
+}
+
 .app-body{
   padding: 2px;
   overflow-y: scroll;
@@ -102,6 +106,10 @@
     width: 25%;
 }
 
+.info-emp h4{
+  font-size: 1em;
+}
+
 /* CSS for announcments and events, a is for announcments and e is for events */
 .modal-title-container{
     position: relative;
@@ -202,7 +210,7 @@ color: white;
 .a-right p{
     position: absolute;
     top: 50%;                         /* 3 */
-    transform: translate(0, -50%)
+    transform: translate(0, -50%);
   }
 
   .a-left{
@@ -285,6 +293,7 @@ color: white;
     z-index: 0;
     padding-left: 10px;
     padding-left: 5px;
+    overflow-x: scroll;
   }
   .a-right p{
     position: absolute;
@@ -383,7 +392,7 @@ color: white;
   }
 
   .a-description{
-    font-size: 16px;
+    font-size: 1em;
     text-align: center;
   }
 

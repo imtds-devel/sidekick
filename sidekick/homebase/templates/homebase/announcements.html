@@ -4,7 +4,7 @@
 
 
 <!-- Modal -->
-<div id="announcement-modal" class="modal fade" role="dialog">
+<div id="announcement-modal" tabindex="-1" class="modal fade" role="dialog">
   <div class="modal-dialog">
 
     <!-- Modal content-->
@@ -19,107 +19,103 @@
       <div class="modal-body">
         <div class="form-container e-form">
           <form method="post" class="form-horizontal" id="e-form">
-              {% csrf_token %}
-              {% for field in e_form.visible_fields %}
-              <div class="form-group">
-                  {{ field.errors }}
-                  <label class="control-lavel col-sm-2" for="{{ field.id_for_label }}">{{ field.label }}</label>
-                  <div class="col-sm-10">
-                      {{ field }}
-                  </div>
+            {% csrf_token %}
+            {% for field in e_form.visible_fields %}
+            <div class="form-group">
+              {{ field.errors }}
+              <label class="control-lavel col-sm-2" for="{{ field.id_for_label }}">{{ field.label }}</label>
+              <div class="col-sm-10">
+                {{ field }}
               </div>
+            </div>
 
-              {% endfor %}
-              <input type='submit' name='e-form' class="btn btn-success"/>
-              <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+            {% endfor %}
+            <input type='submit' name='e-form' class="btn btn-success"/>
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
           </form>
         </div>
         <div class="form-container a-form">
           <form method="post" class="form-horizontal" id="a-form">
-              {% csrf_token %}
-              {% for field in a_form.visible_fields %}
-              <div class="form-group">
-                  {{ field.errors }}
-                  <label class="control-lavel col-sm-2" for="{{ field.id_for_label }}">{{ field.label }}</label>
-                  <div class="col-sm-10">
-                      {{ field }}
-                  </div>
+            {% csrf_token %}
+            {% for field in a_form.visible_fields %}
+            <div class="form-group">
+              {{ field.errors }}
+              <label class="control-lavel col-sm-2" for="{{ field.id_for_label }}">{{ field.label }}</label>
+              <div class="col-sm-10">
+                {{ field }}
               </div>
+            </div>
 
-              {% endfor %}
-              <input type='submit' name='a-form' class="btn btn-success"/>
-              <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+            {% endfor %}
+            <input type='submit' name='a-form' class="btn btn-success"/>
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
           </form>
         </div>
       </div>
     </div>
-
   </div>
 </div>
 
-    <div class="row homebase-row">
-      <div class="card homebase-group">
+<div class="card homebase-group">
 
-        <div class="card-header app-head">Announcements and Events
-            {% if user_netid|has_access:"announcements_canedit" %}
-            <div data-toggle="modal" data-target="#announcement-modal" class="button-box">
-              <span class="glyphicon glyphicon-plus" id="new-icon"></span>
-            </div>
-            {% endif %}
-        </div>
+  <div class="card-header app-head">Announcements and Events
+    {% if user_netid|has_access:"announcements_canedit" %}
+    <div data-toggle="modal" data-target="#announcement-modal" class="button-box">
+      <span class="glyphicon glyphicon-plus" id="new-icon"></span>
+    </div>
+    {% endif %}
+  </div>
 
-              <div class="card-block app-body scrollable">
+  <div class="card-block app-body scrollable">
 
-              {% if ordered_list %}
-                {% for post in ordered_list %}
-                  {% if post.posted%}
-                  <div class="announcement">
+    {% if ordered_list %}
+    {% for post in ordered_list %}
+    {% if post.posted%}
+    <div class="announcement">
 
-                    <div class="a-left">
-                      <p class="a-subject">{{post.subject}}</p>
-                      <p class="a-meta">{{post.announcer}} on {{post.posted}}</p>
-                    </div>
+      <div class="a-left">
+        <p class="a-subject">{{post.subject}}</p>
+        <p class="a-meta">{{post.announcer}} on {{post.posted}}</p>
+      </div>
 
-                    <div class="a-right">
-                      <p class="a-description">{{post.announcement}}</p>
-                    </div>
-                  </div>
-                  {%endif%}
-                  {% if post.event_start%}
-                  <div class="event">
-
-                    <div class="e-left">
-                      <p class="e-subject">{{post.title}}</p>
-                      <p class="e-meta">From {{post.event_start}} to {{post.event_end}}</p>
-                    </div>
-
-                    <div class="e-right">
-                      <p class="e-description">{{post.description}}</p>
-                    </div>
-                  </div>
-                  {%endif%}
-                {%endfor%}
-              {%endif%}
-
-              </div>
-
-            </div>
+      <div class="a-right">
+        <p class="a-description">{{post.announcement}}</p>
       </div>
     </div>
+    {%endif%}
+    {% if post.event_start%}
+    <div class="event">
 
-    <script text="text/javascript">
-      $(document).ready(function() {
-        $(".e-form").hide();
+      <div class="e-left">
+        <p class="e-subject">{{post.title}}</p>
+        <p class="e-meta">From {{post.event_start}} to {{post.event_end}}</p>
+      </div>
 
-        $(".create-e").click(function(){
-          $(".a-form").hide();
-          $(".e-form").show();
-        });
+      <div class="e-right">
+        <p class="e-description">{{post.description}}</p>
+      </div>
+    </div>
+    {%endif%}
+    {%endfor%}
+    {%endif%}
 
-        $(".create-a").click(function(){
-          $(".e-form").hide();
-          $(".a-form").show();
-        });
+  </div>
 
-      });
-    </script>
+</div>
+
+<script text="text/javascript">
+$(document).ready(function() {
+  $(".e-form").hide();
+
+  $(".create-e").click(function(){
+    $(".a-form").hide();
+    $(".e-form").show();
+  });
+
+  $(".create-a").click(function(){
+    $(".e-form").hide();
+    $(".a-form").show();
+  });
+
+});
+</script>
