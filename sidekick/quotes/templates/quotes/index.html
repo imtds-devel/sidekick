@@ -2,11 +2,12 @@
 {% load staticfiles %}
 {% block content %}
 {% if services_list %}
-    <div class= 'col-sm-7 col-lg-7'>
+<div class = 'row no-gutters'>
+    <div class= 'col-sm-7'>
         <div class = 'container-fluid'>
             <div class = 'services-selection-container'>
-                <div class='panel panel-default services-panel'>
-                    <div class='panel-heading'>Backup</div>
+                <div class='card services-panel'>
+                    <div class='card-header'>Backup</div>
                     {% for service in services_list %}
                         {% if service.category == 'backup' %}
                             <button id='service' type='button' class='btn btn-block service-btn' 
@@ -28,8 +29,8 @@
                 </div>
             </div>
             <div class = 'services-selection-container'>
-                <div class='panel panel-default services-panel'>
-                    <div class='panel-heading'>Hardware</div>
+                <div class='card services-panel'>
+                    <div class='card-header'>Hardware</div>
                     <div id='part' class='list-group-item'>
                             <form>
                                 <div class = "input-group">
@@ -68,8 +69,8 @@
                 </div>
             </div>
             <div class = 'services-selection-container'>
-                <div class='panel panel-default services-panel'>
-                    <div class='panel-heading'>Software</div>
+                <div class='card services-panel'>
+                    <div class='card-header'>Software</div>
                     {% for service in services_list %}
                         {% if service.category == 'software' %}
                             <button id='service' type='button' class='btn btn-block service-btn' 
@@ -91,8 +92,8 @@
                 </div>
             </div>
             <div class = 'services-selection-container'>
-                <div class='panel panel-default services-panel'>
-                    <div class='panel-heading'>Other</div>
+                <div class='card services-panel'>
+                    <div class='card-header'>Other</div>
                     {% for service in services_list %}
                         {% if service.category == 'other' %}
                             <button id='service' type='button' class='btn btn-block service-btn' 
@@ -114,8 +115,8 @@
                 </div>
             </div>
             <div class = 'services-selection-container'>
-                <div class='panel panel-default services-panel'>
-                    <div class='panel-heading'>Discounts</div>
+                <div class='card services-panel'>
+                    <div class='card-header'>Discounts</div>
                     {% for service in services_list %}
                         {% if service.category == 'discount' %}
                             <button id='discount' type='button' class='btn btn-block service-btn' 
@@ -140,8 +141,8 @@
     </div>
     <div class='col-sm-5 col-lg-5'>
         <div class='services-selection-container'>
-            <div class='panel panel-default quote-card'>
-                <div class='panel-heading'>Quote</div>
+            <div class='card quote-card'>
+                <div class='card-header'>Quote</div>
                     <div id='quote-items' class='list-group quoted-cards'></div>
                     <div id='quote-totals' class='list-group-item quote-total hidden-quote'>
                         <div class = 'media'>
@@ -164,14 +165,15 @@
                         </div>
                     </div>
             </div>
-            <div class='panel panel-default quote-card'>
-                <div class='panel-heading'>Text Quote</div>
+            <div class='card quote-card'>
+                <div class='card-header'>Text Quote</div>
                 <textarea class='form-control' rows='5' id='text-quote' readonly='true'></textarea>
             </div>
             <button id='clipboard-button' type='button' class='btn btn-primary btn-lg'>Copy Quote to Clipboard</button>
             <button id='reset-button' type='button' class='btn btn-primary btn-lg'>Reset Quote</button>
         </div>
     </div>
+</div>
 {% else %}
     <div class='page-header'>
         <h3>No services found, contact your local Sidekick representative</h3>
