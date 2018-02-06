@@ -36,13 +36,13 @@
     justify-content: flex-end;
     align-items: center;
 }
-.shifts-panel-group
+.shifts-card-group
 {
     display: flex;
     flex-direction:row;
     overflow:auto;
 }
-.shift-panel
+.shift-card
 {
     justify-content: flex-start;
     margin-right: 2px;
