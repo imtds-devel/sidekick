@@ -2,22 +2,22 @@
 {% block content %}
 <div class="page-body">
     <div class='page-header'>
-        <h2>Passwords</h2>
+        <h2>Password List</h2>
     </div>
-    <table class="table table-responsive table-hover pass-table">
-        <thead>
+    <table class="table table-bordered table-responsive-sm table-hover pass-table">
+        <thead class="thead-dark">
         <tr>
             <th>Name</th>
             <th>Password</th>
             <th>Description</th>
         </tr>
-        </thead>
+      </thead>
         <tbody class="noselect pass-tbody">
             {% for password in passwords %}
             <tr>
-                <td>{{password.name}}</td>
-                <td>{{password.passwd}}</td>
-                <td>{{password.description}}</td>
+                <td class="pass-name">{{password.name}}</td>
+                <td class="pass-string">{{password.passwd}}</td>
+                <td class="pass-desc">{{password.description}}</td>
             </tr>
             {% endfor %}
         </tbody>

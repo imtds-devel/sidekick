@@ -1,5 +1,6 @@
 /* CSS For the Homing Beacon */
 
+/*Represents the card block section*/
 .app-body{
   padding: 2px;
   overflow-y: scroll;
@@ -7,6 +8,7 @@
   margin-top: 0px;
 }
 
+/*This is the header of both cards*/
 .app-head{
   font-size: 16px;
   display: flex;
@@ -49,7 +51,6 @@
   flex-direction:column;
   align-items:center;
   background: #548E8E;
-  padding: 5px;
   height: 180px;
   margin-top: 5px;
   border-right: solid 3px #285858;
@@ -82,7 +83,7 @@
 /*Makes the round employee pic with shadow*/
 .employee-pic{
   border-radius: 50%;
-  width: 70%;
+  width: 5vmax;
   min-width: 60px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }

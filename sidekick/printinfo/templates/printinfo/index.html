@@ -4,11 +4,11 @@
 <div class='container-fluid'>
     <div class="row">
         {% for location in library_list %}
-        <div class="col-md-2 printer-area">
+        <div class="printer-area">
             <h1><b>{{location.name}}</b></h1>
             {% for printer, status in printer_list %}
             {% if printer.location == location %}
-            <div class="col-md-3 printer-card">
+            <div class="col-lg-3 printer-card">
                 <div type="card" class="panel-printer-btn" id="panel" data-toggle="modal"
                      data-target={{printer.data_targ}}>
                     {% with printer_list|first as first %}
@@ -41,10 +41,6 @@
                             <div style="height: 500px; overflow-y: auto;">
                                 {% for status in status_list %}
                                 <div class="card panel-print-log">
-<<<<<<< HEAD
-
-=======
->>>>>>> d41c5d16ef058133bddc86709d513bf06ee0d2ca
                                     <h4><b>By:</b> {{status.netid }}</h4>
                                     <p><b>On:</b> {{status.date}} <b>Status:</b> {{status.print_stat}}</p>
                                     <p><b>Report:</b> {{status.desc}}</p>
