@@ -25,7 +25,7 @@ class CoverInstructions:
             "post": None,
             # More can be defined here if necessary
         }
-        self.g_service = google_api.build_service()  # build at create time
+        # self.g_service = google_api.build_service()  # build at create time
 
     def push(self):
         return push_cover_new(self)
@@ -36,24 +36,13 @@ def push_cover_new(data: CoverInstructions):
         # On error: notify user
     data, outcome = validate_cover(data)
 
+    print(outcome)
     if outcome != "valid":
         return {"result": "failed", "description": outcome}
 
 
 
-
-    # Variable Definitions
-        # On error: notify me, notify user about fail
-
-    # Event Creation
-        # On error: notify me, notify user about fail
-
-    # Synchronization
-        # On error: Notify Me! notify user about fail
-
-    # Update Notifications
-        # On error: notify me and user
-
+    print("Everything looks good!")
     return {"result": "success", "description": "Your cover was successfully pushed!"}
 
 
@@ -72,8 +61,8 @@ def validate_cover(data: CoverInstructions):
         return data, outcome
 
     # Validate shift (ensure the shift id is valid)
-    shifts = Shifts.objects.filter(event_id__contains=data.shift_id)
-    if len(shifts) == 0:
+    shifts = Shifts.objects.filter(event_id=data.shift_id)
+    if len(shifts) == 0 or len(shifts) > 1:
         outcome = "Bad shift ID specified"
         return data, outcome
 
@@ -92,6 +81,9 @@ def validate_cover(data: CoverInstructions):
     start = tz.localize(shift.shift_start)
     end = tz.localize(shift.shift_end)
 
+    data.start_time = data.start_time.astimezone(pytz.timezone('America/Los_Angeles'))
+    data.end_time = data.end_time.astimezone(pytz.timezone('America/Los_Angeles'))
+
     print("Shift start & end times")
     print(start)
     print(data.start_time)
@@ -99,7 +91,7 @@ def validate_cover(data: CoverInstructions):
     print(end)
 
     if data.partial and data.start_time and data.end_time:
-        if start < data.start_time or end > data.end_time:
+        if start > data.start_time or end < data.end_time:
             outcome = "Start and end times are not in acceptable range!"
             return data, outcome
 
