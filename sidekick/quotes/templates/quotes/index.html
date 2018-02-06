@@ -6,7 +6,7 @@
     <div class= 'col-sm-7'>
         <div class = 'container-fluid'>
             <div class = 'services-selection-container'>
-                <div class='card services-panel'>
+                <div class='card services-card'>
                     <div class='card-header'>Backup</div>
                     {% for service in services_list %}
                         {% if service.category == 'backup' %}
@@ -29,7 +29,7 @@
                 </div>
             </div>
             <div class = 'services-selection-container'>
-                <div class='card services-panel'>
+                <div class='card services-card'>
                     <div class='card-header'>Hardware</div>
                     <div id='part' class='list-group-item'>
                             <form>
@@ -69,7 +69,7 @@
                 </div>
             </div>
             <div class = 'services-selection-container'>
-                <div class='card services-panel'>
+                <div class='card services-card'>
                     <div class='card-header'>Software</div>
                     {% for service in services_list %}
                         {% if service.category == 'software' %}
@@ -92,7 +92,7 @@
                 </div>
             </div>
             <div class = 'services-selection-container'>
-                <div class='card services-panel'>
+                <div class='card services-card'>
                     <div class='card-header'>Other</div>
                     {% for service in services_list %}
                         {% if service.category == 'other' %}
@@ -115,7 +115,7 @@
                 </div>
             </div>
             <div class = 'services-selection-container'>
-                <div class='card services-panel'>
+                <div class='card services-card'>
                     <div class='card-header'>Discounts</div>
                     {% for service in services_list %}
                         {% if service.category == 'discount' %}
