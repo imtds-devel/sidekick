@@ -13,7 +13,7 @@ def synchronize(flush: bool=False, location: str=None):
         Shifts.objects.all().delete()
         SyncTokens.objects.all().delete()
 
-    if location == None:
+    if location is None:
         # one for each calendar location
         locations = ['ma', 'da', 'st', 'sd', 'rc', 'md']
         for loc in locations:
