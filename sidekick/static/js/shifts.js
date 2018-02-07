@@ -92,8 +92,11 @@ $(document).ready(function() {
             dataType: 'json',
             success : function (data) {
                 console.log("POSTED YES IT POSTED YES");
-		console.log(data);
-                alert("Your cover has been posted! Don't forget: you are still responsible for it until it's taken.");
+		        console.log(data);
+		        if (data.pst_status.result == "success")
+                    alert("Your cover has been posted! Don't forget: you are still responsible for it until it's taken.");
+                else
+                    alert("ERROR!!"+data.pst_status.description+"\nShift cover posting failed. If the issue persists, please use the manual shift cover form or contact software developer Nico Chera.");
                 $('.modal').modal('hide');
                 $('body').removeClass('modal-open');
                 $('.modal-backdrop').remove();
@@ -111,8 +114,11 @@ $(document).ready(function() {
             dataType: 'json',
             success: function (data) {
                 console.log("TAKEN YES IT TOOK YES");
-		console.log(data);
-                alert("You've taken the cover successfully!");
+        		console.log(data);
+                if (data.pst_status.result == "success")
+                    alert("Cover successfully taken! Don't forget you have the shift :)");
+                else
+                    alert("ERROR!!"+data.pst_status.description+"\nShift cover posting failed. If the issue persists, please use the manual shift cover form or contact software developer Nico Chera.");
                 $('.modal').modal('hide');
                 $('body').removeClass('modal-open');
                 $('.modal-backdrop').remove();
@@ -183,8 +189,6 @@ $(document).ready(function() {
         modalID = $(this).closest('.modal').attr('id');
         // Hide the partial selectors and enable the post button
         $('#' + modalID).find('.partial-selectors').show('fast');
-        $('#' + modalID).find('#post-cover-btn').prop('disabled', true); // Temporarily disabled until I code this
-        $("#" + modalID).find(".modal-footer").append("<p style='text-align:center'>(psst, partial covers aren't supported yet, sorry!)</p>");
     });
 
     // When the user selects "yes" for full take
@@ -202,7 +206,7 @@ $(document).ready(function() {
         modalID = $(this).closest('.modal').attr('id');
         // Hide the partial selectors and enable the post button
         $('#' + modalID).find('.partial-selectors').show('fast');
-        $('#' + modalID).find('#take-cover-btn').prop('disabled', true); // Temporarily disabled until I code this
+        $('#' + modalID).find('#take-cover-btn').prop('disabled', false);
     });
 
     // When the user clicks "post"
@@ -262,7 +266,7 @@ $(document).ready(function() {
             permID = eventID;
         }
 
-        var isPartial = $('#' + modalID).find('.partial-cover').prop('checked');
+        var isPartial = $('#' + modalID).find('.partial-take').prop('checked');
         var part_start, part_end;
         if (isPartial) {
             part_start = $('#' + modalID).find('.partial-start').val();

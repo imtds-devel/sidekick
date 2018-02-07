@@ -7,16 +7,19 @@ import datetime
 import pytz
 
 
-def synchronize(flush: bool):
+def synchronize(flush: bool=False, location: str=None):
     if flush:
         print("FLUSHING DATABASE NOW")
         Shifts.objects.all().delete()
         SyncTokens.objects.all().delete()
 
-    # one for each calendar location
-    locations = ['ma', 'da', 'st', 'sd', 'rc', 'md']
-    for loc in locations:
-        sync_location(loc)
+    if location == None:
+        # one for each calendar location
+        locations = ['ma', 'da', 'st', 'sd', 'rc', 'md']
+        for loc in locations:
+            sync_location(loc)
+    else:
+        sync_location(location)
 
 
 # This is an asynchronous function that runs in its own thread, meaning we can synchronize in the background!

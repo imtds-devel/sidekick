@@ -77,10 +77,8 @@ def post_cover(request):
         }
         return JsonResponse(json_data)
 
-    if permanent:
-        s_id = str(request.POST.get('permanent_id', None))
-    else:
-        s_id = str(request.POST.get('event_id', None))
+    s_id = str(request.POST.get('event_id', None))
+
     if partial:
         part_start = request.POST.get('part_start', None)
         part_end = request.POST.get('part_end', None)
@@ -109,7 +107,7 @@ def post_cover(request):
         sob_story=sob_story,
     )
     post_status = data.push()
-    synchronize(flush=False)
+    synchronize(location=shift.location)
 
     sleep(2)  # Wait for async fns to finish
 
@@ -127,11 +125,9 @@ def take_cover(request):
     sob_story = str(request.POST.get('sob_story', None))
     # actor = Employees.objects.get(netid=str((Shifts.objects.get(event_id=request.GET.get('event_id', None))).owner))
     actor = Employees.objects.get(netid=str(request.user))
-    # actor = get_current_user(request)
-    if permanent:
-        s_id = str(request.POST.get('permanent_id', None))
-    else:
-        s_id = str(request.POST.get('event_id', None))
+
+    s_id = str(request.POST.get('event_id', None))
+
     if partial:
         part_start = request.POST.get('part_start', None)
         part_end = request.POST.get('part_end', None)
