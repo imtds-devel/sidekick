@@ -61,6 +61,7 @@ def push_cover(request):
     request = get_current_user(request)
 
     post = request.POST.get('post', None) == 'true'
+    print(request.POST.get('post'))
     permanent = request.POST.get('permanent', None) == 'true'
     partial = request.POST.get('partial', None) == 'true'
     sob_story = str(request.POST.get('sob_story', None))

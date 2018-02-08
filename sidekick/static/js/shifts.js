@@ -188,7 +188,8 @@ $(document).ready(function() {
         // Fetch the id of the post-conf modal
         modalID = $(this).closest('.modal').attr('id');
         // Hide the partial selectors and enable the post button
-        $('#' + modalID).find('.partial-selectors').show('fast');
+        $('#' + modalID).find('.partial-selectors').show('fast')
+        $('#' + modalID).find('#post-cover-btn').prop('disabled', false);;
     });
 
     // When the user selects "yes" for full take
@@ -239,6 +240,7 @@ $(document).ready(function() {
 
         var sobStory = $('#' + modalID).find('#sob-story').val();
         var data = {
+            'post' : 'true',
             'event_id' : eventID,
             'permanent' : isPerm,
             'permanent_id' : permID,
@@ -280,6 +282,7 @@ $(document).ready(function() {
         var sobStory = $('#' + modalID).find('#sob-story').text();
         console.log($('#' + modalID).find('.perm-cover').prop('checked'));
         var data = {
+            'post' : 'false',
             'event_id' : eventID,
             'permanent' : isPerm,
             'permanent_id' : permID,
