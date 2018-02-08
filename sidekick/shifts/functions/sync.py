@@ -90,6 +90,9 @@ def process_events(list_results, loc):
             shift_delete.delete()
             continue
 
+        if str(event.get('summary')).lower() == "mod report":
+            continue
+
         # Figure out when the event starts (ignore all-day events by pretending they took place 3 years ago)
         # We have to strip timezone from the dateTime because Python can't easily create a date with the timezone
         # But since we'll never be in anything other than America/Los_Angeles, that doesn't matter
