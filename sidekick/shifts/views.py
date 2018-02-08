@@ -11,13 +11,8 @@ from homebase.models import Employees
 from sidekick.access import get_access
 from django.http import JsonResponse
 from django.db.models import Q
-from django.db.models.functions import Cast
-from django.db.models import TimeField
-from django.http import HttpResponse
-from django.utils.timezone import make_aware, make_naive
 from sidekick.views import get_current_user
 from time import sleep
-import pytz
 
 
 def index(request):
