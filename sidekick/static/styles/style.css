@@ -17,7 +17,16 @@
 
 .newsletter-trigger
 {
-
+margin: 0px 5px;
+cursor:pointer;
+background-color:#f5f5f5;
+transition: all linear 0.2s;
+font-weight:bold;
+}
+.newsletter-trigger:hover
+{
+background-color: #9692A0;
+color:white;
 }
 
 .bodywrap
@@ -190,6 +199,7 @@ padding-left: 0.5rem;
 
 #new-icon{
   color: #0D4D4D;
+  cursor:pointer;
 }
 
 .button-box{
