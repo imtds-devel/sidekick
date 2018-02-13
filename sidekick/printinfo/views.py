@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 from .models import Printer
 from .models import Location
 from .models import StatusLog
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
 from sidekick import views
 from .forms import StatusLogForm
 
@@ -20,7 +20,7 @@ def index(request):
         # Remove this line before production!
         request = views.get_current_user(request)
 
-        data['netid'] = str(request.user)
+        data['netid'] = request.user
         form = StatusLogForm(data)
         if form.is_valid():
             form.save(commit=True)
