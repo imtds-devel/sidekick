@@ -8,8 +8,7 @@
                 {% for printer, status in printer_list %}
                 {% if printer.location.name == "Marshburn" %}
                 <div class="col-xs-3 col-sm-3 col-md-3 printer-card">
-                    <div type="panel" class="panelprint panel-printer-btn" data-toggle="modal"
-                    data-target={{printer.data_targ}}>
+                    <div class="panelprint panel-printer-btn">
                         {% with printer_list|first as first %}
                         <img src='{% static status.first.pic %}'
                             class='img-printer' align="center">
@@ -36,7 +35,7 @@
                 {% for printer, status in printer_list %}
                 {% if printer.location.name == "Darling" %}
                 <div class="col-xs-3 col-sm-3 col-md-3 printer-card">
-                    <div type="panel" class="panelprint panel-printer-btn" id="panel" data-toggle="modal">
+                    <div class="panelprint panel-printer-btn" id="panel">
                         {% with printer_list|first as first %}
                         <img src='{% static status.first.pic %}'
                             class='img-printer' align="center">
@@ -65,7 +64,7 @@
                 {% for printer, status in printer_list %}
                 {% if printer.location.name == "Stamps" %}
                 <div class="col-xs-3 col-sm-3 col-md-3 printer-card">
-                    <div type="panel" class="panelprint panel-printer-btn" id="panel" data-toggle="modal">
+                    <div class="panelprint panel-printer-btn" id="panel">
                         {% with printer_list|first as first %}
                         <img src='{% static status.first.pic %}'
                             class='img-printer' align="center">
@@ -92,7 +91,7 @@
                 {% for printer, status in printer_list %}
                 {% if printer.location.name == "Cougar Dome" %}
                 <div class="col-xs-3 col-sm-3 col-md-3 printer-card">
-                    <div type="panel" class="panelprint panel-printer-btn" id="panel" data-toggle="modal">
+                    <div class="panelprint panel-printer-btn" id="panel">
                         {% with printer_list|first as first %}
                         <img src='{% static status.first.pic %}'
                             class='img-printer' align="center">
@@ -169,5 +168,4 @@
             </div>
         </div>
     </div>
-    <script src="{% static "js/printinfo.js" %}"></script>
     {% endblock %}
