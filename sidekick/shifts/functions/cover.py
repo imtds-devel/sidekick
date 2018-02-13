@@ -298,6 +298,9 @@ def build_recurrence(end_repeat: datetime.datetime, permanent_id: str):
 
 # Edit an existing instance of recurring data to a new start/end time
 def edit_recurrence(recurrence: list, start_time: datetime.datetime):
+    if not recurrence:
+        return None
+
     shift_time = start_time.strftime("T%H%M%S")
 
     try:
