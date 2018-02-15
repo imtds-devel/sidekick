@@ -58,7 +58,7 @@
                 {% endfor %}
             </div>
         </div>
-            <div class="row">
+        <div class="row">
             <div class="col-xs-2 col-sm-2 col-md-2 printer-area">
                 <h1><b>Stamps</b></h1>
                 {% for printer, status in printer_list %}
@@ -125,25 +125,13 @@
                         <div class="row">
                             <div class="col-md-5 modal-body">
                                 <h1 align="center"><b>Recent Reports</b></h1>
-                                <div style="height: 500px; overflow-y: auto;">
-                                    {% for status in status_list %}
-                                    <div class="panel panel-print-log">
-                                        <h4><b>By:</b> {{status.netid }}</h4>
-                                        <p><b>On:</b> {{status.date}} <b>Status:</b> {{status.print_stat}}</p>
-                                        <p><b>Report:</b> {{status.desc}}</p>
-
-                                    </div>
-                                    {% endfor %}
+                                <div id="report-div" style="height: 400px; overflow-y: auto;">
                                 </div>
                             </div>
                             <div class="col-md-7 modal-body">
                                 <form method="post" class="form-horizontal" id="comform">
                                     {% csrf_token %}
                                     <h3 align="center"><img id="standin-pic" src='' class='img-printer'></h3>
-                                    <div class="form-group">
-                                        <label for="printer-date">Date: </label>
-                                        <input id='printer-date' class = 'printer-input' size='4' value='' readonly>
-                                    </div>
                                     <div class="form-group">
                                         <label for="printer-stat">Status: </label>
                                         <select id="printer-stat" class = 'printer-input'>
@@ -152,9 +140,9 @@
                                             <option id="opt-down" value="down">Printer Down!</option>
                                         </select>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="printer-desc">Report: </label>
-                                        <input id='printer-desc' class = 'printer-input' size='5' value=''>
+                                    <div class="form-group" style="text-align: left">
+                                        <label for="printer-desc">Report </label>
+                                        <textarea class="form-control input-sm" rows="4" cols="" minlength="20" id="printer-desc"></textarea>
                                     </div>
                                     {% with key=printer.pk %}
                                     <input type="hidden" name="print_id" required id = "id_printer" value="{{ key }}">
@@ -163,6 +151,9 @@
                                 </form>
                             </div>
                         </div>
+                    </div>
+                    <div class='modal-footer'>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
