@@ -260,6 +260,7 @@ MASTER_ACCESS_TEMPLATE = [
     "roster_modfb_lab",                     # View/modify comments & discipline for lab techs
     "roster_prof_all",                      # Access all proficiencies
     "roster_prof_all_edit",                 # Edit all proficiencies
+    "roster_overview",                      # Access the overview page to see all comments
 
 
     # Quote Page
