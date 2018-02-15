@@ -1,0 +1,20 @@
+{% extends 'sidekick/app-base.html' %}
+{% load roster_extras %}
+{% load sidekick_extras %}
+{% block content %}
+
+{% if user_netid|has_access:"roster_overview" %}
+{% for comment in comments %}
+
+{{comment}}
+<br>
+{{comment.time}}
+<br>
+
+{% endfor %}
+{% else %}
+
+<h3 style="margin-left:10px;">Access denied</h3>
+{% endif %}
+
+{% endblock %}

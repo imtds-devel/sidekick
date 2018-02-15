@@ -122,6 +122,9 @@ def get_mgr_access(area):
         # Roster page
         "roster_editemp", "roster_addremoveemp", "roster_modfb_all", "roster_prof_all", "roster_prof_all_edit",
 
+        # Roster comment overview
+        "roster_overview",
+
         # Printer page
         "printer_all", "printer_all_edit",
 
@@ -148,6 +151,9 @@ def get_stt_access(area):
         # Roster page
         "roster_editemp", "roster_addremoveemp", "roster_modfb_all", "roster_prof_all", "roster_prof_all_edit",
 
+        # Roster comment overview
+        "roster_overview",
+
         # Printer page
         "printer_all", "printer_all_edit",
 
@@ -173,6 +179,9 @@ def get_stm_access(area):
 
         # Roster page
         "roster_editemp", "roster_addremoveemp", "roster_modfb_all", "roster_prof_all", "roster_prof_all_edit",
+
+        # Roster comment overview
+        "roster_overview",
 
         # Printer page
         "printer_all", "printer_all_edit",

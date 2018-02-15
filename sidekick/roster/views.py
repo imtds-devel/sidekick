@@ -5,8 +5,9 @@ from .models import Employees, Proficiencies, Discipline, Trophies
 from .forms import EmployeeForm, StarForm, CommentForm
 from sidekick import views
 from sidekick.access import get_access
-import json
 from django.http import JsonResponse
+import json
+import datetime
 
 
 # Create your views here.
@@ -39,6 +40,18 @@ def index(request):
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
     return views.load_page(request, 'roster/index.html', prep_context())
+
+
+def overview(request):
+    time = datetime.datetime.now()
+    two_weeks = datetime.timedelta(weeks=2)
+    time -= two_weeks
+    comments = Discipline.objects.filter(time__gt=time).order_by('-time')
+
+    context = {
+        'comments': comments
+    }
+    return views.load_page(request, 'overview/index.html', context)
 
 
 def update_bio(request):

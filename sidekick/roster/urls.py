@@ -4,6 +4,7 @@ from . import views
 app_name = 'roster'
 urlpatterns = [
     path('', views.index, name='index'),
+    path('overview', views.overview, name='overview'),
     path('ajax/awardpost/', views.post_award),
     path('ajax/awardsget/', views.get_trophies),
     path('ajax/commentpost/', views.post_comment),
