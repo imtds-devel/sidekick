@@ -67,6 +67,9 @@ def get_sst_access(area):
         # Page access
         "homebase_access", "passwords_access", "shift_access", "roster_access", "quote_access", "printer_access",
 
+        # Nav elements
+        "nav_modtools",
+
         # Passwords page
         "passwords_lab", "passwords_support",
         

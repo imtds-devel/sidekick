@@ -1,10 +1,11 @@
-from django.db.models import Q
+from django.db.models import Q, ObjectDoesNotExist
 from django.core.mail import send_mail, send_mass_mail
 from shifts.models import Shifts, Holidays
 from homebase.models import Employees
 from shifts.functions import google_api
 from sidekick.settings import CALENDAR_LOCATION_IDS
 import datetime
+import copy
 import pytz
 
 
@@ -21,177 +22,187 @@ class CoverInstructions:
         self.start_time = start_time
         self.end_time = end_time
         self.sob_story = sob_story
-        self.update_params = {
-            "post": None,
-            # More can be defined here if necessary
-        }
         self.g_service = google_api.build_service()  # build at create time
 
     def push(self):
-        return push_cover(self)
+        return push_cover_new(self)
+
+
+def push_cover_new(data: CoverInstructions):
+    # Validation
+        # On error: notify user
+    data, outcome = validate_cover(data)
+
+    print(outcome)
+    if outcome != "valid":
+        return {"result": "failed", "description": outcome}
+
+    # Get shift instance
+    shift = Shifts.objects.filter(event_id=data.shift_id).first()
+
+    # Transform start and end times to be timezone-aware
+    tz = pytz.timezone("America/Los_Angeles")
+    start = tz.localize(shift.shift_start)
+    end = tz.localize(shift.shift_end)
+
+    # Figure out the name of the old owner (tf the shift had no owner before, this is blank)
+    if shift.owner_id:
+        old_owner_name = Employees.objects.get(netid=shift.owner_id).full_name
+    else:
+        old_owner_name = None
+    actor_name = data.actor.full_name
+
+    # Build event recurrence for permanent shifts!
+    if data.permanent:
+        # We'll build the standard recurrence here and edit it later
+        print("OG Recurrence")
+        perm_id = data.shift_id.split("_")[0]
+        last_shift = Shifts.objects.filter(permanent_id=perm_id).order_by('shift_date').last()
+        recurrence = build_recurrence(last_shift.shift_date, perm_id)
+    else:
+        recurrence = None
+
+    if data.post:
+        sob_story = data.sob_story
+    else:
+        sob_story = shift.sob_story
+
+    # If partial, assemble the partial events
+    events = []
+    if data.partial:
+        if data.post:
+            partial_title = actor_name
+        else:
+            if old_owner_name:
+                partial_title = "Open Shift (Cover for %s)" % old_owner_name
+            else:
+                partial_title = "Open Shift"
+
+        if start < data.start_time:
+            print("Start padding recurrence")
+            st_recurrence = edit_recurrence(recurrence, start)
+            events.append(build_event(
+                title=partial_title,
+                start=start,
+                end=data.start_time,
+                recurrence=st_recurrence,
+                sob_story="" if data.post else sob_story,
+            ))
+
+        if data.end_time < end:
+            print("End padding recurrence")
+            en_recurrence = edit_recurrence(recurrence, data.end_time)
+            events.append(build_event(
+                title=partial_title,
+                start=data.end_time,
+                end=end,
+                recurrence=en_recurrence,
+                sob_story="" if data.post else sob_story,
+            ))
+
+    # Build main event
+    if data.post:
+        main_title = "Open Shift (Cover for %s)" % old_owner_name
+    elif old_owner_name:
+        main_title = "%s (Cover for %s)" % (actor_name, old_owner_name)
+    else:
+        main_title = actor_name
+
+    if data.partial:
+        recurrence = edit_recurrence(recurrence, data.start_time)
+
+    events.append(build_event(
+        title=main_title,
+        start=data.start_time,
+        end=data.end_time,
+        recurrence=recurrence,
+        sob_story="" if not data.post else sob_story,
+    ))
+
+    # Send cover to Google
+    cal_id = CALENDAR_LOCATION_IDS[shift.location]
+    new_events = []
+    for event in events:
+        new_events.append(data.g_service.events().insert(calendarId=cal_id, body=event).execute())
+
+    # Delete old event from Google
+    if data.permanent:
+        old_id = data.shift_id.split("_")[0]
+    else:
+        old_id = data.shift_id
+
+    data.g_service.events().delete(
+        calendarId=cal_id,
+        eventId=old_id
+    ).execute()
+
+    return {"result": "success", "description": "Your cover was successfully pushed!"}
+
+
+def validate_cover(data: CoverInstructions):
+    outcome = "valid"
+    # Ensure booleans for type indicators
+    data.post = bool(data.post)
+    data.permanent = bool(data.permanent)
+    data.partial = bool(data.partial)
+
+    data.shift_id = str(data.shift_id)
+
+    # Validate actor
+    if not isinstance(data.actor, Employees):
+        outcome = "Bad actor data!"
+        return data, outcome
+
+    # Validate shift (ensure the shift id is valid)
+    shifts = Shifts.objects.filter(event_id=data.shift_id)
+    if len(shifts) == 0 or len(shifts) > 1:
+        outcome = "Bad shift ID specified"
+        return data, outcome
+
+    tz = pytz.timezone("America/Los_Angeles")
+    if data.start_time or data.end_time and data.partial:
+        if not isinstance(data.start_time, datetime.datetime) or not isinstance(data.end_time, datetime.datetime):
+            try:
+                data.start_time = pytz.utc.localize(datetime.datetime.strptime(data.start_time+"UTC", "%Y-%m-%dT%H:%M:%S.000Z%Z"))
+                data.end_time = pytz.utc.localize(datetime.datetime.strptime(data.end_time+"UTC", "%Y-%m-%dT%H:%M:%S.000Z%Z"))
+                data.start_time = data.start_time.astimezone(pytz.timezone('America/Los_Angeles'))
+                data.end_time = data.end_time.astimezone(pytz.timezone('America/Los_Angeles'))
+            except ValueError:
+                outcome = "Invalid partial start and end times"
+                return data, outcome
+
+    # Validate start and end times for partial cover or set start/end times for full cover
+    shift = shifts.first()
+    start = tz.localize(shift.shift_start)
+    end = tz.localize(shift.shift_end)
+
+    if data.partial and data.start_time and data.end_time:
+        if start > data.start_time or end < data.end_time:
+            outcome = "Start and end times are not in acceptable range!"
+            return data, outcome
+
+        if data.start_time >= data.end_time:
+            outcome = "The start time must be *before* the end time!"
+            return data, outcome
+
+        # Enforce no 15 minute shift rule
+        fifteen = datetime.timedelta(minutes=15)
+        if data.start_time-start == fifteen or end-data.end_time == fifteen or data.end_time-data.start_time == fifteen:
+            outcome = "Fifteen minute shifts are not allowed!"
+            return data, outcome
+    elif data.partial:
+        outcome = "Partial start and end times unset."
+        return data, outcome
+    else:
+        data.start_time = start
+        data.end_time = end
+
+    return data, outcome
+
 
 ##############################################################
 # Main post/take fns
 # Master routing fn (called by CoverInstructions, routes shift covers properly!)
-def push_cover(data: CoverInstructions):
-    # TODO: Verification before covers!
-    return partial_cover(data) if data.partial else full_cover(data)
-
-
-# For full covers of any kind
-def full_cover(data: CoverInstructions):
-    print('FullCover called!')
-
-    # 1. Get all shifts associated with this cover (could be one or many)
-    shifts = Shifts.objects.filter(event_id__contains=data.shift_id).order_by('shift_date')
-    print([s for s in shifts])
-
-    # 2. Save some useful attributes for later
-    first = shifts.first()
-    # Verify shift exists in our db
-    if first is None:
-        print("Shift does not exist!")
-        return "Failed: Shift does not exist in db"
-
-    location = first.location
-    cal_id = CALENDAR_LOCATION_IDS[location]
-    tz = pytz.timezone('America/Los_Angeles')
-
-    old_event_id = first.permanent_id if data.permanent else first.event_id
-    print(old_event_id)
-
-    # Define the shift owner
-    owner = data.actor if data.post else first.owner
-
-    # Construct new title
-    if data.post:
-        new_title = "Open Shift (Cover for %s)" % owner
-    else:
-        new_title = "%s (Cover for %s)" % (data.actor, owner)
-
-    # 3. Create new Google Event
-    # Start by figuring out the end repeat date if necessary
-    end_repeat = shifts.last().shift_date
-
-    # Construct event
-    event = build_event(
-        title=new_title,
-        start=tz.localize(first.shift_start),
-        end=tz.localize(first.shift_end),
-        end_repeat=end_repeat,
-        sob_story=data.sob_story,
-        old_permanent_id=first.permanent_id if data.permanent else None,
-    )
-
-    print(event)
-    print(cal_id)
-    # Ship it to Google
-    new_event = data.g_service.events().insert(
-        calendarId=cal_id,
-        body=event
-    ).execute()
-    print(new_event)
-
-    # Delete old event from Google
-    data.g_service.events().delete(
-        calendarId=cal_id,
-        eventId=old_event_id
-    ).execute()
-
-    return shift_email(data)
-
-
-# For partial covers of any kind
-# Unfortunately, this is a good deal more complex than full covers :/
-def partial_cover(data: CoverInstructions):
-    tz = pytz.timezone('America/Los_Angeles')
-    # 1. Get all shifts associated with cover (could be 1 or many)
-    shifts = Shifts.objects.filter(event_id__contains=data.shift_id).order_by('shift_date')
-
-    # 2. Save some useful attributes for later
-    first = shifts.first()
-    # Verify shift exists in our db
-    if first is None:
-        print("Shift does not exist!")
-        return "Failed: Shift does not exist in db"
-    location = first.location
-    cal_id = CALENDAR_LOCATION_IDS[location]
-    old_event_id = first.permanent_id
-    og_start = tz.localize(first.shift_start)
-    og_end = tz.localize(first.shift_end)
-    print(data.start_time)
-    print(data.end_time)
-    new_start = pytz.utc.localize(datetime.datetime.strptime(data.start_time, "%Y-%m-%dT%H:%M:%S.000Z"))
-    new_end = pytz.utc.localize(datetime.datetime.strptime(data.end_time, "%Y-%m-%dT%H:%M:%S.000Z"))
-    print(new_start)
-    print(new_end)
-    if not data.post:
-        sob_story = first.sob_story
-    else:
-        sob_story = ""
-
-    # 3. Figure out how to split shift using start and end times
-    # Start by doing basic validation on start & end time
-    if data.start_time is None or data.end_time is None:
-        print("ERROR: Start and end time for partial cover unset!")
-        return "Failed: Start and end time for partial cover are unset!"
-
-    padding_title = first.title
-    center_title = "Open Shift (Cover for %s)" % data.actor if data.post else "%s (Cover for %s)" % (data.actor, first.owner)
-    # See comment on end repeat in full_cover for explanation
-    end_repeat = shifts.last().shift_date
-
-    # Build three events now and cut the ones we won't need
-    events = [
-        build_event(
-            title=padding_title,
-            start=og_start,
-            end=new_start,
-            end_repeat=end_repeat,
-            sob_story="" if data.post else sob_story,
-            old_permanent_id=first.permanent_id if data.permanent else None,
-        ),
-        build_event(
-            title=center_title,
-            start=new_start,
-            end=new_end,
-            end_repeat=end_repeat,
-            sob_story=data.sob_story if data.post else "",
-            old_permanent_id=first.permanent_id if data.permanent else None,
-        ),
-        build_event(
-            title=padding_title,
-            start=new_end,
-            end=og_end,
-            end_repeat=end_repeat,
-            sob_story="" if data.post else sob_story,
-            old_permanent_id=first.permanent_id if data.permanent else None,
-        )
-    ]
-    # Now we validate and remove any zero-length shifts
-    i = 0
-    while i < len(events):
-        event = events[i]
-        duration = get_duration(event)
-        print(duration)
-
-        if duration == 0:
-            events.remove(event)
-            continue
-        elif duration == 15:
-            print("ERROR: Events MUST be at least 30 min long!")
-            return "Failed: All shifts must be at least 30 min long!"
-        i += 1
-
-    # Now we should have a pruned and validated list of times
-    # Let's send them to Google!
-    new_events=[]
-    for event in events:
-        new_events.append(data.g_service.events().insert(calendarId=cal_id, body=event).execute())
-
-    print(new_events)
-
-    return shift_email(data)
 
 # Return the duration of an event in minutes!
 def get_duration(event):
@@ -251,8 +262,8 @@ def fexc(exception: datetime.datetime):
 
 # Expects start and end to be properly formatted datetime strings with timezone
 # Use the startdatetime and enddatetime methods
-def build_event(title: str, start: datetime, end: datetime, end_repeat=datetime.datetime.now(),
-                sob_story=None, old_permanent_id=None):
+def build_event(title: str, start: datetime, end: datetime, recurrence=None,
+                sob_story=None):
     # TODO: Research if people want to be added as attendees to the events
 
     return {
@@ -266,7 +277,7 @@ def build_event(title: str, start: datetime, end: datetime, end_repeat=datetime.
             'dateTime': end.strftime("%Y-%m-%dT%H:%M:%S%z")[:-2]+":00",
             'timeZone': 'America/Los_Angeles',
         },
-        'recurrence': build_recurrence(end_repeat, old_permanent_id),
+        'recurrence': recurrence,
     }
 
 
@@ -281,7 +292,35 @@ def build_recurrence(end_repeat: datetime.datetime, permanent_id: str):
     exceptions = get_exceptions(permanent_id)
     if exceptions:
         recurrence.append(exceptions)
+    print(recurrence)
     return recurrence
+
+
+# Edit an existing instance of recurring data to a new start/end time
+def edit_recurrence(recurrence: list, start_time: datetime.datetime):
+    if not recurrence:
+        return None
+
+    shift_time = start_time.strftime("T%H%M%S")
+
+    try:
+        exdates = str(recurrence[1])
+    except IndexError:
+        return recurrence
+
+    print(exdates)
+    # First, get the individual dates
+    dates = exdates.split(":")[1].split(",")
+
+    # Then paste the new times instead of the old ones
+    date_string = ""
+    for date in dates:
+        first_half = date.split("T")[0]
+        date_string += first_half + shift_time + ","
+
+    recurrence[1] = exdates.split(":")[0] + ":" + date_string[:-1]
+    print(recurrence)
+    return copy.deepcopy(recurrence)
 
 
 # Google's format for specifying end repeat: yyyymmddThhmmssZ
