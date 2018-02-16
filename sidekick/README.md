@@ -72,12 +72,10 @@ Sidekick is a web portal for IMT Device Solutions at APU that offers a shift cov
 
 ### Components
 Sidekick uses the following tools and frameworks:
-* [The Django Web Framework 1.11](https://www.djangoproject.com/)
+* [The Django Web Framework 2.0](https://www.djangoproject.com/)
   * [Python 3.6](https://docs.python.org/3/)
   * [django-cas](https://github.com/kstateome/django-cas)
-* [Twitter Bootstrap](http://getbootstrap.com/)
-  * [Node.js](https://nodejs.org/)
-  * [Grunt](https://gruntjs.com/)
+* [Twitter Bootstrap 3](http://getbootstrap.com/)
 * [Google APIs](https://developers.google.com/google-apps/calendar/) for Python
 * [PostgreSQL Database](https://www.postgresql.org/about/)
 
