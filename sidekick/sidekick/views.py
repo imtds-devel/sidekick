@@ -22,7 +22,7 @@ def load_page(request, template: str, context: dict):
         return HttpResponse("403 unauthorized user!")
 
     tz = pytz.timezone("America/Los_Angeles")
-    now = tz.localize(datetime.datetime.now() + datetime.timedelta(hours=4))
+    now = tz.localize(datetime.datetime.now())
 
     curr_user = Employees.objects.get(netid__iexact=str(request.user))
     context['user'] = curr_user
