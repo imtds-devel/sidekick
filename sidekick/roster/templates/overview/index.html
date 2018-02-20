@@ -11,7 +11,7 @@
             {% for comment in comments %}
             {% if comment.val is None %}
             <div class="panel panel-info">
-                <div class="panel-heading">{{comment.time}}</div>
+                <div class="panel-heading"><b>Posted By: </b> {{comment.poster}} on {{comment.time}}</div>
                 <div class="panel-body">
                     <b>For: </b>{{comment.about}}
                     <br><b>Reason: </b>{{comment.description}}</br>
@@ -20,7 +20,7 @@
             {% endif %}
             {% if comment.val == 0.50 %}
             <div class="panel panel-warning">
-                <div class="panel-heading">{{comment.time}}</div>
+                <div class="panel-heading"><b>Posted By: </b> {{comment.poster}} on {{comment.time}}</div>
                 <div class="panel-body">
                     <b>For: </b>{{comment.about}}
                     <br><b>Reason: </b>{{comment.description}}</br>
@@ -29,7 +29,7 @@
             {% endif %}
             {% if comment.val == 1.00 %}
             <div class="panel panel-danger">
-                <div class="panel-heading">{{comment.time}}</div>
+                <div class="panel-heading"><b>Posted By: </b> {{comment.poster}} on {{comment.time}}</div>
                 <div class="panel-body">
                     <b>For: </b>{{comment.about}}
                     <br><b>Reason: </b>{{comment.description}}</br>
