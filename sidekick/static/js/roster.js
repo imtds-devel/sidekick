@@ -3,6 +3,9 @@
 // Written by Brooks Duggan in Fall 2017
 /////////////////////////////////////////
 
+$(document).ready(function() {
+
+
 // Load image
 $(document).ready(function(){
   $('.img').load(function() {
@@ -12,6 +15,7 @@ $(document).ready(function(){
 
 // Upon panel click with panelemp class, function of Modal population initiates
 $('.panelemp').click(function showModal(){
+    console.log("hi");
 
     // Grab all info from HTML load for each employee
     netid_1 = $(this).find(".emp-meta").attr('id');
@@ -883,4 +887,5 @@ $(function() {
             }
         }
     });
+});
 });
