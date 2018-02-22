@@ -23,14 +23,30 @@ def load_page(request, template: str, context: dict):
 
     tz = pytz.timezone("America/Los_Angeles")
     now = tz.localize(datetime.datetime.now())
+
     curr_user = Employees.objects.get(netid__iexact=str(request.user))
     context['user'] = curr_user
     context['user_name'] = curr_user.full_name
     context['user_img'] = "employees/"+str(curr_user.netid)+".gif"
     context['user_netid'] = str(curr_user.netid)
-    context['curr_mod'] = Shifts.objects.filter(location='md', shift_start__lte=now, shift_end__gt=now).first()
-    context['next_mod'] = Shifts.objects.filter(location='md', shift_start__gt=now).order_by('shift_start').first()
-    context['my_shift'] = Shifts.objects.filter(owner=curr_user, shift_end__gte=now, is_open=False).order_by('shift_start').first()
+    context['curr_mod'] = Shifts.objects.filter(
+        location='md',
+        shift_start__lte=now,
+        shift_end__gt=now,
+        is_open=False,
+        owner__isnull=False,
+    ).first()
+    context['next_mod'] = Shifts.objects.filter(
+        location='md',
+        shift_start__gt=now,
+        is_open=False,
+        owner__isnull=False,
+    ).order_by('shift_start').first()
+    context['my_shift'] = Shifts.objects.filter(
+        owner=curr_user,
+        shift_end__gte=now,
+        is_open=False
+    ).order_by('shift_start').first()
     if context['my_shift']:
         # If someone is graduating, there will come a point when they don't have any upcoming shifts
         # We don't want the site to crash for them if/when this happens!

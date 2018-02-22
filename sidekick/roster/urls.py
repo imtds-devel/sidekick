@@ -1,12 +1,17 @@
-from django.conf.urls import url
+from django.urls import path
 from . import views
 
 app_name = 'roster'
 urlpatterns = [
-    url(r'^$', views.index, name='index'),
-    url(r'^ajax/postaward/', views.post_award),
-    url(r'^ajax/postcomment/', views.post_comment),
-    url(r'^ajax/postdiscipline/', views.post_discipline),
-    url(r'^ajax/getcomments/', views.get_comments),
-    url(r'^ajax/gettrophies/', views.get_trophies)
+    path('', views.index, name='index'),
+    path('overview', views.overview, name='overview'),
+    path('ajax/awardpost/', views.post_award),
+    path('ajax/awardsget/', views.get_trophies),
+    path('ajax/commentpost/', views.post_comment),
+    path('ajax/commentsget/', views.get_comments),
+    path('ajax/commentdelete/', views.delete_comment),
+    path('ajax/disciplinepost/', views.post_discipline),
+    path('ajax/employeeupdate/', views.update_bio),
+    path('ajax/employeedelete/', views.delete_employee),
+    path('ajax/proficienciesupdate/', views.update_prof)
 ]

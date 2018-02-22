@@ -8,7 +8,6 @@ import datetime
 import pytz
 
 
-# Create your views here.
 def index(request):
     # If this is a form submission
     if request.method == "POST":

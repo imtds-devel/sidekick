@@ -3,6 +3,7 @@
 {% load staticfiles %}
 {% load roster_extras %}
 {% load sidekick_extras %}
+<div class='container-fluid'>
     <div class="search" align="right">
         <form class="search-bar" style="margin-right: 20px">
             <span class="glyphicon glyphicon-search"></span>
@@ -33,12 +34,21 @@
                                 <li class="m-id">{{employee.netid}}</li>
                                 <li class="m-code">{{employee.codename}}</li>
                                 <li class="m-position">{{employee.nice_position}}</li>
-                                <li class="m-phone">{{employee.nice_phone}}</li>
+                                <li class="m-nicephone">{{employee.nice_phone}}</li>
                                 <li class="m-birth">{{employee.birthday}}</li>
                                 <li class="m-poscol">{{employee.position}}</li>
                                 <li id="m-activeuser">{{user_netid}}</li>
                                 <li id="m-mgr">{{ user_netid|has_access:"roster_prof_all" }}</li>
                                 <li id="m-lead">{{ user_netid|has_access:"roster_modfb_lab" }}</li>
+                                {% if user_netid|has_access:"roster_modfb_all" %}
+                                <li class="m-fname">{{employee.fname}}</li>
+                                <li class="m-lname">{{employee.lname}}</li>
+                                <li class="m-apuid">{{employee.apuid}}</li>
+                                <li class="m-phone">{{employee.phone}}</li>
+                                <li class="m-pos">{{employee.position}}</li>
+                                <li class="m-stand">{{employee.standing}}</li>
+                                <li class="m-developer">{{employee.developer}}</li>
+                                {% endif %}
                                 <li class="m-pic">{% static employee.picture|img_exists %}</li>
                                 {% if user_netid|has_access:"roster_prof_all" or user_netid == employee.netid %}
                                 <li class="m-profs">{{skills|first}}</li>
@@ -85,11 +95,18 @@
                     </div>
                     <div class='tab-content tab-card'>
                         <div id='emp-home' class='modal-body hero-bio tab-pane fade in active'>
-                            <div class="row">
-                                <div class="col-md-4" style="height: 20%">
-                                    <img id='pic-standin' src='pic' class='img-circle img-herobio'>
+                            <div class="container magic-container">
+                                <div class="row">
+                                    <div class="col-xs-3 col-md-4 " style="height: 20%">
+                                        <img id='pic-standin' src='pic' class='img-circle img-herobio'>
+                                    </div>
+                                    <div class='col-xs-4 col-md-8 ' id='bio-div' style="text-align:right">
+                                        <div id='bio-update'>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class='col-md-8' id='bio-div' style="text-align:right">
+                                <div class="row">
+                                    <div class="award-text col-xs-12 col-sm-8 col-md-12"><h3>Awards</h3></div>
                                 </div>
                             </div>
                             <div class="award-text"><h3>Awards</h3></div>
@@ -99,125 +116,256 @@
                                 </div>
                             </div>
                         </div>
-                        <div id='emp-skills' class='tab-pane row fade'>"
+                        <div id='emp-skills' class='tab-pane row fade'>
                         </div>
                         {% if user_netid|has_access:"roster_modfb_all" or "roster_modfb_lab"%}
                         <div id='emp-comment' class='modal-body hero-bio tab-pane fade'>
-                            <div class="row">
-                            <div class='col-md-6'>
-                                <h4 style='text-align: left; margin-left: 100px;' class='modal-title'><b>Comments</b></h4>
-                                <div id="comment-div" class="card" style='height: 328px; overflow-y: auto; margin-top:5px'>
+                            <div class="container magic-container">
+                                <div class="row">
+                                    <div class='col-xs-6 col-sm-4 col-md-6'>
+                                        <h4 style='text-align: left; margin-left: 100px;' class='modal-title'><b>Comments</b></h4>
+                                        <div id="comment-div" class="panel-default" style='height: 328px; overflow-y: auto; margin-top:5px'>
+                                        </div>
+                                    </div>
+                                    <div class='col-xs-7 col-sm-7 col-md-6'>
+                                        <panel class="comment-button" style='margin:12px' id='starpanel'>Award</panel>
+                                        <panel class="comment-button" style='margin:12px' id='companel'>Comment</panel>
+                                        <panel class="comment-button" style='margin:12px' id='dispanel'>Discipline</panel>
+                                        <div id='comarea' style='height: 299px; overflow-y: auto; margin-top: 5px;'></div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class='col-md-6'>
-                                <panel class="comment-button" style='margin:7px' id='starpanel'>Award</panel>
-                                <panel class="comment-button" style='margin:7px' id='companel'>Comment</panel>
-                                <panel class="comment-button" style='margin:7px' id='dispanel'>Discipline</panel>
-                                <div id='comarea' style='height: 299px; overflow-y: auto; margin-top: 5px;'></div>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class='modal-footer'>
+                        <div class="container magic-container">
+                            <div class="row">
+                                {% if user_netid|has_access:"roster_modfb_all" %}
+                                <div class="col-xs-1 col-md-1">
+                                    <button type='button' id="delete-emp" class='btn btn-danger' style="display:none">
+                                        <span class="glyphicon glyphicon-warning-sign"></span> Delete
+                                    </button>
+                                </div>
+                                <div class="col-xs-4 col-md-9">
+                                    <button type='button' id="edit-btn" class='btn btn-info'>Edit</button>
+                                </div>
+                                {% endif %}
+                                <div class="col-xs-2 col-md-2">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    {% endif %}
-                </div>
-                <div class='modal-footer'>
-                    <button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
                 </div>
             </div>
         </div>
     </div>
-</div>
-{% if user_netid|has_access:"roster_modfb_all" %}
-<div id="new-user" class="modal fade">
-    <div class="modal-dialog modal-md">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Add User</h4>
-            </div>
-            <div class="modal-body">
-                <form method="post" class="form-horizontal">
-                    {% csrf_token %}
-                    {% for field in empform.visible_fields %}
-                    <div class="form-group">
-                        {{ field.errors }}
-                        <label class="control-lavel col-sm-2" for="{{ field.id_for_label }}">{{ field.label }}</label>
-                        <div class="col-sm-10">
-                            {{ field }}
+    {% if user_netid|has_access:"roster_modfb_all" %}
+    <div id="new-user" class="modal fade">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Add User</h4>
+                </div>
+                <div class="modal-body">
+                    <form method="post" class="form-horizontal">
+                        {% csrf_token %}
+                        {% for field in empform.visible_fields %}
+                        <div class="form-group">
+                            {{ field.errors }}
+                            <label class="control-lavel col-sm-2" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            <div class="col-sm-10">
+                                {{ field }}
+                            </div>
                         </div>
-                    </div>
 
                     {% endfor %}
                     <button class="btn btn-success">Create</button>
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                </form>
+                    </form>
             </div>
         </div>
     </div>
-</div>
-{% endif %}
-{% if user_netid|has_access:"roster_modfb_all" or "roster_modfb_lab"%}
-<div id="star-form">
-    <form method="post" class="form-horizontal" id="starform" style="display:none">
-        {% csrf_token %}
-        <div class="form-group">
-            <label for="award-subject">Subject:</label>
-            <input type="text" class="form-control" id="award-subject" title="Subject">
-        </div>
-        <div class="form-group">
-            <label for="award-type">Award:</label>
-            <select id="award-type" style="margin: 10px">
-                <option value="hst">Half Star</option>
-                <option value="str">Star</option>
-                <option value="bdg">Badge</option>
-                <option value="mil">Milestone</option>
-                <option value="udb">Under the Bus</option>
-                <option value="mas">Mastery</option>
-                <option value="pst">Puzzle Star</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="award-reason">Reason:</label>
-            <textarea class="form-control" id="award-reason" rows="3" title="Reason"></textarea>
-        </div>
-        <input type="hidden" name="giver" id = "giver" value="">
-        <input type="hidden" name="recipient" id = "recipient" value="">
-        <h5 align="right"><button class="btn btn-success" id="submit-star">Go You!</button></h5>
-    </form>
-</div>
-<div id="comment-form">
-    <form method="post" class="form-horizontal" id="comform" style="display:none">
-        {% csrf_token %}
-        <div class="form-group">
-            <label for="comm-subject">Subject:</label>
-            <input type="text" class="form-control" id="comm-subject" title="Subject">
-        </div>
-        <div class="form-group">
-            <label for="comm-body">Comment:</label>
-            <textarea class="form-control" id="comm-body" rows="4" title="Commment"></textarea>
-        </div>
-        <input type="hidden" name="about" id = "comm-about" value="">
-        <h5 align="right"><button class="btn btn-success" id="submit-comment">Submit</button></h5>
-    </form>
+    {% endif %}
+    {% if user_netid|has_access:"roster_modfb_all" or "roster_modfb_lab"%}
+    <div id="star-form">
+        <form method="post" class="form-horizontal" id="starform" style="display:none">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="award-subject">Subject:</label>
+                <input type="text" class="form-control" id="award-subject" title="Subject">
+            </div>
+            <div class="form-group">
+                <label for="award-type">Award:</label>
+                <select id="award-type" style="margin: 10px">
+                    <option value="hst">Half Star</option>
+                    <option value="str">Star</option>
+                    <option value="bdg">Badge</option>
+                    <option value="mil">Milestone</option>
+                    <option value="udb">Under the Bus</option>
+                    <option value="mas">Mastery</option>
+                    <option value="pst">Puzzle Star</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="award-reason">Reason:</label>
+                <textarea class="form-control" id="award-reason" rows="3" title="Reason"></textarea>
+            </div>
+            <input type="hidden" name="giver" id = "giver" value="">
+            <input type="hidden" name="recipient" id = "recipient" value="">
+            <h5 align="right"><button class="btn btn-success" id="submit-star">
+                <span class="glyphicon glyphicon-thumbs-up"></span> Go You!
+            </button></h5>
+        </form>
+    </div>
+    <div id="comment-form">
+        <form method="post" class="form-horizontal" id="comform" style="display:none">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="comm-subject">Subject:</label>
+                <input type="text" class="form-control" id="comm-subject" title="Subject">
+            </div>
+            <div class="form-group">
+                <label for="comm-body">Comment:</label>
+                <textarea class="form-control" id="comm-body" rows="4" title="Commment"></textarea>
+            </div>
+            <input type="hidden" name="about" id = "comm-about" value="">
+            <h5 align="right"><button class="btn btn-success" id="submit-comment">Submit</button></h5>
+        </form>
 
+    </div>
+    <div id="dis-form">
+        <form method="post" class="form-horizontal" id="disform" style="display:none">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="disc-subject">Subject:</label>
+                <input type="text" class="form-control" id="disc-subject" title="Subject">
+            </div>
+            <div class="form-group" id="dis-radio">
+                <input type="radio" name="extent" value=".5" style="margin: 10px"> Half
+                <input type="radio" name="extent" value="1" style="margin: 10px"> Full
+            </div>
+            <div class="form-group">
+                <label for="disc-body">Comment:</label>
+                <textarea class="form-control" id="disc-body" rows="3" title="Commment"></textarea>
+            </div>
+            <input type="hidden" name="about" id = "disc-about" value="">
+            <h5 align="right"><button class="btn btn-danger" id="submit-discipline">
+                <span class="glyphicon glyphicon-thumbs-down"></span> Discipline</button></h5>
+        </form>
+    </div>
+    {% if user_netid|has_access:"roster_modfb_all" %}
+    <div id="prof-form">
+        <form method="post" class="form-horizontal" id="profform" style="display:none; text-align: right;">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="basic-input">Basic: </label>
+                <input id='basic-input' class = 'skills-input' size='1' value=''>
+            </div>
+            <div class="form-group">
+                <label for="adv-input">Advanced: </label>
+                <input id='adv-input' class = 'skills-input' size='1' value=''>
+            </div>
+            <div class="form-group">
+                <label for="field-input">Field: </label>
+                <input id='field-input' class = 'skills-input' size='1' value=''>
+            </div>
+            <div class="form-group">
+                <label for="print-input">Printer: </label>
+                <input id='print-input' class = 'skills-input' size='1' value=''>
+            </div>
+            <div class="form-group">
+                <label for="net-input">Network: </label>
+                <input id='net-input' class = 'skills-input' size='1' value=''>
+            </div>
+            <div class="form-group">
+                <label for="mobile-input">Mobile: </label>
+                <input id='mobile-input' class = 'skills-input' size='1' value=''>
+            </div>
+            <div class="form-group">
+                <label for="ref-input">Refreshes: </label>
+                <input id='ref-input' class = 'skills-input' size='1' value=''>
+            </div>
+            <div class="form-group">
+                <label for="soft-input">Software: </label>
+                <input id='soft-input' class = 'skills-input' size='1' value=''>
+            </div>
+            <input type="hidden" name="prof-netid" id="prof-about" value="">
+            <button class="btn btn-success" id="update-prof">Submit</button>
+        </form>
+    </div>
+    <div id="bio-form">
+        <form method="post" class="form-horizontal" id="bioform" style="display:none; text-align: right;">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="bio-about">NetID: </label>
+                <input name="bio-netid" id = "bio-about" value="" size="15">
+            </div>
+            <div class="form-group">
+                <label for="fname-input">First Name: </label>
+                <input id='fname-input' class = 'bio-input' size='20' value=''>
+            </div>
+            <div class="form-group">
+                <label for="lname-input">Last Name: </label>
+                <input id='lname-input' class = 'bio-input' size='20' value=''>
+            </div>
+            <div class="form-group">
+                <label for="phone-input">Phone (XXX-XXX-XXXX): </label>
+                <input id='phone-input' class = 'bio-input' size='15' value=''>
+            </div>
+            <div class="form-group">
+                <label for="apu-input">APUid: </label>
+                <input id='apu-input' class = 'bio-input' size='15' value=''>
+            </div>
+            <div class="form-group">
+                <label for="code-input">CodeName: </label>
+                <input id='code-input' class = 'bio-input' size='20' value=''>
+            </div>
+            <div class="form-group">
+                <label for="bday-input">Birthday (YYYY-MM-DD): </label>
+                <input id='bday-input' class = 'bio-input' size='20' value=''>
+            </div>
+            <div class="form-group">
+                <label for="pos_desc-input">Position Desc: </label>
+                <input id='pos_desc-input' class = 'bio-input' size='20' value=''>
+            </div>
+            <div class="form-group">
+                <label for="position-input">Position: </label>
+                <select id="position-input" style="margin: 10px">
+                    <option id="opt-lbt" value="lbt">Lab Technician</option>
+                    <option id="opt-spt" value="spt">Support Tech</option>
+                    <option id="opt-sst" value="sst">Senior Support Tech</option>
+                    <option id="opt-sdr" value="sdr">Support Desk Rep</option>
+                    <option id="opt-llt" value="llt">Lead Lab Tech</option>
+                    <option id="opt-mgr" value="mgr">Manager</option>
+                    <option id="opt-stt" value="stt">Staff Tech</option>
+                    <option id="opt-stm" value="stm">Staff Manager</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="standing-input">Standing </label>
+                <select id="standing-input" style="margin: 10px">
+                    <option id="opt-fr" value="fr">Freshman</option>
+                    <option id="opt-sp" value="sp">Sophomore</option>
+                    <option id="opt-jr" value="jr">Junior</option>
+                    <option id="opt-sr" value="sr">Senior</option>
+                    <option id="opt-ss" value="ss">Super-Senior!</option>
+                    <option id="opt-st" value="st">Staff</option>
+                    <option id="opt-us" value="us">Unspecified</option>
+                </select>
+            </div>
+            <div class="form-group" id="dev-radio">
+                <label for="status-true">Developer:</label>
+                <input type="radio" name="status" id="status-true" value='True' style="margin: 10px"> Yes
+                <input type="radio" name="status" id="status-false" value='False' style="margin: 10px"> No
+            </div>
+            <button class="btn btn-success" id="update-bio">Submit</button>
+        </form>
+    </div>
+    {% endif %}
+    {% endif %}
+    </div>
 </div>
-<div id="dis-form">
-    <form method="post" class="form-horizontal" id="disform" style="display:none">
-        {% csrf_token %}
-        <div class="form-group">
-            <label for="disc-subject">Subject:</label>
-            <input type="text" class="form-control" id="disc-subject" title="Subject">
-        </div>
-        <div class="form-group" id="dis-radio">
-            <input type="radio" name="extent" value=".5" style="margin: 10px"> Half
-            <input type="radio" name="extent" value="1" style="margin: 10px"> Full
-        </div>
-        <div class="form-group">
-            <label for="disc-body">Comment:</label>
-            <textarea class="form-control" id="disc-body" rows="3" title="Commment"></textarea>
-        </div>
-        <input type="hidden" name="about" id = "disc-about" value="">
-        <h5 align="right"><button class="btn btn-success" id="submit-discipline">Submit</button></h5>
-    </form>
-</div>
-{% endif %}
 {% endblock %}
