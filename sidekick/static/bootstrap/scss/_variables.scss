@@ -91,7 +91,7 @@ $theme-color-interval:      8% !default;
 $yiq-contrasted-threshold: 150 !default;
 
 // Customize the light and dark text colors for use in our YIQ color contrast function.
-$yiq-text-dark: $gray-900 !default;
+$yiq-text-dark: #003e71 !default;
 $yiq-text-light: $white !default;
 
 // Options
@@ -140,8 +140,8 @@ $sizes: map-merge((
 //
 // Settings for the `<body>` element.
 
-$body-bg:                   $cyan !default;
-$body-color:                $gray-900 !default;
+$body-bg:                   #dbe5ec !default;
+$body-color:                #003e71 !default;
 
 // Links
 //
