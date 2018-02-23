@@ -7,30 +7,30 @@
 <div class="container-fluid">
     <div class="row">
         <h3><b>Recent Comments</b></h4>
-        <div class="panel-group col-md-10" style="overflow-y: auto; height: 90%; padding: 10px;">
+        <div class="card-group col-md-10" style="overflow-y: auto; height: 90%; padding: 10px;">
             {% for comment in comments %}
             {% if comment.val is None %}
-            <div class="panel panel-info">
-                <div class="panel-heading"><b>Posted By: </b> {{comment.poster}} on {{comment.time}}</div>
-                <div class="panel-body">
+            <div class="card">
+                <div class="card-header bg-info"><b>Posted By: </b> {{comment.poster}} on {{comment.time}}</div>
+                <div class="card-body">
                     <b>For: </b>{{comment.about}}
                     <br><b>Reason: </b>{{comment.description}}</br>
                 </div>
             </div>
             {% endif %}
             {% if comment.val == 0.50 %}
-            <div class="panel panel-warning">
-                <div class="panel-heading"><b>Posted By: </b> {{comment.poster}} on {{comment.time}}</div>
-                <div class="panel-body">
+            <div class="card">
+                <div class="card-header bg-warning"><b>Posted By: </b> {{comment.poster}} on {{comment.time}}</div>
+                <div class="card-body">
                     <b>For: </b>{{comment.about}}
                     <br><b>Reason: </b>{{comment.description}}</br>
                 </div>
             </div>
             {% endif %}
             {% if comment.val == 1.00 %}
-            <div class="panel panel-danger">
-                <div class="panel-heading"><b>Posted By: </b> {{comment.poster}} on {{comment.time}}</div>
-                <div class="panel-body">
+            <div class="card">
+                <div class="card-header bg-danger"><b>Posted By: </b> {{comment.poster}} on {{comment.time}}</div>
+                <div class="card-body">
                     <b>For: </b>{{comment.about}}
                     <br><b>Reason: </b>{{comment.description}}</br>
                 </div>
