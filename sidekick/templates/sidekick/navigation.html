@@ -1,10 +1,13 @@
 {% load sidekick_extras %}
-    <nav class = "navbar navbar-expand-sm bg-dark navbar-dark">
+    <nav class = "navbar navbar-expand-lg bg-dark navbar-dark">
         <!-- Brand/Logo -->
         <a class = "navbar-brand" href = "{% url 'homebase:index' %}">SideKick</a>
-
+        <button class = "navbar-toggler" type = "button" data-toggle = "collapse" data-target = "#navbeltDropdown" aria-expanded = "false" aria-label="Toggle navigation">
+            <span class = "navbar-toggler-icon"></span>
+        </button>
         <!-- Modules -->
-        <ul class = "navbar-nav">
+        <div id = "navbeltDropdown" class="navbar-collapse collapse">
+        <ul class = "navbar-nav mr-auto">
             <li class = "nav-item">
                 <a class = "nav-link" href = "{% url 'homebase:index' %}">Homebase</a>
             </li>
@@ -23,7 +26,14 @@
             <li class = "nav-item">
                 <a class = "nav-link" href = "{% url 'printinfo:index' %}">Printer Info</a>
             </li>
+        </ul>
         <!-- Dropdowns -->
+        <ul class = "navbar-nav">
+            <li class = "nav-item">
+                <a class = "nav-link" href="https://docs.google.com/forms/d/e/1FAIpQLSfzbDI9JBMxqS-pDYAnmWq6z3KbRaeBaJSWVN0Dq9kLeLcIoQ/viewform?usp=sf_link" target="_blank">
+                    Manual Shift Cover Form
+                </a>
+            </li>
             <li class = "nav-item dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Rounds Reports <b class="caret"></b></a>
                 <div class = "dropdown-menu">
@@ -46,7 +56,7 @@
             </li>
             <li class = "nav-item dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Tools <b class="caret"></b></a>
-                <div class="dropdown-menu">
+                <div class="dropdown-menu dropdown-menu-right">
                     <a class = "dropdown-item" href="https://apuimt.slack.com/" target="_blank">Slack</a>
                     <a class = "dropdown-item" href="https://den.apu.edu/idm/admin" target="_blank">IDM</a>
                     <a class = "dropdown-item" href="https://labprint.apu.edu/release" target="_blank">Papercut</a>
@@ -58,9 +68,10 @@
                     <a class = "dropdown-item" href="https://ise-adm-1.ise.apu.edu/admin/login.jsp" target="_blank">ISE</a>
                     <a class = "dropdown-item" href="https://director.apu.edu/" target="_blank">Director</a>
                     <a class = "dropdown-item" href="https://citrix.apu.edu/" target="_blank">Citrix</a>
-                    <a href="/roster/overview">Roster Overview</a>
+                    <a class = "dropdown-item" href="/roster/overview" >Roster Overview</a>
                     {% endif %}
                 </div>
             </li>
         </ul>
+    </div>
     </nav>
