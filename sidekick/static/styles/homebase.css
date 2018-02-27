@@ -8,6 +8,10 @@
   margin-top: 0px;
 }
 
+.a-e{
+  height: 86%!important;
+}
+
 /*This is the header of both cards*/
 .app-head{
   font-size: 16px;
@@ -148,35 +152,13 @@
 }
 
 .create-a{
-  font-size: 14px;
-  padding-right: 10px;
-  width: 50%;
-  height: 40px;
-  margin: -10px;
-  margin-top: -8px;
-  margin-bottom: -8px;
-  margin-right: -12px;
-  background-color: white;
-  border: 2px solid #B2D1D1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .create-e{
-  font-size: 14px;
-  padding-right: 10px;
-  width: 50%;
-  height: 40px;
-  margin: -10px;
-  margin-top: -8px;
-  margin-bottom: -8px;
-  margin-right: -12px;
-  background-color: white;
-  border: 2px solid #B2D1D1;
-  display: flex;
+}
+
+.header-form{
   align-items: center;
-  justify-content: center;
 }
 
 .create-a:hover{
