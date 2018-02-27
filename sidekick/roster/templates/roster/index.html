@@ -6,7 +6,7 @@
 <div class='container-fluid'>
     <div class="search" align="right">
         <form class="search-bar" style="margin-right: 20px">
-            <span class="glyphicon glyphicon-search"></span>
+            <span class="oi oi-search"></span>
             <input type="text" name="search" placeholder=" Search..." id="searchbar" value="">
         </form>
     </div>
@@ -144,7 +144,7 @@
                                 {% if user_netid|has_access:"roster_modfb_all" %}
                                 <div class="col-xs-1 col-md-1">
                                     <button type='button' id="delete-emp" class='btn btn-danger' style="display:none">
-                                        <span class="glyphicon glyphicon-warning-sign"></span> Delete
+                                        <span class="oi oi-warning-sign"></span> Delete
                                     </button>
                                 </div>
                                 <div class="col-xs-4 col-md-9">
@@ -216,7 +216,7 @@
             <input type="hidden" name="giver" id = "giver" value="">
             <input type="hidden" name="recipient" id = "recipient" value="">
             <h5 align="right"><button class="btn btn-success" id="submit-star">
-                <span class="glyphicon glyphicon-thumbs-up"></span> Go You!
+                <span class="oi oi-thumbs-up"></span> Go You!
             </button></h5>
         </form>
     </div>
@@ -253,7 +253,7 @@
             </div>
             <input type="hidden" name="about" id = "disc-about" value="">
             <h5 align="right"><button class="btn btn-danger" id="submit-discipline">
-                <span class="glyphicon glyphicon-thumbs-down"></span> Discipline</button></h5>
+                <span class="oi oi-thumbs-down"></span> Discipline</button></h5>
         </form>
     </div>
     {% if user_netid|has_access:"roster_modfb_all" %}
