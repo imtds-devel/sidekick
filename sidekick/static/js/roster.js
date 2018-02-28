@@ -1,5 +1,5 @@
 /////////////////////////////////////////
-// JavaScript/Jquery for the quotes module
+// JavaScript/Jquery for the roster module
 // Written by Brooks Duggan in Fall 2017
 /////////////////////////////////////////
 
@@ -240,7 +240,7 @@ $('.panelemp').click(function showModal(){
 
                 $("#comment-div").html(" ");
                 for (i = 0; i < data.comlist.length; i++) {
-                    var output = "<div class='panel comment-panel' id='comment-list-" + data.comlist[i].pk + "'><div class='panel-body'>";
+                    var output = "<div class='card comment-panel' id='comment-list-" + data.comlist[i].pk + "'><div class='card-body'>";
                     output += "<div class='row'><div class='col-xs-10 col-sm-10 col-md-10'><h4><b>Subject: </b></h4><h4>" + data.comlist[i].subject + "</h4></div>";
                     output += "<div class='col-xs-2 col-sm-2 col-md-2'><button type='button' style='display:none' onclick=DeleteComment('list-"+ data.comlist[i].pk + "','"+ netid_1 +"') class='btn delete-btn btn-default btn-sm' id='list-"+i+"'><span class='oi oi-trash'></span> </button></div>"
                     if (data.comlist[i].val != 0 && data.comlist[i].val != null){
