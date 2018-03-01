@@ -5,6 +5,7 @@
 {% load shifts_extras %}
 <div class = 'card'>
     <div class = 'card-header bg-primary text-white shifts-header'>
+        <div class = 'media'>
         <div class = 'shifts-week'>
                 <button id = 'your-week-previous' type = 'button' class = 'btn btn-secondary'><span class="oi oi-chevron-left"></span></button>
                 <p class = 'your-week-text' id = 'your-week'></p>
@@ -16,6 +17,7 @@
                 <input id = 'your-shift-date' type = 'date' class = 'form-control' value= '{{date|datetime_to_date}}'>
             </div>
         </div>
+    </div>
     </div>
     <div class = 'card-body'>
         <div id = 'your-shifts-card-group' class = 'shifts-card-group'></div>
