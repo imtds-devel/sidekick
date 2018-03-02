@@ -16,8 +16,8 @@ from time import sleep
 
 
 def index(request):
-    request_user = get_current_user(request)
-    user = Employees.objects.get(netid=request_user.user)
+    request = get_current_user(request)
+    user = Employees.objects.get(netid=str(request.user))
     user_position = user.position
 
     # The possible positions for an employee in the database

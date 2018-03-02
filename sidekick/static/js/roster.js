@@ -123,7 +123,7 @@ $('.panelemp').click(function showModal(){
 
     // Conditional to append info for employee skills if Active User is a manager, and the modal is for a non-Lab Tech and non-Lead Lab Tech (who don't have skills)
     if((active_user == netid_1 || manager == "True") && (position != "Lab Technician" && position != "Lead Lab Tech")) {
-        $("#li-skills").append("<a data-toggle='tab' href='#emp-skills'>Skills</a>")
+        $("#li-skills").append("<a class='nav-link' data-toggle='tab' href='#emp-skills'>Skills</a>")
         $("#emp-skills").append("<div id='skills-div'></div>")
     }
 
@@ -236,7 +236,7 @@ $('.panelemp').click(function showModal(){
         success: function(data){
 
             if((active_user != netid_1 && leadlab == "True" && position == "Lab Technician") || manager == "True"){
-                $("#li-comment").append("<a data-toggle='tab' href='#emp-comment'>Comments</a>")
+                $("#li-comment").append("<a class='nav-link' data-toggle='tab' href='#emp-comment'>Comments</a>")
 
                 $("#comment-div").html(" ");
                 for (i = 0; i < data.comlist.length; i++) {
@@ -316,8 +316,8 @@ $('.panelemp').click(function showModal(){
 
         // Set all attributes of tab-panes, and classes to original status
         $("#li-home").attr('class', 'active')
-        $("#li-skills").attr('class', '')
-        $("#li-comment").attr('class', '')
+        $("#li-skills").attr('class', 'nav-item')
+        $("#li-comment").attr('class', 'nav-item')
         $("#emp-home").attr('class', 'modal-body hero-bio tab-pane fade in active')
         $("#emp-skills").attr('class', 'tab-pane row fade')
         $("#emp-comment").attr('class', 'modal-body hero-bio tab-pane fade')

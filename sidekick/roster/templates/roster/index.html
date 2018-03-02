@@ -4,7 +4,7 @@
 {% load roster_extras %}
 {% load sidekick_extras %}
     <div class="search" align="right">
-        <form class="search-bar" style="margin-right: 20px">
+        <form class="search-bar" style="margin:10px;">
             <span class="oi oi-magnifying-glass"></span>
             <input type="text" name="search" placeholder=" Search..." id="searchbar" value="">
         </form>
@@ -79,12 +79,12 @@
             <div class='modal-dialog modal-md'>
                 <div class='modal-content' id="content-standin">
                     <div class='modal-header'>
-                        <h4 style='text-align: left; margin-left:30px; margin-top:15px; margin-bottom:-35px;' class='modal-title' id="title-name"></h4>
-                        <ul class='nav nav-tabs' style='margin-left:250px'>
-                            <li id="li-home" class='active'><a data-toggle='tab' href='#emp-home'>Info</a></li>
-                            <li id="li-skills"></li>
+                        <h4 class='modal-title' id="title-name"></h4>
+                        <ul class='nav nav-tabs justify-content-end'>
+                            <li id="li-home" class='nav-item'><a class="nav-link" data-toggle='tab' href='#emp-home'>Info</a></li>
+                            <li id="li-skills" class="nav-item"></li>
                             {% if user_netid|has_access:"roster_modfb_all" or "roster_modfb_lab" %}
-                            <li id="li-comment"></li>
+                            <li id="li-comment" class="nav-item"></li>
                             {% endif %}
                         </ul>
                     </div>
