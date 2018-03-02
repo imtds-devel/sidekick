@@ -210,7 +210,7 @@ $('.panelemp').click(function showModal(){
 
             for (i = 0; i < data.trophlist.length; i++) {
                     var output = "<a href='#' class='trophy' data-toggle='popover' data-placement='auto top' data-trigger='hover' title='" + data.trophlist[i].name;
-                    output += "' data-content='" + data.trophlist[i].reason + " -- " + data.trophlist[i].giver + "'>";
+                    output += "' data-content=\"" + data.trophlist[i].reason + " -- " + data.trophlist[i].giver + "\">";
                     output += "<img class='trophy-img' src='/static/" + data.trophlist[i].url + "'></a>";
                     $(output).appendTo("#trophy-m");
             }

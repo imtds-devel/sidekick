@@ -65,7 +65,7 @@ def push_cover(request):
     shift_owner = shift.owner
 
     # Check for bad user posting data
-    if str(shift_owner.netid) != str(request.user):
+    if post and str(shift_owner.netid) != str(request.user):
         if not get_access(str(request.user), "shift_postall"):
             # if the user can't post this shift
             json_data = {
