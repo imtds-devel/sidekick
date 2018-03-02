@@ -66,11 +66,8 @@ $('.panelemp').click(function showModal(){
         soft = 0
     }
     // Conditional for if the employee is a developer
-    if (developer == "True"){
-        developer = true
-    } else{
-        developer = false
-    }
+    developer = developer == "True";
+
     // Conditional if someone has not input their phone number or birthday to not let DB break
     if (birthday == 'None' || notnicephone == 'None'){
         birthday = null
@@ -315,10 +312,10 @@ $('.panelemp').click(function showModal(){
     $("#" + netid_1).on("hidden.bs.modal", function(){
 
         // Set all attributes of tab-panes, and classes to original status
-        $("#li-home").attr('class', 'active')
+        $("#li-home").attr('class', 'nav-item active')
         $("#li-skills").attr('class', 'nav-item')
         $("#li-comment").attr('class', 'nav-item')
-        $("#emp-home").attr('class', 'modal-body hero-bio tab-pane fade in active')
+        $("#emp-home").attr('class', 'modal-body hero-bio tab-pane fade show active')
         $("#emp-skills").attr('class', 'tab-pane row fade')
         $("#emp-comment").attr('class', 'modal-body hero-bio tab-pane fade')
         $("#profform").appendTo('#prof-form');
