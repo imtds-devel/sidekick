@@ -6,16 +6,12 @@
         <div class="card-header"><h4>MoD Tracker</h4></div>
         <div class="card-body">
             <div class="carousel slide modTrack" id="modCarousel" data-ride='carousel'>
-                <ul class="carousel-indicators">
-                        <li data-target="#modCarousel" data-slide-to="0" class="active"></li>
-                        <li data-target="#modCarousel" data-slide-to="1"></li>
-                </ul>
                 <div class="carousel-inner">
                     <div class="carousel-item active">
                         <div class="media curMoD">
                             {% if curr_mod %}
                             <div class="media-left">
-                                <img src="{% static curr_mod.owner.picture|img_exists %}" class='img-circle sideMoDImg'>
+                                <img src="{% static curr_mod.owner.picture|img_exists %}" class='rounded-circle sideMoDImg'>
                             </div>
                             <div class="media-body">
                                 <h4 class='media-heading modName'>Now: {{curr_mod.owner}}</h4>
@@ -33,7 +29,7 @@
                         <div class="media nextMoD">
                             {% if next_mod %}
                             <div class="media-left">
-                                <img src="{% static next_mod.owner.picture|img_exists %}" class='img-circle sideMoDImg'>
+                                <img src="{% static next_mod.owner.picture|img_exists %}" class='rounded-circle sideMoDImg'>
                             </div>
                             <div class="media-body">
                                 <h4 class='media-heading modName'>Next: {{next_mod.owner}}</h4>

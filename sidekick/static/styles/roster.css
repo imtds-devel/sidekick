@@ -7,26 +7,42 @@
 }
 .e_field
 {
-  margin:0 0 2px;
+margin:0 0 2px;
 }
 
 /* CSS for bio cards, many of these recolor employee types for positions */
 
 .hero-cards
 {
-  display:flex;
-  flex-direction:row;
-  flex-wrap:wrap;
-  max-height:90%;
-  overflow:auto;
+display:flex;
+flex-direction:row;
+flex-wrap:wrap;
 }
 .hero-card
 {
-  width: 30%;
-  max-height: 15%;
-  margin-left: 6px;
-  display: inline-block;
-  margin-bottom: 6px;
+width: 22rem;
+height:8rem;
+margin: 5px;
+cursor:pointer;
+transition: all linear 0.1s;
+}
+.hero-card:hover
+{
+box-shadow:0px 0px 7px darkgrey;
+}
+.hero-img-wrap
+{
+display:flex;
+flex-direction:column;
+justify-content: center;
+align-items: center;
+height:8rem;
+}
+.hero-text-wrap
+{
+text-align: right;
+display:flex;
+flex-direction: column;
 }
 .spt
 {
@@ -154,8 +170,9 @@
 }
 .img-herocard
 {
-  height: 87px;
-  width: 87px;
+  height: 90px;
+  width: 90px;
+  border: 1px solid darkgrey;
 }
 
 .tab-card

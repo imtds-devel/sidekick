@@ -3,7 +3,6 @@
 {% load staticfiles %}
 {% load roster_extras %}
 {% load sidekick_extras %}
-<div class='container-fluid'>
     <div class="search" align="right">
         <form class="search-bar" style="margin-right: 20px">
             <span class="oi oi-magnifying-glass"></span>
@@ -13,52 +12,48 @@
     <div class='hero-cards'>
         {% if employee_list %}
         {% for employee, skills in employee_list %}
-        <div class='panelemp hero-card' id="{{employee.search}}">
-            <button type='button' id="b-{{employee.netid}}"
-                    class='btn btn-block {{employee.position}} dev_{{employee.developer}}'
-                    data-toggle='modal'>
-                <div class='card-block'>
-                    <div class="media">
-                        <div class="media-left">
-                            <img src='{% static employee.picture|img_exists %}' class='img rounded-circle img-herocard'>
+            <div class="panelemp card hero-card {{employee.position}} dev_{{employee.developer}}" id="{{employee.search}}" data-toggle="modal">
+                <div class="card-block">
+                    <div class="row no-gutters">
+                        <div class="col-4 hero-img-wrap">
+                            <img src="{% static employee.picture|img_exists %}" class="img rounded-circle img-herocard">
                         </div>
-                        <div class="media-body e_desc">
-                            <p class="e_field"><b>{{employee.full_name}}</b></p>
-                            <p class="e_field"> {{employee.short_desc}} </p>
-                            <p class="e_field"> {{employee.netid}}</p>
-                            <p class="e_field"> {{employee.nice_phone}} </p>
-                        </div>
-                        <div id="m-{{employee.netid}}" class="emp-meta" style="display:none">
-                            <ul class="m-info">
-                                <li class="m-fullname">{{employee.full_name}}</li>
-                                <li class="m-id">{{employee.netid}}</li>
-                                <li class="m-code">{{employee.codename}}</li>
-                                <li class="m-position">{{employee.nice_position}}</li>
-                                <li class="m-nicephone">{{employee.nice_phone}}</li>
-                                <li class="m-birth">{{employee.birthday}}</li>
-                                <li class="m-poscol">{{employee.position}}</li>
-                                <li id="m-activeuser">{{user_netid}}</li>
-                                <li id="m-mgr">{{ user_netid|has_access:"roster_prof_all" }}</li>
-                                <li id="m-lead">{{ user_netid|has_access:"roster_modfb_lab" }}</li>
-                                {% if user_netid|has_access:"roster_modfb_all" %}
-                                <li class="m-fname">{{employee.fname}}</li>
-                                <li class="m-lname">{{employee.lname}}</li>
-                                <li class="m-apuid">{{employee.apuid}}</li>
-                                <li class="m-phone">{{employee.phone}}</li>
-                                <li class="m-pos">{{employee.position}}</li>
-                                <li class="m-stand">{{employee.standing}}</li>
-                                <li class="m-developer">{{employee.developer}}</li>
-                                {% endif %}
-                                <li class="m-pic">{% static employee.picture|img_exists %}</li>
-                                {% if user_netid|has_access:"roster_prof_all" or user_netid == employee.netid %}
-                                <li class="m-profs">{{skills|first}}</li>
-                                {% endif %}
-                            </ul>
+                        <div class="col-8 hero-text-wrap" style="padding:15px 15px 15px 0px;">
+                            <h5 class="card-title">{{employee}}</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">{{employee.short_desc}}</h6>
+                            <p class="card-subtitle mb-2 text-muted">{{employee.netid}}</p>
+                            <p class="card-subtitle mb-2 text-muted">{{employee.nice_phone}}</p>
                         </div>
                     </div>
+                    <div id="m-{{employee.netid}}" class="emp-meta" style="display:none">
+                        <ul class="m-info">
+                            <li class="m-fullname">{{employee.full_name}}</li>
+                            <li class="m-id">{{employee.netid}}</li>
+                            <li class="m-code">{{employee.codename}}</li>
+                            <li class="m-position">{{employee.nice_position}}</li>
+                            <li class="m-nicephone">{{employee.nice_phone}}</li>
+                            <li class="m-birth">{{employee.birthday}}</li>
+                            <li class="m-poscol">{{employee.position}}</li>
+                            <li id="m-activeuser">{{user_netid}}</li>
+                            <li id="m-mgr">{{ user_netid|has_access:"roster_prof_all" }}</li>
+                            <li id="m-lead">{{ user_netid|has_access:"roster_modfb_lab" }}</li>
+                            {% if user_netid|has_access:"roster_modfb_all" %}
+                            <li class="m-fname">{{employee.fname}}</li>
+                            <li class="m-lname">{{employee.lname}}</li>
+                            <li class="m-apuid">{{employee.apuid}}</li>
+                            <li class="m-phone">{{employee.phone}}</li>
+                            <li class="m-pos">{{employee.position}}</li>
+                            <li class="m-stand">{{employee.standing}}</li>
+                            <li class="m-developer">{{employee.developer}}</li>
+                            {% endif %}
+                            <li class="m-pic">{% static employee.picture|img_exists %}</li>
+                            {% if user_netid|has_access:"roster_prof_all" or user_netid == employee.netid %}
+                            <li class="m-profs">{{skills|first}}</li>
+                            {% endif %}
+                        </ul>
+                    </div>
                 </div>
-            </button>
-        </div>
+            </div>
         {% endfor %}
         {% else %}
         <div class='page-header'>Ain't got none</div>
@@ -367,5 +362,5 @@
     {% endif %}
     {% endif %}
     </div>
-</div>
+
 {% endblock %}
