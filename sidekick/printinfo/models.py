@@ -21,7 +21,7 @@ class Location(models.Model):
 
 class Printer(models.Model):
     printer_name = models.CharField(max_length=15, default='')                                       # printer name (external)
-    location = models.ForeignKey(Location)                                                           # location of library printer dwells
+    location = models.ForeignKey(Location, on_delete=models.CASCADE)                                                           # location of library printer dwells
     print_ip = models.URLField(max_length=14)                                                        # printer IP address
     print_type = models.CharField(max_length=10)                                                     # type of printer
     @property
@@ -34,12 +34,12 @@ class Printer(models.Model):
         return str(self.location) + " " + str(self.print_type)
 
 class StatusLog(models.Model):
-    print_id = models.ForeignKey(Printer)                                                            # printer id in database
+    print_id = models.ForeignKey(Printer, on_delete=models.CASCADE)                                                            # printer id in database
     date = models.DateTimeField("Date", default=datetime.now().replace(microsecond=0))               # date of most recent log made
     print_stat = models.CharField(max_length=12,
                                   choices=STATUS_CHOICES)                                            # status of printer health
     desc = models.TextField(max_length=300, default='')                                              # brief description of what's wrong
-    netid = models.ForeignKey(Employees, default='nchera13')                                               # Need to add model for userID to record on each form
+    netid = models.ForeignKey(Employees, default='nchera13', on_delete=models.CASCADE)                                               # Need to add model for userID to record on each form
     @property
     def pic(self):
         """Returns the picture formated to be referenced"""

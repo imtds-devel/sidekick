@@ -1,17 +1,11 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from oauth2client.contrib.django_util.models import CredentialsField
 from django.utils import timezone
 from django.db import models
 from homebase.models import Employees
 import datetime
 import pytz
 from django.utils.timezone import make_aware, make_naive
-
-
-class CredentialsModel(models.Model):
-    lookup = models.ForeignKey(Employees, on_delete=models.CASCADE)
-    credential = CredentialsField()
 
 
 class Shifts(models.Model):
@@ -56,6 +50,7 @@ class Shifts(models.Model):
         choices=CHECKIN_CHOICES,
         default='F'
     )
+    checkin_time = models.DateTimeField(default=datetime.datetime.now)
     permanent_id = models.TextField(default="")  # Same as event id for non-permanent shifts
     sob_story = models.TextField(null=True, blank=True) # The current sob story for the shift, can be null if the shift isn't open
 

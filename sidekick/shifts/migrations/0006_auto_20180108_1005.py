@@ -4,7 +4,6 @@ from __future__ import unicode_literals
 
 from django.db import migrations, models
 import django.db.models.deletion
-import oauth2client.contrib.django_util.models
 
 
 class Migration(migrations.Migration):
@@ -15,14 +14,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.CreateModel(
-            name='CredentialsModel',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('credential', oauth2client.contrib.django_util.models.CredentialsField(null=True)),
-                ('lookup', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='homebase.Employees')),
-            ],
-        ),
         migrations.RemoveField(
             model_name='shifts',
             name='delete',

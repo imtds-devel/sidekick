@@ -1,0 +1,987 @@
+2018-02-16 10:20:22,690 django.request ERROR    Internal Server Error: /homebase/
+Traceback (most recent call last):
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/core/handlers/exception.py", line 35, in inner
+    response = get_response(request)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/core/handlers/base.py", line 128, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/core/handlers/base.py", line 126, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/maytenfsu/PycharmProjects/sidekick/sidekick/homebase/views.py", line 46, in index
+    return views.load_page(request, 'homebase/index.html', prep_context())
+  File "/home/maytenfsu/PycharmProjects/sidekick/sidekick/sidekick/views.py", line 43, in load_page
+    return render(request, template, context)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/shortcuts.py", line 36, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 175, in render
+    return self._render(context)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 167, in _render
+    return self.nodelist.render(context)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 943, in render
+    bit = node.render_annotated(context)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 910, in render_annotated
+    return self.render(context)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/loader_tags.py", line 155, in render
+    return compiled_parent._render(context)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 167, in _render
+    return self.nodelist.render(context)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 943, in render
+    bit = node.render_annotated(context)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 910, in render_annotated
+    return self.render(context)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/loader_tags.py", line 67, in render
+    result = block.nodelist.render(context)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 943, in render
+    bit = node.render_annotated(context)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 910, in render_annotated
+    return self.render(context)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/loader_tags.py", line 182, in render
+    template = context.template.engine.get_template(template_name)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/engine.py", line 144, in get_template
+    template, origin = self.find_template(template_name)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/engine.py", line 126, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/loaders/base.py", line 30, in get_template
+    contents, origin, origin.template_name, self.engine,
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 160, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 198, in compile_nodelist
+    return parser.parse()
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 483, in parse
+    raise self.error(token, e)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 481, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/defaulttags.py", line 956, in do_if
+    nodelist = parser.parse(('elif', 'else', 'endif'))
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 488, in parse
+    self.unclosed_block_tag(parse_until)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 549, in unclosed_block_tag
+    raise self.error(token, msg)
+django.template.exceptions.TemplateSyntaxError: Unclosed tag on line 115: 'if'. Looking for one of: elif, else, endif.
+2018-02-16 10:20:23,134 django.server ERROR    "GET /homebase/ HTTP/1.1" 500 272173
+2018-02-16 10:20:23,369 django.request WARNING  Not Found: /favicon.ico
+2018-02-16 10:20:23,370 django.server WARNING  "GET /favicon.ico HTTP/1.1" 404 3112
+2018-02-19 09:07:45,466 django.request ERROR    Internal Server Error: /roster/
+Traceback (most recent call last):
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 475, in parse
+    compile_func = self.tags[command]
+KeyError: 'endblock'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/core/handlers/exception.py", line 35, in inner
+    response = get_response(request)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/core/handlers/base.py", line 128, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/core/handlers/base.py", line 126, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/maytenfsu/PycharmProjects/sidekick/sidekick/roster/views.py", line 41, in index
+    return views.load_page(request, 'roster/index.html', prep_context())
+  File "/home/maytenfsu/PycharmProjects/sidekick/sidekick/sidekick/views.py", line 43, in load_page
+    return render(request, template, context)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/shortcuts.py", line 36, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/backends/django.py", line 34, in get_template
+    return Template(self.engine.get_template(template_name), self)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/engine.py", line 144, in get_template
+    template, origin = self.find_template(template_name)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/engine.py", line 126, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/loaders/base.py", line 30, in get_template
+    contents, origin, origin.template_name, self.engine,
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 160, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 198, in compile_nodelist
+    return parser.parse()
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 483, in parse
+    raise self.error(token, e)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 481, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/loader_tags.py", line 290, in do_extends
+    nodelist = parser.parse()
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 483, in parse
+    raise self.error(token, e)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 481, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/loader_tags.py", line 233, in do_block
+    nodelist = parser.parse(('endblock',))
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 483, in parse
+    raise self.error(token, e)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 481, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/defaulttags.py", line 956, in do_if
+    nodelist = parser.parse(('elif', 'else', 'endif'))
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 477, in parse
+    self.invalid_block_tag(token, command, parse_until)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 533, in invalid_block_tag
+    get_text_list(["'%s'" % p for p in parse_until], 'or'),
+django.template.exceptions.TemplateSyntaxError: Invalid block tag on line 439: 'endblock', expected 'elif', 'else' or 'endif'. Did you forget to register or load this tag?
+2018-02-19 09:07:49,474 django.server ERROR    "GET /roster/ HTTP/1.1" 500 205289
+2018-02-19 09:07:49,672 django.request WARNING  Not Found: /favicon.ico
+2018-02-19 09:07:49,673 django.server WARNING  "GET /favicon.ico HTTP/1.1" 404 3112
+2018-02-19 10:10:13,534 django.request ERROR    Internal Server Error: /homebase/
+Traceback (most recent call last):
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/smartif.py", line 175, in translate_token
+    op = OPERATORS[token]
+KeyError: '!shift.is_open'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/core/handlers/exception.py", line 35, in inner
+    response = get_response(request)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/core/handlers/base.py", line 128, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/core/handlers/base.py", line 126, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/maytenfsu/PycharmProjects/sidekick/sidekick/homebase/views.py", line 46, in index
+    return views.load_page(request, 'homebase/index.html', prep_context())
+  File "/home/maytenfsu/PycharmProjects/sidekick/sidekick/sidekick/views.py", line 43, in load_page
+    return render(request, template, context)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/shortcuts.py", line 36, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 175, in render
+    return self._render(context)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 167, in _render
+    return self.nodelist.render(context)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 943, in render
+    bit = node.render_annotated(context)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 910, in render_annotated
+    return self.render(context)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/loader_tags.py", line 155, in render
+    return compiled_parent._render(context)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 167, in _render
+    return self.nodelist.render(context)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 943, in render
+    bit = node.render_annotated(context)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 910, in render_annotated
+    return self.render(context)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/loader_tags.py", line 67, in render
+    result = block.nodelist.render(context)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 943, in render
+    bit = node.render_annotated(context)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 910, in render_annotated
+    return self.render(context)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/loader_tags.py", line 182, in render
+    template = context.template.engine.get_template(template_name)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/engine.py", line 144, in get_template
+    template, origin = self.find_template(template_name)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/engine.py", line 126, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/loaders/base.py", line 30, in get_template
+    contents, origin, origin.template_name, self.engine,
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 160, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 198, in compile_nodelist
+    return parser.parse()
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 483, in parse
+    raise self.error(token, e)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 481, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/defaulttags.py", line 956, in do_if
+    nodelist = parser.parse(('elif', 'else', 'endif'))
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 483, in parse
+    raise self.error(token, e)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 481, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/defaulttags.py", line 956, in do_if
+    nodelist = parser.parse(('elif', 'else', 'endif'))
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 483, in parse
+    raise self.error(token, e)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 481, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/defaulttags.py", line 815, in do_for
+    nodelist_loop = parser.parse(('empty', 'endfor',))
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 483, in parse
+    raise self.error(token, e)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 481, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/defaulttags.py", line 955, in do_if
+    condition = TemplateIfParser(parser, bits).parse()
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/defaulttags.py", line 888, in __init__
+    super().__init__(*args, **kwargs)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/smartif.py", line 166, in __init__
+    mapped_tokens.append(self.translate_token(token))
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/smartif.py", line 177, in translate_token
+    return self.create_var(token)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/defaulttags.py", line 891, in create_var
+    return TemplateLiteral(self.template_parser.compile_filter(value), value)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 568, in compile_filter
+    return FilterExpression(token, self)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 668, in __init__
+    "from '%s'" % (token[upto:], token))
+django.template.exceptions.TemplateSyntaxError: Could not parse the remainder: '!shift.is_open' from '!shift.is_open'
+2018-02-19 10:10:14,101 django.server ERROR    "GET /homebase/ HTTP/1.1" 500 337699
+2018-02-19 20:40:26,712 django.request ERROR    Internal Server Error: /homebase/
+Traceback (most recent call last):
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 475, in parse
+    compile_func = self.tags[command]
+KeyError: 'shift.eventid'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/core/handlers/exception.py", line 35, in inner
+    response = get_response(request)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/core/handlers/base.py", line 128, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/core/handlers/base.py", line 126, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/maytenfsu/PycharmProjects/sidekick/sidekick/homebase/views.py", line 46, in index
+    return views.load_page(request, 'homebase/index.html', prep_context())
+  File "/home/maytenfsu/PycharmProjects/sidekick/sidekick/sidekick/views.py", line 43, in load_page
+    return render(request, template, context)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/shortcuts.py", line 36, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 175, in render
+    return self._render(context)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 167, in _render
+    return self.nodelist.render(context)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 943, in render
+    bit = node.render_annotated(context)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 910, in render_annotated
+    return self.render(context)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/loader_tags.py", line 155, in render
+    return compiled_parent._render(context)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 167, in _render
+    return self.nodelist.render(context)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 943, in render
+    bit = node.render_annotated(context)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 910, in render_annotated
+    return self.render(context)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/loader_tags.py", line 67, in render
+    result = block.nodelist.render(context)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 943, in render
+    bit = node.render_annotated(context)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 910, in render_annotated
+    return self.render(context)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/loader_tags.py", line 182, in render
+    template = context.template.engine.get_template(template_name)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/engine.py", line 144, in get_template
+    template, origin = self.find_template(template_name)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/engine.py", line 126, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/loaders/base.py", line 30, in get_template
+    contents, origin, origin.template_name, self.engine,
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 160, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 198, in compile_nodelist
+    return parser.parse()
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 483, in parse
+    raise self.error(token, e)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 481, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/defaulttags.py", line 956, in do_if
+    nodelist = parser.parse(('elif', 'else', 'endif'))
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 483, in parse
+    raise self.error(token, e)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 481, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/defaulttags.py", line 956, in do_if
+    nodelist = parser.parse(('elif', 'else', 'endif'))
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 483, in parse
+    raise self.error(token, e)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 481, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/defaulttags.py", line 815, in do_for
+    nodelist_loop = parser.parse(('empty', 'endfor',))
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 483, in parse
+    raise self.error(token, e)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 481, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/defaulttags.py", line 956, in do_if
+    nodelist = parser.parse(('elif', 'else', 'endif'))
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 477, in parse
+    self.invalid_block_tag(token, command, parse_until)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 533, in invalid_block_tag
+    get_text_list(["'%s'" % p for p in parse_until], 'or'),
+django.template.exceptions.TemplateSyntaxError: Invalid block tag on line 138: 'shift.eventid', expected 'elif', 'else' or 'endif'. Did you forget to register or load this tag?
+2018-02-19 20:40:27,888 django.server ERROR    "POST /homebase/ HTTP/1.1" 500 315179
+2018-02-19 21:17:03,263 django.request ERROR    Internal Server Error: /homebase/
+Traceback (most recent call last):
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 475, in parse
+    compile_func = self.tags[command]
+KeyError: 'shift.eventid'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/core/handlers/exception.py", line 35, in inner
+    response = get_response(request)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/core/handlers/base.py", line 128, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/core/handlers/base.py", line 126, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/maytenfsu/PycharmProjects/sidekick/sidekick/homebase/views.py", line 46, in index
+    return views.load_page(request, 'homebase/index.html', prep_context())
+  File "/home/maytenfsu/PycharmProjects/sidekick/sidekick/sidekick/views.py", line 43, in load_page
+    return render(request, template, context)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/shortcuts.py", line 36, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 175, in render
+    return self._render(context)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 167, in _render
+    return self.nodelist.render(context)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 943, in render
+    bit = node.render_annotated(context)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 910, in render_annotated
+    return self.render(context)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/loader_tags.py", line 155, in render
+    return compiled_parent._render(context)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 167, in _render
+    return self.nodelist.render(context)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 943, in render
+    bit = node.render_annotated(context)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 910, in render_annotated
+    return self.render(context)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/loader_tags.py", line 67, in render
+    result = block.nodelist.render(context)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 943, in render
+    bit = node.render_annotated(context)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 910, in render_annotated
+    return self.render(context)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/loader_tags.py", line 182, in render
+    template = context.template.engine.get_template(template_name)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/engine.py", line 144, in get_template
+    template, origin = self.find_template(template_name)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/engine.py", line 126, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/loaders/base.py", line 30, in get_template
+    contents, origin, origin.template_name, self.engine,
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 160, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 198, in compile_nodelist
+    return parser.parse()
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 483, in parse
+    raise self.error(token, e)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 481, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/defaulttags.py", line 956, in do_if
+    nodelist = parser.parse(('elif', 'else', 'endif'))
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 483, in parse
+    raise self.error(token, e)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 481, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/defaulttags.py", line 956, in do_if
+    nodelist = parser.parse(('elif', 'else', 'endif'))
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 483, in parse
+    raise self.error(token, e)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 481, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/defaulttags.py", line 815, in do_for
+    nodelist_loop = parser.parse(('empty', 'endfor',))
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 483, in parse
+    raise self.error(token, e)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 481, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/defaulttags.py", line 956, in do_if
+    nodelist = parser.parse(('elif', 'else', 'endif'))
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 477, in parse
+    self.invalid_block_tag(token, command, parse_until)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 533, in invalid_block_tag
+    get_text_list(["'%s'" % p for p in parse_until], 'or'),
+django.template.exceptions.TemplateSyntaxError: Invalid block tag on line 138: 'shift.eventid', expected 'elif', 'else' or 'endif'. Did you forget to register or load this tag?
+2018-02-19 21:17:06,153 django.server ERROR    "POST /homebase/ HTTP/1.1" 500 314779
+2018-02-23 01:49:18,920 django.server WARNING  "GET /static/trophies/tmartinez14.gif HTTP/1.1" 404 1797
+2018-02-23 01:49:18,922 django.server WARNING  "GET /static/trophies/bduggan14.gif HTTP/1.1" 404 1791
+2018-02-23 01:49:18,922 django.server WARNING  "GET /static/trophies/dgolson14.gif HTTP/1.1" 404 1791
+2018-02-23 01:49:18,923 django.server WARNING  "GET /static/trophies/jwood14.gif HTTP/1.1" 404 1785
+2018-02-23 01:49:19,198 django.server WARNING  "GET /static/trophies/bduggan14.gif HTTP/1.1" 404 1791
+2018-02-23 01:49:19,203 django.server WARNING  "GET /static/trophies/dgolson14.gif HTTP/1.1" 404 1791
+2018-02-23 01:49:19,203 django.server WARNING  "GET /static/trophies/tmartinez14.gif HTTP/1.1" 404 1797
+2018-02-23 01:49:19,208 django.server WARNING  "GET /static/trophies/jwood14.gif HTTP/1.1" 404 1785
+2018-02-22 14:52:05,168 django.server WARNING  "GET /static/trophies/bduggan14.gif HTTP/1.1" 404 1791
+2018-02-22 14:52:05,172 django.server WARNING  "GET /static/trophies/tmartinez14.gif HTTP/1.1" 404 1797
+2018-02-22 14:52:05,174 django.server WARNING  "GET /static/trophies/dgolson14.gif HTTP/1.1" 404 1791
+2018-02-22 14:52:05,181 django.server WARNING  "GET /static/trophies/jwood14.gif HTTP/1.1" 404 1785
+2018-02-22 14:53:22,207 django.server WARNING  "GET /static/trophies/bduggan14.gif HTTP/1.1" 404 1791
+2018-02-22 14:53:22,210 django.server WARNING  "GET /static/trophies/dgolson14.gif HTTP/1.1" 404 1791
+2018-02-22 14:53:22,211 django.server WARNING  "GET /static/trophies/tmartinez14.gif HTTP/1.1" 404 1797
+2018-02-22 14:53:22,217 django.server WARNING  "GET /static/trophies/jwood14.gif HTTP/1.1" 404 1785
+2018-02-22 14:53:22,266 django.server WARNING  "GET /static/trophies/tmartinez14.gif HTTP/1.1" 404 1797
+2018-02-22 14:53:22,279 django.server WARNING  "GET /static/trophies/dgolson14.gif HTTP/1.1" 404 1791
+2018-02-22 14:53:22,279 django.server WARNING  "GET /static/trophies/bduggan14.gif HTTP/1.1" 404 1791
+2018-02-22 14:53:22,282 django.server WARNING  "GET /static/trophies/jwood14.gif HTTP/1.1" 404 1785
+2018-02-22 15:21:31,482 django.server WARNING  "GET /static/trophies/tmartinez14.gif HTTP/1.1" 404 1797
+2018-02-22 15:21:31,498 django.server WARNING  "GET /static/trophies/bduggan14.gif HTTP/1.1" 404 1791
+2018-02-22 15:21:31,501 django.server WARNING  "GET /static/trophies/jwood14.gif HTTP/1.1" 404 1785
+2018-02-22 15:21:31,503 django.server WARNING  "GET /static/trophies/dgolson14.gif HTTP/1.1" 404 1791
+2018-02-22 15:21:31,543 django.server WARNING  "GET /static/trophies/tmartinez14.gif HTTP/1.1" 404 1797
+2018-02-22 15:21:31,555 django.server WARNING  "GET /static/trophies/bduggan14.gif HTTP/1.1" 404 1791
+2018-02-22 15:21:31,556 django.server WARNING  "GET /static/trophies/jwood14.gif HTTP/1.1" 404 1785
+2018-02-22 15:21:31,565 django.server WARNING  "GET /static/trophies/dgolson14.gif HTTP/1.1" 404 1791
+2018-02-22 15:21:56,496 django.server WARNING  "GET /static/trophies/bduggan14.gif HTTP/1.1" 404 1791
+2018-02-22 15:21:56,496 django.server WARNING  "GET /static/trophies/tmartinez14.gif HTTP/1.1" 404 1797
+2018-02-22 15:21:56,504 django.server WARNING  "GET /static/trophies/dgolson14.gif HTTP/1.1" 404 1791
+2018-02-22 15:21:56,510 django.server WARNING  "GET /static/trophies/jwood14.gif HTTP/1.1" 404 1785
+2018-02-22 15:21:56,874 django.server WARNING  "GET /static/trophies/tmartinez14.gif HTTP/1.1" 404 1797
+2018-02-22 15:21:56,883 django.server WARNING  "GET /static/trophies/bduggan14.gif HTTP/1.1" 404 1791
+2018-02-22 15:21:56,884 django.server WARNING  "GET /static/trophies/dgolson14.gif HTTP/1.1" 404 1791
+2018-02-22 15:25:34,772 django.server WARNING  "GET /static/trophies/tmartinez14.gif HTTP/1.1" 404 1797
+2018-02-22 15:25:34,774 django.server WARNING  "GET /static/trophies/bduggan14.gif HTTP/1.1" 404 1791
+2018-02-22 15:25:34,778 django.server WARNING  "GET /static/trophies/dgolson14.gif HTTP/1.1" 404 1791
+2018-02-22 15:25:34,785 django.server WARNING  "GET /static/trophies/jwood14.gif HTTP/1.1" 404 1785
+2018-02-22 15:25:34,937 django.server WARNING  "GET /static/trophies/tmartinez14.gif HTTP/1.1" 404 1797
+2018-02-22 15:25:34,947 django.server WARNING  "GET /static/trophies/bduggan14.gif HTTP/1.1" 404 1791
+2018-02-22 15:25:34,953 django.server WARNING  "GET /static/trophies/dgolson14.gif HTTP/1.1" 404 1791
+2018-02-22 15:25:34,953 django.server WARNING  "GET /static/trophies/jwood14.gif HTTP/1.1" 404 1785
+2018-02-22 15:26:30,852 django.server WARNING  "GET /static/trophies/tmartinez14.gif HTTP/1.1" 404 1797
+2018-02-22 15:26:30,867 django.server WARNING  "GET /static/trophies/dgolson14.gif HTTP/1.1" 404 1791
+2018-02-22 15:26:30,868 django.server WARNING  "GET /static/trophies/bduggan14.gif HTTP/1.1" 404 1791
+2018-02-22 15:26:30,874 django.server WARNING  "GET /static/trophies/jwood14.gif HTTP/1.1" 404 1785
+2018-02-22 15:26:31,107 django.server WARNING  "GET /static/trophies/tmartinez14.gif HTTP/1.1" 404 1797
+2018-02-22 15:26:31,122 django.server WARNING  "GET /static/trophies/dgolson14.gif HTTP/1.1" 404 1791
+2018-02-22 15:26:31,128 django.server WARNING  "GET /static/trophies/bduggan14.gif HTTP/1.1" 404 1791
+2018-02-22 15:26:31,141 django.server WARNING  "GET /static/trophies/jwood14.gif HTTP/1.1" 404 1785
+2018-02-22 15:26:36,472 django.server WARNING  "GET /static/trophies/tmartinez14.gif HTTP/1.1" 404 1797
+2018-02-22 15:26:36,487 django.server WARNING  "GET /static/trophies/bduggan14.gif HTTP/1.1" 404 1791
+2018-02-22 15:26:36,495 django.server WARNING  "GET /static/trophies/dgolson14.gif HTTP/1.1" 404 1791
+2018-02-22 15:26:36,503 django.server WARNING  "GET /static/trophies/jwood14.gif HTTP/1.1" 404 1785
+2018-02-22 15:26:36,695 django.server WARNING  "GET /static/trophies/tmartinez14.gif HTTP/1.1" 404 1797
+2018-02-22 15:26:36,701 django.server WARNING  "GET /static/trophies/dgolson14.gif HTTP/1.1" 404 1791
+2018-02-22 15:26:36,709 django.server WARNING  "GET /static/trophies/bduggan14.gif HTTP/1.1" 404 1791
+2018-02-22 15:26:36,709 django.server WARNING  "GET /static/trophies/jwood14.gif HTTP/1.1" 404 1785
+2018-02-22 15:31:25,928 django.server WARNING  "GET /static/trophies/bduggan14.gif HTTP/1.1" 404 1791
+2018-02-22 15:31:25,932 django.server WARNING  "GET /static/trophies/jwood14.gif HTTP/1.1" 404 1785
+2018-02-22 15:31:25,935 django.server WARNING  "GET /static/trophies/tmartinez14.gif HTTP/1.1" 404 1797
+2018-02-22 15:31:25,944 django.server WARNING  "GET /static/trophies/dgolson14.gif HTTP/1.1" 404 1791
+2018-02-22 15:31:26,145 django.server WARNING  "GET /static/trophies/jwood14.gif HTTP/1.1" 404 1785
+2018-02-22 15:31:26,157 django.server WARNING  "GET /static/trophies/tmartinez14.gif HTTP/1.1" 404 1797
+2018-02-22 15:31:26,163 django.server WARNING  "GET /static/trophies/dgolson14.gif HTTP/1.1" 404 1791
+2018-02-22 15:31:26,163 django.server WARNING  "GET /static/trophies/bduggan14.gif HTTP/1.1" 404 1791
+2018-02-22 15:31:34,493 django.security.csrf WARNING  Forbidden (CSRF token missing or incorrect.): /homebase/ajax/checkinpost/
+2018-02-22 15:31:34,531 django.server WARNING  "POST /homebase/ajax/checkinpost/ HTTP/1.1" 403 2513
+2018-02-22 15:35:47,217 django.server WARNING  "GET /static/trophies/tmartinez14.gif HTTP/1.1" 404 1797
+2018-02-22 15:35:47,217 django.server WARNING  "GET /static/trophies/dgolson14.gif HTTP/1.1" 404 1791
+2018-02-22 15:35:47,227 django.server WARNING  "GET /static/trophies/bduggan14.gif HTTP/1.1" 404 1791
+2018-02-22 15:35:47,234 django.server WARNING  "GET /static/trophies/jwood14.gif HTTP/1.1" 404 1785
+2018-02-22 15:35:47,417 django.server WARNING  "GET /static/trophies/jwood14.gif HTTP/1.1" 404 1785
+2018-02-22 15:35:47,421 django.server WARNING  "GET /static/trophies/bduggan14.gif HTTP/1.1" 404 1791
+2018-02-22 15:35:47,422 django.server WARNING  "GET /static/trophies/dgolson14.gif HTTP/1.1" 404 1791
+2018-02-22 15:35:47,422 django.server WARNING  "GET /static/trophies/tmartinez14.gif HTTP/1.1" 404 1797
+2018-02-22 15:35:53,261 django.security.csrf WARNING  Forbidden (CSRF token missing or incorrect.): /homebase/ajax/checkinpost/
+2018-02-22 15:35:53,264 django.server WARNING  "POST /homebase/ajax/checkinpost/ HTTP/1.1" 403 2513
+2018-02-22 15:44:07,705 django.server WARNING  "GET /static/trophies/bduggan14.gif HTTP/1.1" 404 1791
+2018-02-22 15:44:07,712 django.server WARNING  "GET /static/trophies/tmartinez14.gif HTTP/1.1" 404 1797
+2018-02-22 15:44:07,712 django.server WARNING  "GET /static/trophies/dgolson14.gif HTTP/1.1" 404 1791
+2018-02-22 15:44:07,713 django.server WARNING  "GET /static/trophies/jwood14.gif HTTP/1.1" 404 1785
+2018-02-22 15:44:14,578 django.request ERROR    Internal Server Error: /homebase/ajax/checkinpost/
+Traceback (most recent call last):
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/core/handlers/exception.py", line 35, in inner
+    response = get_response(request)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/core/handlers/base.py", line 128, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/core/handlers/base.py", line 126, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/maytenfsu/PycharmProjects/sidekick/sidekick/homebase/views.py", line 107, in post_checkin
+    return HttpResponse(
+NameError: name 'HttpResponse' is not defined
+2018-02-22 15:44:14,690 django.server ERROR    "POST /homebase/ajax/checkinpost/ HTTP/1.1" 500 17949
+2018-02-22 15:45:21,904 django.server WARNING  "GET /static/trophies/bduggan14.gif HTTP/1.1" 404 1791
+2018-02-22 15:45:21,907 django.server WARNING  "GET /static/trophies/tmartinez14.gif HTTP/1.1" 404 1797
+2018-02-22 15:45:22,002 django.server WARNING  "GET /static/trophies/dgolson14.gif HTTP/1.1" 404 1791
+2018-02-22 15:45:22,003 django.server WARNING  "GET /static/trophies/jwood14.gif HTTP/1.1" 404 1785
+2018-02-22 15:45:22,166 django.server WARNING  "GET /static/trophies/tmartinez14.gif HTTP/1.1" 404 1797
+2018-02-22 15:45:22,175 django.server WARNING  "GET /static/trophies/bduggan14.gif HTTP/1.1" 404 1791
+2018-02-22 15:45:30,617 django.request ERROR    Internal Server Error: /homebase/ajax/checkinpost/
+Traceback (most recent call last):
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/core/handlers/exception.py", line 35, in inner
+    response = get_response(request)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/core/handlers/base.py", line 128, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/core/handlers/base.py", line 126, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/maytenfsu/PycharmProjects/sidekick/sidekick/homebase/views.py", line 108, in post_checkin
+    json.dumps({"status": "Failed! Shift id not found"}),
+NameError: name 'json' is not defined
+2018-02-22 15:45:30,633 django.server ERROR    "POST /homebase/ajax/checkinpost/ HTTP/1.1" 500 17970
+2018-02-22 15:45:45,663 django.server WARNING  "GET /static/trophies/bduggan14.gif HTTP/1.1" 404 1791
+2018-02-22 15:45:45,672 django.server WARNING  "GET /static/trophies/dgolson14.gif HTTP/1.1" 404 1791
+2018-02-22 15:45:45,672 django.server WARNING  "GET /static/trophies/jwood14.gif HTTP/1.1" 404 1785
+2018-02-22 15:45:45,788 django.server WARNING  "GET /static/trophies/tmartinez14.gif HTTP/1.1" 404 1797
+2018-02-22 15:45:45,920 django.server WARNING  "GET /static/trophies/dgolson14.gif HTTP/1.1" 404 1791
+2018-02-22 15:45:45,927 django.server WARNING  "GET /static/trophies/jwood14.gif HTTP/1.1" 404 1785
+2018-02-22 15:45:45,927 django.server WARNING  "GET /static/trophies/bduggan14.gif HTTP/1.1" 404 1791
+2018-02-22 15:48:28,585 django.server WARNING  "GET /static/trophies/tmartinez14.gif HTTP/1.1" 404 1797
+2018-02-22 15:48:28,598 django.server WARNING  "GET /static/trophies/dgolson14.gif HTTP/1.1" 404 1791
+2018-02-22 15:48:28,606 django.server WARNING  "GET /static/trophies/bduggan14.gif HTTP/1.1" 404 1791
+2018-02-22 15:48:28,607 django.server WARNING  "GET /static/trophies/jwood14.gif HTTP/1.1" 404 1785
+2018-02-22 15:48:28,808 django.server WARNING  "GET /static/trophies/bduggan14.gif HTTP/1.1" 404 1791
+2018-02-22 15:48:28,814 django.server WARNING  "GET /static/trophies/tmartinez14.gif HTTP/1.1" 404 1797
+2018-02-22 15:48:28,818 django.server WARNING  "GET /static/trophies/jwood14.gif HTTP/1.1" 404 1785
+2018-02-22 15:48:28,826 django.server WARNING  "GET /static/trophies/dgolson14.gif HTTP/1.1" 404 1791
+2018-02-22 15:50:17,134 django.server WARNING  "GET /static/trophies/dgolson14.gif HTTP/1.1" 404 1791
+2018-02-22 15:50:17,134 django.server WARNING  "GET /static/trophies/tmartinez14.gif HTTP/1.1" 404 1797
+2018-02-22 15:50:17,143 django.server WARNING  "GET /static/trophies/jwood14.gif HTTP/1.1" 404 1785
+2018-02-22 15:50:17,143 django.server WARNING  "GET /static/trophies/bduggan14.gif HTTP/1.1" 404 1791
+2018-02-22 15:50:17,342 django.server WARNING  "GET /static/trophies/tmartinez14.gif HTTP/1.1" 404 1797
+2018-02-22 15:50:17,356 django.server WARNING  "GET /static/trophies/jwood14.gif HTTP/1.1" 404 1785
+2018-02-22 15:50:17,367 django.server WARNING  "GET /static/trophies/dgolson14.gif HTTP/1.1" 404 1791
+2018-02-22 15:50:17,368 django.server WARNING  "GET /static/trophies/bduggan14.gif HTTP/1.1" 404 1791
+2018-02-22 15:56:25,622 django.server WARNING  "GET /static/trophies/bduggan14.gif HTTP/1.1" 404 1791
+2018-02-22 15:56:25,623 django.server WARNING  "GET /static/trophies/tmartinez14.gif HTTP/1.1" 404 1797
+2018-02-22 15:56:25,624 django.server WARNING  "GET /static/trophies/dgolson14.gif HTTP/1.1" 404 1791
+2018-02-22 15:56:25,628 django.server WARNING  "GET /static/trophies/jwood14.gif HTTP/1.1" 404 1785
+2018-02-22 15:56:25,767 django.server WARNING  "GET /static/trophies/bduggan14.gif HTTP/1.1" 404 1791
+2018-02-22 15:56:25,767 django.server WARNING  "GET /static/trophies/tmartinez14.gif HTTP/1.1" 404 1797
+2018-02-22 15:56:25,832 django.server WARNING  "GET /static/trophies/dgolson14.gif HTTP/1.1" 404 1791
+2018-02-22 15:56:25,834 django.server WARNING  "GET /static/trophies/jwood14.gif HTTP/1.1" 404 1785
+2018-02-22 15:57:05,056 django.server WARNING  "GET /static/trophies/dgolson14.gif HTTP/1.1" 404 1791
+2018-02-22 15:57:05,057 django.server WARNING  "GET /static/trophies/tmartinez14.gif HTTP/1.1" 404 1797
+2018-02-22 15:57:05,057 django.server WARNING  "GET /static/trophies/bduggan14.gif HTTP/1.1" 404 1791
+2018-02-22 15:57:05,063 django.server WARNING  "GET /static/trophies/jwood14.gif HTTP/1.1" 404 1785
+2018-02-22 15:57:05,249 django.server WARNING  "GET /static/trophies/bduggan14.gif HTTP/1.1" 404 1791
+2018-02-22 15:57:05,259 django.server WARNING  "GET /static/trophies/dgolson14.gif HTTP/1.1" 404 1791
+2018-02-22 15:57:05,274 django.server WARNING  "GET /static/trophies/tmartinez14.gif HTTP/1.1" 404 1797
+2018-02-22 15:57:05,276 django.server WARNING  "GET /static/trophies/jwood14.gif HTTP/1.1" 404 1785
+2018-02-22 17:13:05,762 django.server WARNING  "GET /static/trophies/tmartinez14.gif HTTP/1.1" 404 1797
+2018-02-22 17:13:05,769 django.server WARNING  "GET /static/trophies/bduggan14.gif HTTP/1.1" 404 1791
+2018-02-22 17:13:05,774 django.server WARNING  "GET /static/trophies/dgolson14.gif HTTP/1.1" 404 1791
+2018-02-22 17:13:05,785 django.server WARNING  "GET /static/trophies/jwood14.gif HTTP/1.1" 404 1785
+2018-02-22 17:16:57,117 django.server WARNING  "GET /static/trophies/tmartinez14.gif HTTP/1.1" 404 1797
+2018-02-22 17:16:57,132 django.server WARNING  "GET /static/trophies/bduggan14.gif HTTP/1.1" 404 1791
+2018-02-22 17:16:57,146 django.server WARNING  "GET /static/trophies/dgolson14.gif HTTP/1.1" 404 1791
+2018-02-22 17:16:57,159 django.server WARNING  "GET /static/trophies/jwood14.gif HTTP/1.1" 404 1785
+2018-02-22 17:19:02,848 django.server WARNING  "GET /static/trophies/tmartinez14.gif HTTP/1.1" 404 1797
+2018-02-22 17:19:02,869 django.server WARNING  "GET /static/trophies/bduggan14.gif HTTP/1.1" 404 1791
+2018-02-22 17:19:02,916 django.server WARNING  "GET /static/trophies/dgolson14.gif HTTP/1.1" 404 1791
+2018-02-22 17:19:02,929 django.server WARNING  "GET /static/trophies/jwood14.gif HTTP/1.1" 404 1785
+2018-02-22 17:22:51,075 django.server WARNING  "GET /static/trophies/tmartinez14.gif HTTP/1.1" 404 1797
+2018-02-22 17:22:51,102 django.server WARNING  "GET /static/trophies/bduggan14.gif HTTP/1.1" 404 1791
+2018-02-22 17:22:51,142 django.server WARNING  "GET /static/trophies/dgolson14.gif HTTP/1.1" 404 1791
+2018-02-22 17:22:51,155 django.server WARNING  "GET /static/trophies/jwood14.gif HTTP/1.1" 404 1785
+2018-02-22 17:22:57,307 django.request ERROR    Internal Server Error: /homebase/ajax/checkinpost/
+Traceback (most recent call last):
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/core/handlers/exception.py", line 35, in inner
+    response = get_response(request)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/core/handlers/base.py", line 128, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/core/handlers/base.py", line 126, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/maytenfsu/PycharmProjects/sidekick/sidekick/homebase/views.py", line 105, in post_checkin
+    console.log(metadata)
+NameError: name 'console' is not defined
+2018-02-22 17:22:57,348 django.server ERROR    "POST /homebase/ajax/checkinpost/ HTTP/1.1" 500 18032
+2018-02-22 17:23:21,878 django.server WARNING  "GET /static/trophies/tmartinez14.gif HTTP/1.1" 404 1797
+2018-02-22 17:23:21,914 django.server WARNING  "GET /static/trophies/bduggan14.gif HTTP/1.1" 404 1791
+2018-02-22 17:23:21,948 django.server WARNING  "GET /static/trophies/dgolson14.gif HTTP/1.1" 404 1791
+2018-02-22 17:23:21,958 django.server WARNING  "GET /static/trophies/jwood14.gif HTTP/1.1" 404 1785
+2018-02-22 17:23:22,803 django.server WARNING  "GET /static/trophies/tmartinez14.gif HTTP/1.1" 404 1797
+2018-02-22 17:23:22,829 django.server WARNING  "GET /static/trophies/bduggan14.gif HTTP/1.1" 404 1791
+2018-02-22 17:23:22,849 django.server WARNING  "GET /static/trophies/dgolson14.gif HTTP/1.1" 404 1791
+2018-02-22 17:23:22,866 django.server WARNING  "GET /static/trophies/jwood14.gif HTTP/1.1" 404 1785
+2018-02-22 17:23:26,920 django.request ERROR    Internal Server Error: /homebase/ajax/checkinpost/
+Traceback (most recent call last):
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/core/handlers/exception.py", line 35, in inner
+    response = get_response(request)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/core/handlers/base.py", line 128, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/core/handlers/base.py", line 126, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/maytenfsu/PycharmProjects/sidekick/sidekick/homebase/views.py", line 107, in post_checkin
+    if shiftid is not None:
+NameError: name 'shiftid' is not defined
+2018-02-22 17:23:26,974 django.server ERROR    "POST /homebase/ajax/checkinpost/ HTTP/1.1" 500 18034
+2018-03-11 17:12:48,275 django.server WARNING  "GET /static/trophies/tmartinez14.gif HTTP/1.1" 404 1797
+2018-03-11 17:12:48,296 django.server WARNING  "GET /static/trophies/tmartinez14.gif HTTP/1.1" 404 1797
+2018-03-11 17:12:48,734 django.server WARNING  "GET /static/trophies/bduggan14.gif HTTP/1.1" 404 1791
+2018-03-11 17:12:48,739 django.server WARNING  "GET /static/trophies/bduggan14.gif HTTP/1.1" 404 1791
+2018-03-11 17:12:48,787 django.server WARNING  "GET /static/trophies/dgolson14.gif HTTP/1.1" 404 1791
+2018-03-11 17:12:48,804 django.server WARNING  "GET /static/trophies/dgolson14.gif HTTP/1.1" 404 1791
+2018-03-11 17:12:48,921 django.server WARNING  "GET /static/trophies/jwood14.gif HTTP/1.1" 404 1785
+2018-03-11 17:12:48,950 django.server WARNING  "GET /static/trophies/jwood14.gif HTTP/1.1" 404 1785
+2018-03-12 03:14:54,490 django.server WARNING  "GET /static/trophies/tmartinez14.gif HTTP/1.1" 404 1797
+2018-03-12 03:14:54,496 django.server WARNING  "GET /static/trophies/bduggan14.gif HTTP/1.1" 404 1791
+2018-03-12 03:14:54,502 django.server WARNING  "GET /static/trophies/dgolson14.gif HTTP/1.1" 404 1791
+2018-03-12 03:14:54,511 django.server WARNING  "GET /static/trophies/jwood14.gif HTTP/1.1" 404 1785
+2018-03-12 08:16:37,050 django.server WARNING  "GET /static/trophies/tmartinez14.gif HTTP/1.1" 404 1797
+2018-03-12 08:16:37,076 django.server WARNING  "GET /static/trophies/bduggan14.gif HTTP/1.1" 404 1791
+2018-03-12 08:16:37,097 django.server WARNING  "GET /static/trophies/dgolson14.gif HTTP/1.1" 404 1791
+2018-03-12 08:16:37,149 django.server WARNING  "GET /static/trophies/jwood14.gif HTTP/1.1" 404 1785
+2018-03-12 08:42:14,352 django.request ERROR    Internal Server Error: /roster/
+Traceback (most recent call last):
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 475, in parse
+    compile_func = self.tags[command]
+KeyError: 'endblock'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/core/handlers/exception.py", line 35, in inner
+    response = get_response(request)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/core/handlers/base.py", line 128, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/core/handlers/base.py", line 126, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/maytenfsu/PycharmProjects/sidekick/sidekick/roster/views.py", line 41, in index
+    return views.load_page(request, 'roster/index.html', prep_context())
+  File "/home/maytenfsu/PycharmProjects/sidekick/sidekick/sidekick/views.py", line 43, in load_page
+    return render(request, template, context)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/shortcuts.py", line 36, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/backends/django.py", line 34, in get_template
+    return Template(self.engine.get_template(template_name), self)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/engine.py", line 144, in get_template
+    template, origin = self.find_template(template_name)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/engine.py", line 126, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/loaders/base.py", line 30, in get_template
+    contents, origin, origin.template_name, self.engine,
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 160, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 198, in compile_nodelist
+    return parser.parse()
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 483, in parse
+    raise self.error(token, e)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 481, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/loader_tags.py", line 290, in do_extends
+    nodelist = parser.parse()
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 483, in parse
+    raise self.error(token, e)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 481, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/loader_tags.py", line 233, in do_block
+    nodelist = parser.parse(('endblock',))
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 483, in parse
+    raise self.error(token, e)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 481, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/defaulttags.py", line 956, in do_if
+    nodelist = parser.parse(('elif', 'else', 'endif'))
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 477, in parse
+    self.invalid_block_tag(token, command, parse_until)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 533, in invalid_block_tag
+    get_text_list(["'%s'" % p for p in parse_until], 'or'),
+django.template.exceptions.TemplateSyntaxError: Invalid block tag on line 439: 'endblock', expected 'elif', 'else' or 'endif'. Did you forget to register or load this tag?
+2018-03-12 08:42:19,261 django.server ERROR    "GET /roster/ HTTP/1.1" 500 205366
+2018-03-12 08:42:21,018 django.request WARNING  Not Found: /favicon.ico
+2018-03-12 08:42:21,019 django.server WARNING  "GET /favicon.ico HTTP/1.1" 404 3112
+2018-03-12 08:43:32,240 django.request ERROR    Internal Server Error: /roster/
+Traceback (most recent call last):
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 475, in parse
+    compile_func = self.tags[command]
+KeyError: 'endblock'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/core/handlers/exception.py", line 35, in inner
+    response = get_response(request)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/core/handlers/base.py", line 128, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/core/handlers/base.py", line 126, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/maytenfsu/PycharmProjects/sidekick/sidekick/roster/views.py", line 41, in index
+    return views.load_page(request, 'roster/index.html', prep_context())
+  File "/home/maytenfsu/PycharmProjects/sidekick/sidekick/sidekick/views.py", line 43, in load_page
+    return render(request, template, context)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/shortcuts.py", line 36, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/backends/django.py", line 34, in get_template
+    return Template(self.engine.get_template(template_name), self)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/engine.py", line 144, in get_template
+    template, origin = self.find_template(template_name)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/engine.py", line 126, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/loaders/base.py", line 30, in get_template
+    contents, origin, origin.template_name, self.engine,
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 160, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 198, in compile_nodelist
+    return parser.parse()
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 483, in parse
+    raise self.error(token, e)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 481, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/loader_tags.py", line 290, in do_extends
+    nodelist = parser.parse()
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 483, in parse
+    raise self.error(token, e)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 481, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/loader_tags.py", line 233, in do_block
+    nodelist = parser.parse(('endblock',))
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 483, in parse
+    raise self.error(token, e)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 481, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/defaulttags.py", line 956, in do_if
+    nodelist = parser.parse(('elif', 'else', 'endif'))
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 477, in parse
+    self.invalid_block_tag(token, command, parse_until)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 533, in invalid_block_tag
+    get_text_list(["'%s'" % p for p in parse_until], 'or'),
+django.template.exceptions.TemplateSyntaxError: Invalid block tag on line 439: 'endblock', expected 'elif', 'else' or 'endif'. Did you forget to register or load this tag?
+2018-03-12 08:43:36,319 django.server ERROR    "GET /roster/ HTTP/1.1" 500 205521
+2018-03-12 08:49:41,760 django.request ERROR    Internal Server Error: /roster/
+Traceback (most recent call last):
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 475, in parse
+    compile_func = self.tags[command]
+KeyError: 'endblock'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/core/handlers/exception.py", line 35, in inner
+    response = get_response(request)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/core/handlers/base.py", line 128, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/core/handlers/base.py", line 126, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/maytenfsu/PycharmProjects/sidekick/sidekick/roster/views.py", line 41, in index
+    return views.load_page(request, 'roster/index.html', prep_context())
+  File "/home/maytenfsu/PycharmProjects/sidekick/sidekick/sidekick/views.py", line 43, in load_page
+    return render(request, template, context)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/shortcuts.py", line 36, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/backends/django.py", line 34, in get_template
+    return Template(self.engine.get_template(template_name), self)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/engine.py", line 144, in get_template
+    template, origin = self.find_template(template_name)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/engine.py", line 126, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/loaders/base.py", line 30, in get_template
+    contents, origin, origin.template_name, self.engine,
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 160, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 198, in compile_nodelist
+    return parser.parse()
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 483, in parse
+    raise self.error(token, e)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 481, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/loader_tags.py", line 290, in do_extends
+    nodelist = parser.parse()
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 483, in parse
+    raise self.error(token, e)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 481, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/loader_tags.py", line 233, in do_block
+    nodelist = parser.parse(('endblock',))
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 483, in parse
+    raise self.error(token, e)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 481, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/defaulttags.py", line 956, in do_if
+    nodelist = parser.parse(('elif', 'else', 'endif'))
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 477, in parse
+    self.invalid_block_tag(token, command, parse_until)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 533, in invalid_block_tag
+    get_text_list(["'%s'" % p for p in parse_until], 'or'),
+django.template.exceptions.TemplateSyntaxError: Invalid block tag on line 440: 'endblock', expected 'elif', 'else' or 'endif'. Did you forget to register or load this tag?
+2018-03-12 08:49:45,359 django.server ERROR    "GET /roster/ HTTP/1.1" 500 205219
+2018-03-12 09:31:29,862 django.request ERROR    Internal Server Error: /roster/
+Traceback (most recent call last):
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 475, in parse
+    compile_func = self.tags[command]
+KeyError: 'endblock'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/core/handlers/exception.py", line 35, in inner
+    response = get_response(request)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/core/handlers/base.py", line 128, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/core/handlers/base.py", line 126, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/maytenfsu/PycharmProjects/sidekick/sidekick/roster/views.py", line 41, in index
+    return views.load_page(request, 'roster/index.html', prep_context())
+  File "/home/maytenfsu/PycharmProjects/sidekick/sidekick/sidekick/views.py", line 43, in load_page
+    return render(request, template, context)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/shortcuts.py", line 36, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/backends/django.py", line 34, in get_template
+    return Template(self.engine.get_template(template_name), self)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/engine.py", line 144, in get_template
+    template, origin = self.find_template(template_name)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/engine.py", line 126, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/loaders/base.py", line 30, in get_template
+    contents, origin, origin.template_name, self.engine,
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 160, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 198, in compile_nodelist
+    return parser.parse()
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 483, in parse
+    raise self.error(token, e)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 481, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/loader_tags.py", line 290, in do_extends
+    nodelist = parser.parse()
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 483, in parse
+    raise self.error(token, e)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 481, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/loader_tags.py", line 233, in do_block
+    nodelist = parser.parse(('endblock',))
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 483, in parse
+    raise self.error(token, e)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 481, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/defaulttags.py", line 956, in do_if
+    nodelist = parser.parse(('elif', 'else', 'endif'))
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 477, in parse
+    self.invalid_block_tag(token, command, parse_until)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/template/base.py", line 533, in invalid_block_tag
+    get_text_list(["'%s'" % p for p in parse_until], 'or'),
+django.template.exceptions.TemplateSyntaxError: Invalid block tag on line 440: 'endblock', expected 'elif', 'else' or 'endif'. Did you forget to register or load this tag?
+2018-03-12 09:31:32,795 django.server WARNING  "GET /static/trophies/tmartinez14.gif HTTP/1.1" 404 1797
+2018-03-12 09:31:32,811 django.server WARNING  "GET /static/trophies/bduggan14.gif HTTP/1.1" 404 1791
+2018-03-12 09:31:32,820 django.server WARNING  "GET /static/trophies/dgolson14.gif HTTP/1.1" 404 1791
+2018-03-12 09:31:32,838 django.server WARNING  "GET /static/trophies/jwood14.gif HTTP/1.1" 404 1785
+2018-03-12 09:31:33,440 django.server ERROR    "GET /roster/ HTTP/1.1" 500 205219
+2018-03-12 09:37:08,985 django.server WARNING  "GET /static/trophies/tmartinez14.gif HTTP/1.1" 404 1797
+2018-03-12 09:37:09,011 django.server WARNING  "GET /static/trophies/bduggan14.gif HTTP/1.1" 404 1791
+2018-03-12 09:37:09,034 django.server WARNING  "GET /static/trophies/dgolson14.gif HTTP/1.1" 404 1791
+2018-03-12 09:37:09,047 django.server WARNING  "GET /static/trophies/jwood14.gif HTTP/1.1" 404 1785
+2018-03-12 09:44:19,679 django.server WARNING  "GET /static/trophies/tmartinez14.gif HTTP/1.1" 404 1797
+2018-03-12 09:44:19,710 django.server WARNING  "GET /static/trophies/bduggan14.gif HTTP/1.1" 404 1791
+2018-03-12 09:44:19,754 django.server WARNING  "GET /static/trophies/dgolson14.gif HTTP/1.1" 404 1791
+2018-03-12 09:44:19,775 django.server WARNING  "GET /static/trophies/jwood14.gif HTTP/1.1" 404 1785
+2018-03-12 09:44:20,744 django.server WARNING  "GET /static/trophies/tmartinez14.gif HTTP/1.1" 404 1797
+2018-03-12 09:44:20,762 django.server WARNING  "GET /static/trophies/bduggan14.gif HTTP/1.1" 404 1791
+2018-03-12 09:44:20,793 django.server WARNING  "GET /static/trophies/dgolson14.gif HTTP/1.1" 404 1791
+2018-03-12 09:44:20,807 django.server WARNING  "GET /static/trophies/jwood14.gif HTTP/1.1" 404 1785
+2018-03-12 09:44:42,931 django.server WARNING  "GET /static/trophies/tmartinez14.gif HTTP/1.1" 404 1797
+2018-03-12 09:44:42,949 django.server WARNING  "GET /static/trophies/bduggan14.gif HTTP/1.1" 404 1791
+2018-03-12 09:44:42,978 django.server WARNING  "GET /static/trophies/dgolson14.gif HTTP/1.1" 404 1791
+2018-03-12 09:44:43,004 django.server WARNING  "GET /static/trophies/jwood14.gif HTTP/1.1" 404 1785
+2018-03-12 09:47:16,766 django.server WARNING  "GET /static/trophies/tmartinez14.gif HTTP/1.1" 404 1797
+2018-03-12 09:47:16,795 django.server WARNING  "GET /static/trophies/bduggan14.gif HTTP/1.1" 404 1791
+2018-03-12 09:47:16,807 django.server WARNING  "GET /static/trophies/dgolson14.gif HTTP/1.1" 404 1791
+2018-03-12 09:47:16,821 django.server WARNING  "GET /static/trophies/jwood14.gif HTTP/1.1" 404 1785
+2018-03-12 09:50:44,239 django.server WARNING  "GET /static/trophies/tmartinez14.gif HTTP/1.1" 404 1797
+2018-03-12 09:50:44,253 django.server WARNING  "GET /static/trophies/bduggan14.gif HTTP/1.1" 404 1791
+2018-03-12 09:50:44,278 django.server WARNING  "GET /static/trophies/dgolson14.gif HTTP/1.1" 404 1791
+2018-03-12 09:50:44,306 django.server WARNING  "GET /static/trophies/jwood14.gif HTTP/1.1" 404 1785
+2018-03-12 09:53:01,681 django.server WARNING  "GET /static/trophies/tmartinez14.gif HTTP/1.1" 404 1797
+2018-03-12 09:53:01,713 django.server WARNING  "GET /static/trophies/bduggan14.gif HTTP/1.1" 404 1791
+2018-03-12 09:53:01,729 django.server WARNING  "GET /static/trophies/dgolson14.gif HTTP/1.1" 404 1791
+2018-03-12 09:53:01,741 django.server WARNING  "GET /static/trophies/jwood14.gif HTTP/1.1" 404 1785
+2018-03-12 09:54:22,522 django.server WARNING  "GET /static/trophies/tmartinez14.gif HTTP/1.1" 404 1797
+2018-03-12 09:54:22,544 django.server WARNING  "GET /static/trophies/bduggan14.gif HTTP/1.1" 404 1791
+2018-03-12 09:54:22,590 django.server WARNING  "GET /static/trophies/dgolson14.gif HTTP/1.1" 404 1791
+2018-03-12 09:54:22,603 django.server WARNING  "GET /static/trophies/jwood14.gif HTTP/1.1" 404 1785
+2018-03-12 09:58:28,029 django.server WARNING  "GET /static/trophies/tmartinez14.gif HTTP/1.1" 404 1797
+2018-03-12 09:58:28,054 django.server WARNING  "GET /static/trophies/bduggan14.gif HTTP/1.1" 404 1791
+2018-03-12 09:58:28,086 django.server WARNING  "GET /static/trophies/dgolson14.gif HTTP/1.1" 404 1791
+2018-03-12 09:58:28,100 django.server WARNING  "GET /static/trophies/jwood14.gif HTTP/1.1" 404 1785
+2018-03-12 10:21:01,548 django.server WARNING  "GET /static/trophies/tmartinez14.gif HTTP/1.1" 404 1797
+2018-03-12 10:21:01,570 django.server WARNING  "GET /static/trophies/bduggan14.gif HTTP/1.1" 404 1791
+2018-03-12 10:21:01,599 django.server WARNING  "GET /static/trophies/dgolson14.gif HTTP/1.1" 404 1791
+2018-03-12 10:21:01,634 django.server WARNING  "GET /static/trophies/jwood14.gif HTTP/1.1" 404 1785
+2018-03-12 10:21:02,313 django.server WARNING  "GET /static/trophies/tmartinez14.gif HTTP/1.1" 404 1797
+2018-03-12 10:21:02,331 django.server WARNING  "GET /static/trophies/bduggan14.gif HTTP/1.1" 404 1791
+2018-03-12 10:21:02,345 django.server WARNING  "GET /static/trophies/dgolson14.gif HTTP/1.1" 404 1791
+2018-03-12 10:21:02,358 django.server WARNING  "GET /static/trophies/jwood14.gif HTTP/1.1" 404 1785
+2018-03-12 10:21:03,066 django.server WARNING  "GET /static/trophies/tmartinez14.gif HTTP/1.1" 404 1797
+2018-03-12 10:21:03,091 django.server WARNING  "GET /static/trophies/bduggan14.gif HTTP/1.1" 404 1791
+2018-03-12 10:21:03,113 django.server WARNING  "GET /static/trophies/dgolson14.gif HTTP/1.1" 404 1791
+2018-03-12 10:21:03,146 django.server WARNING  "GET /static/trophies/jwood14.gif HTTP/1.1" 404 1785
+2018-03-12 10:23:05,080 django.server WARNING  "GET /static/trophies/tmartinez14.gif HTTP/1.1" 404 1797
+2018-03-12 10:23:05,100 django.server WARNING  "GET /static/trophies/bduggan14.gif HTTP/1.1" 404 1791
+2018-03-12 10:23:05,118 django.server WARNING  "GET /static/trophies/dgolson14.gif HTTP/1.1" 404 1791
+2018-03-12 10:23:05,163 django.server WARNING  "GET /static/trophies/jwood14.gif HTTP/1.1" 404 1785
+2018-03-12 10:24:00,818 django.server WARNING  "GET /static/trophies/tmartinez14.gif HTTP/1.1" 404 1797
+2018-03-12 10:24:00,838 django.server WARNING  "GET /static/trophies/bduggan14.gif HTTP/1.1" 404 1791
+2018-03-12 10:24:00,869 django.server WARNING  "GET /static/trophies/dgolson14.gif HTTP/1.1" 404 1791
+2018-03-12 10:24:00,906 django.server WARNING  "GET /static/trophies/jwood14.gif HTTP/1.1" 404 1785
+2018-03-12 10:26:10,161 django.server WARNING  "GET /static/trophies/tmartinez14.gif HTTP/1.1" 404 1797
+2018-03-12 10:26:10,199 django.server WARNING  "GET /static/trophies/bduggan14.gif HTTP/1.1" 404 1791
+2018-03-12 10:26:10,233 django.server WARNING  "GET /static/trophies/dgolson14.gif HTTP/1.1" 404 1791
+2018-03-12 10:26:10,243 django.server WARNING  "GET /static/trophies/jwood14.gif HTTP/1.1" 404 1785
+2018-03-12 10:28:57,124 django.server WARNING  "GET /static/trophies/tmartinez14.gif HTTP/1.1" 404 1797
+2018-03-12 10:28:57,143 django.server WARNING  "GET /static/trophies/bduggan14.gif HTTP/1.1" 404 1791
+2018-03-12 10:28:57,164 django.server WARNING  "GET /static/trophies/dgolson14.gif HTTP/1.1" 404 1791
+2018-03-12 10:28:57,191 django.server WARNING  "GET /static/trophies/jwood14.gif HTTP/1.1" 404 1785
+2018-03-12 10:29:02,125 django.request ERROR    Internal Server Error: /homebase/ajax/checkinpost/
+Traceback (most recent call last):
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/utils/datastructures.py", line 77, in __getitem__
+    list_ = super().__getitem__(key)
+KeyError: 'shift_id'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/core/handlers/exception.py", line 35, in inner
+    response = get_response(request)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/core/handlers/base.py", line 128, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/core/handlers/base.py", line 126, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/maytenfsu/PycharmProjects/sidekick/sidekick/homebase/views.py", line 102, in post_checkin
+    shift_id = request.POST['shift_id']
+  File "/home/maytenfsu/PycharmProjects/test/venv/lib/python3.6/site-packages/django/utils/datastructures.py", line 79, in __getitem__
+    raise MultiValueDictKeyError(key)
+django.utils.datastructures.MultiValueDictKeyError: 'shift_id'
+2018-03-12 10:29:02,248 django.server ERROR    "POST /homebase/ajax/checkinpost/ HTTP/1.1" 500 18489
+2018-03-12 10:52:21,059 django.server WARNING  "GET /static/trophies/tmartinez14.gif HTTP/1.1" 404 1797
+2018-03-12 10:52:21,074 django.server WARNING  "GET /static/trophies/bduggan14.gif HTTP/1.1" 404 1791
+2018-03-12 10:52:21,085 django.server WARNING  "GET /static/trophies/dgolson14.gif HTTP/1.1" 404 1791
+2018-03-12 10:52:21,092 django.server WARNING  "GET /static/trophies/jwood14.gif HTTP/1.1" 404 1785
+2018-03-13 00:04:09,854 django.server WARNING  "GET /static/trophies/tmartinez14.gif HTTP/1.1" 404 1797
+2018-03-13 00:04:09,878 django.server WARNING  "GET /static/trophies/bduggan14.gif HTTP/1.1" 404 1791
+2018-03-13 00:04:09,884 django.server WARNING  "GET /static/trophies/dgolson14.gif HTTP/1.1" 404 1791
+2018-03-13 00:04:09,895 django.server WARNING  "GET /static/trophies/jwood14.gif HTTP/1.1" 404 1785
+2018-03-12 09:04:50,347 django.server WARNING  "GET /static/trophies/tmartinez14.gif HTTP/1.1" 404 1797
+2018-03-12 09:04:50,353 django.server WARNING  "GET /static/trophies/bduggan14.gif HTTP/1.1" 404 1791
+2018-03-12 09:04:50,363 django.server WARNING  "GET /static/trophies/dgolson14.gif HTTP/1.1" 404 1791
+2018-03-12 09:04:50,372 django.server WARNING  "GET /static/trophies/jwood14.gif HTTP/1.1" 404 1785
+2018-03-12 09:11:51,163 django.server WARNING  "GET /static/trophies/tmartinez14.gif HTTP/1.1" 404 1797
+2018-03-12 09:11:51,177 django.server WARNING  "GET /static/trophies/bduggan14.gif HTTP/1.1" 404 1791
+2018-03-12 09:11:51,216 django.server WARNING  "GET /static/trophies/dgolson14.gif HTTP/1.1" 404 1791
+2018-03-12 09:11:51,308 django.server WARNING  "GET /static/trophies/jwood14.gif HTTP/1.1" 404 1785
+2018-03-12 09:16:14,484 django.server WARNING  "GET /static/trophies/tmartinez14.gif HTTP/1.1" 404 1797
+2018-03-12 09:16:14,508 django.server WARNING  "GET /static/trophies/bduggan14.gif HTTP/1.1" 404 1791
+2018-03-12 09:16:14,525 django.server WARNING  "GET /static/trophies/dgolson14.gif HTTP/1.1" 404 1791
+2018-03-12 09:16:14,539 django.server WARNING  "GET /static/trophies/jwood14.gif HTTP/1.1" 404 1785
+2018-03-12 09:17:43,202 django.server WARNING  "GET /static/trophies/tmartinez14.gif HTTP/1.1" 404 1797
+2018-03-12 09:17:43,230 django.server WARNING  "GET /static/trophies/bduggan14.gif HTTP/1.1" 404 1791
+2018-03-12 09:17:43,256 django.server WARNING  "GET /static/trophies/dgolson14.gif HTTP/1.1" 404 1791
+2018-03-12 09:17:43,273 django.server WARNING  "GET /static/trophies/jwood14.gif HTTP/1.1" 404 1785
+2018-03-12 09:18:07,485 django.server WARNING  "GET /static/trophies/tmartinez14.gif HTTP/1.1" 404 1797
+2018-03-12 09:18:07,499 django.server WARNING  "GET /static/trophies/bduggan14.gif HTTP/1.1" 404 1791
+2018-03-12 09:18:07,531 django.server WARNING  "GET /static/trophies/dgolson14.gif HTTP/1.1" 404 1791
+2018-03-12 09:18:07,543 django.server WARNING  "GET /static/trophies/jwood14.gif HTTP/1.1" 404 1785
+2018-03-13 11:13:59,313 django.server WARNING  "GET /static/trophies/tmartinez14.gif HTTP/1.1" 404 1797
+2018-03-13 11:13:59,322 django.server WARNING  "GET /static/trophies/bduggan14.gif HTTP/1.1" 404 1791
+2018-03-13 11:13:59,330 django.server WARNING  "GET /static/trophies/dgolson14.gif HTTP/1.1" 404 1791
+2018-03-13 11:13:59,349 django.server WARNING  "GET /static/trophies/jwood14.gif HTTP/1.1" 404 1785
