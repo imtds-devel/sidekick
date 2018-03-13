@@ -1,11 +1,16 @@
 # -*- coding: utf-8 -*-
 from sidekick import views
 from django.http import HttpResponseRedirect
+from django.shortcuts import render
 from homebase.models import Announcements, Events, StaffStatus
 from .forms import AnnouncmentForm, EventForm, StatusForm
 from shifts.models import Shifts
 import datetime
 import pytz
+
+
+def roster_test(request):
+    return views.load_page(request, "homebase/test.html", {'netid': 'nchera13'})
 
 
 def index(request):
