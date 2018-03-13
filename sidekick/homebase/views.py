@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 from sidekick import views
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from homebase.models import Announcements, Events, StaffStatus
 from .forms import AnnouncmentForm, EventForm, StatusForm
 from shifts.models import Shifts
 import datetime
 import pytz
+import json
 
 
 def index(request):
@@ -85,3 +86,39 @@ def order(a_list, e_list):
     # attribute and event event_start attribute
     ordered_list = sorted(ordered, key=lambda x: x.posted.date() if hasattr(x, 'posted') else x.event_start, reverse=True)
     return ordered_list[:8]
+
+
+def post_checkin(request):
+    # Make sure it's a post request
+    print("we're in post_checkin")
+
+    if not request.method == 'POST':
+        return HttpResponse(
+            json.dumps({"status": "Failed!"}),
+            content_type="application/json"
+        )
+
+    request = views.get_current_user(request)
+    shift_id = request.POST.get('shift_id', None)
+    netid = request.POST.get('netid', None)
+
+    print("um hewo?")
+    print(shift_id)
+    print(netid)
+
+    if shift_id is not None:
+        shift = Shifts.objects.get(event_id=shift_id)
+    else:
+        return HttpResponse(
+            json.dumps({"status": "Failed! Shift id not found"}),
+            content_type="application/json"
+        )
+
+    shift.checked_in = 'T'
+
+    print(shift)
+    shift.save()
+    return HttpResponse(
+        json.dumps({"status": "Check in successfully made!"}),
+        content_type="application/json"
+    )

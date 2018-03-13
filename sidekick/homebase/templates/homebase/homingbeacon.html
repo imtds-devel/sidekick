@@ -28,6 +28,7 @@
                         <img src="{% static shift.owner.picture|img_exists %}" alt="{{shift.owner}}"
                              class="employee-pic {% if shift.is_open %} pic-open-shift {% endif %}">
                     </div>
+
                     <div class="name-holder">
                         <p>{{shift.short_title}}</p>
                     </div>
@@ -118,7 +119,33 @@
                 <h4 class="modal-title">Check in user</h4>
             </div>
             <div class="modal-body">
-                <h4>Coming soon!</h4>
+
+
+                <div id="check-form">
+                    <form method="post"  id="checkform" >
+                        {% csrf_token %}
+                        {% if lab_shifts %}
+                            {% for shift in lab_shifts %}
+                                {% if not shift.is_open %}
+
+                                <p>{{shift.owner}}</p>
+
+                                <div class="form-group" id="checkedin-box">
+                                    <div id="box-{{shift.owner.netid}}">
+                                        <input type="checkbox" name="checkBool" value="{{shift.event_id}}"> Checked in
+                                        <input type="hidden" class= "check-shiftid" name="check-netid" value="uhhhhh">
+                                        <div class="shift_metadata" id="shift-metadata" style="display:none">{{shift.event_id}}</div>
+                                    </div>
+                                </div>
+
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        <button class="btn" id="submit-checkin"> Submit </button>
+                    </form>
+                </div>
+
+
             </div>
         </div>
     </div>

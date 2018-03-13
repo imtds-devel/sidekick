@@ -58,4 +58,5 @@ $(window).load(function() {
         $("#shRoundsIn").text(parseInt((next_report - now) / 60000));
     }
 
+// Function that clears cookies from forms to cleanly submit forms
 });
