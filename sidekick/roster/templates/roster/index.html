@@ -93,7 +93,7 @@
                             <div class="container magic-container">
                                 <div class="row">
                                     <div class="col-xs-3 col-md-4 " style="height: 20%">
-                                        <img id='pic-standin' src='pic' class='img-circle img-herobio'>
+                                        <img id='pic-standin' src='pic' class='img rounded-circle img-herobio'>
                                     </div>
                                     <div class='col-xs-4 col-md-8 ' id='bio-div' style="text-align:right">
                                         <div id='bio-update'>
@@ -104,7 +104,6 @@
                                     <div class="award-text col-xs-12 col-sm-8 col-md-12"><h3>Awards</h3></div>
                                 </div>
                             </div>
-                            <div class="award-text"><h3>Awards</h3></div>
                             <div class="card trophy-modal">
                                 <div class="card-block">
                                     <div id="trophy-m" class="trophy-wrap"></div>
@@ -134,20 +133,16 @@
                         {% endif %}
                     </div>
                     <div class='modal-footer'>
-                        <div class="container magic-container">
+                        <div class="container">
                             <div class="row">
                                 {% if user_netid|has_access:"roster_modfb_all" %}
-                                <div class="col-xs-1 col-md-1">
                                     <button type='button' id="delete-emp" class='btn btn-danger' style="display:none">
-                                        <span class="glyphicon glyphicon-warning-sign"></span> Delete
+                                        <span class="oi oi-warning"></span> Delete
                                     </button>
-                                </div>
-                                <div class="col-xs-4 col-md-9">
                                     <button type='button' id="edit-btn" class='btn btn-info'>Edit</button>
-                                </div>
                                 {% endif %}
                                 <div class="col-xs-2 col-md-2">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    <button type="button" class="align-right btn btn-default" data-dismiss="modal">Close</button>
                                 </div>
                             </div>
                         </div>

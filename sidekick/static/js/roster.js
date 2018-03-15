@@ -15,7 +15,6 @@ $(document).ready(function(){
 
 // Upon panel click with panelemp class, function of Modal population initiates
 $('.panelemp').click(function showModal(){
-    console.log("hi");
 
     // Grab all info from HTML load for each employee
     netid_1 = $(this).find(".emp-meta").attr('id');
@@ -56,22 +55,26 @@ $('.panelemp').click(function showModal(){
 
     // If all proficiencies are null/0, set all to 0 for functionality
     if (basic == 0 && adv == 0 && field == 0 && print == 0 && net == 0 && mobile == 0 && ref == 0 && soft == 0){
-        basic = 0
-        adv = 0
-        field = 0
-        print = 0
-        net = 0
-        mobile = 0
-        ref = 0
-        soft = 0
+        basic = 0;
+        adv = 0;
+        field = 0;
+        print = 0;
+        net = 0;
+        mobile = 0;
+        ref = 0;
+        soft = 0;
     }
     // Conditional for if the employee is a developer
     developer = developer == "True";
 
     // Conditional if someone has not input their phone number or birthday to not let DB break
     if (birthday == 'None' || notnicephone == 'None'){
-        birthday = null
-        notnicephone == null
+        birthday = null;
+        notnicephone = null;
+    }
+
+    if (codename == null || codename == "" || codename=="None"){
+        codename = "No code name, yet!"
     }
 
     // Replace the modal-fade id, title name, bio info, color, and pic according to specific modal clicked
@@ -126,7 +129,7 @@ $('.panelemp').click(function showModal(){
 
     // Skills and Radar Chart are appended to modal
     $('#skills-div').append(
-       "<div class='container magic-container'"
+       "<div class='container'"
      + "<div class ='row'>"
      + "<div class='chart col-xs-6 col-sm-6 col-md-7' data-width='90%' data-height='90%' data-red='100' data-green='100' data-blue='400' style='margin-top:5px;'>"
      + "<div class='chartCanvasWrap' style='left:5px;'></div>"
@@ -206,7 +209,7 @@ $('.panelemp').click(function showModal(){
             console.log(data)
 
             for (i = 0; i < data.trophlist.length; i++) {
-                    var output = "<a href='#' class='trophy' data-toggle='popover' data-placement='auto top' data-trigger='hover' title='" + data.trophlist[i].name;
+                    var output = "<a href='#' class='trophy' data-toggle='popover' data-trigger='hover' title='" + data.trophlist[i].name;
                     output += "' data-content=\"" + data.trophlist[i].reason + " -- " + data.trophlist[i].giver + "\">";
                     output += "<img class='trophy-img' src='/static/" + data.trophlist[i].url + "'></a>";
                     $(output).appendTo("#trophy-m");

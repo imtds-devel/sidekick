@@ -180,3 +180,19 @@ flex-direction: column;
   min-height:388px;
   min-width:600px;
 }
+
+.chart 
+{
+  margin-top: 5px;
+  position: relative;
+}
+.chartCanvasWrap
+{
+  position: relative;
+}
+.align-left {
+  float: left;
+}
+.align-right {
+  float: right;
+}
