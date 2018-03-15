@@ -125,22 +125,42 @@
                     <form method="post"  id="checkform" >
                         {% csrf_token %}
                         {% if lab_shifts %}
+                            <h3>Lab Techs</h3>
                             {% for shift in lab_shifts %}
                                 {% if not shift.is_open %}
 
                                 <p>{{shift.owner}}</p>
 
-                                <div class="form-group" id="checkedin-box">
-                                    <div id="box-{{shift.owner.netid}}">
-                                        <input type="checkbox" name="checkBool" value="{{shift.event_id}}"> Checked in
-                                        <input type="hidden" class= "check-shiftid" name="check-netid" value="uhhhhh">
-                                        <div class="shift_metadata" id="shift-metadata" style="display:none">{{shift.event_id}}</div>
+                                <div class="form-group" id="labCheckedin-box">
+                                    <div id="labBox-{{shift.owner.netid}}">
+                                        <input type="hidden" name="shift_id" value="{{shift.event_id}}"> Checked in at
+                                        <div class="shift_metadata" id="lShift-metadata" style="display:none">{{shift.event_id}}</div>
+                                        <input type="time" name="check_time" id="check_time">
                                     </div>
                                 </div>
 
                                 {% endif %}
                             {% endfor %}
                         {% endif %}
+
+                        {% if support_shifts %}
+                            <h3>Support Techs</h3>
+                            {% for shift in support_shifts %}
+                                {% if not shift.is_open %}
+
+                                <p>{{shift.owner}}</p>
+
+                                <div class="form-group" id="supCheckedin-box">
+                                    <div id="supBox-{{shift.owner.netid}}">
+                                        <input type="checkbox" name="checkBool" value="{{shift.event_id}}"> Checked in
+                                        <div class="shift_metadata" id="sShift-metadata" style="display:none">{{shift.event_id}}</div>
+                                    </div>
+                                </div>
+
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+
                         <button class="btn" id="submit-checkin"> Submit </button>
                     </form>
                 </div>

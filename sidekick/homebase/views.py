@@ -100,11 +100,11 @@ def post_checkin(request):
 
     request = views.get_current_user(request)
     shift_id = request.POST.get('shift_id', None)
-    netid = request.POST.get('netid', None)
+    check_time = request.POST.get('check_time', None)
 
     print("um hewo?")
     print(shift_id)
-    print(netid)
+    print(check_time)
 
     if shift_id is not None:
         shift = Shifts.objects.get(event_id=shift_id)
@@ -115,6 +115,7 @@ def post_checkin(request):
         )
 
     shift.checked_in = 'T'
+    shift.checkin_time = check_time
 
     print(shift)
     shift.save()

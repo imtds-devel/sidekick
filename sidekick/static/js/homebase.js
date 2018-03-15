@@ -6,19 +6,23 @@ $(document).ready(function () {
     $("#checkform").submit(function(event) {
         event.preventDefault();
 
-        var shift_id = $("input[name='checkBool']:checked").val();
-        var checktime = new Date()
 
-        console.log(this);
+        var shift_id = $("#shift_id").val();
+        //var shift_id = document.getElementById("shift_id").value;
+        var check_time = document.getElementById("check_time").value;
+
+        if( $("#shift_id").val() == null)
+            console.log("im NOT in boys");
+
         console.log(shift_id);
-        console.log(netid);
+        console.log("time: " + check_time);
 
         $.ajax({
             url: 'ajax/checkinpost/',
             type: 'POST',
             data: {
                 'shift_id': shift_id,
-                'netid': netid
+                'check_time': check_time
             },
             dataType: 'json',
             success: function(data){
