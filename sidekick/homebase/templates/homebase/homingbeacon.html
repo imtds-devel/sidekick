@@ -20,7 +20,7 @@
         {% if lab_shifts %}
         {% for shift in lab_shifts %}
         <div class="info-emp">
-          <h4>{{shift.pretty_location}}</h4>
+          <h4><b>{{shift.pretty_location}}</b></h4>
           <div class="img-holder">
             {% if shift.is_open %}
 
@@ -61,7 +61,7 @@
         {% if support_shifts %}
         {% for shift in support_shifts %}
         <div class="info-emp">
-          <h4>{{shift.pretty_location}}</h4>
+          <h4><b>{{shift.pretty_location}}</b></h4>
           <div class="img-holder">
             <img src="{% static shift.owner.picture|img_exists %}" alt="{{shift.owner}}"
             class="employee-pic {% if shift.is_open %} pic-open-shift {% endif %}">
@@ -89,7 +89,7 @@
       <div class="beacon-right staff-beacon-right">
         {% for staff in staff_stats %}
         <div class="info-emp" title="{{staff.description}}">
-          <h4>{{staff.get_status_display}}</h4>
+          <h4><b>{{staff.get_status_display}}</b></h4>
           <div class="img-holder">
             <img src="{% static staff.netid.picture|img_exists %}" class="employee-pic">
           </div>
