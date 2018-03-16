@@ -2,7 +2,7 @@
 from sidekick import views
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from homebase.models import Announcements, Events, StaffStatus
+from homebase.models import Announcements, Events, StaffStatus, Employees
 from .forms import AnnouncmentForm, EventForm, StatusForm
 from shifts.models import Shifts
 import datetime
@@ -10,7 +10,223 @@ import pytz
 
 
 def roster_test(request):
-    return views.load_page(request, "homebase/test.html", {'netid': 'nchera13'})
+    locations = [
+        {
+            'name': 'Labs',
+            'people': [
+                {
+                    'type': 'stu',
+                    'employee': Employees.objects.get(netid='nchera13'),
+                    'shift': {
+                        'isopen': False,
+                        'start': datetime.datetime(year=2018, month=3, day=15, hour=16, minute=0),
+                        'end': datetime.datetime(year=2018, month=3, day=15, hour=22, minute=0),
+                        'short_location':  'MAR',
+                        'checkin': 'F',
+                    }
+                },
+                {
+                    'type': 'stu',
+                    'employee': Employees.objects.get(netid='jwood14'),
+                    'shift': {
+                        'isopen': False,
+                        'start': datetime.datetime(year=2018, month=3, day=15, hour=16, minute=0),
+                        'end': datetime.datetime(year=2018, month=3, day=15, hour=18, minute=0),
+                        'short_location':  'DAR',
+                        'checkin': 'T',
+                    }
+                },
+                {
+                    'type': 'stu',
+                    'employee': Employees.objects.get(netid='maytenfsu14'),
+                    'shift': {
+                        'isopen': False,
+                        'start': datetime.datetime(year=2018, month=3, day=15, hour=16, minute=0),
+                        'end': datetime.datetime(year=2018, month=3, day=15, hour=19, minute=0),
+                        'short_location':  'STA',
+                        'checkin': 'T',
+                    }
+                },
+
+            ]
+        },
+        {
+            'name': 'Support Desk',
+            'people': [
+                {
+                    'type': 'stu',
+                    'employee': Employees.objects.get(netid='ewoods13'),
+                    'shift': {
+                        'isopen': False,
+                        'start': datetime.datetime(year=2018, month=3, day=15, hour=16, minute=0),
+                        'end': datetime.datetime(year=2018, month=3, day=15, hour=22, minute=0),
+                        'short_location':  'REP',
+                        'checkin': 'F',
+                    }
+                },
+                {
+                    'type': 'stu',
+                    'employee': Employees.objects.get(netid='nfrasier12'),
+                    'shift': {
+                        'isopen': False,
+                        'start': datetime.datetime(year=2018, month=3, day=15, hour=16, minute=0),
+                        'end': datetime.datetime(year=2018, month=3, day=15, hour=18, minute=30),
+                        'short_location':  'REP',
+                        'checkin': 'T',
+                    }
+                },
+                {
+                    'type': 'stu',
+                    'employee': Employees.objects.get(netid='dbartholomew13'),
+                    'shift': {
+                        'isopen': False,
+                        'start': datetime.datetime(year=2018, month=3, day=15, hour=16, minute=0),
+                        'end': datetime.datetime(year=2018, month=3, day=15, hour=19, minute=0),
+                        'short_location':  'REP',
+                        'checkin': 'T',
+                    }
+                },
+                {
+                    'type': 'stu',
+                    'employee': Employees.objects.get(netid='bduggan14'),
+                    'shift': {
+                        'isopen': False,
+                        'start': datetime.datetime(year=2018, month=3, day=15, hour=16, minute=0),
+                        'end': datetime.datetime(year=2018, month=3, day=15, hour=19, minute=0),
+                        'short_location':  'TEK',
+                        'checkin': 'T',
+                    }
+                },
+
+            ]
+        },
+        {
+            'name': 'Repair Center',
+            'people': [
+                {
+                    'type': 'mgr',
+                    'employee': Employees.objects.get(netid='rsantoiemma'),
+                    'shift': {
+                        'short_location': 'MGR'
+                    }
+                },
+                {
+                    'type': 'stu',
+                    'employee': Employees.objects.get(netid='lkaakau14'),
+                    'shift': {
+                        'isopen': False,
+                        'start': datetime.datetime(year=2018, month=3, day=15, hour=16, minute=0),
+                        'end': datetime.datetime(year=2018, month=3, day=15, hour=18, minute=30),
+                        'short_location':  'SST',
+                        'checkin': 'T',
+                    }
+                },
+                {
+                    'type': 'stu',
+                    'employee': Employees.objects.get(netid='asaguilar14'),
+                    'shift': {
+                        'isopen': False,
+                        'start': datetime.datetime(year=2018, month=3, day=15, hour=16, minute=0),
+                        'end': datetime.datetime(year=2018, month=3, day=15, hour=19, minute=0),
+                        'short_location':  'TEK',
+                        'checkin': 'T',
+                    }
+                },
+                {
+                    'type': 'stu',
+                    'employee': Employees.objects.get(netid='sbillideau15'),
+                    'shift': {
+                        'isopen': False,
+                        'start': datetime.datetime(year=2018, month=3, day=15, hour=16, minute=0),
+                        'end': datetime.datetime(year=2018, month=3, day=15, hour=19, minute=0),
+                        'short_location':  'TEK',
+                        'checkin': 'F',
+                    }
+                },
+                {
+                    'type': 'stu',
+                    'employee': Employees.objects.get(netid='ddubisz13'),
+                    'shift': {
+                        'isopen': False,
+                        'start': datetime.datetime(year=2018, month=3, day=15, hour=16, minute=0),
+                        'end': datetime.datetime(year=2018, month=3, day=15, hour=19, minute=0),
+                        'short_location':  'TEK',
+                        'checkin': 'T',
+                    }
+                },
+
+            ]
+        },
+        {
+            'name': 'East Campus',
+            'people': [
+                {
+                    'type': 'stf',
+                    'employee': Employees.objects.get(netid='aroberts'),
+                    'shift': {
+                        'short_location': 'STF'
+                    }
+                },
+            ]
+        },
+        {
+            'name': 'West Campus',
+            'people': [
+                {
+                    'type': 'stf',
+                    'employee': Employees.objects.get(netid='awood'),
+                    'shift': {
+                        'short_location': 'STF'
+                    }
+                },
+            ]
+        },
+        {
+            'name': 'Off Campus',
+            'people': [
+                {
+                    'type': 'stf',
+                    'employee': Employees.objects.get(netid='rtaylor'),
+                    'shift': {
+                        'short_location': 'STF'
+                    }
+                },
+            ]
+        },
+        {
+            'name': 'In Meeting',
+            'people': [
+                {
+                    'type': 'mgr',
+                    'employee': Employees.objects.get(netid='rdavis'),
+                    'shift': {
+                        'short_location': 'MGR'
+                    }
+                },
+            ]
+        },
+        {
+            'name': 'Out of Office',
+            'people': [
+                {
+                    'type': 'stf',
+                    'employee': Employees.objects.get(netid='bmonroe'),
+                    'shift': {
+                        'short_location': 'STF'
+                    }
+                },
+                {
+                    'type': 'stf',
+                    'employee': Employees.objects.get(netid='rlucchesi'),
+                    'shift': {
+                        'short_location': 'STF'
+                    }
+                },
+            ]
+        },
+
+    ]
+    return views.load_page(request, "homebase/test.html", {'netid': 'nchera13', 'hb_loc_data': locations})
 
 
 def index(request):

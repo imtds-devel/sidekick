@@ -62,6 +62,21 @@ class Shifts(models.Model):
         return[l[1] for l in self.LOCATION_CHOICES if l[0] == self.location][0]
 
     @property
+    def short_location(self):
+        loc_translate = {
+            'ma': 'MAR',
+            'da': 'DAR',
+            'st': 'STA',
+            'sd': 'TEK',
+            'rc': 'TEK',
+            'sr': 'REP',
+            'md': 'MOD',
+            'sf': 'MGR',
+            'te': 'TST'
+        }
+        return loc_translate[str(self.location)]
+
+    @property
     def short_title(self):
         return "Open Shift" if self.is_open else self.owner
 

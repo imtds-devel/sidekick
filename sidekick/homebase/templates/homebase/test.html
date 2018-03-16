@@ -1,24 +1,26 @@
 {% extends 'sidekick/app-base.html' %}
 {% load staticfiles %}
+{% load roster_extras %}
 {% block content %}
 
 <div class="homingbeacon-wrap">
+    {% for location in hb_loc_data %}
     <div class="hb-location">
         <div class="hbloc-head">
-            <h1>Labs</h1>
+            <h1>{{location.name}}</h1>
         </div>
-
         <div class="hbloc-container">
-            <div class="card hb-card hb-card-nocheckin">
+            {% for person in location.people %}
+            <div class="card hb-card {% if person.shift.checkin == 'F' %}hb-card-nocheckin{% endif %}">
                 <div class="card-block">
-                    <h4 class="card-head">Nicholas Chera</h4>
+                    <h4 class="card-head">{{person.employee.full_name}}</h4>
                     <div class="row no-gutters">
                         <div class="col-2">
-                            <h1 class="card-loc">MAR</h1>
+                            <h1 class="card-loc">{{person.shift.short_location}}</h1>
                         </div>
                         <div class="col-8 hb-img-container">
-                            <img src="{% static 'employees/nchera13.gif' %}" class="hb-img rounded-circle">
-                            <div class="hb-checkin late-ok">
+                            <img src="{% static person.employee.picture|img_exists %}" class="hb-img rounded-circle">
+                            <div class="hb-checkin {% if person.shift.checkin == 'F' %}late-ok{% else %}checked-in{% endif %}">
                             </div>
                         </div>
                         <div class="col-2">
@@ -27,232 +29,10 @@
                     <div class="shift-completion" style="width:5%; background-color:forestgreen;"></div>
                 </div>
             </div>
-
-            <div class="card hb-card">
-                <div class="card-block">
-                    <h4 class="card-head">Joshua Wood</h4>
-                    <div class="row no-gutters">
-                        <div class="col-2">
-                            <h1 class="card-loc">DAR</h1>
-                        </div>
-                        <div class="col-8 hb-img-container">
-                            <img src="{% static 'employees/jwood14.gif' %}" class="hb-img rounded-circle">
-                            <div class="hb-checkin checked-in">
-                            </div>
-                        </div>
-                        <div class="col-2">
-                        </div>
-                    </div>
-                    <div class="shift-completion" style="width:40%; background-color:forestgreen;"></div>
-                </div>
-            </div>
-
-            <div class="card hb-card">
-                <div class="card-block">
-                    <h4 class="card-head">Mattaniah Aytenfsu</h4>
-                    <div class="row no-gutters">
-                        <div class="col-2">
-                            <h1 class="card-loc">STA</h1>
-                        </div>
-                        <div class="col-8 hb-img-container">
-                            <img src="{% static 'employees/maytenfsu14.gif' %}" class="hb-img rounded-circle">
-                            <div class="hb-checkin checked-in">
-                            </div>
-                        </div>
-                        <div class="col-2">
-                        </div>
-                    </div>
-                    <div class="shift-completion" style="width:80%; background-color:goldenrod;"></div>
-                </div>
-            </div>
+            {% endfor %}
         </div>
     </div>
-
-    <div class="hb-location">
-        <div class="hbloc-head">
-            <h1>Support Desk</h1>
-        </div>
-
-        <div class="hbloc-container">
-            <div class="card hb-card hb-card-nocheckin">
-                <div class="card-block">
-                    <h4 class="card-head">Emma Woods</h4>
-                    <div class="row no-gutters">
-                        <div class="col-2">
-                            <h1 class="card-loc">REP</h1>
-                        </div>
-                        <div class="col-8 hb-img-container">
-                            <img src="{% static 'employees/ewoods13.gif' %}" class="hb-img rounded-circle">
-                            <div class="hb-checkin late-ok">
-                            </div>
-                        </div>
-                        <div class="col-2">
-                        </div>
-                    </div>
-                    <div class="shift-completion" style="width:5%; background-color:forestgreen;"></div>
-                </div>
-            </div>
-
-            <div class="card hb-card">
-                <div class="card-block">
-                    <h4 class="card-head">Nathan Frasier</h4>
-                    <div class="row no-gutters">
-                        <div class="col-2">
-                            <h1 class="card-loc">REP</h1>
-                        </div>
-                        <div class="col-8 hb-img-container">
-                            <img src="{% static 'employees/nfrasier12.gif' %}" class="hb-img rounded-circle">
-                            <div class="hb-checkin checked-in">
-                            </div>
-                        </div>
-                        <div class="col-2">
-                        </div>
-                    </div>
-                    <div class="shift-completion" style="width:40%; background-color:forestgreen;"></div>
-                </div>
-            </div>
-
-            <div class="card hb-card">
-                <div class="card-block">
-                    <h4 class="card-head">David Bartholomew</h4>
-                    <div class="row no-gutters">
-                        <div class="col-2">
-                            <h1 class="card-loc">REP</h1>
-                        </div>
-                        <div class="col-8 hb-img-container">
-                            <img src="{% static 'employees/dbartholomew13.gif' %}" class="hb-img rounded-circle">
-                            <div class="hb-checkin checked-in">
-                            </div>
-                        </div>
-                        <div class="col-2">
-                        </div>
-                    </div>
-                    <div class="shift-completion" style="width:70%; background-color:goldenrod;"></div>
-                </div>
-            </div>
-
-            <div class="card hb-card">
-                <div class="card-block">
-                    <h4 class="card-head">Brooks Duggan</h4>
-                    <div class="row no-gutters">
-                        <div class="col-2">
-                            <h1 class="card-loc">TEK</h1>
-                        </div>
-                        <div class="col-8 hb-img-container">
-                            <img src="{% static 'employees/bduggan14.gif' %}" class="hb-img rounded-circle">
-                            <div class="hb-checkin checked-in">
-                            </div>
-                        </div>
-                        <div class="col-2">
-                        </div>
-                    </div>
-                    <div class="shift-completion" style="width:80%; background-color:goldenrod;"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="hb-location">
-        <div class="hbloc-head">
-            <h1>Repair Center</h1>
-        </div>
-
-        <div class="hbloc-container">
-            <div class="card hb-card">
-                <div class="card-block">
-                    <h4 class="card-head">Rosa Santoiemma</h4>
-                    <div class="row no-gutters">
-                        <div class="col-2">
-                            <h1 class="card-loc">MGR</h1>
-                        </div>
-                        <div class="col-8 hb-img-container">
-                            <img src="{% static 'employees/rsantoiemma.gif' %}" class="hb-img rounded-circle">
-                            </div>
-                        </div>
-                        <div class="col-2">
-                        </div>
-                    </div>
-                    <div class="shift-completion" style="width:0%; background-color:forestgreen;"></div>
-                </div>
-            </div>
-
-            <div class="card hb-card">
-                <div class="card-block">
-                    <h4 class="card-head">Logan-James Kaakau</h4>
-                    <div class="row no-gutters">
-                        <div class="col-2">
-                            <h1 class="card-loc">SST</h1>
-                        </div>
-                        <div class="col-8 hb-img-container">
-                            <img src="{% static 'employees/lkaakau14.gif' %}" class="hb-img rounded-circle">
-                            <div class="hb-checkin checked-in">
-                            </div>
-                        </div>
-                        <div class="col-2">
-                        </div>
-                    </div>
-                    <div class="shift-completion" style="width:95%; background-color:goldenrod;"></div>
-                </div>
-            </div>
-
-            <div class="card hb-card">
-                <div class="card-block">
-                    <h4 class="card-head">Antonia Aguilar</h4>
-                    <div class="row no-gutters">
-                        <div class="col-2">
-                            <h1 class="card-loc">TEK</h1>
-                        </div>
-                        <div class="col-8 hb-img-container">
-                            <img src="{% static 'employees/asaguilar14.gif' %}" class="hb-img rounded-circle">
-                            <div class="hb-checkin checked-in">
-                            </div>
-                        </div>
-                        <div class="col-2">
-                        </div>
-                    </div>
-                    <div class="shift-completion" style="width:40%; background-color:forestgreen;"></div>
-                </div>
-            </div>
-
-            <div class="card hb-card hb-card-nocheckin">
-                <div class="card-block">
-                    <h4 class="card-head">Sean Billideau</h4>
-                    <div class="row no-gutters">
-                        <div class="col-2">
-                            <h1 class="card-loc">TEK</h1>
-                        </div>
-                        <div class="col-8 hb-img-container">
-                            <img src="{% static 'employees/sbillideau15.gif' %}" class="hb-img rounded-circle">
-                            <div class="hb-checkin late-bad">
-                            </div>
-                        </div>
-                        <div class="col-2">
-                        </div>
-                    </div>
-                    <div class="shift-completion" style="width:20%; background-color:forestgreen;"></div>
-                </div>
-            </div>
-
-            <div class="card hb-card">
-                <div class="card-block">
-                    <h4 class="card-head">Daniel Dubisz</h4>
-                    <div class="row no-gutters">
-                        <div class="col-2">
-                            <h1 class="card-loc">TEK</h1>
-                        </div>
-                        <div class="col-8 hb-img-container">
-                            <img src="{% static 'employees/ddubisz13.gif' %}" class="hb-img rounded-circle">
-                            <div class="hb-checkin checked-in">
-                            </div>
-                        </div>
-                        <div class="col-2">
-                        </div>
-                    </div>
-                    <div class="shift-completion" style="width:70%; background-color:goldenrod;"></div>
-                </div>
-            </div>
-        </div>
-    </div>
+    {% endfor %}
 </div>
 
 
@@ -262,12 +42,21 @@
     50% {background-color: #FFB1B1;}
     100% {background-color: white;}
     }
-
     .homingbeacon-wrap
     {
     display:flex;
     flex-direction:row;
     margin:10px;
+    overflow:auto;
+    }
+    .hbloc-container
+    {
+    max-height:93%;
+    overflow:auto;
+    }
+    .hbloc-head
+    {
+    height:7%;
     }
     .hb-card{
     margin-bottom:10px;
@@ -278,14 +67,18 @@
     animation-iteration-count: infinite;
     }
     .hb-location {
-    width:19rem;
+    min-width:19rem;
     border: 2px solid darkgrey;
     border-radius:5px;
     background-color:white;
     margin-right:10px;
+    height:53rem;
     }
     .card-head{
     text-align:center;
+    }
+    .hb-body{
+    height:6rem;
     }
     .card-loc {
     writing-mode: sideways-lr;
