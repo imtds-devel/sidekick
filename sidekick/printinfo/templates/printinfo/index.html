@@ -1,16 +1,14 @@
 {% extends 'sidekick/app-base.html' %}
 {% block content %}
 {% load staticfiles %}
-<div class='container-fluid'>
-  <div class="row">
-    <div class='col-md-6'>
-      <h2><b>Marshburn</b></h2>
-    </div>
-    <div class='col-md-12'>
+  <div class="row no-gutters">
+    <div class='col-md-7'>
+        <h2><b>Marshburn</b></h2>
       <div class="printer-area">
         {% for printer, status in printer_list %}
         {% if printer.location.name == "Marshburn" %}
         <div class="card printer-card">
+            <h3 align="center" class="card-title">{{printer.type}}</h3>
           <div class="panelprint panel-printer-btn" id="panel">
             {% with printer_list|first as first %}
             <img src='{% static status.first.pic %}' class='card-img-top img-printer' align="center">
@@ -25,48 +23,52 @@
           </div>
           {% endwith %}
           <div class="card-body">
-            <h3 align="center" class="card-title">{{printer.type}}</h3>
-            <a href="http://{{printer.print_ip}}/" class="card-link" target="_blank">Printer Info</a>
-          </div>
-        </div>
-        {% endif %}
-        {% endfor %}
-
-
-        {% for printer, status in printer_list %}
-        {% if printer.location.name == "Cougar Dome" %}
-        <div class="card printer-card">
-          <div class="panelprint panel-printer-btn" id="panel">
-            {% with printer_list|first as first %}
-            <img src='{% static status.first.pic %}' class='card-img-top img-printer' align="center">
-            <div style="display:none">
-              <ul class="m-info">
-                <li class="m-locname">Cougar Dome</li>
-                <li class="m-printpk">{{printer.pk}}</li>
-                <li class="m-printtype">{{printer.type}}</li>
-                <li class="m-statpic card-text">{{status.first.pic}}</li>
-              </ul>
-            </div>
-          </div>
-          {% endwith %}
-          <div class="card-body">
-            <h3 align="center" class="card-title">{{printer.type}}</h3>
-            <p class="card-subtitle"><b>Cougar Dome</b></p>
-            <a href="http://{{printer.print_ip}}/" class="card-link" target="_blank">Printer Info</a>
+            <button class = 'printer-reports btn btn-secondary'>Reports</button>
+            <a class = 'btn btn-primary' href="http://{{printer.print_ip}}/" class="card-link" target="_blank">Printer Info </a>
           </div>
         </div>
         {% endif %}
         {% endfor %}
       </div>
     </div>
-  </div>
-  <div class="row">
-    <div class='col-md-6'>
+        {% for printer, status in printer_list %}
+        {% if printer.location.name == "Cougar Dome" %}
+        <div class = 'col-md-3'>
+          <h2><b>Cougar Dome</b></h2>
+          <div class ="printer-area">
+            <div class="card printer-card">
+              <h3 align="center" class="card-title">{{printer.type}}</h3>
+              <div class="panelprint panel-printer-btn" id="panel">
+                {% with printer_list|first as first %}
+                <img src='{% static status.first.pic %}' class='card-img-top img-printer' align="center">
+                <div style="display:none">
+                  <ul class="m-info">
+                    <li class="m-locname">Cougar Dome</li>
+                    <li class="m-printpk">{{printer.pk}}</li>
+                    <li class="m-printtype">{{printer.type}}</li>
+                    <li class="m-statpic card-text">{{status.first.pic}}</li>
+                  </ul>
+                </div>
+              </div>
+              {% endwith %}
+              <div class="card-body">
+                <button class = 'printer-reports btn btn-secondary'>Reports</button>
+                <a class = 'btn btn-primary' href="http://{{printer.print_ip}}/" class="card-link" target="_blank">Printer Info </a>
+              </div>
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  <div class="row no-gutters">
+    <div class='col-md-5'>
       <h2><b>Darling</b></h2>
       <div class="printer-area">
         {% for printer, status in printer_list %}
         {% if printer.location.name == "Darling" %}
         <div class="card printer-card">
+          <h3 align="center" class="card-title">{{printer.type}}</h3>
           <div class="panelprint panel-printer-btn" id="panel">
             {% with printer_list|first as first %}
             <img src='{% static status.first.pic %}' class='card-img-top img-printer' align="center">
@@ -81,20 +83,21 @@
           </div>
           {% endwith %}
           <div class="card-body">
-            <h3 align="center" class="card-title">{{printer.type}}</h3>
-            <a href="http://{{printer.print_ip}}/" class="card-link" target="_blank">Printer Info</a>
+            <button class = 'printer-reports btn btn-secondary'>Reports</button>
+            <a class = 'btn btn-primary' href="http://{{printer.print_ip}}/" class="card-link" target="_blank">Printer Info </a>          
           </div>
         </div>
         {% endif %}
         {% endfor %}
       </div>
     </div>
-    <div class='col-md-6'>
+    <div class='col-md-5'>
       <h2><b>Stamps</b></h2>
       <div class="printer-area">
         {% for printer, status in printer_list %}
         {% if printer.location.name == "Stamps" %}
         <div class="card printer-card">
+          <h3 align="center" class="card-title">{{printer.type}}</h3>
           <div class="panelprint panel-printer-btn" id="panel">
             {% with printer_list|first as first %}
             <img src='{% static status.first.pic %}' class='card-img-top img-printer' align="center">
@@ -109,8 +112,8 @@
           </div>
           {% endwith %}
           <div class="card-body">
-            <h3 align="center" class="card-title">{{printer.type}}</h3>
-            <a href="http://{{printer.print_ip}}/" class="card-link" target="_blank">Printer Info</a>
+            <button class = 'printer-reports btn btn-secondary'>Reports</button>
+            <a class = 'btn btn-primary' href="http://{{printer.print_ip}}/" class="card-link" target="_blank">Printer Info </a>
           </div>
         </div>
         {% endif %}
