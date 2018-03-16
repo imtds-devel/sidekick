@@ -69,7 +69,6 @@
 
 .beacon-location{
   font-size: 22px;
-  font-color: blue;
   text-align: center;
 }
 
@@ -149,12 +148,6 @@
 
 .button-box:hover #new-icon{
   color: white;
-}
-
-.create-a{
-}
-
-.create-e{
 }
 
 .header-form{
@@ -343,13 +336,11 @@
 
 .e-subject{
   font-size: 22px;
-  font-color: blue;
   text-align: center;
 }
 
 .e-meta{
   font-size: 12px;
-  font-color: black;
   text-align: center;
 }
 
@@ -360,13 +351,11 @@
 
 .a-subject{
   font-size: 22px;
-  font-color: blue;
   text-align: center;
 }
 
 .a-meta{
-  font-size: 12px;
-  font-color: black;
+  font-size: 12px;  
   text-align: center;
 }
 
