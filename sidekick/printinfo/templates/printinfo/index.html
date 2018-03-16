@@ -1,159 +1,168 @@
-    {% extends 'sidekick/app-base.html' %}
-    {% block content %}
-    {% load staticfiles %}
-    <div class='container-fluid'>
-        <div class="row">
-            <div class="col-xs-2 col-sm-2 col-md-2 printer-area">
-                <h1><b>Marshburn</b></h1>
-                {% for printer, status in printer_list %}
-                {% if printer.location.name == "Marshburn" %}
-                <div class="col-xs-3 col-sm-3 col-md-3 printer-card">
-                    <div class="panelprint panel-printer-btn">
-                        {% with printer_list|first as first %}
-                        <img src='{% static status.first.pic %}'
-                            class='img-printer' align="center">
-                            <div class="emp-meta-print" style="display:none">
-                                <ul class="m-info">
-                                    <li class="m-locname">Marshburn</li>
-                                    <li class="m-printpk">{{printer.pk}}</li>
-                                    <li class="m-printtype">{{printer.type}}</li>
-                                    <li class="m-statpic">{{status.first.pic}}</li>
-                                </ul>
-                            </div>
-                    </div>
-                        {% endwith %}
-                    <div style="position: absolute; bottom: 10px; width: 100%;">
-                        <h3 align="center">{{printer.type}}</h3>
-                        <a href="http://{{printer.print_ip}}/" target="_blank"><h4 align="center">Printer Info</h4></a>
-                    </div>
-                </div>
-                {% endif %}
-                {% endfor %}
+{% extends 'sidekick/app-base.html' %}
+{% block content %}
+{% load staticfiles %}
+  <div class="row no-gutters">
+    <div class='col-md-7'>
+        <h2><b>Marshburn</b></h2>
+      <div class="printer-area">
+        {% for printer, status in printer_list %}
+        {% if printer.location.name == "Marshburn" %}
+        <div class="card printer-card">
+            <h3 align="center" class="card-title">{{printer.type}}</h3>
+          <div class="panelprint panel-printer-btn" id="panel">
+            {% with printer_list|first as first %}
+            <img src='{% static status.first.pic %}' class='card-img-top img-printer' align="center">
+            <div style="display:none">
+              <ul class="m-info">
+                <li class="m-locname">Marshburn</li>
+                <li class="m-printpk">{{printer.pk}}</li>
+                <li class="m-printtype">{{printer.type}}</li>
+                <li class="m-statpic card-text">{{status.first.pic}}</li>
+              </ul>
             </div>
-            <div class="col-xs-2 col-sm-2 col-md-2 printer-area">
-                <h1><b>Darling</b></h1>
-                {% for printer, status in printer_list %}
-                {% if printer.location.name == "Darling" %}
-                <div class="col-xs-3 col-sm-3 col-md-3 printer-card">
-                    <div class="panelprint panel-printer-btn" id="panel">
-                        {% with printer_list|first as first %}
-                        <img src='{% static status.first.pic %}'
-                            class='img-printer' align="center">
-                            <div class="emp-meta-print" style="display:none">
-                                <ul class="m-info">
-                                    <li class="m-locname">Darling</li>
-                                    <li class="m-printpk">{{printer.pk}}</li>
-                                    <li class="m-printtype">{{printer.type}}</li>
-                                    <li class="m-statpic">{{status.first.pic}}</li>
-                                </ul>
-                            </div>
-                    </div>
-                        {% endwith %}
-                    <div style="position: absolute; bottom: 10px; width: 100%;">
-                        <h3 align="center">{{printer.type}}</h3>
-                        <a href="http://{{printer.print_ip}}/" target="_blank"><h4 align="center">Printer Info</h4></a>
-                    </div>
-                </div>
-                {% endif %}
-                {% endfor %}
-            </div>
+          </div>
+          {% endwith %}
+          <div class="card-body">
+            <button class = 'printer-reports btn btn-secondary'>Reports</button>
+            <a class = 'btn btn-primary' href="http://{{printer.print_ip}}/" class="card-link" target="_blank">Printer Info </a>
+          </div>
         </div>
-        <div class="row">
-            <div class="col-xs-2 col-sm-2 col-md-2 printer-area">
-                <h1><b>Stamps</b></h1>
-                {% for printer, status in printer_list %}
-                {% if printer.location.name == "Stamps" %}
-                <div class="col-xs-3 col-sm-3 col-md-3 printer-card">
-                    <div class="panelprint panel-printer-btn" id="panel">
-                        {% with printer_list|first as first %}
-                        <img src='{% static status.first.pic %}'
-                            class='img-printer' align="center">
-                            <div class="emp-meta-print" style="display:none">
-                                <ul class="m-info">
-                                    <li class="m-locname">Stamps</li>
-                                    <li class="m-printpk">{{printer.pk}}</li>
-                                    <li class="m-printtype">{{printer.type}}</li>
-                                    <li class="m-statpic">{{status.first.pic}}</li>
-                                </ul>
-                            </div>
-                    </div>
-                        {% endwith %}
-                    <div style="position: absolute; bottom: 10px; width: 100%;">
-                        <h3 align="center">{{printer.type}}</h3>
-                        <a href="http://{{printer.print_ip}}/" target="_blank"><h4 align="center">Printer Info</h4></a>
-                    </div>
-                </div>
-                {% endif %}
-                {% endfor %}
-            </div>
-            <div class="col-xs-2 col-sm-2 col-md-2 printer-area">
-                <h1><b>Cougar Dome</b></h1>
-                {% for printer, status in printer_list %}
-                {% if printer.location.name == "Cougar Dome" %}
-                <div class="col-xs-3 col-sm-3 col-md-3 printer-card">
-                    <div class="panelprint panel-printer-btn" id="panel">
-                        {% with printer_list|first as first %}
-                        <img src='{% static status.first.pic %}'
-                            class='img-printer' align="center">
-                            <div class="emp-meta-print" style="display:none">
-                                <ul class="m-info">
-                                    <li class="m-locname">Cougar Dome</li>
-                                    <li class="m-printpk">{{printer.pk}}</li>
-                                    <li class="m-printtype">{{printer.type}}</li>
-                                    <li class="m-statpic">{{status.first.pic}}</li>
-                                </ul>
-                            </div>
-                    </div>
-                        {% endwith %}
-                    <div style="position: absolute; bottom: 10px; width: 100%;">
-                        <h3 align="center">{{printer.type}}</h3>
-                        <a href="http://{{printer.print_ip}}/" target="_blank"><h4 align="center">Printer Info</h4></a>
-                    </div>
-                </div>
-                {% endif %}
-                {% endfor %}
-            </div>
-        </div>
-        <div class="modal fade" id="standin">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h2 class="modal-title" id="printer-title" align="center"></h2>
-                    </div>
-                    <div style="max-height:650px;" class="container-fluid">
-                        <div class="row">
-                            <div class="col-xs-6 col-sm-6 col-md-5 modal-body">
-                                <h1 align="center"><b>Recent Reports</b></h1>
-                                <div id="report-div" style="height: 400px; overflow-y: auto;">
-                                </div>
-                            </div>
-                            <div class="col-xs-6 col-sm-6 col-md-7 modal-body">
-                                <h3 align="center"><img id="standin-pic" src='' class='img-printer'></h3>
-                                <form method="post" class="form-horizontal" id="repform">
-                                    {% csrf_token %}
-                                    <div class="form-group">
-                                        <label for="printer-stat">Status: </label>
-                                        <select id="printer-stat" class = 'printer-input'>
-                                            <option value="healthy">All Good!</option>
-                                            <option value="warning">Warning!</option>
-                                            <option value="down">Printer Down!</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group" style="text-align: left">
-                                        <label for="printer-desc">Report </label>
-                                        <textarea class="form-control input-sm" rows="4" cols="" minlength="20" id="printer-desc"></textarea>
-                                    </div>
-                                    <input type="hidden" id="print_id" value="key">
-                                </form>
-                                <h5 align="right"><button class="btn btn-success" id="report-btn">Submit</button></h5>
-                            </div>
-                        </div>
-                    </div>
-                <div class='modal-footer'>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
+        {% endif %}
+        {% endfor %}
+      </div>
     </div>
-    {% endblock %}
+        {% for printer, status in printer_list %}
+        {% if printer.location.name == "Cougar Dome" %}
+        <div class = 'col-md-3'>
+          <h2><b>Cougar Dome</b></h2>
+          <div class ="printer-area">
+            <div class="card printer-card">
+              <h3 align="center" class="card-title">{{printer.type}}</h3>
+              <div class="panelprint panel-printer-btn" id="panel">
+                {% with printer_list|first as first %}
+                <img src='{% static status.first.pic %}' class='card-img-top img-printer' align="center">
+                <div style="display:none">
+                  <ul class="m-info">
+                    <li class="m-locname">Cougar Dome</li>
+                    <li class="m-printpk">{{printer.pk}}</li>
+                    <li class="m-printtype">{{printer.type}}</li>
+                    <li class="m-statpic card-text">{{status.first.pic}}</li>
+                  </ul>
+                </div>
+              </div>
+              {% endwith %}
+              <div class="card-body">
+                <button class = 'printer-reports btn btn-secondary'>Reports</button>
+                <a class = 'btn btn-primary' href="http://{{printer.print_ip}}/" class="card-link" target="_blank">Printer Info </a>
+              </div>
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  <div class="row no-gutters">
+    <div class='col-md-5'>
+      <h2><b>Darling</b></h2>
+      <div class="printer-area">
+        {% for printer, status in printer_list %}
+        {% if printer.location.name == "Darling" %}
+        <div class="card printer-card">
+          <h3 align="center" class="card-title">{{printer.type}}</h3>
+          <div class="panelprint panel-printer-btn" id="panel">
+            {% with printer_list|first as first %}
+            <img src='{% static status.first.pic %}' class='card-img-top img-printer' align="center">
+            <div style="display:none">
+              <ul class="m-info">
+                <li class="m-locname">Darling</li>
+                <li class="m-printpk">{{printer.pk}}</li>
+                <li class="m-printtype">{{printer.type}}</li>
+                <li class="m-statpic card-text">{{status.first.pic}}</li>
+              </ul>
+            </div>
+          </div>
+          {% endwith %}
+          <div class="card-body">
+            <button class = 'printer-reports btn btn-secondary'>Reports</button>
+            <a class = 'btn btn-primary' href="http://{{printer.print_ip}}/" class="card-link" target="_blank">Printer Info </a>          
+          </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+    <div class='col-md-5'>
+      <h2><b>Stamps</b></h2>
+      <div class="printer-area">
+        {% for printer, status in printer_list %}
+        {% if printer.location.name == "Stamps" %}
+        <div class="card printer-card">
+          <h3 align="center" class="card-title">{{printer.type}}</h3>
+          <div class="panelprint panel-printer-btn" id="panel">
+            {% with printer_list|first as first %}
+            <img src='{% static status.first.pic %}' class='card-img-top img-printer' align="center">
+            <div style="display:none">
+              <ul class="m-info">
+                <li class="m-locname">Stamps</li>
+                <li class="m-printpk">{{printer.pk}}</li>
+                <li class="m-printtype">{{printer.type}}</li>
+                <li class="m-statpic card-text">{{status.first.pic}}</li>
+              </ul>
+            </div>
+          </div>
+          {% endwith %}
+          <div class="card-body">
+            <button class = 'printer-reports btn btn-secondary'>Reports</button>
+            <a class = 'btn btn-primary' href="http://{{printer.print_ip}}/" class="card-link" target="_blank">Printer Info </a>
+          </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+
+  <div class="modal fade" id="standin">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title" id="printer-title" align="center"></h2>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div style="max-height:650px;" class="container-fluid">
+          <div class="row">
+            <div class="col-xs-6 col-sm-6 col-md-6 modal-body">
+              <h1 align="center"><b>Recent Reports</b></h1>
+              <div id="report-div" style="margin: 10px; height: 400px; overflow: auto;">
+              </div>
+            </div>
+            <div class="col-sm-6 col-md-6 modal-body">
+              <h3 align="center"><img id="standin-pic" src='' class='img-printer'></h3>
+              <form method="post" class="form-horizontal" id="repform">
+                {% csrf_token %}
+                <div class="form-group">
+                  <label for="printer-stat">Status: </label>
+                  <select id="printer-stat" class = 'printer-input'>
+                    <option value="healthy">All Good!</option>
+                    <option value="warning">Warning!</option>
+                    <option value="down">Printer Down!</option>
+                  </select>
+                </div>
+                <div class="form-group" style="text-align: center">
+                  <label for="printer-desc">Report </label>
+                  <textarea class="form-control input-sm" rows="4" cols="" minlength="20" id="printer-desc"></textarea>
+                </div>
+                <input type="hidden" id="print_id" value="key">
+              </form>
+              <h5 align="right"><button class="btn btn-success" id="report-btn">Submit</button></h5>
+            </div>
+          </div>
+        </div>
+        <div class='modal-footer'>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endblock %}

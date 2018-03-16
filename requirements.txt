@@ -6,4 +6,3 @@ google-api-python-client
 oauth2client<4.0.0
 httplib2
 gunicorn
-
