@@ -294,7 +294,7 @@ $(document).ready(function() {
         ajaxTakeCover(data);
     });
 
-    //TODO: This function
+    //#TODO: This function
     function generateRelativeShifts(shiftID, shiftData){
         // We fill in the modal
         $('#' + String(shiftID) + '-modal').find('#shift-details').text(locations[shiftData.thisShift.location] + ": " + formatTimeRange(shiftData.thisShift.shift_start, shiftData.thisShift.shift_end));
@@ -316,7 +316,7 @@ $(document).ready(function() {
                 // If there are shifts we start by adding the "days" in the week that have a shift on them
                 $('#your-shifts-card-group').append(
                     "<div class = 'card shift-card' id= '" + weekDays[day] + "-shifts' >" +
-                        "<div class = 'card-header bg-primary text-white'>" + weekDays[day] + " " +  week[day].slice(5,10) + "</div>" + // Here we are displaying the week day and the date of that day
+                        "<div class = 'card-header bg-l-cyan text-dark'>" + weekDays[day] + " " +  week[day].slice(5,10) + "</div>" + // Here we are displaying the week day and the date of that day
                         "<div class = 'card-body'><div>" + // This is where the individual shifts will go
                     "</div>");
                 // Generate a new group of shifts that only contains the one on this day
@@ -327,7 +327,7 @@ $(document).ready(function() {
                     // Generate a shift "button" for each shift
                     if (shiftsDay[shift].is_open) { // If this shift is currently open, we want that to be apparent to the user
                         $('#' + weekDays[day] + '-shifts .card-body').append( // Select the body of the current day we are looping through
-                            "<button type = 'button' id = '" + shiftsDay[shift].event_id  + "' class = 'btn btn-block btn-warning shift-btn' data-toggle= 'modal' data-target= '#"
+                            "<button type = 'button' id = '" + shiftsDay[shift].event_id  + "' class = 'btn btn-block bg-open shift-btn' data-toggle= 'modal' data-target= '#"
                             + String(shiftsDay[shift].event_id) + "-modal' >" + locations[shiftsDay[shift].location] // This line labels the modal we will make and the location of the shift
                             + ": " + formatTimeRange(shiftsDay[shift].shift_start, shiftsDay[shift].shift_end) // This line lays out the time range of the shift using a handy method
                             +"</button>"
@@ -391,7 +391,7 @@ $(document).ready(function() {
                     }
                     else { // If the shift isn't open, we display normally
                         $('#' + weekDays[day] + '-shifts .card-body').append( // Select the body of the current day we are looping through
-                            "<button type = 'button' id = '" + shiftsDay[shift].event_id  + "' class = 'btn btn-block shift-btn' data-toggle= 'modal' data-target= '#"
+                            "<button type = 'button' id = '" + shiftsDay[shift].event_id  + "' class = 'btn btn-block btn-light shift-btn' data-toggle= 'modal' data-target= '#"
                             + String(shiftsDay[shift].event_id) + "-modal' >" + locations[shiftsDay[shift].location] // This line labels the modal we will make and the location of the shift
                             + ": " + formatTimeRange(shiftsDay[shift].shift_start, shiftsDay[shift].shift_end) // This line lays out the time range of the shift using a handy method
                             +"</button>"
@@ -537,7 +537,7 @@ $(document).ready(function() {
             if (isShiftOnDay(week[day], shifts)) {
                 $('#open-shifts-card-group').append(
                     "<div class = 'card shift-card' id= '" + weekDays[day] + "-open-shifts' >" +
-                        "<div class = 'card-header bg-primary text-white'>" + weekDays[day] + " " +  week[day].slice(5,10) + "</div>" + // Here we are displaying the week day and the date of that day
+                        "<div class = 'card-header bg-open text-dark'>" + weekDays[day] + " " +  week[day].slice(5,10) + "</div>" + // Here we are displaying the week day and the date of that day
                         "<div class = 'card-body'><div>" + // This is where the individual shifts will go
                     "</div>");
                 // Generate a new group of shifts that only contains the one on this day
@@ -547,7 +547,7 @@ $(document).ready(function() {
                 {
                     // Generate a shift "button" for each shift
                     $('#' + weekDays[day] + '-open-shifts .card-body').append(
-                        "<button type = 'button' id = '" + shiftsDay[shift].event_id  + "' class = 'btn btn-block btn-warning shift-btn' data-toggle= 'modal' data-target= '#"
+                        "<button type = 'button' id = '" + shiftsDay[shift].event_id  + "' class = 'btn btn-block bg-open shift-btn' data-toggle= 'modal' data-target= '#"
                         + String(shiftsDay[shift].event_id) + "-modal' >" + locations[shiftsDay[shift].location]
                         + ": " + formatTimeRange(shiftsDay[shift].shift_start, shiftsDay[shift].shift_end)
                         +"</button>"
