@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from sidekick import views
 from django.http import HttpResponseRedirect, HttpResponse
-from homebase.models import Announcements, Events, StaffStatus
+from homebase.models import Announcements, Events, StaffStatus, Employees
 from .forms import AnnouncmentForm, EventForm, StatusForm
 from shifts.models import Shifts
 from django.utils.dateparse import parse_datetime
@@ -70,6 +70,8 @@ def prep_context():
     a_form = AnnouncmentForm()
     e_form = EventForm()
     s_form = StatusForm()
+
+
     return {
         'shifts': shifts,
         'lab_shifts': labs,
