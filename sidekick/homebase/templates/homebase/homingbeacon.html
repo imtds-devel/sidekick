@@ -12,19 +12,9 @@
       <div class="beacon-left">
         <p class="beacon-location">Labs</p>
         {% if user_netid|has_access:"homingbeacon_checkin" %}
-        <button role="button" class="btn btn-success user-checkin">Checkin</button>
+        <button role="button" class="btn btn-success btn-sm user-checkin">Checkin</button>
         {% endif %}
       </div>
-
-      <div class="beacon-right">
-        {% if lab_shifts %}
-        {% for shift in lab_shifts %}
-        <div class="info-emp">
-          <h4><b>{{shift.pretty_location}}</b></h4>
-          <div class="img-holder">
-            {% if shift.is_open %}
-
-<<<<<<< HEAD
         <div class="beacon-right">
             {% if lab_shifts %}
                 {% for shift in lab_shifts %}
@@ -55,8 +45,6 @@
                 {% endif %}
             {% else %}
                 <h3 style="margin-left: 1rem;">No one's in the labs right now</h3>
-=======
->>>>>>> develop
             {% endif %}
             <img src="{% static shift.owner.picture|img_exists %}" alt="{{shift.owner}}"
             class="employee-pic {% if shift.is_open %} pic-open-shift {% endif %}">
@@ -86,7 +74,7 @@
       <div class="beacon-left">
         <p class="beacon-location">Building 5</p>
         {% if user_netid|has_access:"homingbeacon_checkin" %}
-        <button role="button" class="btn btn-success user-checkin">Checkin</button>
+        <button role="button" class="btn btn-success btn-sm user-checkin">Checkin</button>
         {% endif %}
       </div>
 
@@ -115,7 +103,7 @@
       <div class="beacon-left staff-beacon-left">
         <p class="beacon-location">Staff</p>
         {% if user_netid|has_access:"homingbeacon_updatestatus" %}
-        <button role="button" class="btn btn-success staff-status">Update</button>
+        <button role="button" class="btn btn-success btn-sm staff-status">Update</button>
         {% endif %}
       </div>
 
@@ -188,10 +176,10 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
+        <h4 class="modal-title">Update Status</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
-        <h4 class="modal-title">Update Status</h4>
       </div>
       <div class="modal-body">
         <form method="post" class="form-horizontal" id="s-form">
@@ -230,12 +218,10 @@ $(document).ready(function() {
     for (var i=0; i<names.length; i++) {
       $("#status-modal #id_netid").append("<option value='"+netids[i].innerText+"'>"+names[i].innerText+"</option>");
     }
-
-<<<<<<< HEAD
-            $("#status-modal").modal('show');
-        });
-      });
-    </script>
+    $("#status-modal").modal('show');
+  });
+});
+</script>
 
 <style>
     .reveal-if-checkBool {
@@ -265,9 +251,3 @@ $(document).ready(function() {
       }
     }
 </style>
-=======
-    $("#status-modal").modal('show');
-  });
-});
-</script>
->>>>>>> develop

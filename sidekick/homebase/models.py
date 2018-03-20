@@ -100,46 +100,24 @@ class Employees(models.Model):
 
 class Announcements(models.Model):
     posted = models.DateTimeField(auto_now_add=True)
-    announcer = models.ForeignKey('Employees', on_delete=models.CASCADE)
-    announcement = models.TextField(default="")
-    subject = models.TextField(default="Announcement")
+    announcer = models.ForeignKey(Employees, on_delete=models.CASCADE)
+    subject = models.TextField(default="")
+    body = models.TextField(default="")
     sticky = models.BooleanField(default=False)
 
     def __str__(self):
-        return str(self.announcement)
+        return str(self.subject)
 
 
 class Events(models.Model):
     announcer = models.ForeignKey(Employees, on_delete=models.CASCADE)
     title = models.CharField(max_length=30, default="")
     description = models.TextField(default="")
-    event_start = models.DateField()
-    event_end = models.DateField()
+    event_date = models.DateField()
     location = models.TextField(default="")
 
     def __str__(self):
-        return "%s: from %s to %s" % (self.title, self.event_start, self.event_end)
-
-
-class BrowserStats(models.Model):
-    hits = models.IntegerField(default=0)
-    chrome = models.IntegerField(default=0)
-    safari = models.IntegerField(default=0)
-    gecko = models.IntegerField(default=0)
-    opera = models.IntegerField(default=0)
-    edge = models.IntegerField(default=0)
-    ie = models.IntegerField(default=0)
-
-    def __str__(self):
-        return "Hits: %s (%s chrome, %s safari, %s firefox, %s opera, %s edge, %s ie)" % (
-            self.hits,
-            self.chrome,
-            self.safari,
-            self.gecko,
-            self.opera,
-            self.edge,
-            self.ie
-        )
+        return "%s: on %s" % (self.title, self.event_date)
 
 
 class EmailSubscriptions(models.Model):
@@ -204,11 +182,6 @@ class FailBoard(models.Model):
 class MessageFromThePast(models.Model):
     message = models.TextField()
     posted = models.DateField(auto_now_add=True)
-
-
-class Access(models.Model):
-    netid = models.ForeignKey(Employees, on_delete=models.CASCADE)
-    # TODO: Define here? Or maybe modify Django's auth system?
 
 
 class StaffStatus(models.Model):
