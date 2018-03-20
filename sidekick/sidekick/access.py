@@ -67,6 +67,9 @@ def get_sst_access(area):
         # Page access
         "homebase_access", "passwords_access", "shift_access", "roster_access", "quote_access", "printer_access",
 
+        # Nav elements
+        "nav_modtools",
+
         # Passwords page
         "passwords_lab", "passwords_support",
         
@@ -119,6 +122,9 @@ def get_mgr_access(area):
         # Roster page
         "roster_editemp", "roster_addremoveemp", "roster_modfb_all", "roster_prof_all", "roster_prof_all_edit",
 
+        # Roster comment overview
+        "roster_overview",
+
         # Printer page
         "printer_all", "printer_all_edit",
 
@@ -145,6 +151,9 @@ def get_stt_access(area):
         # Roster page
         "roster_editemp", "roster_addremoveemp", "roster_modfb_all", "roster_prof_all", "roster_prof_all_edit",
 
+        # Roster comment overview
+        "roster_overview",
+
         # Printer page
         "printer_all", "printer_all_edit",
 
@@ -170,6 +179,9 @@ def get_stm_access(area):
 
         # Roster page
         "roster_editemp", "roster_addremoveemp", "roster_modfb_all", "roster_prof_all", "roster_prof_all_edit",
+
+        # Roster comment overview
+        "roster_overview",
 
         # Printer page
         "printer_all", "printer_all_edit",
@@ -248,6 +260,7 @@ MASTER_ACCESS_TEMPLATE = [
     "roster_modfb_lab",                     # View/modify comments & discipline for lab techs
     "roster_prof_all",                      # Access all proficiencies
     "roster_prof_all_edit",                 # Edit all proficiencies
+    "roster_overview",                      # Access the overview page to see all comments
 
 
     # Quote Page

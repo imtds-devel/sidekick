@@ -2,26 +2,25 @@ from shifts.models import Shifts, SyncTokens
 from homebase.models import Employees
 from .google_api import build_service
 from sidekick.settings import CALENDAR_LOCATION_IDS
-from shifts.functions.decorators import async
 import datetime
 import pytz
 
 
-def synchronize(flush: bool):
+def synchronize(flush: bool=False, location: str=None):
     if flush:
         print("FLUSHING DATABASE NOW")
         Shifts.objects.all().delete()
         SyncTokens.objects.all().delete()
 
-    # one for each calendar location
-    locations = ['ma', 'da', 'st', 'sd', 'rc', 'md']
-    for loc in locations:
-        sync_location(loc)
+    if location is None:
+        # one for each calendar location
+        locations = ['ma', 'da', 'st', 'sd', 'rc', 'md']
+        for loc in locations:
+            sync_location(loc)
+    else:
+        sync_location(location)
 
 
-# This is an asynchronous function that runs in its own thread, meaning we can synchronize in the background!
-# It uses the async decorator, which we declare in decorators.py
-@async
 def sync_location(loc):
     # Build Google API service
     service = build_service()
@@ -72,9 +71,6 @@ def sync_location(loc):
     print(loc + ": Thread Closing Now")
 
 
-# This function processes events and converts them to shifts
-# We're running it asynchronously so that we don't have to wait for the API to make calls
-@async
 def process_events(list_results, loc):
     # First, get a list of items from the list results
     events = list_results.get('items', None)
@@ -92,6 +88,9 @@ def process_events(list_results, loc):
             shift_delete = Shifts.objects.filter(event_id__contains=event['id'])
             print(loc+": Deleting "+str(shift_delete))
             shift_delete.delete()
+            continue
+
+        if str(event.get('summary')).lower() == "mod report":
             continue
 
         # Figure out when the event starts (ignore all-day events by pretending they took place 3 years ago)

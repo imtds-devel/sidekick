@@ -11,13 +11,8 @@ from homebase.models import Employees
 from sidekick.access import get_access
 from django.http import JsonResponse
 from django.db.models import Q
-from django.db.models.functions import Cast
-from django.db.models import TimeField
-from django.http import HttpResponse
-from django.utils.timezone import make_aware, make_naive
 from sidekick.views import get_current_user
 from time import sleep
-import pytz
 
 
 def index(request):
@@ -47,9 +42,6 @@ def index(request):
     # We import the current time
     now = timezone.now()
 
-    # Synchronize our db with the Google Cal
-    synchronize(flush=False)
-
     # We build our context for the page
     context = {
         "date": now,
@@ -60,9 +52,11 @@ def index(request):
     return views.load_page(request, 'shifts/index.html', context)
 
 
-def post_cover(request):
+def push_cover(request):
     request = get_current_user(request)
 
+    post = request.POST.get('post', None) == 'true'
+    print(request.POST.get('post'))
     permanent = request.POST.get('permanent', None) == 'true'
     partial = request.POST.get('partial', None) == 'true'
     sob_story = str(request.POST.get('sob_story', None))
@@ -71,19 +65,21 @@ def post_cover(request):
     shift_owner = shift.owner
 
     # Check for bad user posting data
-    if shift_owner.netid != str(request.user) or not get_access(str(request.user), "shift_postall"):
-        # if the user can't post this shift
-        json_data = {
-            'shift_owner': shift_owner.netid,
-            'user': str(request.user),
-            'pst_status': "Bad user",
-        }
-        return JsonResponse(json_data)
+    if post and str(shift_owner.netid) != str(request.user):
+        if not get_access(str(request.user), "shift_postall"):
+            # if the user can't post this shift
+            json_data = {
+                'shift_owner': shift_owner.netid,
+                'user': str(request.user),
+                'pst_status': {
+                    'status': 'failure',
+                    'description': 'This user is not authorized to post the requested shift',
+                },
+            }
+            return JsonResponse(json_data)
 
-    if permanent:
-        s_id = str(request.POST.get('permanent_id', None))
-    else:
-        s_id = str(request.POST.get('event_id', None))
+    s_id = str(request.POST.get('event_id', None))
+
     if partial:
         part_start = request.POST.get('part_start', None)
         part_end = request.POST.get('part_end', None)
@@ -91,18 +87,8 @@ def post_cover(request):
         part_start = None
         part_end = None
 
-    """
-    # Test data
-    permanent = True
-    partial = False
-    actor = Employees.objects.get(netid='nchera13')
-    sob_story = "tst"
-    s_id = "2um9rcro6hhk7bb0ttee4debb1"
-    part_start = None
-    part_end = None
-    """
     data = CoverInstructions(
-        post=True,
+        post=post,
         permanent=permanent,
         partial=partial,
         shift_id=s_id,
@@ -112,48 +98,7 @@ def post_cover(request):
         sob_story=sob_story,
     )
     post_status = data.push()
-    synchronize(flush=False)
-
-    sleep(2)  # Wait for async fns to finish
-
-    json_data = {
-        'pst_status': post_status
-    }
-    # We return the data as JSON
-    return JsonResponse(json_data)
-
-
-def take_cover(request):
-    request = get_current_user(request)
-    permanent = request.POST.get('permanent', None) == 'true'
-    partial = request.POST.get('partial', None) == 'true'
-    sob_story = str(request.POST.get('sob_story', None))
-    # actor = Employees.objects.get(netid=str((Shifts.objects.get(event_id=request.GET.get('event_id', None))).owner))
-    actor = Employees.objects.get(netid=str(request.user))
-    # actor = get_current_user(request)
-    if permanent:
-        s_id = str(request.POST.get('permanent_id', None))
-    else:
-        s_id = str(request.POST.get('event_id', None))
-    if partial:
-        part_start = request.POST.get('part_start', None)
-        part_end = request.POST.get('part_end', None)
-    else:
-        part_start = None
-        part_end = None
-
-    data = CoverInstructions(
-        post=False,
-        permanent=permanent,
-        partial=partial,
-        shift_id=s_id,
-        actor=actor,
-        start_time=part_start,
-        end_time=part_end,
-        sob_story=sob_story,
-    )
-    post_status = data.push()
-    synchronize(flush=False)
+    synchronize(location=shift.location)
 
     sleep(2)  # Wait for async fns to finish
 

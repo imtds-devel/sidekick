@@ -4,4 +4,6 @@ from . import views
 app_name = 'printinfo'
 urlpatterns = [
     path('', views.index, name='index'),
+    path('ajax/printreportsget/', views.get_reports),
+    path('ajax/printreportupdate/', views.update_report)
 ]

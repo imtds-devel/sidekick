@@ -12,11 +12,11 @@ class Trophies(models.Model):
     TROPHY_TYPES = (
         # ('mil', 'Milestone'),
         ('bdg', 'Badge'),
-        # ('udb', 'Under the Bus'),
+        ('udb', 'Under the Bus'),
         ('str', 'Star'),
-        # ('hst', 'Half-Star'),
+        ('hst', 'Half-Star'),
         # ('mas', 'Mastery'),
-        # ('pst', 'Puzzle Star')
+        ('pst', 'Puzzle Star')
     )
 
     giver = models.ForeignKey(Employees, related_name='trophyGiver', on_delete=models.CASCADE)
@@ -42,6 +42,12 @@ class Trophies(models.Model):
                 out = 'grey-star'
             else:
                 out = 'gold-star'
+        elif self.trophy_type == 'pst':
+            out = 'puzzlestar'
+        elif self.trophy_type == 'udb':
+            out = 'bus-badge'
+        elif self.trophy_type == 'hst':
+            out = 'star_left'
         else:
             out = 'grey-star'
 
