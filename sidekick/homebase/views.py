@@ -116,7 +116,11 @@ def post_checkin(request):
             )
 
         shift.checked_in = 'T'
-        shift.checkin_time = check_times[count]
+
+        formattedTime = str(shift.shift_date) + " " + check_times[count]
+        print("formatted time " + formattedTime)
+
+        shift.checkin_time = formattedTime
 
         print(shift)
         shift.save()
