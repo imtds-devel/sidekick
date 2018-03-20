@@ -97,7 +97,7 @@
 
         <div class="a-left">
           <p class="a-subject">{{post.subject}}</p>
-          <p class="a-meta">{{post.announcer}} on {{post.posted}}</p>
+          <p class="a-meta">By {{post.announcer}} on {{post.posted}}</p>
         </div>
 
         <div class="a-right">
@@ -105,12 +105,12 @@
         </div>
       </div>
       {%endif%}
-      {% if post.event_start%}
+      {% if post.event_date%}
       <div class="event">
 
         <div class="e-left">
           <p class="e-subject">{{post.title}}</p>
-          <p class="e-meta">From {{post.event_start}} to {{post.event_end}}</p>
+          <p class="e-meta">Event Date: {{post.event_date}}</p>
         </div>
 
         <div class="e-right">

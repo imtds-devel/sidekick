@@ -31,13 +31,15 @@ def index(request):
     return views.load_page(request, 'homebase/index.html', prep_context())
 
 
-def add_announcement(request):
+def new_announcement(request):
     # Reject any non-POST request
     if request.method != "POST":
         return JsonResponse({
             'result': 'failure',
             'desc': 'Bad request method'
         }, status=500)
+
+    request = views.get_current_user(request)
 
     Announcements(
         announcer=Employees.objects.get(netid=str(request.user)),
@@ -51,13 +53,33 @@ def add_announcement(request):
     })
 
 
-def add_event(request):
-    return True
+def new_event(request):
+    # Reject any non-POST request
+    if request.method != "POST":
+        return JsonResponse({
+            'result': 'failure',
+            'desc': 'Bad request method'
+        }, status=500)
+
+    request = views.get_current_user(request)
+
+    Events(
+        announcer=Employees.objects.get(netid=str(request.user)),
+        title=request.POST.get('title', None),
+        location=request.POST.get('location', None),
+        event_date=request.POST.get('date', None),
+        description=request.POST.get('description', None)
+    ).save()
+
+    return JsonResponse({
+        'result': 'success',
+        'desc': 'Event was added successfully'
+    })
 
 
 def prep_context():
     announcement_list = Announcements.objects.all().order_by('posted')
-    event_list = Events.objects.all().order_by('event_start')
+    event_list = Events.objects.all().order_by('event_date')
 
     tz = pytz.timezone("America/Los_Angeles")
     now = tz.localize(datetime.datetime.now())
@@ -88,5 +110,5 @@ def order(a_list, e_list):
     ordered = list(a_list) + list(e_list)
     # Combines the two lists, then sorts using lambda function with the announcement posted
     # attribute and event event_start attribute
-    ordered_list = sorted(ordered, key=lambda x: x.posted.date() if hasattr(x, 'posted') else x.event_start, reverse=True)
+    ordered_list = sorted(ordered, key=lambda x: x.posted.date() if hasattr(x, 'posted') else x.event_date, reverse=True)
     return ordered_list[:8]
