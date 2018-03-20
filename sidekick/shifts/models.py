@@ -50,6 +50,7 @@ class Shifts(models.Model):
         choices=CHECKIN_CHOICES,
         default='F'
     )
+
     checkin_time = models.DateTimeField(default=datetime.datetime.utcnow, null=True)
     permanent_id = models.TextField(default="")  # Same as event id for non-permanent shifts
     sob_story = models.TextField(null=True, blank=True) # The current sob story for the shift, can be null if the shift isn't open

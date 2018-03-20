@@ -1,5 +1,5 @@
 /////////////////////////////////////////
-// JavaScript/Jquery for the quotes module
+// JavaScript/Jquery for the roster module
 // Written by Brooks Duggan in Fall 2017
 /////////////////////////////////////////
 
@@ -15,7 +15,6 @@ $(document).ready(function(){
 
 // Upon panel click with panelemp class, function of Modal population initiates
 $('.panelemp').click(function showModal(){
-    console.log("hi");
 
     // Grab all info from HTML load for each employee
     netid_1 = $(this).find(".emp-meta").attr('id');
@@ -56,25 +55,26 @@ $('.panelemp').click(function showModal(){
 
     // If all proficiencies are null/0, set all to 0 for functionality
     if (basic == 0 && adv == 0 && field == 0 && print == 0 && net == 0 && mobile == 0 && ref == 0 && soft == 0){
-        basic = 0
-        adv = 0
-        field = 0
-        print = 0
-        net = 0
-        mobile = 0
-        ref = 0
-        soft = 0
+        basic = 0;
+        adv = 0;
+        field = 0;
+        print = 0;
+        net = 0;
+        mobile = 0;
+        ref = 0;
+        soft = 0;
     }
     // Conditional for if the employee is a developer
-    if (developer == "True"){
-        developer = true
-    } else{
-        developer = false
-    }
+    developer = developer == "True";
+
     // Conditional if someone has not input their phone number or birthday to not let DB break
     if (birthday == 'None' || notnicephone == 'None'){
-        birthday = null
-        notnicephone == null
+        birthday = null;
+        notnicephone = null;
+    }
+
+    if (codename == null || codename == "" || codename=="None"){
+        codename = "No code name, yet!"
     }
 
     // Replace the modal-fade id, title name, bio info, color, and pic according to specific modal clicked
@@ -123,13 +123,13 @@ $('.panelemp').click(function showModal(){
 
     // Conditional to append info for employee skills if Active User is a manager, and the modal is for a non-Lab Tech and non-Lead Lab Tech (who don't have skills)
     if((active_user == netid_1 || manager == "True") && (position != "Lab Technician" && position != "Lead Lab Tech")) {
-        $("#li-skills").append("<a data-toggle='tab' href='#emp-skills'>Skills</a>")
+        $("#li-skills").append("<a class='nav-link' data-toggle='tab' href='#emp-skills'>Skills</a>")
         $("#emp-skills").append("<div id='skills-div'></div>")
     }
 
     // Skills and Radar Chart are appended to modal
     $('#skills-div').append(
-       "<div class='container magic-container'"
+       "<div class='container'"
      + "<div class ='row'>"
      + "<div class='chart col-xs-6 col-sm-6 col-md-7' data-width='90%' data-height='90%' data-red='100' data-green='100' data-blue='400' style='margin-top:5px;'>"
      + "<div class='chartCanvasWrap' style='left:5px;'></div>"
@@ -209,7 +209,7 @@ $('.panelemp').click(function showModal(){
             console.log(data)
 
             for (i = 0; i < data.trophlist.length; i++) {
-                    var output = "<a href='#' class='trophy' data-toggle='popover' data-placement='auto top' data-trigger='hover' title='" + data.trophlist[i].name;
+                    var output = "<a href='#' class='trophy' data-toggle='popover' data-trigger='hover' title='" + data.trophlist[i].name;
                     output += "' data-content=\"" + data.trophlist[i].reason + " -- " + data.trophlist[i].giver + "\">";
                     output += "<img class='trophy-img' src='/static/" + data.trophlist[i].url + "'></a>";
                     $(output).appendTo("#trophy-m");
@@ -236,13 +236,13 @@ $('.panelemp').click(function showModal(){
         success: function(data){
 
             if((active_user != netid_1 && leadlab == "True" && position == "Lab Technician") || manager == "True"){
-                $("#li-comment").append("<a data-toggle='tab' href='#emp-comment'>Comments</a>")
+                $("#li-comment").append("<a class='nav-link' data-toggle='tab' href='#emp-comment'>Comments</a>")
 
                 $("#comment-div").html(" ");
                 for (i = 0; i < data.comlist.length; i++) {
-                    var output = "<div class='panel comment-panel' id='comment-list-" + data.comlist[i].pk + "'><div class='panel-body'>";
+                    var output = "<div class='card comment-panel' id='comment-list-" + data.comlist[i].pk + "'><div class='card-body'>";
                     output += "<div class='row'><div class='col-xs-10 col-sm-10 col-md-10'><h4><b>Subject: </b></h4><h4>" + data.comlist[i].subject + "</h4></div>";
-                    output += "<div class='col-xs-2 col-sm-2 col-md-2'><button type='button' style='display:none' onclick=DeleteComment('list-"+ data.comlist[i].pk + "','"+ netid_1 +"') class='btn delete-btn btn-default btn-sm' id='list-"+i+"'><span class='glyphicon glyphicon-trash'></span> </button></div>"
+                    output += "<div class='col-xs-2 col-sm-2 col-md-2'><button type='button' style='display:none' onclick=DeleteComment('list-"+ data.comlist[i].pk + "','"+ netid_1 +"') class='btn delete-btn btn-default btn-sm' id='list-"+i+"'><span class='oi oi-trash'></span> </button></div>"
                     if (data.comlist[i].val != 0 && data.comlist[i].val != null){
                         if(data.comlist[i].val == 1){
                             output += "<h5><b>Extent: </b> <u>Full Discipline</u> </h5>";
@@ -315,10 +315,10 @@ $('.panelemp').click(function showModal(){
     $("#" + netid_1).on("hidden.bs.modal", function(){
 
         // Set all attributes of tab-panes, and classes to original status
-        $("#li-home").attr('class', 'active')
-        $("#li-skills").attr('class', '')
-        $("#li-comment").attr('class', '')
-        $("#emp-home").attr('class', 'modal-body hero-bio tab-pane fade in active')
+        $("#li-home").attr('class', 'nav-item active')
+        $("#li-skills").attr('class', 'nav-item')
+        $("#li-comment").attr('class', 'nav-item')
+        $("#emp-home").attr('class', 'modal-body hero-bio tab-pane fade show active')
         $("#emp-skills").attr('class', 'tab-pane row fade')
         $("#emp-comment").attr('class', 'modal-body hero-bio tab-pane fade')
         $("#profform").appendTo('#prof-form');

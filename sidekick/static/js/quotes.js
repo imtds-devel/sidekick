@@ -75,21 +75,27 @@ $(document).ready(function () {
                     +"<div class ='media'>"
                         +"<div class ='media-body'>"
                         +"<div class = 'input-group'>"
-                        +"<span class='input-group-addon'><i class='glyphicon glyphicon-wrench'></i></span>"
+                        +"<div class = 'input-group-prepend'>"
+                        +"<span class='input-group-text'><i class='oi oi-wrench'></i></span>"
+                        +"</div>"
                         +"<input id='part-name' type='text' readonly class='form-control input-sm'"
                         +"placeholder='Part Name' value=" + partName +  " name='" + partID + "-name'></div>"
                         +"<div class = 'input-group'>"
-                        +"<span class='input-group-addon'><i class='glyphicon glyphicon-usd'></i></span>"
+                        +"<div class = 'input-group-prepend'>"
+                        +"<span class='input-group-text'><i class='oi oi-dollar'></i></span>"
+                        +"</div>"
                         +"<input id='part-price' type='number' readonly class='form-control input-sm'"
                         +"placeholder='Part Price' value=" + partCost + " name='" + partID +"-price'></div>"   
                         +"<div class = 'input-group'>"
-                        +"<span class='input-group-addon'><i class='glyphicon glyphicon-envelope'></i></span>"
+                        +"<div class = 'input-group-prepend'>"
+                        +"<span class='input-group-text'><i class='oi oi-envelope-closed'></i></span>"
+                        +"</div>"
                         +"<input id='shipping-price' type='number' readonly class='form-control input-sm'" 
                         +"placeholder='Shipping Cost' value=" + shippingCost + " name='" + partID + "-shipping'></div>"                            
                         +"</div>"
                         +"<div class ='media-right'>"
                         +"<button id ='remove-button' type='button' class='btn btn-danger remove-button'>"
-                        +"<i class='glyphicon glyphicon-trash'></i></button></div>"            
+                        +"<i class='oi oi-trash'></i></button></div>"            
                     +"</div></li>");
         
                     // Here we recalculate our numbers with the part and shipping cost we grabbed
@@ -176,7 +182,7 @@ $(document).ready(function () {
                 +"$" + servicePrice
                 +"</div>"
                 +"<button id ='remove-button' type='button' class='btn btn-danger remove-button'>"
-                +"<i class='glyphicon glyphicon-trash'></i></button></div>"
+                +"<i class='oi oi-trash'></i></button></div>"
                 +"</div></li>");
     
             subTotal += parseFloat(servicePrice);
@@ -207,7 +213,7 @@ $(document).ready(function () {
                 +"-$" + discountAmount
                 +"</div>"
                 +"<button id ='remove-button' type='button' class='btn btn-danger remove-button'>"
-                +"<i class='glyphicon glyphicon-trash'></i></button></div>"
+                +"<i class='oi oi-trash'></i></button></div>"
                 +"</div></li>");
     
             subTotal -= parseFloat(discountAmount);

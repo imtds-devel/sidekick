@@ -34,7 +34,7 @@ $(document).ready(function() {
                 'option' : option
             },
             dataType: 'json',
-            // With the retreived date, we will populate the panels
+            // With the retreived date, we will populate the cards
             success: function (data) {
                 if (data.date.slice(0,10) != date) {
                     $('#your-shift-date').val(data.date.slice(0,10));
@@ -42,7 +42,7 @@ $(document).ready(function() {
                 console.log(data);
                 console.log("Received");
                 $('#your-week').text(data.week[0].slice(5,10) + ' to ' + data.week[6].slice(5,10));
-                generateUserShiftPanels(data.week, data.shifts);
+                generateUserShiftCards(data.week, data.shifts);
             }
         });
     }
@@ -64,7 +64,7 @@ $(document).ready(function() {
                     $('#open-shift-date').val(data.date.slice(0,10));
                 }
                 $('#open-week').text(data.week[0].slice(5,10) + ' to ' + data.week[6].slice(5,10));
-                generateOpenShiftPanels(data.week, data.shifts);
+                generateOpenShiftCards(data.week, data.shifts);
             }
         });
     }
@@ -294,7 +294,7 @@ $(document).ready(function() {
         ajaxTakeCover(data);
     });
 
-    //TODO: This function
+    //#TODO: This function
     function generateRelativeShifts(shiftID, shiftData){
         // We fill in the modal
         $('#' + String(shiftID) + '-modal').find('#shift-details').text(locations[shiftData.thisShift.location] + ": " + formatTimeRange(shiftData.thisShift.shift_start, shiftData.thisShift.shift_end));
@@ -304,9 +304,9 @@ $(document).ready(function() {
         }
     }
     // This function is called by the AJAX function, it fills in the shifts on the page
-    function generateUserShiftPanels(week, shifts){
+    function generateUserShiftCards(week, shifts){
         // First we remove the current shifts
-        $('#your-shifts-panel-group').empty();
+        $('#your-shifts-card-group').empty();
         $('#user-shift-modals').empty();
         // Loop through the days in the given week
         for (var day = 0; day < week.length; day++){
@@ -314,10 +314,10 @@ $(document).ready(function() {
             // Hint: We should only display a day if there are shifts on that day
             if (isShiftOnDay(week[day], shifts)) {
                 // If there are shifts we start by adding the "days" in the week that have a shift on them
-                $('#your-shifts-panel-group').append(
-                    "<div class = 'panel panel-primary shift-panel' id= '" + weekDays[day] + "-shifts' >" +
-                        "<div class = 'panel-heading'>" + weekDays[day] + " " +  week[day].slice(5,10) + "</div>" + // Here we are displaying the week day and the date of that day
-                        "<div class = 'panel-body'><div>" + // This is where the individual shifts will go
+                $('#your-shifts-card-group').append(
+                    "<div class = 'card shift-card' id= '" + weekDays[day] + "-shifts' >" +
+                        "<div class = 'card-header bg-l-cyan text-dark'>" + weekDays[day] + " " +  week[day].slice(5,10) + "</div>" + // Here we are displaying the week day and the date of that day
+                        "<div class = 'card-body'><div>" + // This is where the individual shifts will go
                     "</div>");
                 // Generate a new group of shifts that only contains the one on this day
                 shiftsDay = shiftsOnDay(week[day], shifts);
@@ -326,8 +326,8 @@ $(document).ready(function() {
                 {
                     // Generate a shift "button" for each shift
                     if (shiftsDay[shift].is_open) { // If this shift is currently open, we want that to be apparent to the user
-                        $('#' + weekDays[day] + '-shifts .panel-body').append( // Select the body of the current day we are looping through
-                            "<button type = 'button' id = '" + shiftsDay[shift].event_id  + "' class = 'btn btn-block btn-warning shift-btn' data-toggle= 'modal' data-target= '#"
+                        $('#' + weekDays[day] + '-shifts .card-body').append( // Select the body of the current day we are looping through
+                            "<button type = 'button' id = '" + shiftsDay[shift].event_id  + "' class = 'btn btn-block bg-open shift-btn' data-toggle= 'modal' data-target= '#"
                             + String(shiftsDay[shift].event_id) + "-modal' >" + locations[shiftsDay[shift].location] // This line labels the modal we will make and the location of the shift
                             + ": " + formatTimeRange(shiftsDay[shift].shift_start, shiftsDay[shift].shift_end) // This line lays out the time range of the shift using a handy method
                             +"</button>"
@@ -350,8 +350,8 @@ $(document).ready(function() {
                             +            "</div>"
                             +        "</div>"
                             +        "<div class='modal-footer'>"
-                            +            "<button type='button' class='align-left btn btn-default' data-dismiss='modal' data-toggle='modal' data-target = '#post-conf-" + String(shiftsDay[shift].event_id) + "'>Take Shift</button>"
-                            +            "<button type='button' class='align-right btn btn-default' data-dismiss='modal'>Close</button>"
+                            +            "<button type='button' class='align-left btn btn-secondary' data-dismiss='modal' data-toggle='modal' data-target = '#post-conf-" + String(shiftsDay[shift].event_id) + "'>Take Shift</button>"
+                            +            "<button type='button' class='align-right btn btn-secondary' data-dismiss='modal'>Close</button>"
                             +        "</div>"
                             +    "</div>"
                             +"</div>"
@@ -382,7 +382,7 @@ $(document).ready(function() {
                             +   "</div>"
                             +   "<div class='modal-footer'>"
                             +       "<button disabled id='take-cover-btn' type='button' class='align-left btn btn-primary'>Take Shift Cover</button>"
-                            +       "<button type='button' class='align-right btn btn-default' data-toggle = 'modal' data-target = '#" + String(shiftsDay[shift].event_id) + "-modal' data-dismiss='modal'>Cancel</button>"
+                            +       "<button type='button' class='align-right btn btn-secondary' data-toggle = 'modal' data-target = '#" + String(shiftsDay[shift].event_id) + "-modal' data-dismiss='modal'>Cancel</button>"
                             +   "</div>"
                             +      "</div>"
                             +   "</div>"
@@ -390,8 +390,8 @@ $(document).ready(function() {
                         );
                     }
                     else { // If the shift isn't open, we display normally
-                        $('#' + weekDays[day] + '-shifts .panel-body').append( // Select the body of the current day we are looping through
-                            "<button type = 'button' id = '" + shiftsDay[shift].event_id  + "' class = 'btn btn-block shift-btn' data-toggle= 'modal' data-target= '#"
+                        $('#' + weekDays[day] + '-shifts .card-body').append( // Select the body of the current day we are looping through
+                            "<button type = 'button' id = '" + shiftsDay[shift].event_id  + "' class = 'btn btn-block btn-light shift-btn' data-toggle= 'modal' data-target= '#"
                             + String(shiftsDay[shift].event_id) + "-modal' >" + locations[shiftsDay[shift].location] // This line labels the modal we will make and the location of the shift
                             + ": " + formatTimeRange(shiftsDay[shift].shift_start, shiftsDay[shift].shift_end) // This line lays out the time range of the shift using a handy method
                             +"</button>"
@@ -412,8 +412,8 @@ $(document).ready(function() {
                             +            "</div>"
                             +        "</div>"
                             +        "<div class='modal-footer'>"
-                            +            "<button type='button' class='align-left btn btn-default' data-dismiss='modal' data-toggle= 'modal' data-target = '#post-conf-" + String(shiftsDay[shift].event_id) + "'>Post Cover</button>"
-                            +            "<button type='button' class='align-right btn btn-default' data-dismiss='modal'>Close</button>"
+                            +            "<button type='button' class='align-left btn btn-secondary' data-dismiss='modal' data-toggle= 'modal' data-target = '#post-conf-" + String(shiftsDay[shift].event_id) + "'>Post Cover</button>"
+                            +            "<button type='button' class='align-right btn btn-secondary' data-dismiss='modal'>Close</button>"
                             +        "</div>"
                             +    "</div>"
                             +"</div>"
@@ -448,7 +448,7 @@ $(document).ready(function() {
                             +   "</div>"
                             +   "<div class='modal-footer'>"
                             +       "<button disabled id='post-cover-btn' type='button' class='align-left btn btn-primary'>Post Shift Cover</button>"
-                            +       "<button type='button' class='align-right btn btn-default' data-toggle = 'modal' data-target = '#" + String(shiftsDay[shift].event_id) + "-modal' data-dismiss='modal'>Cancel</button>"
+                            +       "<button type='button' class='align-right btn btn-desecondarydata-toggle = 'modal' data-target = '#" + String(shiftsDay[shift].event_id) + "-modal' data-dismiss='modal'>Cancel</button>"
                             +   "</div>"
                             +   "</div>"
                             +"</div>"
@@ -461,7 +461,6 @@ $(document).ready(function() {
                 }
             }
         }
-        console.log("Panels")
     }
 
     //Function to generate a list of time options for partial shift covers
@@ -527,19 +526,19 @@ $(document).ready(function() {
     }
 
     // Like the other method with some small differences for open shifts
-    function generateOpenShiftPanels(week, shifts){
+    function generateOpenShiftCards(week, shifts){
         // First we empty the old stuff
-        $('#open-shifts-panel-group').empty();
+        $('#open-shifts-card-group').empty();
         $('#open-shift-modals').empty();
         // Loop through the days in the given week
         for (day = 0; day < week.length; day++){
             // Evaluate if we should be displaying this day
             // Hint: We should only display a day if there are shifts on that day
             if (isShiftOnDay(week[day], shifts)) {
-                $('#open-shifts-panel-group').append(
-                    "<div class = 'panel panel-primary shift-panel' id= '" + weekDays[day] + "-open-shifts' >" +
-                        "<div class = 'panel-heading'>" + weekDays[day] + " " +  week[day].slice(5,10) + "</div>" + // Here we are displaying the week day and the date of that day
-                        "<div class = 'panel-body'><div>" + // This is where the individual shifts will go
+                $('#open-shifts-card-group').append(
+                    "<div class = 'card shift-card' id= '" + weekDays[day] + "-open-shifts' >" +
+                        "<div class = 'card-header bg-open text-dark'>" + weekDays[day] + " " +  week[day].slice(5,10) + "</div>" + // Here we are displaying the week day and the date of that day
+                        "<div class = 'card-body'><div>" + // This is where the individual shifts will go
                     "</div>");
                 // Generate a new group of shifts that only contains the one on this day
                 shiftsDay = shiftsOnDay(week[day], shifts);
@@ -547,8 +546,8 @@ $(document).ready(function() {
                 for (shift = 0; shift < shiftsDay.length; shift++)
                 {
                     // Generate a shift "button" for each shift
-                    $('#' + weekDays[day] + '-open-shifts .panel-body').append(
-                        "<button type = 'button' id = '" + shiftsDay[shift].event_id  + "' class = 'btn btn-block btn-warning shift-btn' data-toggle= 'modal' data-target= '#"
+                    $('#' + weekDays[day] + '-open-shifts .card-body').append(
+                        "<button type = 'button' id = '" + shiftsDay[shift].event_id  + "' class = 'btn btn-block bg-open shift-btn' data-toggle= 'modal' data-target= '#"
                         + String(shiftsDay[shift].event_id) + "-modal' >" + locations[shiftsDay[shift].location]
                         + ": " + formatTimeRange(shiftsDay[shift].shift_start, shiftsDay[shift].shift_end)
                         +"</button>"
@@ -571,8 +570,8 @@ $(document).ready(function() {
                         +            "</div>"
                         +        "</div>"
                         +        "<div class='modal-footer'>"
-                        +            "<button type = 'button' class='align-left btn btn-default' data-dismiss = 'modal' data-toggle= 'modal' data-target = '#post-conf-" + String(shiftsDay[shift].event_id) + "'>Take Shift</button>"
-                        +            "<button type='button' class='align-right btn btn-default' data-dismiss='modal'>Close</button>"
+                        +            "<button type = 'button' class='align-left btn btn-secondary' data-dismiss = 'modal' data-toggle= 'modal' data-target = '#post-conf-" + String(shiftsDay[shift].event_id) + "'>Take Shift</button>"
+                        +            "<button type='button' class='align-right btn btn-secondary' data-dismiss='modal'>Close</button>"
                         +        "</div>"
                         +    "</div>"
                         +"</div>"
@@ -603,7 +602,7 @@ $(document).ready(function() {
                         +   "</div>"
                         +   "<div class='modal-footer'>"
                         +       "<button disabled id='take-cover-btn' type='button' class='align-left btn btn-primary'>Take Shift Cover</button>"
-                        +       "<button type='button' class='align-right btn btn-default' data-toggle = 'modal' data-target = '#" + String(shiftsDay[shift].event_id) + "-modal' data-dismiss='modal'>Cancel</button>"
+                        +       "<button type='button' class='align-right btn btn-desecondarydata-toggle = 'modal' data-target = '#" + String(shiftsDay[shift].event_id) + "-modal' data-dismiss='modal'>Cancel</button>"
                         +   "</div>"
                         +      "</div>"
                         +   "</div>"
@@ -616,7 +615,6 @@ $(document).ready(function() {
                 }
             }
         }
-        console.log("Panels")
     }
     // This function evaulates if there is atleast 1 shift on the given date
     // Give it a day and some formatted shifts.

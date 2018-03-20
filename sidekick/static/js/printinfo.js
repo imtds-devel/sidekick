@@ -5,6 +5,10 @@
 $(window).load(function() {
 // Upon panel click with panelemp class, function of Modal population initiates
     $('.panelprint').click(showPrintModal);
+    // This button just clicks the nearest printer, since that is where the needed meta data resides -- Joshua Wood 2018
+    $(document).on('click', '.printer-reports', function(event) {
+        $(this).closest('.printer-card').find('.panelprint').click();
+    });
     function showPrintModal() {
         console.log("Hi!");
 
@@ -35,15 +39,15 @@ $(window).load(function() {
                 console.log(data.replist.length)
                     $("#report-div").html(" ");
                     for (i = data.replist.length-1; i >= data.replist.length-5; i--) {
-                        var output = "<div class='panel panel-print-log'>";
-                        output += "<div class='row'><div class='col-xs-10 col-sm-10 col-md-10'><h4><b>Status: </b>" + data.replist[i].print_stat + "</h4></div>";
-                        output += "<div class='row'><div class='col-xs-12 col-sm-12 col-md-12'><h5><b>Description: </b></h5><p>" + data.replist[i].desc + "</p>";
+                        var output = "<div class='card panel-print-log'>";
+                        output += "<h5><b>Status: </b>" + data.replist[i].print_stat + "</h5>";
+                        output += "<h6><b>Description: </b></h6><p>" + data.replist[i].desc + "</p>";
                         if(data.replist[i].netid == null){
-                        output += "<h5><b>When: </b>" + data.replist[i].date + "   Poster: None </h5>";
+                        output += "<h6><b>When: </b></h6>" + data.replist[i].date + "</h6><h6><b>Poster:</b> None </h6>";
                         } else{
-                            output += "<h5><b>When: </b>" + data.replist[i].date + "   <b>Poster: </b>" + data.replist[i].netid + "</h5>";
+                            output += "<h6><b>When: </b>" + data.replist[i].date + "</h6><h6><b>Poster: </b>" + data.replist[i].netid + "</h6>";
                         }
-                        output += "</div></div></div>";
+                        output += "</div>";
 
                         $(output).appendTo("#report-div");
                     }
@@ -53,7 +57,7 @@ $(window).load(function() {
                 console.log(data)
                 alert("Oh no! Something went wrong with your comments!")
             }
-        }); 
+        });
 
         // ALL THE STUFF HAS BEEN ADDED/CHANGED, NOW IT SHOWS!
         $('#'+ printpk).modal('show');
@@ -79,7 +83,7 @@ $(window).load(function() {
         Date.prototype.yyyymmdd = function() {
             var mm = this.getMonth() + 1; // getMonth() is zero-based
             var dd = this.getDate();
-          
+
             return [this.getFullYear(),
                     (mm>9 ? '' : '0') + mm,
                     (dd>9 ? '' : '0') + dd
@@ -87,8 +91,8 @@ $(window).load(function() {
           };
 
         date =  date.yyyymmdd();
-    
-    
+
+
         $.ajax({
             url: 'ajax/printreportupdate/',
             type: 'POST',
@@ -112,7 +116,7 @@ $(window).load(function() {
                 console.log(data)
             }
         })
-    });    
+    });
 });
 // Function that clears cookies from forms to cleanly submit forms
 $(function() {

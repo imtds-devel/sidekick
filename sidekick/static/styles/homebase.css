@@ -1,0 +1,377 @@
+/* CSS For the Homing Beacon */
+
+/*Represents the card block section*/
+.app-body{
+  padding: 2px;
+  overflow-y: scroll;
+  height: 93%;
+  margin-top: 0px;
+}
+
+.a-e{
+  height: 86%!important;
+}
+
+/*This is the header of both cards*/
+.app-head{
+  font-size: 16px;
+  display: flex;
+  justify-content: space-between;
+  padding: 12px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.beacon {
+  display: flex;
+  justify-content: space-around;
+  position: relative;
+  margin-left: 2px;
+  margin-right: 2px;
+}
+
+.beacon-right{
+  display: flex;
+  position: relative;
+  flex-flow: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+  width: 82%;
+  background: white;
+  height: 180px;
+  text-align: center;
+  border-right: solid 2px #9692A0;
+  box-shadow: 3px 3px 3px grey;
+  margin-top: 5px;
+  border-radius: 2%;
+  border-top-left-radius: 0%;
+  z-index: 0;
+}
+
+.beacon-left{
+  width: 22%;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  background: #548E8E;
+  height: 180px;
+  margin-top: 5px;
+  border-right: solid 3px #285858;
+  border-top-right-radius: 5%;
+  border-bottom-right-radius: 5%;
+  border-left: solid 3px #9692A0;
+  color: white;
+  box-shadow: 3px 3px 3px grey;
+  z-index: 1;
+  padding-top: 5%;
+}
+
+.beacon-location{
+  font-size: 22px;
+  text-align: center;
+}
+
+/*Overrides the beacon for staff*/
+.staff-beacon-left
+{
+  height: 360px;
+}
+
+.staff-beacon-right
+{
+  height: 360px;
+}
+
+/*Makes the round employee pic with shadow*/
+.employee-pic{
+  border-radius: 50%;
+  width: 5vmax;
+  min-width: 60px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+/* When a shift is open, we make the employee picture slightly transparent */
+.pic-open-shift{
+  opacity: 0.5;
+}
+
+/*Styles the tool to be bigger, maybe there is a better way to do this*/
+.oi.oi-file {
+  font-size: 400%;
+}
+
+/*Employee info container*/
+.info-emp{
+  width: 25%;
+}
+
+.info-emp h4{
+  font-size: 1em;
+}
+
+/* CSS for announcments and events, a is for announcments and e is for events */
+.modal-title-container{
+  position: relative;
+  display: flex;
+}
+
+#new-icon{
+  color: #0D4D4D;
+}
+
+.scrollable{
+  padding: 2px;
+  overflow-y: scroll;
+  height: 94%;
+  margin-top: 0px;
+}
+
+.button-box{
+  width: 10%;
+  height: 40px;
+  margin: -10px;
+  margin-top: -8px;
+  margin-bottom: -8px;
+  margin-right: -12px;
+  background-color: white;
+  border: 2px solid #B2D1D1;
+  border-top-right-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button-box:hover{
+  background-color: #9692A0;
+}
+
+.button-box:hover #new-icon{
+  color: white;
+}
+
+.header-form{
+  align-items: center;
+}
+
+.create-a:hover{
+  background-color: #9692A0;
+  color: white;
+}
+
+.create-e:hover{
+  background-color: #9692A0;
+  color: white;
+}
+
+.add-a-e{
+  background-color: #DAD8DF;
+  width: 99%;
+  height: 150px;
+  margin: 5px;
+  position: relative;
+}
+
+.add-a-e span{
+  color: white;
+  position: absolute;
+  top: 50%;
+  transform: translate(0, -50%)
+
+}
+.a-right p{
+  position: absolute;
+  top: 50%;                         /* 3 */
+  transform: translate(0, -50%);
+}
+
+.a-left{
+  width: 32%;
+  background: #548E8E;
+  padding: 5px;
+  height: 150px;
+  margin-top: 5px;
+  border-right: solid 3px #285858;
+  border-top-right-radius: 5%;
+  border-bottom-right-radius: 5%;
+  border-left: solid 3px #9692A0;
+  color: white;
+  box-shadow: 3px 3px 3px grey;
+  z-index: 1;
+  padding-top: 5%;
+}
+
+.event {
+  display: flex;
+  margin-left: 2px;
+  margin-right: 2px;
+  justify-content: space-around;
+  position: relative;
+}
+.e-right{
+  width: 68%;
+  background: white;
+  height: 150px;
+  text-align: center;
+  border-right: solid 2px #9692A0;
+  box-shadow: 3px 3px 3px grey;
+  margin-top: 5px;
+  border-radius: 2%;
+  border-top-left-radius: 0%;
+  padding-left: 10px;
+  padding-right: 5px;
+  z-index: 0;
+}
+.e-right p{
+  margin: 0;
+  position: absolute;               /* 2 */
+  top: 50%;                         /* 3 */
+  transform: translate(0, -50%)
+}
+
+.e-left{
+  width: 32%;
+  background: #3C4934;
+  padding: 5px;
+  height: 150px;
+  margin-top: 5px;
+  border-right: solid 3px #181D14;
+  border-top-right-radius: 5%;
+  border-bottom-right-radius: 5%;
+  border-left: solid 3px #9692A0;
+  color: white;
+  box-shadow: 3px 3px 3px grey;
+  z-index: 1;
+  padding-top: 5%;
+}
+
+.announcement {
+  display: flex;
+  justify-content: space-around;
+  position: relative;
+  margin-left: 2px;
+  margin-right: 2px;
+}
+.a-right{
+  width: 68%;
+  background: white;
+  text-align: center;
+  border-right: solid 2px #9692A0;
+  box-shadow: 3px 3px 3px grey;
+  margin-top: 5px;
+  border-radius: 2%;
+  border-top-left-radius: 0%;
+  z-index: 0;
+  padding-left: 10px;
+  overflow-y:scroll;
+  position:relative;
+  height: 150px;
+}
+.a-right p{
+  position: absolute;
+  top: 60%;                         /* 3 */
+  transform: translate(0, -50%)
+}
+
+.a-left{
+  width: 32%;
+  background: #548E8E;
+  padding: 5px;
+  height: 150px;
+  margin-top: 5px;
+  border-right: solid 3px #285858;
+  border-top-right-radius: 5%;
+  border-bottom-right-radius: 5%;
+  border-left: solid 3px #9692A0;
+  color: white;
+  box-shadow: 3px 3px 3px grey;
+  z-index: 1;
+  padding-top: 5%;
+}
+
+.event {
+  display: flex;
+  margin-left: 2px;
+  margin-right: 2px;
+  justify-content: space-around;
+  position: relative;
+}
+.e-right{
+  width: 68%;
+  background: white;
+  height: 150px;
+  text-align: center;
+  border-right: solid 2px #9692A0;
+  box-shadow: 3px 3px 3px grey;
+  margin-top: 5px;
+  border-radius: 2%;
+  border-top-left-radius: 0%;
+  padding-left: 10px;
+  padding-right: 5px;
+  z-index: 0;
+}
+.e-right p{
+  margin: 0;
+  position: absolute;               /* 2 */
+  top: 50%;                         /* 3 */
+  transform: translate(0, -50%)
+}
+
+.e-left{
+  width: 32%;
+  background: #3C4934;
+  padding: 5px;
+  height: 150px;
+  margin-top: 5px;
+  border-right: solid 3px #181D14;
+  border-top-right-radius: 5%;
+  border-bottom-right-radius: 5%;
+  border-left: solid 3px #9692A0;
+  color: white;
+  box-shadow: 3px 3px 3px grey;
+  z-index: 1;
+  padding-top: 5%;
+}
+
+
+.e-subject{
+  font-size: 22px;
+  text-align: center;
+}
+
+.e-meta{
+  font-size: 12px;
+  text-align: center;
+}
+
+.e-description{
+  font-size: 16px;
+  text-align: center;
+}
+
+.a-subject{
+  font-size: 22px;
+  text-align: center;
+}
+
+.a-meta{
+  font-size: 12px;  
+  text-align: center;
+}
+
+.a-description{
+  font-size: 1em;
+  text-align: center;
+}
+
+.newsletter{
+  background-color: #ADD8E6;
+  position: absolute;
+  bottom: 20;
+  width: 98%;
+  text-align: center;
+}
+
+.newsletter-container{
+  height: 800px;
+}

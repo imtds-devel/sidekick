@@ -8,6 +8,6 @@
             <p class='currentUser'>{{user_name}}</p>
             <a class="logout" href="{% url 'logout' %}">Log out</a>
         </div>
-        <img src="{% static user_img|img_exists %}" class='img-circle sideMoDImg'>
+        <img src="{% static user_img|img_exists %}" class='img rounded-circle sideMoDImg'>
     </div>
 </div>

@@ -2,11 +2,12 @@
 {% load staticfiles %}
 {% block content %}
 {% if services_list %}
-    <div class= 'col-sm-7 col-lg-7'>
+<div class = 'row no-gutters'>
+    <div class= 'col-sm-7'>
         <div class = 'container-fluid'>
-            <div class = 'services-selection-container'>
-                <div class='panel panel-default services-panel'>
-                    <div class='panel-heading'>Backup</div>
+            <div>
+                <div class='card services-card'>
+                    <div class='card-header'>Backup</div>
                     {% for service in services_list %}
                         {% if service.category == 'backup' %}
                             <button id='service' type='button' class='btn btn-block service-btn' 
@@ -27,21 +28,27 @@
                     {% endfor %}
                 </div>
             </div>
-            <div class = 'services-selection-container'>
-                <div class='panel panel-default services-panel'>
-                    <div class='panel-heading'>Hardware</div>
+            <div>
+                <div class='card services-card'>
+                    <div class='card-header'>Hardware</div>
                     <div id='part' class='list-group-item'>
                             <form>
-                                <div class = "input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-wrench"></i></span>
+                                <div class = "input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="oi oi-wrench"></i></span>
+                                    </div>
                                     <input id='part-name' type='text' class="form-control" placeholder="Part Name" name='part-name'>
                                 </div>
-                                <div class = "input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-usd"></i></span>
+                                <div class = "input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="oi oi-dollar"></i></span>
+                                    </div>
                                     <input id='part-price' type='number' class="form-control" placeholder="Part Price" name='part-price'>
                                 </div>
-                                <div class = "input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                                <div class = "input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="oi oi-envelope-closed"></i></span>
+                                    </div>
                                     <input id='shipping-price' type='number' class="form-control" placeholder="Shipping Cost" name='shipping-price'>
                                 </div>
                             </form>
@@ -67,9 +74,9 @@
                     {% endfor %}
                 </div>
             </div>
-            <div class = 'services-selection-container'>
-                <div class='panel panel-default services-panel'>
-                    <div class='panel-heading'>Software</div>
+            <div>
+                <div class='card services-card'>
+                    <div class='card-header'>Software</div>
                     {% for service in services_list %}
                         {% if service.category == 'software' %}
                             <button id='service' type='button' class='btn btn-block service-btn' 
@@ -91,8 +98,8 @@
                 </div>
             </div>
             <div class = 'services-selection-container'>
-                <div class='panel panel-default services-panel'>
-                    <div class='panel-heading'>Other</div>
+                <div class='card services-card'>
+                    <div class='card-header'>Other</div>
                     {% for service in services_list %}
                         {% if service.category == 'other' %}
                             <button id='service' type='button' class='btn btn-block service-btn' 
@@ -114,8 +121,8 @@
                 </div>
             </div>
             <div class = 'services-selection-container'>
-                <div class='panel panel-default services-panel'>
-                    <div class='panel-heading'>Discounts</div>
+                <div class='card services-card'>
+                    <div class='card-header'>Discounts</div>
                     {% for service in services_list %}
                         {% if service.category == 'discount' %}
                             <button id='discount' type='button' class='btn btn-block service-btn' 
@@ -139,9 +146,9 @@
         </div>
     </div>
     <div class='col-sm-5 col-lg-5'>
-        <div class='services-selection-container'>
-            <div class='panel panel-default quote-card'>
-                <div class='panel-heading'>Quote</div>
+        <div>
+            <div class='card quote-card'>
+                <div class='card-header'>Quote</div>
                     <div id='quote-items' class='list-group quoted-cards'></div>
                     <div id='quote-totals' class='list-group-item quote-total hidden-quote'>
                         <div class = 'media'>
@@ -164,14 +171,15 @@
                         </div>
                     </div>
             </div>
-            <div class='panel panel-default quote-card'>
-                <div class='panel-heading'>Text Quote</div>
+            <div class='card quote-card'>
+                <div class='card-header'>Text Quote</div>
                 <textarea class='form-control' rows='5' id='text-quote' readonly='true'></textarea>
             </div>
-            <button id='clipboard-button' type='button' class='btn btn-primary btn-lg'>Copy Quote to Clipboard</button>
+            <button id='clipboard-button' type='button' class='btn btn-primary btn-lg'><i class="oi oi-clipboard"></i>Copy Quote to Clipboard</button>
             <button id='reset-button' type='button' class='btn btn-primary btn-lg'>Reset Quote</button>
         </div>
     </div>
+</div>
 {% else %}
     <div class='page-header'>
         <h3>No services found, contact your local Sidekick representative</h3>

@@ -3,30 +3,30 @@
 {% block content %}
 {% load tz %}
 {% load shifts_extras %}
-<div class = 'panel panel-primary'>
-    <div class = 'panel-heading shifts-header'>
+<div class = 'card'>
+    <div class = 'card-header bg-l-cyan text-dark shifts-header'>
         <div class = 'shifts-week'>
-                <button id = 'your-week-previous' type = 'button' class = 'btn btn-default'><span class="glyphicon glyphicon-menu-left"></span></button>
+                <button id = 'your-week-previous' type = 'button' class = 'btn btn-secondary'><span class="oi oi-chevron-left"></span></button>
                 <p class = 'your-week-text' id = 'your-week'></p>
-                <button id = 'your-week-next' type = 'button' class = 'btn btn-default'><span class="glyphicon glyphicon-menu-right"></span></button>  
-        </div>
+                <button id = 'your-week-next' type = 'button' class = 'btn btn-secondary'><span class="oi oi-chevron-right"></span></button>  
+        </div>      
         <p class = 'shifts-title'>My Shifts</p>
         <div class = 'shifts-date-selector'>
             <div class = 'form-group'>
-                <input id = 'your-shift-date' type = 'date' class = 'form-control' value= '{{date|datetime_to_date}}'>
+                <input id = 'your-shift-date' type ='date' class = 'form-control' value= '{{date|datetime_to_date}}'>
             </div>
         </div>
     </div>
-    <div class = 'panel-body'>
-        <div id = 'your-shifts-panel-group' class = 'shifts-panel-group'></div>
+    <div class = 'card-body'>
+        <div id = 'your-shifts-card-group' class = 'shifts-card-group'></div>
     </div>
 </div>
-<div class = 'panel panel-primary'>
-        <div class = 'panel-heading shifts-header'>
+<div class = 'card'>
+        <div class = 'card-header bg-l-cyan text-dark shifts-header'>
             <div class = 'shifts-week'>
-                <button id = 'open-week-previous' type = 'button' class = 'btn btn-default'><span class="glyphicon glyphicon-menu-left"></span></button>
+                <button id = 'open-week-previous' type = 'button' class = 'btn btn-secondary'><span class="oi oi-chevron-left"></span></button>
                 <p class = 'open-week-text' id = 'open-week'></p>
-                <button id = 'open-week-next' type = 'button' class = 'btn btn-default'><span class="glyphicon glyphicon-menu-right"></span></button>  
+                <button id = 'open-week-next' type = 'button' class = 'btn btn-secondary'><span class="oi oi-chevron-right"></span></button>  
             </div>  
             <div class = 'shifts-title'>Open Shifts</div>
             <div class = 'shift-location-selector'>
@@ -53,8 +53,8 @@
                 </div>
             </div> 
         </div>
-        <div class = 'panel-body'>
-            <div id = 'open-shifts-panel-group' class = 'shifts-panel-group'></div>
+        <div class = 'card-body'>
+            <div id = 'open-shifts-card-group' class = 'shifts-card-group'></div>
         </div>
     </div>
     <div id = 'shift-modals'>
