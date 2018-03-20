@@ -8,7 +8,6 @@
   <div class="card-block app-body">
 
     <div class="beacon">
-
       <div class="beacon-left">
         <p class="beacon-location">Labs</p>
         {% if user_netid|has_access:"homingbeacon_checkin" %}
@@ -46,28 +45,6 @@
             {% else %}
                 <h3 style="margin-left: 1rem;">No one's in the labs right now</h3>
             {% endif %}
-            <img src="{% static shift.owner.picture|img_exists %}" alt="{{shift.owner}}"
-            class="employee-pic {% if shift.is_open %} pic-open-shift {% endif %}">
-          </div>
-          <div class="name-holder">
-            <p>{{shift.short_title}}</p>
-          </div>
-        </div>
-
-        {% endfor %}
-
-        {% if user_netid|has_access:"homingbeacon_requestpaper" %}
-        <div class="info-emp">
-          <h4>Paper Count</h4>
-          <div class="img-holder">
-            <span class="oi oi-file"></span>
-          </div>
-        </div>
-        {% endif %}
-        {% else %}
-        <h3 style="margin-left: 1rem;">No one's in the labs right now</h3>
-        {% endif %}
-
       </div>
     </div>
     <div class="beacon">
@@ -131,10 +108,10 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
+                <h4 class="modal-title">Check in user</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title">Check in user</h4>
             </div>
             <div class="modal-body">
 
@@ -168,7 +145,6 @@
         </div>
     </div>
   </div>
-</div>
 {% endif %}
 
 {% if user_netid|has_access:"homingbeacon_updatestatus" %}
