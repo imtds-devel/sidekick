@@ -4,6 +4,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from homebase.models import Announcements, Events, StaffStatus
 from .forms import AnnouncmentForm, EventForm, StatusForm
 from shifts.models import Shifts
+from django.utils.dateparse import parse_datetime
 import datetime
 import pytz
 import json
@@ -102,8 +103,6 @@ def post_checkin(request):
     shift_ids = request.POST.getlist('shift_ids[]')
     check_times = request.POST.getlist('check_times[]')
 
-    print(shift_ids)
-    print(check_times)
 
     # iterates through shift_ids and event_ids so they match up accordingly
     for count in range(0, len(shift_ids)):
@@ -117,8 +116,12 @@ def post_checkin(request):
 
         shift.checked_in = 'T'
 
-        formattedTime = str(shift.shift_date) + " " + check_times[count]
-        print("formatted time " + formattedTime)
+        #formattedTime = str(shift.shift_date) + " " + check_times[count]
+
+        formattedTime = datetime.datetime.combine(shift.shift_date, datetime.datetime.strptime(check_times[count], '%H:%M').time())
+
+        print("formatted time " + str(formattedTime))
+
 
         shift.checkin_time = formattedTime
 

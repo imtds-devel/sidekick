@@ -125,15 +125,14 @@
                     <form method="post"  id="checkform" >
                         {% csrf_token %}
                         {% if lab_shifts %}
-                            <h3>Lab Techs</h3>
+                            <h3>Tech Check In</h3>
                             {% for shift in shifts %}
                                 {% if not shift.is_open %}
 
-                                <p>{{shift.owner}}</p>
-
                                 <div class="form-group" id="group {{shift.owner.netid}}">
 
-                                    <input type="checkbox" name="checkBool" class="checkBool" id="checkB {{shift.owner.netid}}" value="{{shift.event_id}}"> Checked in
+                                    <input type="checkbox" name="checkBool" class="checkBool" id="checkBool" value="{{shift.event_id}}">
+                                    <label for="checkBool"> {{shift.owner}} </label>
                                     <div class="reveal-if-checkBool">
                                         <input type="time" name="check_time" class="check_time" id="check_time {{shift.owner.netid}}" >
                                     </div>
