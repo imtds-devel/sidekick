@@ -2,27 +2,33 @@
 $(document).ready(function () {
     console.log("Homebase loaded");
 
+
     // When the check in form is submitted, the ajax is called to POST
     $("#checkform").submit(function(event) {
         event.preventDefault();
 
+        // builds a list of shift event_ids (only if they are checked in)
+        var shift_ids = [];
+        $('#checkform input:checked').each(function() {
+            shift_ids.push($(this).val());
+        });
+        console.log(shift_ids);
 
-        var shift_id = $("#shift_id").val();
-        //var shift_id = document.getElementById("shift_id").value;
-        var check_time = document.getElementById("check_time").value;
+        // builds a list of check in times (only if they are populated)
+        var check_times = [];
+        $('.check_time').each(function(){
+            if( $(this).val() )
+                check_times.push($(this).val());
+        });
+        console.log("timez: " + check_times);
 
-        if( $("#shift_id").val() == null)
-            console.log("im NOT in boys");
-
-        console.log(shift_id);
-        console.log("time: " + check_time);
 
         $.ajax({
             url: 'ajax/checkinpost/',
             type: 'POST',
             data: {
-                'shift_id': shift_id,
-                'check_time': check_time
+                'shift_ids': shift_ids,
+                'check_times': check_times
             },
             dataType: 'json',
             success: function(data){

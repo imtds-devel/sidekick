@@ -70,6 +70,7 @@ def prep_context():
     e_form = EventForm()
     s_form = StatusForm()
     return {
+        'shifts': shifts,
         'lab_shifts': labs,
         'support_shifts': support,
         'ordered_list': ordered_list,
@@ -90,7 +91,6 @@ def order(a_list, e_list):
 
 def post_checkin(request):
     # Make sure it's a post request
-    print("we're in post_checkin")
 
     if not request.method == 'POST':
         return HttpResponse(
@@ -99,26 +99,29 @@ def post_checkin(request):
         )
 
     request = views.get_current_user(request)
-    shift_id = request.POST.get('shift_id', None)
-    check_time = request.POST.get('check_time', None)
+    shift_ids = request.POST.getlist('shift_ids[]')
+    check_times = request.POST.getlist('check_times[]')
 
-    print("um hewo?")
-    print(shift_id)
-    print(check_time)
+    print(shift_ids)
+    print(check_times)
 
-    if shift_id is not None:
-        shift = Shifts.objects.get(event_id=shift_id)
-    else:
-        return HttpResponse(
-            json.dumps({"status": "Failed! Shift id not found"}),
-            content_type="application/json"
-        )
+    # iterates through shift_ids and event_ids so they match up accordingly
+    for count in range(0, len(shift_ids)):
+        if shift_ids[count] is not None:
+            shift = Shifts.objects.get(event_id=shift_ids[count])
+        else:
+            return HttpResponse(
+                json.dumps({"status": "Failed! Shift id not found"}),
+                content_type="application/json"
+            )
 
-    shift.checked_in = 'T'
-    shift.checkin_time = check_time
+        shift.checked_in = 'T'
+        shift.checkin_time = check_times[count]
 
-    print(shift)
-    shift.save()
+        print(shift)
+        shift.save()
+
+
     return HttpResponse(
         json.dumps({"status": "Check in successfully made!"}),
         content_type="application/json"

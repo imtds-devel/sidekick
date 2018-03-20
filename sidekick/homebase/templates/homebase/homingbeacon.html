@@ -126,35 +126,18 @@
                         {% csrf_token %}
                         {% if lab_shifts %}
                             <h3>Lab Techs</h3>
-                            {% for shift in lab_shifts %}
+                            {% for shift in shifts %}
                                 {% if not shift.is_open %}
 
                                 <p>{{shift.owner}}</p>
 
-                                <div class="form-group" id="labCheckedin-box">
-                                    <div id="labBox-{{shift.owner.netid}}">
-                                        <input type="hidden" name="shift_id" value="{{shift.event_id}}"> Checked in at
-                                        <div class="shift_metadata" id="lShift-metadata" style="display:none">{{shift.event_id}}</div>
-                                        <input type="time" name="check_time" id="check_time">
+                                <div class="form-group" id="group {{shift.owner.netid}}">
+
+                                    <input type="checkbox" name="checkBool" class="checkBool" id="checkB {{shift.owner.netid}}" value="{{shift.event_id}}"> Checked in
+                                    <div class="reveal-if-checkBool">
+                                        <input type="time" name="check_time" class="check_time" id="check_time {{shift.owner.netid}}" >
                                     </div>
-                                </div>
 
-                                {% endif %}
-                            {% endfor %}
-                        {% endif %}
-
-                        {% if support_shifts %}
-                            <h3>Support Techs</h3>
-                            {% for shift in support_shifts %}
-                                {% if not shift.is_open %}
-
-                                <p>{{shift.owner}}</p>
-
-                                <div class="form-group" id="supCheckedin-box">
-                                    <div id="supBox-{{shift.owner.netid}}">
-                                        <input type="checkbox" name="checkBool" value="{{shift.event_id}}"> Checked in
-                                        <div class="shift_metadata" id="sShift-metadata" style="display:none">{{shift.event_id}}</div>
-                                    </div>
                                 </div>
 
                                 {% endif %}
@@ -164,8 +147,6 @@
                         <button class="btn" id="submit-checkin"> Submit </button>
                     </form>
                 </div>
-
-
             </div>
         </div>
     </div>
@@ -224,3 +205,32 @@
         });
       });
     </script>
+
+<style>
+    .reveal-if-checkBool {
+      opacity: 0;
+      max-height: 0;
+      overflow: hidden;
+    }
+
+    input[type="checkbox"]:checked ~ .reveal-if-checkBool {
+      opacity: 1;
+      max-height: 100px; /* little bit of a magic number :( */
+      overflow: visible;
+    }
+
+    .reveal-if-checkBool {
+      opacity: 0;
+      max-height: 0;
+      overflow: hidden;
+      transform: scale(0.8);
+      transition: 0.5s;
+      input[type="checkbox"]:checked ~ & {
+        opacity: 1;
+        max-height: 100px;
+        overflow: visible;
+        padding: 10px 20px;
+        transform: scale(1);
+      }
+    }
+</style>
