@@ -12,7 +12,6 @@ from sidekick.access import get_access
 from django.http import JsonResponse
 from django.db.models import Q
 from sidekick.views import get_current_user
-from time import sleep
 
 
 def index(request):
@@ -99,8 +98,6 @@ def push_cover(request):
     )
     post_status = data.push()
     synchronize(location=shift.location)
-
-    sleep(2)  # Wait for async fns to finish
 
     json_data = {
         'pst_status': post_status

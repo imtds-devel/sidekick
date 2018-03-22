@@ -200,10 +200,6 @@ def validate_cover(data: CoverInstructions):
     return data, outcome
 
 
-##############################################################
-# Main post/take fns
-# Master routing fn (called by CoverInstructions, routes shift covers properly!)
-
 # Return the duration of an event in minutes!
 def get_duration(event):
     print(event)
@@ -226,7 +222,72 @@ def cleanup(data: CoverInstructions):
     return shift_email(data)
 
 
-def shift_email(data: CoverInstructions):
+def shift_email(data: CoverInstructions, shift: Shifts):
+
+    perm_str = "permanent " if data.permanent else ""
+    if data.post:
+        subject = "A new " + perm_str + "shift cover has been posted!"
+        body = "There has been a new " + perm_str + "cover posted for " + str(shift.owner) + ".\n" + \
+               "Location: " + shift.pretty_location + "\n" + \
+               "Date: " + str(shift.shift_date) + "\n" + \
+               "Start time: " + str(shift.shift_start) + "\n" + \
+               "End time: " + str(shift.shift_end) + "\n" + \
+               "Reason: " + str(shift.sob_story)
+
+    else:
+        if data.partial:
+            if data.permanent:
+                print('take partial permanent')
+            else:
+                print('take partial single')
+        else:
+            if data.permanent:
+                print('take full permanent')
+            else:
+                print('take full single')
+
+
+
+    # Full single post
+        # Notify mods who share a shift (unless post is for mod calendar)
+        # Notify techs for whom cover is relevant
+        # Notify staff(?) (check w/ Rosa)
+
+    # Full single take
+        # Notify mods who share a shift (unless post is for mod calendar)
+        # Notify tech who took
+        # Notify tech who posted
+
+    # Full permanent post
+        # Notify mods sharing a shift
+        # Notify relevant techs
+        # Notify staff(?)
+
+    # Full Permanent take
+        # Notify mods who share shift
+        # Notify relevant techs
+        # Notify staff(?)
+
+    # Partial single post
+        # Notify mods who share shift w/ partial
+        # Notify relevant techs
+        # Notify staff(?)
+
+    # Partial single take
+        # Notify mods who share shift w/ partial
+        # Notify taker
+        # Notify poster (w/ reminder that they're still responsible for remaining shift)
+
+    # Partial permanent post
+        # Notify mods who share shift
+        # Notify relevant techs
+
+    # Partial permanent take
+        # Notify mods
+        # Notify taker
+        # Notify poster (w/ reminder)
+
+
     # TODO: Program this
     return True
 
