@@ -108,6 +108,7 @@ class NotifySources(models.Model):
 
     netid = models.ForeignKey(Employees, on_delete=models.CASCADE)
     source = models.CharField(max_length=1, choices=SOURCE_CHOICES, default='e')
+    details = models.TextField(default="")
 
 
 class Announcements(models.Model):
