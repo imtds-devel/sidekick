@@ -46,6 +46,7 @@ class Employees(models.Model):
     favcandy = models.CharField(max_length=30, default="", blank=True, null=True)
     birthday = models.DateField(null=True, blank=True)
     aboutme = models.TextField(default="", null=True, blank=True)
+    notify_level = models.IntegerField(default=2)
     developer = models.BooleanField(default=False)
 
     def __str__(self):
@@ -98,6 +99,17 @@ class Employees(models.Model):
         return out.lower()
 
 
+class NotifySources(models.Model):
+    SOURCE_CHOICES = (
+        ('e', 'email'),
+        ('s', 'Slack'),
+        ('t', 'Text Message')
+    )
+
+    netid = models.ForeignKey(Employees, on_delete=models.CASCADE)
+    source = models.CharField(max_length=1, choices=SOURCE_CHOICES, default='e')
+
+
 class Announcements(models.Model):
     posted = models.DateTimeField(auto_now_add=True)
     announcer = models.ForeignKey(Employees, on_delete=models.CASCADE)
@@ -118,44 +130,6 @@ class Events(models.Model):
 
     def __str__(self):
         return "%s: on %s" % (self.title, self.event_date)
-
-
-class EmailSubscriptions(models.Model):
-    SHIFT_EMAIL_SUBSCRIPTION_CHOICES = (
-        ('no', 'No Emails'),
-        ('lb', 'Lab Tech Emails'),
-        ('sd', 'Support Desk Emails'),
-        ('rc', 'Repair Center Emails'),
-        ('al', 'All Emails!')
-    )
-    BIO_EMAIL_SUBSCRIPTION_CHOICES = (
-        ('no', 'No Emails'),
-        ('lb', 'Lab Emails'),  # for lead lab tech
-        ('al', 'All Emails')
-    )
-
-    netid = models.ForeignKey(Employees, on_delete=models.CASCADE)
-    shift_sub = models.CharField(
-        max_length=2,
-        choices=SHIFT_EMAIL_SUBSCRIPTION_CHOICES,
-        default='lab'
-    )
-
-    bio_sub = models.CharField(
-        max_length=2,
-        choices=BIO_EMAIL_SUBSCRIPTION_CHOICES,
-        default='none'
-    )
-
-    def __str__(self):
-        return "%s: shift=%s, bio=%s" % (self.netid, self.shift_sub, self.bio_sub)
-
-
-class Subscriptions(models.Model):
-    netid = models.ForeignKey(Employees, on_delete=models.CASCADE)
-    sub_type = models.CharField(max_length=5, default='both')
-    sub_level = models.CharField(max_length=5, default='none')
-    delete = models.BooleanField(default=False)
 
 
 class FailBoard(models.Model):
