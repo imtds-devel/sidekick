@@ -87,18 +87,22 @@ def prep_context():
     shifts = Shifts.objects.filter(shift_start__lte=now).filter(shift_end__gt=now).order_by('location')
     labs = []
     support = []
+    lab_status = []
+    sup_status  = []
 
+    # organize shifts
     for shift in shifts:
         if shift.location == 'ma' or shift.location == 'da' or shift.location == 'st':
             labs.append(shift)
         elif shift.location == 'sd' or shift.location == 'rc':
             support.append(shift)
 
+
+
     staff_stats = StaffStatus.objects.all().order_by('netid')
 
     ordered_list = order(announcement_list, event_list)
     s_form = StatusForm()
-
 
     return {
         'shifts': shifts,
