@@ -44,10 +44,10 @@ class PublicNotification:
         for emp in Employees.objects.get(delete=False):
             # If urgent
             if self.urgent:
-                notify(emp)
-            # Otherwise if the emp wants lots of notifications or they belong to the group
+                notify(emp, self.subject, self.body)
+            # Otherwise if the emp wants lots of notifications or they belong to the right group
             elif emp.notify_level == 3 or (emp.position == self.position and emp.notify_level != 1):
-                notify(emp)
+                notify(emp, self.subject, self.body)
 
 
 # PrivateNotifications go to the employee in particular as well as to relevant MoDs.
@@ -63,4 +63,4 @@ class PrivateNotification:
         return self.subject
 
     def send(self):
-        notify(self.recipient)
+        notify(self.recipient, self.subject, self.body)
