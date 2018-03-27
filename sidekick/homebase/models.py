@@ -98,6 +98,10 @@ class Employees(models.Model):
         out = "%s%s%s%s%s".lower() % (self.fname, self.netid, self.nice_standing, self.nice_position, self.position)
         return out.lower()
 
+    @property
+    def phone_msg(self):
+        return "%s%s%s" % tuple(self.phone.split("-"))
+
 
 class NotifySources(models.Model):
     SOURCE_CHOICES = (

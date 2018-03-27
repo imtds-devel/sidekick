@@ -4,6 +4,7 @@ from shifts.models import Shifts, Holidays
 from homebase.models import Employees
 from shifts.functions import google_api
 from sidekick.settings import CALENDAR_LOCATION_IDS
+from sidekick import notify
 import datetime
 import copy
 import pytz

@@ -1,5 +1,7 @@
 from django.core.mail import send_mail
 from homebase.models import Employees, NotifySources
+from sidekick.settings import HARAMBOT_NOTIFY
+import requests
 
 # This is a notification system for Sidekick!
 
@@ -10,21 +12,34 @@ from homebase.models import Employees, NotifySources
 # 1: Important - Get only private and urgent notifications
 
 def notify(emp: Employees, subject: str, body:str):
-    sources = NotifySources.objects.get(netid=emp.netid)
+    print("Sending notify!")
+    sources = NotifySources.objects.filter(netid=emp.netid)
 
     for source in sources:
         if source.source == 'e':  # Email user
             send_mail(
                 subject=subject,
                 message=body,
-                from_email="shiftmaster@sidekick.apu.edu",
+                from_email="Sidekick Webmaster <webmaster@sidekick.apu.edu>",
                 recipient_list=[str(emp.netid)+"@apu.edu"],
                 fail_silently=True
             )
         elif source.source == 's':  # Slack msg user
-            print("slack")
+            msg_body = {subject: body}
+
+            url = HARAMBOT_NOTIFY+"%40"+str(source.details)
+
+            r = requests.post(url=url, data=msg_body, json=True)
+
+            # TODO: Verify status and log on failure
+
         elif source.source == 't':  # Text msg
-            print("text")
+            send_mail(
+                subject=subject,
+                message=body,
+                from_email="Sidekick Webmaster <webmaster@sidekick.apu.edu>",
+                recipient_list=[str(emp.phone_msg)+"@"+source.details]
+            )
 
 
 # PublicNotifications are notifications that go out to a particular set of Device Solutions employees

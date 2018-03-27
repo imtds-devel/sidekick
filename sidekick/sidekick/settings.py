@@ -237,3 +237,5 @@ logging.config.dictConfig({
 EMAIL_HOST = mail['host']
 EMAIL_PORT = mail['port']
 EMAIL_SUBJECT_PREFIX = "[IMTDS] "
+
+HARAMBOT_NOTIFY = config['harambot']['notify_target']
