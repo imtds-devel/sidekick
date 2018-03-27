@@ -18,15 +18,17 @@
             {% if lab_shifts %}
                 {% for shift in lab_shifts %}
                 <div class="info-emp">
-                    <h4>{{shift.pretty_location}}</h4>
+                    <h4><b>{{shift.pretty_location}}</b> {{shift.shift_start|time_since}}</h4>
                     <div class="img-holder">
 
                         <img src="{% static shift.owner.picture|img_exists %}" alt="{{shift.owner}}"
                              class="employee-pic
-                             {% if shift.checked_in == 'T' %} employee-pic-green {% endif%}
-                             {% if shift.shift_start|time_since < 420 %} employee-pic-yellow {% endif%}
-                             {% if shift.shift_start|time_since > 420 %} employee-pic-red {% endif%}
-                             {% if shift.is_open %} pic-open-shift {% endif %}">
+                             {% if user_netid|has_access:'homingbeacon_checkin' %}
+                                 {% if shift.checked_in == 'T' %} employee-pic-green {% endif%}
+                                 {% if shift.shift_start|time_since < 420 %} employee-pic-yellow {% endif%}
+                                 {% if shift.shift_start|time_since > 420 %} employee-pic-red {% endif%}
+                             {% endif %}
+                            {% if shift.is_open %} pic-open-shift {% endif %}">
 
                     </div>
 
@@ -62,14 +64,16 @@
         {% if support_shifts %}
         {% for shift in support_shifts %}
         <div class="info-emp">
-          <h4><b>{{shift.pretty_location}}</b></h4>
+          <h4><b>{{shift.pretty_location}}</b> {{shift.shift_start|time_since}}</h4>
           <div class="img-holder">
             <img src="{% static shift.owner.picture|img_exists %}" alt="{{shift.owner}}"
             class="employee-pic
-                 {% if shift.checked_in == 'T' %} employee-pic-green {% endif%}
-                 {% if shift.shift_start|time_since < 420 %} employee-pic-yellow {% endif%}
-                 {% if shift.shift_start|time_since > 420 %} employee-pic-red {% endif%}
-                 {% if shift.is_open %} pic-open-shift {% endif %}">
+                 {% if user_netid|has_access:'homingbeacon_checkin' %}
+                     {% if shift.checked_in == 'T' %} employee-pic-green {% endif%}
+                     {% if shift.shift_start|time_since < 420 %} employee-pic-yellow {% endif%}
+                     {% if shift.shift_start|time_since > 420 %} employee-pic-red {% endif%}
+                 {% endif %}
+                 {% if shift.is_open %} pic-open-shift {% endif %} ">
           </div>
           <div class="name-holder">
             <p>{{shift.short_title}}</p>

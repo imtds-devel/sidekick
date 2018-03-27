@@ -163,6 +163,7 @@ $(function() {
                 alert("Check in was successful!")
                 $("#checkform")[0].reset();
                 $('.modal').modal('hide');
+                document.location.reload();
             },
             error: function(data){
                 console.log("Failure!")

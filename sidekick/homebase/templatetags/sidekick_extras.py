@@ -27,3 +27,4 @@ def time_since(date, default="just now"):
     now = datetime.datetime.now()
     diff = now - date
     return diff.seconds
+

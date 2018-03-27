@@ -145,8 +145,6 @@ def post_checkin(request):
 
         formattedTime = datetime.datetime.combine(shift.shift_date, datetime.datetime.strptime(check_times[count], '%H:%M').time())
 
-        print("formatted time " + str(formattedTime))
-
         shift.checkin_time = formattedTime
 
         print(shift)
