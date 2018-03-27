@@ -23,12 +23,14 @@
 
                         <img src="{% static shift.owner.picture|img_exists %}" alt="{{shift.owner}}"
                              class="employee-pic
-                             {% if user_netid|has_access:'homingbeacon_checkin' %}
-                                 {% if shift.checked_in == 'T' %} employee-pic-green {% endif%}
-                                 {% if shift.shift_start|time_since < 420 %} employee-pic-yellow {% endif%}
-                                 {% if shift.shift_start|time_since > 420 %} employee-pic-red {% endif%}
+                             {% if shift.is_open %} pic-open-shift {% else %}
+                                 {% if user_netid|has_access:'homingbeacon_checkin' %}
+                                     {% if shift.checked_in == 'T' %} employee-pic-green {% endif%}
+                                     {% if shift.shift_start|time_since < 420 %} employee-pic-yellow {% endif%}
+                                     {% if shift.shift_start|time_since > 420 %} employee-pic-red {% endif%}
+                                 {% endif %}
                              {% endif %}
-                            {% if shift.is_open %} pic-open-shift {% endif %}">
+                            ">
 
                     </div>
 
@@ -68,12 +70,13 @@
           <div class="img-holder">
             <img src="{% static shift.owner.picture|img_exists %}" alt="{{shift.owner}}"
             class="employee-pic
-                 {% if user_netid|has_access:'homingbeacon_checkin' %}
-                     {% if shift.checked_in == 'T' %} employee-pic-green {% endif%}
-                     {% if shift.shift_start|time_since < 420 %} employee-pic-yellow {% endif%}
-                     {% if shift.shift_start|time_since > 420 %} employee-pic-red {% endif%}
-                 {% endif %}
-                 {% if shift.is_open %} pic-open-shift {% endif %} ">
+                 {% if shift.is_open %} pic-open-shift {% else %}
+                     {% if user_netid|has_access:'homingbeacon_checkin' %}
+                         {% if shift.checked_in == 'T' %} employee-pic-green {% endif%}
+                         {% if shift.shift_start|time_since < 420 %} employee-pic-yellow {% endif%}
+                         {% if shift.shift_start|time_since > 420 %} employee-pic-red {% endif%}
+                     {% endif %}
+                 {% endif %}">
           </div>
           <div class="name-holder">
             <p>{{shift.short_title}}</p>
