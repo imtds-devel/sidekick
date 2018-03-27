@@ -16,20 +16,17 @@
       </div>
         <div class="beacon-right">
             {% if lab_shifts %}
-
                 {% for shift in lab_shifts %}
                 <div class="info-emp">
                     <h4>{{shift.pretty_location}}</h4>
                     <div class="img-holder">
 
                         <img src="{% static shift.owner.picture|img_exists %}" alt="{{shift.owner}}"
-                             class="
-                             employee-pic
+                             class="employee-pic
                              {% if shift.checked_in == 'T' %} employee-pic-green {% endif%}
-
-
+                             {% if shift.shift_start|time_since < 420 %} employee-pic-yellow {% endif%}
+                             {% if shift.shift_start|time_since > 420 %} employee-pic-red {% endif%}
                              {% if shift.is_open %} pic-open-shift {% endif %}">
-
 
                     </div>
 
@@ -68,7 +65,11 @@
           <h4><b>{{shift.pretty_location}}</b></h4>
           <div class="img-holder">
             <img src="{% static shift.owner.picture|img_exists %}" alt="{{shift.owner}}"
-            class="employee-pic {% if shift.is_open %} pic-open-shift {% endif %}">
+            class="employee-pic
+                 {% if shift.checked_in == 'T' %} employee-pic-green {% endif%}
+                 {% if shift.shift_start|time_since < 420 %} employee-pic-yellow {% endif%}
+                 {% if shift.shift_start|time_since > 420 %} employee-pic-red {% endif%}
+                 {% if shift.is_open %} pic-open-shift {% endif %}">
           </div>
           <div class="name-holder">
             <p>{{shift.short_title}}</p>

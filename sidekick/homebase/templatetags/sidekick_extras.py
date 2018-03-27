@@ -1,7 +1,7 @@
 from django import template
 from django.template.defaultfilters import stringfilter
-
 from sidekick.access import get_access
+import datetime
 
 register = template.Library()
 
@@ -17,3 +17,13 @@ register = template.Library()
 @stringfilter
 def has_access(netid, area):
     return get_access(netid, area)
+
+# returns the time difference (in seconds) between a
+# datetime object to now
+# format it like so:
+# shift.shift_start|time_since
+@register.filter(name='time_since')
+def time_since(date, default="just now"):
+    now = datetime.datetime.now()
+    diff = now - date
+    return diff.seconds
