@@ -18,7 +18,7 @@
             {% if lab_shifts %}
                 {% for shift in lab_shifts %}
                 <div class="info-emp">
-                    <h4><b>{{shift.pretty_location}}</b> {{shift.shift_start|time_since}}</h4>
+                    <h4><b>{{shift.pretty_location}}</b></h4>
                     <div class="img-holder">
 
                         <img src="{% static shift.owner.picture|img_exists %}" alt="{{shift.owner}}"
@@ -64,7 +64,7 @@
         {% if support_shifts %}
         {% for shift in support_shifts %}
         <div class="info-emp">
-          <h4><b>{{shift.pretty_location}}</b> {{shift.shift_start|time_since}}</h4>
+          <h4><b>{{shift.pretty_location}}</b></h4>
           <div class="img-holder">
             <img src="{% static shift.owner.picture|img_exists %}" alt="{{shift.owner}}"
             class="employee-pic
