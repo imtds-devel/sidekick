@@ -8,45 +8,48 @@
   <div class="card-block app-body">
 
     <div class="beacon">
-
       <div class="beacon-left">
         <p class="beacon-location">Labs</p>
         {% if user_netid|has_access:"homingbeacon_checkin" %}
         <button role="button" class="btn btn-success btn-sm user-checkin">Checkin</button>
         {% endif %}
       </div>
+        <div class="beacon-right">
+            {% if lab_shifts %}
+                {% for shift in lab_shifts %}
+                <div class="info-emp">
+                    <h4><b>{{shift.pretty_location}}</b> {{shift.shift_start|time_since}}</h4>
+                    <div class="img-holder">
 
-      <div class="beacon-right">
-        {% if lab_shifts %}
-        {% for shift in lab_shifts %}
-        <div class="info-emp">
-          <h4><b>{{shift.pretty_location}}</b></h4>
-          <div class="img-holder">
-            {% if shift.is_open %}
+                        <img src="{% static shift.owner.picture|img_exists %}" alt="{{shift.owner}}"
+                             class="employee-pic
+                             {% if user_netid|has_access:'homingbeacon_checkin' %}
+                                 {% if shift.checked_in == 'T' %} employee-pic-green {% endif%}
+                                 {% if shift.shift_start|time_since < 420 %} employee-pic-yellow {% endif%}
+                                 {% if shift.shift_start|time_since > 420 %} employee-pic-red {% endif%}
+                             {% endif %}
+                            {% if shift.is_open %} pic-open-shift {% endif %}">
 
+                    </div>
+
+                    <div class="name-holder">
+                        <p>{{shift.short_title}}</p>
+                    </div>
+                </div>
+
+                {% endfor %}
+
+                {% if user_netid|has_access:"homingbeacon_requestpaper" %}
+                <div class="info-emp">
+                  <h4>Paper Count</h4>
+                  <div class="img-holder">
+                    <span class="glyphicon glyphicon-file"></span>
+                  </div>
+                </div>
+                {% endif %}
+            {% else %}
+                <h3 style="margin-left: 1rem;">No one's in the labs right now</h3>
             {% endif %}
-            <img src="{% static shift.owner.picture|img_exists %}" alt="{{shift.owner}}"
-            class="employee-pic {% if shift.is_open %} pic-open-shift {% endif %}">
-          </div>
-          <div class="name-holder">
-            <p>{{shift.short_title}}</p>
-          </div>
-        </div>
-
-        {% endfor %}
-
-        {% if user_netid|has_access:"homingbeacon_requestpaper" %}
-        <div class="info-emp">
-          <h4>Paper Count</h4>
-          <div class="img-holder">
-            <span class="oi oi-file"></span>
-          </div>
-        </div>
-        {% endif %}
-        {% else %}
-        <h3 style="margin-left: 1rem;">No one's in the labs right now</h3>
-        {% endif %}
-
       </div>
     </div>
     <div class="beacon">
@@ -61,10 +64,16 @@
         {% if support_shifts %}
         {% for shift in support_shifts %}
         <div class="info-emp">
-          <h4><b>{{shift.pretty_location}}</b></h4>
+          <h4><b>{{shift.pretty_location}}</b> {{shift.shift_start|time_since}}</h4>
           <div class="img-holder">
             <img src="{% static shift.owner.picture|img_exists %}" alt="{{shift.owner}}"
-            class="employee-pic {% if shift.is_open %} pic-open-shift {% endif %}">
+            class="employee-pic
+                 {% if user_netid|has_access:'homingbeacon_checkin' %}
+                     {% if shift.checked_in == 'T' %} employee-pic-green {% endif%}
+                     {% if shift.shift_start|time_since < 420 %} employee-pic-yellow {% endif%}
+                     {% if shift.shift_start|time_since > 420 %} employee-pic-red {% endif%}
+                 {% endif %}
+                 {% if shift.is_open %} pic-open-shift {% endif %} ">
           </div>
           <div class="name-holder">
             <p>{{shift.short_title}}</p>
@@ -107,20 +116,46 @@
 
 {% if user_netid|has_access:"homingbeacon_checkin" %}
 <div class="modal fade" id="checkin-modal" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title">Check in user</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <h4>Coming soon!</h4>
-      </div>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Check in user</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+
+                <div id="check-form">
+                    <form method="post"  id="checkform" >
+                        {% csrf_token %}
+                        {% if lab_shifts %}
+                            <h3>Tech Check In</h3>
+                            {% for shift in shifts %}
+                                {% if not shift.is_open %}
+
+                                <div class="form-group" id="group {{shift.owner.netid}}">
+
+                                    <input type="checkbox" name="checkBool" class="checkBool" id="checkBool" value="{{shift.event_id}}">
+                                    <label for="checkBool"> {{shift.owner}} </label>
+                                    <div class="reveal-if-checkBool">
+                                        <input type="time" name="check_time" class="check_time" id="check_time {{shift.owner.netid}}" >
+                                    </div>
+
+                                </div>
+
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+
+                        <button class="btn" id="submit-checkin"> Submit </button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
   </div>
-</div>
 {% endif %}
 
 {% if user_netid|has_access:"homingbeacon_updatestatus" %}
@@ -170,8 +205,36 @@ $(document).ready(function() {
     for (var i=0; i<names.length; i++) {
       $("#status-modal #id_netid").append("<option value='"+netids[i].innerText+"'>"+names[i].innerText+"</option>");
     }
-
     $("#status-modal").modal('show');
   });
 });
 </script>
+
+<style>
+    .reveal-if-checkBool {
+      opacity: 0;
+      max-height: 0;
+      overflow: hidden;
+    }
+
+    input[type="checkbox"]:checked ~ .reveal-if-checkBool {
+      opacity: 1;
+      max-height: 100px; /* little bit of a magic number :( */
+      overflow: visible;
+    }
+
+    .reveal-if-checkBool {
+      opacity: 0;
+      max-height: 0;
+      overflow: hidden;
+      transform: scale(0.8);
+      transition: 0.5s;
+      input[type="checkbox"]:checked ~ & {
+        opacity: 1;
+        max-height: 100px;
+        overflow: visible;
+        padding: 10px 20px;
+        transform: scale(1);
+      }
+    }
+</style>
