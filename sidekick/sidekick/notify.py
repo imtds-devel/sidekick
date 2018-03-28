@@ -79,3 +79,21 @@ class PrivateNotification:
 
     def send(self):
         notify(self.recipient, self.subject, self.body)
+
+
+CARRIER_TO_EMAIL = {
+    'Verizon': 'vtext.com',
+    'T-Mobile': 'tmomail.net',
+    'AT&T': 'txt.att.net',
+    'Sprint': 'messaging.sprintpcs.com',
+    'Virgin Mobile': 'vmobl.com',
+    'Metro PCS': 'mymetropcs.com',
+    'Boost Mobile': 'sms.myboostmobile.com',
+    'Cricket': 'sms.cricketwireless.net',
+    'Republic Wireless': 'text.republicwireless.com',
+    'Google Fi (Project Fi)': 'msg.fi.google.com',
+    'U.S. Cellular': 'email.uscc.net',
+    'Ting': 'message.ting.com',
+    'Consumer Cellular': 'mailmymobile.net',
+    'C-Spire': 'cspire1.com'
+}
