@@ -46,6 +46,7 @@ class Employees(models.Model):
     favcandy = models.CharField(max_length=30, default="", blank=True, null=True)
     birthday = models.DateField(null=True, blank=True)
     aboutme = models.TextField(default="", null=True, blank=True)
+    notify_level = models.IntegerField(default=2)
     developer = models.BooleanField(default=False)
 
     def __str__(self):
@@ -97,87 +98,43 @@ class Employees(models.Model):
         out = "%s%s%s%s%s".lower() % (self.fname, self.netid, self.nice_standing, self.nice_position, self.position)
         return out.lower()
 
+    @property
+    def phone_msg(self):
+        return "%s%s%s" % tuple(self.phone.split("-"))
+
+
+class NotifySources(models.Model):
+    SOURCE_CHOICES = (
+        ('e', 'email'),
+        ('s', 'Slack'),
+        ('t', 'Text Message')
+    )
+
+    netid = models.ForeignKey(Employees, on_delete=models.CASCADE)
+    source = models.CharField(max_length=1, choices=SOURCE_CHOICES, default='e')
+    details = models.TextField(default="")
+
 
 class Announcements(models.Model):
     posted = models.DateTimeField(auto_now_add=True)
-    announcer = models.ForeignKey('Employees', on_delete=models.CASCADE)
-    announcement = models.TextField(default="")
-    subject = models.TextField(default="Announcement")
+    announcer = models.ForeignKey(Employees, on_delete=models.CASCADE)
+    subject = models.TextField(default="")
+    body = models.TextField(default="")
     sticky = models.BooleanField(default=False)
 
     def __str__(self):
-        return str(self.announcement)
+        return str(self.subject)
 
 
 class Events(models.Model):
     announcer = models.ForeignKey(Employees, on_delete=models.CASCADE)
     title = models.CharField(max_length=30, default="")
     description = models.TextField(default="")
-    event_start = models.DateField()
-    event_end = models.DateField()
+    event_date = models.DateField()
     location = models.TextField(default="")
 
     def __str__(self):
-        return "%s: from %s to %s" % (self.title, self.event_start, self.event_end)
-
-
-class BrowserStats(models.Model):
-    hits = models.IntegerField(default=0)
-    chrome = models.IntegerField(default=0)
-    safari = models.IntegerField(default=0)
-    gecko = models.IntegerField(default=0)
-    opera = models.IntegerField(default=0)
-    edge = models.IntegerField(default=0)
-    ie = models.IntegerField(default=0)
-
-    def __str__(self):
-        return "Hits: %s (%s chrome, %s safari, %s firefox, %s opera, %s edge, %s ie)" % (
-            self.hits,
-            self.chrome,
-            self.safari,
-            self.gecko,
-            self.opera,
-            self.edge,
-            self.ie
-        )
-
-
-class EmailSubscriptions(models.Model):
-    SHIFT_EMAIL_SUBSCRIPTION_CHOICES = (
-        ('no', 'No Emails'),
-        ('lb', 'Lab Tech Emails'),
-        ('sd', 'Support Desk Emails'),
-        ('rc', 'Repair Center Emails'),
-        ('al', 'All Emails!')
-    )
-    BIO_EMAIL_SUBSCRIPTION_CHOICES = (
-        ('no', 'No Emails'),
-        ('lb', 'Lab Emails'),  # for lead lab tech
-        ('al', 'All Emails')
-    )
-
-    netid = models.ForeignKey(Employees, on_delete=models.CASCADE)
-    shift_sub = models.CharField(
-        max_length=2,
-        choices=SHIFT_EMAIL_SUBSCRIPTION_CHOICES,
-        default='lab'
-    )
-
-    bio_sub = models.CharField(
-        max_length=2,
-        choices=BIO_EMAIL_SUBSCRIPTION_CHOICES,
-        default='none'
-    )
-
-    def __str__(self):
-        return "%s: shift=%s, bio=%s" % (self.netid, self.shift_sub, self.bio_sub)
-
-
-class Subscriptions(models.Model):
-    netid = models.ForeignKey(Employees, on_delete=models.CASCADE)
-    sub_type = models.CharField(max_length=5, default='both')
-    sub_level = models.CharField(max_length=5, default='none')
-    delete = models.BooleanField(default=False)
+        return "%s: on %s" % (self.title, self.event_date)
 
 
 class FailBoard(models.Model):
@@ -204,11 +161,6 @@ class FailBoard(models.Model):
 class MessageFromThePast(models.Model):
     message = models.TextField()
     posted = models.DateField(auto_now_add=True)
-
-
-class Access(models.Model):
-    netid = models.ForeignKey(Employees, on_delete=models.CASCADE)
-    # TODO: Define here? Or maybe modify Django's auth system?
 
 
 class StaffStatus(models.Model):
