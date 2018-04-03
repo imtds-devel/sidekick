@@ -12,7 +12,7 @@ import datetime
 import pytz
 
 
-@login_required # UNCOMMENT THIS BEFORE GOING LIVE
+# @login_required # UNCOMMENT THIS BEFORE GOING LIVE
 def load_page(request, template: str, context: dict):
 
     request = get_current_user(request)
