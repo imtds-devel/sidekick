@@ -4,7 +4,7 @@ from shifts.models import Shifts, Holidays
 from homebase.models import Employees
 from shifts.functions import google_api
 from sidekick.settings import CALENDAR_LOCATION_IDS
-from sidekick import notify
+from sidekick.notify import PublicNotification, PrivateNotification
 import datetime
 import copy
 import pytz
@@ -220,10 +220,10 @@ def consolidator(data: CoverInstructions):
 
 def cleanup(data: CoverInstructions):
     # TODO: Program this!
-    return shift_email(data)
+    return shift_notify(data)
 
 
-def shift_email(data: CoverInstructions, shift: Shifts):
+def shift_notify(data: CoverInstructions, shift: Shifts):
 
     perm_str = "permanent " if data.permanent else ""
     if data.post:
@@ -234,6 +234,14 @@ def shift_email(data: CoverInstructions, shift: Shifts):
                "Start time: " + str(shift.shift_start) + "\n" + \
                "End time: " + str(shift.shift_end) + "\n" + \
                "Reason: " + str(shift.sob_story)
+
+        PublicNotification(
+            name="Shift cover notification",
+            subject=subject,
+            body=body,
+            urgent=False,
+            position=data.actor.position
+        )
 
     else:
         if data.partial:
@@ -246,8 +254,6 @@ def shift_email(data: CoverInstructions, shift: Shifts):
                 print('take full permanent')
             else:
                 print('take full single')
-
-
 
     # Full single post
         # Notify mods who share a shift (unless post is for mod calendar)
@@ -287,21 +293,6 @@ def shift_email(data: CoverInstructions, shift: Shifts):
         # Notify mods
         # Notify taker
         # Notify poster (w/ reminder)
-
-
-    # TODO: Program this
-    return True
-
-
-def mail_test():
-    send_mail(
-        subject="This is a test!",
-        message="Hi you!",
-        from_email="testy@sidekick.apu.edu",
-        recipient_list=["nchera13@apu.edu"],
-        fail_silently=False,
-    )
-
     return True
 
 
@@ -359,6 +350,7 @@ def build_recurrence(end_repeat: datetime.datetime, permanent_id: str):
 
 
 # Edit an existing instance of recurring data to a new start/end time
+# Useful for partial permanent shift covers
 def edit_recurrence(recurrence: list, start_time: datetime.datetime):
     if not recurrence:
         return None

@@ -11,7 +11,7 @@ import requests
 # 2: Standard - Get standard array of notifications
 # 1: Important - Get only private and urgent notifications
 
-def notify(emp: Employees, subject: str, body:str):
+def notify(emp: Employees, subject: str, body: str):
     print("Sending notify!")
     sources = NotifySources.objects.filter(netid=emp.netid)
 
