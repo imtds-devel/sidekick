@@ -1,6 +1,7 @@
 from django.core.mail import send_mail
 from homebase.models import Employees, NotifySources
 from sidekick.settings import HARAMBOT_NOTIFY
+from multiprocessing.dummy import Pool as Threadpool
 import requests
 
 # This is a notification system for Sidekick!
@@ -16,7 +17,7 @@ def notify(emp: Employees, subject: str, body: str):
     sources = NotifySources.objects.filter(netid=emp.netid)
 
     for source in sources:
-        if source.source == 'e':  # Email user
+        if source.source == 'e':  # Email the user
             send_mail(
                 subject=subject,
                 message=body,
