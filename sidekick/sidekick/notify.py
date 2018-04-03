@@ -13,7 +13,7 @@ import requests
 def notify_employees(emps, subject: str, body: str):
     email_sources = []
     for emp in emps:
-        sources = NotifySources.objects.get(netid=emp.netid)
+        sources = NotifySources.objects.filter(netid=emp.netid)
         for source in sources:
             if source.source == 's':
                 # Notify via slack message
@@ -35,7 +35,7 @@ def notify_employees(emps, subject: str, body: str):
         body=body,
         from_email="Sidekick Webmaster <webmaster@sidekick.apu.edu>",
         bcc=email_sources
-    )
+    ).send()
     return True
 
 
@@ -43,7 +43,7 @@ def notify_employees(emps, subject: str, body: str):
 def notify_manager_team(subject: str, body: str):
     emps = Employees.objects.filter(
         Q(position='mgr') | Q(position='stm')
-    ).filter(notify_level__gte=2)
+    ).filter(notify_level__gte=2, delete=False)
     return notify_employees(emps, subject, body)
 
 
@@ -51,7 +51,7 @@ def notify_manager_team(subject: str, body: str):
 def notify_mods_in_range(subject: str, body: str, start: datetime, end: datetime):
     shifts = Shifts.objects.filter(
         Q(shift_start__lt=end, shift_end__gte=end) | Q(shift_end__gt=start, shift_start__lte=start)
-    ).filter(notify_level__gte=2)
+    ).filter(location='mod')
 
     emps = list(set([shift.owner for shift in shifts]))  # Convert to a set to eliminate potential duplicates
 
@@ -65,7 +65,7 @@ def notify_employee(subject: str, body: str, emp: Employees):
 
 # Notify all employees of a specific position
 def notify_position(subject: str, body: str, position: str):
-    emps = Employees.objects.filter(Q(position=position, notify_level__gte=2) | Q(notify_level=3))
+    emps = Employees.objects.filter(Q(position=position, notify_level__gte=2) | Q(notify_level=3)).filter(delete=False)
     return notify_employees(emps, subject, body)
 
 
