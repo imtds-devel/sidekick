@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 from sidekick import views
-from django.http import HttpResponseRedirect, JsonResponse
+from django.http import HttpResponseRedirect, JsonResponse, HttpResponse
 from homebase.models import Employees, Announcements, Events, StaffStatus
 from .forms import StatusForm
 from shifts.models import Shifts
 import datetime
 import pytz
+import json
 
 
 def index(request):
@@ -97,7 +98,9 @@ def prep_context():
 
     ordered_list = order(announcement_list, event_list)
     s_form = StatusForm()
+
     return {
+        'shifts': shifts,
         'lab_shifts': labs,
         'support_shifts': support,
         'ordered_list': ordered_list,
@@ -112,3 +115,43 @@ def order(a_list, e_list):
     # attribute and event event_start attribute
     ordered_list = sorted(ordered, key=lambda x: x.posted.date() if hasattr(x, 'posted') else x.event_date, reverse=True)
     return ordered_list[:8]
+
+
+def post_checkin(request):
+    # Make sure it's a post request
+
+    if not request.method == 'POST':
+        return HttpResponse(
+            json.dumps({"status": "Failed!"}),
+            content_type="application/json"
+        )
+
+    request = views.get_current_user(request)
+    shift_ids = request.POST.getlist('shift_ids[]')
+    check_times = request.POST.getlist('check_times[]')
+
+
+    # iterates through shift_ids and event_ids so they match up accordingly
+    for count in range(0, len(shift_ids)):
+        if shift_ids[count] is not None:
+            shift = Shifts.objects.get(event_id=shift_ids[count])
+        else:
+            return HttpResponse(
+                json.dumps({"status": "Failed! Shift id not found"}),
+                content_type="application/json"
+            )
+
+        shift.checked_in = 'T'
+
+        formattedTime = datetime.datetime.combine(shift.shift_date, datetime.datetime.strptime(check_times[count], '%H:%M').time())
+
+        shift.checkin_time = formattedTime
+
+        print(shift)
+        shift.save()
+
+
+    return HttpResponse(
+        json.dumps({"status": "Check in successfully made!"}),
+        content_type="application/json"
+    )
