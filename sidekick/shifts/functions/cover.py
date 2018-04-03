@@ -4,7 +4,6 @@ from shifts.models import Shifts, Holidays
 from homebase.models import Employees
 from shifts.functions import google_api
 from sidekick.settings import CALENDAR_LOCATION_IDS
-from sidekick.notify import PublicNotification, PrivateNotification
 import datetime
 import copy
 import pytz
@@ -234,14 +233,6 @@ def shift_notify(data: CoverInstructions, shift: Shifts):
                "Start time: " + str(shift.shift_start) + "\n" + \
                "End time: " + str(shift.shift_end) + "\n" + \
                "Reason: " + str(shift.sob_story)
-
-        PublicNotification(
-            name="Shift cover notification",
-            subject=subject,
-            body=body,
-            urgent=False,
-            position=data.actor.position
-        )
 
     else:
         if data.partial:

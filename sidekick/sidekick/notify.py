@@ -1,85 +1,72 @@
-from django.core.mail import send_mail
-from homebase.models import Employees, NotifySources
-from sidekick.settings import HARAMBOT_NOTIFY
 from multiprocessing.dummy import Pool as Threadpool
+from homebase.models import Employees, NotifySources
+from shifts.models import Shifts
+from sidekick.settings import HARAMBOT_NOTIFY
+from django.core.mail import EmailMessage
+from django.db.models import Q
+from datetime import datetime
 import requests
-
 # This is a notification system for Sidekick!
 
 
-# priority number meanings
-# 3: Everything - Get all public notifications
-# 2: Standard - Get standard array of notifications
-# 1: Important - Get only private and urgent notifications
+# Call this function with a list of employees that should receive the message
+def notify_employees(emps, subject: str, body: str):
+    email_sources = []
+    for emp in emps:
+        sources = NotifySources.objects.get(netid=emp.netid)
+        for source in sources:
+            if source.source == 's':
+                # Notify via slack message
+                msg_body = {subject: body}
 
-def notify(emp: Employees, subject: str, body: str):
-    print("Sending notify!")
-    sources = NotifySources.objects.filter(netid=emp.netid)
+                url = HARAMBOT_NOTIFY + "%40" + str(source.details)
 
-    for source in sources:
-        if source.source == 'e':  # Email the user
-            send_mail(
-                subject=subject,
-                message=body,
-                from_email="Sidekick Webmaster <webmaster@sidekick.apu.edu>",
-                recipient_list=[str(emp.netid)+"@apu.edu"],
-                fail_silently=True
-            )
-        elif source.source == 's':  # Slack msg user
-            msg_body = {subject: body}
+                r = requests.post(url=url, data=msg_body, json=True)
 
-            url = HARAMBOT_NOTIFY+"%40"+str(source.details)
+                # TODO: Verify status and log on failure
+            elif source.source == 't':
+                email_sources.append(str(emp.phone_msg)+"@"+source.details)
+            elif source.source == 'e':
+                email_sources.append(str(emp.netid)+"@apu.edu")
 
-            r = requests.post(url=url, data=msg_body, json=True)
-
-            # TODO: Verify status and log on failure
-
-        elif source.source == 't':  # Text msg
-            send_mail(
-                subject=subject,
-                message=body,
-                from_email="Sidekick Webmaster <webmaster@sidekick.apu.edu>",
-                recipient_list=[str(emp.phone_msg)+"@"+source.details]
-            )
+    # Send group email to all recipients
+    EmailMessage(
+        subject=subject,
+        body=body,
+        from_email="Sidekick Webmaster <webmaster@sidekick.apu.edu>",
+        bcc=email_sources
+    )
+    return True
 
 
-# PublicNotifications are notifications that go out to a particular set of Device Solutions employees
-# Who it goes out to is determined by the 'position' parameter, which accepts an input like 'lbt' or 'spt'
-# For a complete list of positions, see the POSITION_CHOICES variable in homebase/models.py
-class PublicNotification:
-    def __init__(self, name: str, subject: str, body: str, urgent: bool, position: str):
-        self.position = position
-        self.urgent = urgent
-        self.subject = subject
-        self.body = body
-
-    def __str__(self):
-        return self.subject
-
-    def send(self):
-        for emp in Employees.objects.get(delete=False):
-            # If urgent
-            if self.urgent:
-                notify(emp, self.subject, self.body)
-            # Otherwise if the emp wants lots of notifications or they belong to the right group
-            elif emp.notify_level == 3 or (emp.position == self.position and emp.notify_level != 1):
-                notify(emp, self.subject, self.body)
+# Notify all MoDs and staff members
+def notify_manager_team(subject: str, body: str):
+    emps = Employees.objects.filter(
+        Q(position='mgr') | Q(position='stm')
+    ).filter(notify_level__gte=2)
+    return notify_employees(emps, subject, body)
 
 
-# PrivateNotifications go to the employee in particular as well as to relevant MoDs.
-class PrivateNotification:
-    def __init__(self, subject: str, body: str, urgent: bool, discipline: bool, recipient: Employees):
-        self.recipient = recipient
-        self.urgent = urgent
-        self.discipline = discipline
-        self.subject = subject
-        self.body = body
+# Notify all MoDs in a specific time range
+def notify_mods_in_range(subject: str, body: str, start: datetime, end: datetime):
+    shifts = Shifts.objects.filter(
+        Q(shift_start__lt=end, shift_end__gte=end) | Q(shift_end__gt=start, shift_start__lte=start)
+    ).filter(notify_level__gte=2)
 
-    def __str__(self):
-        return self.subject
+    emps = list(set([shift.owner for shift in shifts]))  # Convert to a set to eliminate potential duplicates
 
-    def send(self):
-        notify(self.recipient, self.subject, self.body)
+    return notify_employees(emps, subject, body)
+
+
+# Notify a specific employee
+def notify_employee(subject: str, body: str, emp: Employees):
+    return notify_employees([emp], subject, body)
+
+
+# Notify all employees of a specific position
+def notify_position(subject: str, body: str, position: str):
+    emps = Employees.objects.filter(Q(position=position, notify_level__gte=2) | Q(notify_level=3))
+    return notify_employees(emps, subject, body)
 
 
 CARRIER_TO_EMAIL = {
