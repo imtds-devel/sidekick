@@ -320,44 +320,6 @@ def shift_notify(data: CoverInstructions, shift: Shifts):
                 end=shift.shift_end
             )
 
-    # Full single post
-        # Notify mods who share a shift (unless post is for mod calendar)
-        # Notify techs for whom cover is relevant
-        # Notify staff(?) (check w/ Rosa)
-
-    # Full single take
-        # Notify mods who share a shift (unless post is for mod calendar)
-        # Notify tech who took
-        # Notify tech who posted
-
-    # Full permanent post
-        # Notify mods sharing a shift
-        # Notify relevant techs
-        # Notify staff(?)
-
-    # Full Permanent take
-        # Notify mods who share shift
-        # Notify relevant techs
-        # Notify staff(?)
-
-    # Partial single post
-        # Notify mods who share shift w/ partial
-        # Notify relevant techs
-        # Notify staff(?)
-
-    # Partial single take
-        # Notify mods who share shift w/ partial
-        # Notify taker
-        # Notify poster (w/ reminder that they're still responsible for remaining shift)
-
-    # Partial permanent post
-        # Notify mods who share shift
-        # Notify relevant techs
-
-    # Partial permanent take
-        # Notify mods
-        # Notify taker
-        # Notify poster (w/ reminder)
     return True
 
 
