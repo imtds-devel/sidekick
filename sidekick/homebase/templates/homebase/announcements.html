@@ -5,52 +5,56 @@
 
 <!-- Modal -->
 <div id="announcement-modal" tabindex="-1" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="create-a btn btn-secondary">Create Announcement</button>
-        <button type="button" class="create-e btn btn-dark">Create Event</button>
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-      </div>
-      <div class="modal-body">
-        <div class="form-container e-form">
-          <form method="post" class="form-horizontal" id="e-form">
-            {% csrf_token %}
-            {% for field in e_form.visible_fields %}
-            <div class="form-group">
-              {{ field.errors }}
-              <label class="control-lavel col-sm-2" for="{{ field.id_for_label }}">{{ field.label }}</label>
-              <div class="col-sm-10">
-                {{ field }}
-              </div>
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <ul class="nav nav-pills">
+                    <li class="nav-item">
+                        <a class="nav-link announce-menu active" id="cr-announce" href="#">Create Announcement</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link announce-menu" id="cr-event" href="#">Create Event</a>
+                    </li>
+                </ul>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
-            {% endfor %}
-            <input type='submit' name='e-form' class="btn btn-success"/>
-            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-          </form>
-        </div>
-        <div class="form-container a-form">
-          <form method="post" class="form-horizontal" id="a-form">
-            {% csrf_token %}
-            {% for field in a_form.visible_fields %}
-            <div class="form-group">
-              {{ field.errors }}
-              <label class="control-lavel col-sm-2" for="{{ field.id_for_label }}">{{ field.label }}</label>
-              <div class="col-sm-10">
-                {{ field }}
-              </div>
-            </div>
+            <div class="modal-body">
 
-            {% endfor %}
-            <input type='submit' name='a-form' class="btn btn-success"/>
-            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-          </form>
+                <div class="announce-menu-body" id="cr-announce-container">
+                    <h2>Create Announcement</h2>
+                    <br>
+                    <p><b>Subject:</b></p>
+                    <input class="form-control" id="announce-subject" type="text" placeholder="Burritos are Awesome">
+                    <br>
+                    <p><b>Body:</b></p>
+                    <textarea class="form-control" id="announce-body" placeholder="Just a reminder that burritos are awesome"></textarea>
+                    <br>
+                    <button type="button" class="btn btn-success" id="announce-submit">Submit</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                </div>
+
+                <div class="announce-menu-body" id="cr-event-container" style="display:none;">
+                    <h2>Create Event</h2>
+                    <br>
+                    <p><b>Title:</b></p>
+                    <input class="form-control" id="event-title" type="text" placeholder="Burrito Party!">
+                    <br>
+                    <p><b>Location:</b></p>
+                    <input class="form-control" id="event-loc" type="text" placeholder="The Burrito Plane">
+                    <br>
+                    <p><b>Date:</b></p>
+                    <input class="form-control" id="event-date" type="date">
+                    <br>
+                    <p><b>Description:</b></p>
+                    <textarea class="form-control" id="event-desc" placeholder="An epic party celebrating burritos! There will be cake."></textarea>
+                    <br>
+                    <button type="button" class="btn btn-success" id="event-submit">Submit</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
         </div>
       </div>
-    </div>
-  </div>
 </div>
 
 <div id="newsletter-modal" class="modal fade" role="dialog">
@@ -93,20 +97,20 @@
 
         <div class="a-left">
           <p class="a-subject">{{post.subject}}</p>
-          <p class="a-meta">{{post.announcer}} on {{post.posted}}</p>
+          <p class="a-meta">By {{post.announcer}} on {{post.posted}}</p>
         </div>
 
         <div class="a-right">
-          <p class="a-description">{{post.announcement}} </p>
+          <p class="a-description">{{post.body}} </p>
         </div>
       </div>
       {%endif%}
-      {% if post.event_start%}
+      {% if post.event_date%}
       <div class="event">
 
         <div class="e-left">
           <p class="e-subject">{{post.title}}</p>
-          <p class="e-meta">From {{post.event_start}} to {{post.event_end}}</p>
+          <p class="e-meta">Event Date: {{post.event_date}}</p>
         </div>
 
         <div class="e-right">

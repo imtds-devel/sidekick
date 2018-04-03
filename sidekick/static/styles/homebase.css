@@ -91,6 +91,27 @@
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
+.employee-pic-red{
+  border-radius: 50%;
+  width: 5vmax;
+  min-width: 60px;
+  box-shadow: 0 0px 30px 0 rgba(255,0,0,0.3), 0 0px 30px 0 rgba(255,0,0,0.3);
+}
+
+.employee-pic-green{
+  border-radius: 50%;
+  width: 5vmax;
+  min-width: 60px;
+  box-shadow: 0 0px 30px 0 rgba(0,255,0,0.3), 0 0px 30px 0 rgba(0,255,0,0.3);
+}
+
+.employee-pic-yellow{
+  border-radius: 50%;
+  width: 5vmax;
+  min-width: 60px;
+  box-shadow: 0 0px 20px 0 goldenrod, 0 0px 20px 0 goldenrod;
+}
+
 /* When a shift is open, we make the employee picture slightly transparent */
 .pic-open-shift{
   opacity: 0.5;
