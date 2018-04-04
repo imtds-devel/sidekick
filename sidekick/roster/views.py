@@ -200,9 +200,8 @@ def post_award(request):
 
     # Make sure the user has proper access rights to do this
     if recipient is not None:
-        emp = Employees.objects.get(netid=giver)
         recipient = Employees.objects.get(netid=str(recipient))
-        if emp.position == 'llt':
+        if giver.position == 'llt':
             access_area = 'roster_modfb_lab'
         else:
             access_area = 'roster_modfb_all'
@@ -245,7 +244,8 @@ def post_award(request):
     # Notify tech
     notify_employee(
         subject="You've received an award!",
-        body="Congratulations, " + str(giver) + " has given you a new award! Go check it out on Sidekick :)"
+        body="Congratulations, " + str(giver) + " has given you a new award! Go check it out on Sidekick :)",
+        emp=recipient
     )
 
     return HttpResponse(
