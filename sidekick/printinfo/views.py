@@ -16,9 +16,6 @@ def index(request):
         # Copy POST data into a mutable variable
         import copy
         data = copy.copy(request.POST)
-
-        # In case we're not in production
-        # Remove this line before production!
         request = views.get_current_user(request)
 
         data['netid'] = request.user
