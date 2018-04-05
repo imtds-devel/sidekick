@@ -77,16 +77,25 @@
         <div class="info-emp">
           <h4><b>{{shift.pretty_location}}</b></h4>
           <div class="img-holder">
-            <img src="{% static shift.owner.picture|img_exists %}" alt="{{shift.owner}}"
-            class="employee-pic
-                 {% if shift.is_open %} pic-open-shift {% else %}
-                     {% if user_netid|has_access:'homingbeacon_checkin' %}
-                         {% if shift.checked_in == 'T' %} employee-pic-green {% endif%}
-                         {% if shift.shift_start|time_since < 420 %} employee-pic-yellow {% endif%}
-                         {% if shift.shift_start|time_since > 420 %} employee-pic-red {% endif%}
-                     {% endif %}
-                 {% endif %}">
-          </div>
+             <img src="{% static shift.owner.picture|img_exists %}" alt="{{shift.owner}}"
+                             class="employee-pic
+                             {% if shift.is_open %} pic-open-shift {% else %}
+                                 {% if user_netid|has_access:'homingbeacon_checkin' %}
+                                     {% if shift.shift_start|time_since < 420 %}
+                                        {% if shift.checked_in == 'T' %}
+                                            employee-pic-green
+                                         {% else %}
+                                            employee-pic-yellow
+                                         {% endif%}
+                                     {% else %}
+                                         {% if shift.checked_in == 'T' %}
+                                            employee-pic-green
+                                         {% else %}
+                                            employee-pic-red
+                                         {% endif%}
+                                     {% endif %}
+                                 {% endif %}
+                             {% endif %}    ">
           <div class="name-holder">
             <p>{{shift.short_title}}</p>
           </div>
