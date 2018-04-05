@@ -100,7 +100,7 @@ class Employees(models.Model):
 
     @property
     def phone_msg(self):
-        return "%s%s%s" % tuple(self.phone.split("-"))
+        return "%s%s%s" % tuple(str(self.phone).split("-"))
 
 
 class NotifySources(models.Model):

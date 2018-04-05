@@ -43,6 +43,7 @@
 {
     justify-content: flex-start;
     margin-right: 2px;
+    min-width: 315px;
 }
 .your-week-text
 {
