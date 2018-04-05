@@ -1,13 +1,15 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.http import HttpResponse, HttpResponseRedirect
+from homebase.models import NotifySources
 from .models import Employees, Proficiencies, Discipline, Trophies
 from .forms import EmployeeForm, StarForm, CommentForm
-from sidekick import views
+from sidekick.notify import notify_employee, notify_manager_team
 from sidekick.access import get_access
 from django.http import JsonResponse
-import json
+from sidekick import views
 import datetime
+import json
 
 
 # Create your views here.
@@ -37,6 +39,9 @@ def index(request):
         form = EmployeeForm(request.POST)
         if form.is_valid():
             form.save(commit=True)
+            NotifySources(
+                netid=request.POST['netid']
+            ).save()
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
     return views.load_page(request, 'roster/index.html', prep_context())
@@ -194,15 +199,13 @@ def post_award(request):
         )
 
     request = views.get_current_user(request)
-    giver = request.user
+    giver = Employees.objects.get(netid=str(request.user))
     recipient = request.POST.get('recipient', None)
-
-    print(request.user)
 
     # Make sure the user has proper access rights to do this
     if recipient is not None:
-        emp = Employees.objects.get(netid=giver)
-        if emp.position == 'llt':
+        recipient = Employees.objects.get(netid=str(recipient))
+        if giver.position == 'llt':
             access_area = 'roster_modfb_lab'
         else:
             access_area = 'roster_modfb_all'
@@ -227,14 +230,28 @@ def post_award(request):
     award = Trophies(
         name=name,
         trophy_type=award,
-        giver=Employees.objects.get(netid=giver),
-        recipient=Employees.objects.get(netid=recipient),
+        giver=giver,
+        recipient=recipient,
         reason=reason,
     )
 
     # Post award into Database
     print(award)
     award.save()
+
+    # Notify the proper authorities
+    notify_manager_team(
+        subject="New Award Posting!",
+        body="A new award has been posted for "+str(recipient)+"! Don't forget to check it out on Sidekick!"
+    )
+
+    # Notify tech
+    notify_employee(
+        subject="You've received an award!",
+        body="Congratulations, " + str(giver) + " has given you a new award! Go check it out on Sidekick :)",
+        emp=recipient
+    )
+
     return HttpResponse(
         json.dumps({"status": "Award successfully created!"}),
         content_type="application/json"
@@ -287,6 +304,15 @@ def post_comment(request):
     # Post comment into Database
     print(comment)
     comment.save()
+
+    # Notify the proper authorities
+    notify_manager_team(
+        subject="New Comment Posting",
+        body="A new comment has been posted for " + str(comment.about) + ".\n"
+             "Subject: " + str(comment.subject) + "\n"
+             "Description: " + str(comment.description)
+    )
+
     return HttpResponse(
         json.dumps({"status": "Comment successfully created!"}),
         content_type="application/json"
@@ -342,8 +368,18 @@ def post_discipline(request):
     # Post discipline into Database
     print(discipline)
     discipline.save()
+
+    # Notify the proper authorities
+    notify_manager_team(
+        subject="New Discipline Posting",
+        body="A new discipline has been posted for " + str(discipline.about) + ".\n"
+             "Value: " + str(discipline.val) + "\n"
+             "Subject: " + str(discipline.subject) + "\n"
+             "Description: " + str(discipline.description)
+    )
+
     return HttpResponse(
-        json.dumps({"status": "Comment successfully created!"}),
+        json.dumps({"status": "Discipline successfully created!"}),
         content_type="application/json"
     )
 
@@ -469,6 +505,10 @@ def delete_employee(request):
     employee.delete = True
     print(employee)
     employee.save()
+
+    # Delete all notification sources for the employee
+    NotifySources.objects.get(netid=about).delete()
+
     return HttpResponse(
         json.dumps({"status": "Employee successfully deleted!"}),
         content_type="application/json"

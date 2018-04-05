@@ -2,10 +2,12 @@
 from __future__ import unicode_literals
 from .models import Printer, Location, StatusLog, Employees
 from django.http import HttpResponse, HttpResponseRedirect
+from sidekick.notify import notify_employees
 from sidekick import views
 from .forms import StatusLogForm
 import json
 from django.http import JsonResponse
+
 
 # Create your views here.
 def index(request):
@@ -14,9 +16,6 @@ def index(request):
         # Copy POST data into a mutable variable
         import copy
         data = copy.copy(request.POST)
-
-        # In case we're not in production
-        # Remove this line before production!
         request = views.get_current_user(request)
 
         data['netid'] = request.user
@@ -26,6 +25,7 @@ def index(request):
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
     return views.load_page(request, 'printinfo/index.html', prep_context())
+
 
 def get_reports(request):
     printpk = request.GET.get('printpk', None)
@@ -47,6 +47,7 @@ def get_reports(request):
     print()
 
     return JsonResponse(data)
+
 
 def update_report(request):
     # Make sure it's a post request
@@ -77,6 +78,19 @@ def update_report(request):
     # Post award into Database
     print(report)
     report.save()
+
+    emps = [
+        Employees.objects.get(netid='rsantoiemma'),
+        # Other printer update managers can go here
+    ]
+    notify_employees(
+        emps=emps,
+        subject="Printer Status Update!",
+        body="The status of " + str(report.printer) + " has been updated.\n"
+             "Status: " + str(report.print_stat) + "\n"
+             "Description: " + str(report.desc)
+    )
+
     return HttpResponse(
         json.dumps({"status": "Report successfully created!"}),
         content_type="application/json"

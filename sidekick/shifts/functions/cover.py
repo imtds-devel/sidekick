@@ -1,9 +1,10 @@
-from django.db.models import Q, ObjectDoesNotExist
 from django.core.mail import send_mail, send_mass_mail
+from django.db.models import Q, ObjectDoesNotExist
+from sidekick.settings import CALENDAR_LOCATION_IDS
+from sidekick.notify import notify_position, notify_manager_team, notify_employee, notify_mods_in_range
 from shifts.models import Shifts, Holidays
 from homebase.models import Employees
 from shifts.functions import google_api
-from sidekick.settings import CALENDAR_LOCATION_IDS
 import datetime
 import copy
 import pytz
@@ -22,6 +23,7 @@ class CoverInstructions:
         self.start_time = start_time
         self.end_time = end_time
         self.sob_story = sob_story
+        self.og_owner = None
         self.g_service = google_api.build_service()  # build at create time
 
     def push(self):
@@ -45,9 +47,10 @@ def push_cover_new(data: CoverInstructions):
     start = tz.localize(shift.shift_start)
     end = tz.localize(shift.shift_end)
 
-    # Figure out the name of the old owner (tf the shift had no owner before, this is blank)
+    # Figure out the name of the old owner (if the shift had no owner before, this is blank)
     if shift.owner_id:
-        old_owner_name = Employees.objects.get(netid=shift.owner_id).full_name
+        data.og_owner = Employees.objects.get(netid=shift.owner_id)
+        old_owner_name = data.og_owner.full_name
     else:
         old_owner_name = None
     actor_name = data.actor.full_name
@@ -136,6 +139,21 @@ def push_cover_new(data: CoverInstructions):
         eventId=old_id
     ).execute()
 
+    # Note: DO NOT SAVE THIS SHIFT. It's just a container for helpful data for the notification function
+    new_shift = Shifts(
+        event_id="asdflkj",
+        title=main_title,
+        shift_date=shift.shift_date,
+        shift_start=data.start_time,
+        shift_end=data.end_time,
+        location=shift.location,
+        is_open=data.post,
+        owner=data.og_owner if data.post else data.actor,
+        sob_story=data.sob_story
+    )
+
+    shift_notify(data, new_shift)
+
     return {"result": "success", "description": "Your cover was successfully pushed!"}
 
 
@@ -200,10 +218,6 @@ def validate_cover(data: CoverInstructions):
     return data, outcome
 
 
-##############################################################
-# Main post/take fns
-# Master routing fn (called by CoverInstructions, routes shift covers properly!)
-
 # Return the duration of an event in minutes!
 def get_duration(event):
     print(event)
@@ -223,22 +237,88 @@ def consolidator(data: CoverInstructions):
 
 def cleanup(data: CoverInstructions):
     # TODO: Program this!
-    return shift_email(data)
+    return shift_notify(data)
 
 
-def shift_email(data: CoverInstructions):
-    # TODO: Program this
-    return True
+def shift_notify(data: CoverInstructions, shift: Shifts):
+    perm_str = "permanent " if data.permanent else ""
+    if data.post:
+        subject = "A new " + perm_str + "shift cover has been posted!"
+        body = "There has been a new " + perm_str + "cover posted for " + str(shift.owner) + ".\n" + \
+               "Location: " + shift.pretty_location + "\n" + \
+               "Date: " + str(shift.shift_date) + "\n" + \
+               "Time: : " + str(shift.pretty_duration) + "\n" + \
+               "Reason: " + str(shift.sob_story)
 
+        # Notify all techs of the same position
+        notify_position(subject, body, data.actor.position)
 
-def mail_test():
-    send_mail(
-        subject="This is a test!",
-        message="Hi you!",
-        from_email="testy@sidekick.apu.edu",
-        recipient_list=["nchera13@apu.edu"],
-        fail_silently=False,
-    )
+        # Notify manager team
+        notify_manager_team(subject, body)
+
+    else:
+        if data.partial:
+            # Notify the original owner (if there is one)
+            if data.og_owner:
+                notify_employee(
+                    subject="Your "+perm_str+"shift cover has been partially taken!",
+                    body="Your shift in " + str(shift.pretty_location) + " on " + str(shift.shift_date) + " has been "
+                         "partially taken during " + str(shift.pretty_duration) + "!\n"
+                         "Don't forget, you are still responsible for the rest of your shift until it's taken :)",
+                    emp=data.og_owner
+                )
+
+            # Notify the taker
+            notify_employee(
+                subject="You've taken a "+perm_str+"shift cover!",
+                body="You've partially taken a "+perm_str+"shift cover in " + str(shift.pretty_location) +
+                     " on " + str(shift.shift_date) + " from " + str(shift.pretty_duration) + ".\n"
+                     "Way to be awesome :D ",
+                emp=data.actor
+            )
+
+            # Notify relevant MoDs
+            notify_mods_in_range(
+                subject="Shift Cover Partially Taken!",
+                body="Just a heads up: a shift cover has been partially taken when you're MoD!\n"
+                     "Location: " + str(shift.pretty_location) + "\n"
+                     "Date: " + str(shift.shift_date) + "\n"
+                     "Time: " + str(shift.shift_start) + "\n"
+                     "And hey, keep being awesome!",
+                start=shift.shift_start,
+                end=shift.shift_end
+            )
+
+        else:
+            # Notify the original owner (if there is one)
+            if data.og_owner:
+                notify_employee(
+                    subject="Your " + perm_str + "shift cover has been taken!",
+                    body="Your shift in " + str(shift.pretty_location) + " on " + str(shift.shift_date) + " during " +
+                         str(shift.pretty_duration) + " has been taken!\n",
+                    emp=data.og_owner
+                )
+
+            # Notify the taker
+            notify_employee(
+                subject="You've taken a " + perm_str + "shift cover!",
+                body="You've taken a " + perm_str + "shift cover in " + str(shift.pretty_location) +
+                     " on " + str(shift.shift_date) + " from " + str(shift.pretty_duration) + ".\n"
+                     "Way to be awesome :D ",
+                emp=data.actor
+            )
+
+            # Notify relevant MoDs
+            notify_mods_in_range(
+                subject="Shift Cover Taken!",
+                body="Just a heads up: a shift cover has been taken when you're MoD!\n"
+                     "Location: " + str(shift.pretty_location) + "\n"
+                     "Date: " + str(shift.shift_date) + "\n"
+                     "Time: " + str(shift.shift_start) + "\n"
+                     "And hey, keep being awesome!",
+                start=shift.shift_start,
+                end=shift.shift_end
+            )
 
     return True
 
@@ -297,6 +377,7 @@ def build_recurrence(end_repeat: datetime.datetime, permanent_id: str):
 
 
 # Edit an existing instance of recurring data to a new start/end time
+# Useful for partial permanent shift covers
 def edit_recurrence(recurrence: list, start_time: datetime.datetime):
     if not recurrence:
         return None

@@ -19,6 +19,7 @@ config.read('config.ini')
 db = config['database']
 static_dir = config['static']
 cal = config['cal_ids']
+mail = config['mail']
 debug = config['prod']['debug'] == "True"
 PRODUCTION = config['prod']['prod'] == "True"
 
@@ -209,6 +210,14 @@ logging.config.dictConfig({
             'class': 'logging.FileHandler',
             'formatter': 'console',
             'filename': 'sk_log.log'
+        },
+        'email': {
+            'class': 'logging.handlers.SMTPHandler',
+            'formatter': 'console',
+            'mailhost': (mail['host'], mail['port']),
+            'fromaddr': 'bugmaster@sidekick.apu.edu',
+            'toaddrs': [mail['bugaddr']],
+            'subject': 'Bug report!',
         }
     },
     'loggers': {
@@ -216,5 +225,17 @@ logging.config.dictConfig({
             'level': 'WARNING',
             'handlers': ['console', 'logfile'],
         },
+        'django': {
+            'level': 'ERROR',
+            'handlers': ['email']
+        }
     },
 })
+
+
+# Email Server settings
+EMAIL_HOST = mail['host']
+EMAIL_PORT = mail['port']
+EMAIL_SUBJECT_PREFIX = "[IMTDS] "
+
+HARAMBOT_NOTIFY = config['harambot']['notify_target']
