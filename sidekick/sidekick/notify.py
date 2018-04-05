@@ -13,6 +13,10 @@ import requests
 def notify_employees(emps, subject: str, body: str):
     email_sources = []
     for emp in emps:
+        # Skip if emp is None for some reason
+        if not emp:
+            continue
+
         sources = NotifySources.objects.filter(netid=emp.netid)
         for source in sources:
             if source.source == 's':
