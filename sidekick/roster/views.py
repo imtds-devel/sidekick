@@ -215,7 +215,7 @@ def post_award(request):
             content_type="application/json"
         )
 
-    if not get_access(giver, access_area):
+    if not get_access(giver.netid, access_area):
         return HttpResponse(
             json.dumps({"status": "Failed! User does not have access(2)"}),
             content_type="application/json"
@@ -267,7 +267,7 @@ def post_comment(request):
         )
 
     request = views.get_current_user(request)
-    poster = request.user
+    poster = str(request.user)
     about = request.POST.get('about', None)
 
     # Make sure the user has proper access rights to do this
