@@ -1,6 +1,7 @@
 /////////////////////////////////////////
 // JavaScript/Jquery for the shifts module
 // Written by Josh Wood in Fall 2017
+// Updated to include All Shifts Spring 2018
 /////////////////////////////////////////
 // Variables for the page
 var weekDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]; // Week days in order
@@ -20,6 +21,7 @@ $(document).ready(function() {
     // On page load we want to load the correct shifts to update the display
     ajaxUserShifts('curr');
     ajaxOpenShifts('curr');
+    ajaxAllShifts('curr');
     // This function sends an ajax request to django which responds with data
     function ajaxUserShifts(option){
         console.log("Sent");
@@ -69,6 +71,30 @@ $(document).ready(function() {
         });
     }
 
+    // This function sends an ajax request for all shifts in a given location and week
+    function ajaxAllShifts(option){
+        var date = $('#all-shift-date').val();
+        var location = $('#all-shift-location').val();
+        $.ajax({
+            url : 'ajax/filter_all_shifts/',
+            data: {
+                'date' : date,
+                'location' : location,
+                'option' : option
+            },
+            dataType: 'json',
+
+            success: function (data) {
+                if (data.date.slice(0,10) != date) {
+                    $('#all-shift-date').val(data.date.slice(0,10));
+                }
+                $('#all-week').text(data.week[0].slice(5,10) + ' to ' + data.week[6].slice(5,10));
+                generateAllShiftCards(data.week, data.shifts);
+            }
+        });
+    }
+
+    // This function doesn't do anything relevant yet
     function ajaxRelativeShifts(shiftID) {
         $.ajax({
             url: 'ajax/filter_near_shifts/',
@@ -165,12 +191,33 @@ $(document).ready(function() {
         ajaxOpenShifts(option);
     });
 
+    // This triggers when the user selects a new date in the date selector
+    $('#all-shift-date').change(function(){
+        var option = 'curr';
+        ajaxAllShifts(option);
+    });
+    // This triggers when the user selects a new date in the date selector
+    $('#all-shift-location').change(function(){
+        var option = 'curr';
+        ajaxAllShifts(option);
+    });
+    // When the user clicks the previous shift button for all shifts
+    $('#all-week-previous').click(function(){
+        var option = 'prev';
+        ajaxAllShifts(option);
+    });
+    // When the user clicks the next shift button
+    $('#all-week-next').click(function(){
+        var option = 'next';
+        ajaxAllShifts(option);
+    });
+
     // When an individual shift is selected
     $(document).on('click', '.shift-btn', function() {
         // Grab the id of that shift
         shiftID = $(this).attr('id');
         // Call the function to generate the relative shifts
-        ajaxRelativeShifts(shiftID);
+        ajaxRelativeShifts(shiftID); 
     });
 
     // When the user selects "yes" for full cover
@@ -611,6 +658,94 @@ $(document).ready(function() {
                     if (isPermanentShift(shiftsDay[shift])) {
                         console.log('#post-conf-' + String(shiftsDay[shift].event_id));
                         $('#post-conf-' + String(shiftsDay[shift].event_id)).find('#perm-prompt').removeClass('hidden')
+                    }
+                }
+            }
+        }
+    }
+    // Filling in all of the shifts, displays open shifts differently
+    function generateAllShiftCards(week, shifts){
+        // First we remove the current shifts
+        $('#all-shifts-card-group').empty();
+        $('#all-shift-modals').empty();
+        // Loop through the days in the given week
+        for (var day = 0; day < week.length; day++){
+            // Evaluate if we should be displaying this day
+            // Hint: We should only display a day if there are shifts on that day
+            if (isShiftOnDay(week[day], shifts)) {
+                // If there are shifts we start by adding the "days" in the week that have a shift on them
+                $('#all-shifts-card-group').append(
+                    "<div class = 'card shift-card' id= '" + weekDays[day] + "-all-shifts'>" +
+                        "<div class = 'card-header bg-l-cyan text-dark'>" + weekDays[day] + " " +  week[day].slice(5,10) + "</div>" + // Here we are displaying the week day and the date of that day
+                        "<div class = 'card-body'><div>" + // This is where the individual shifts will go
+                    "</div>");
+                // Generate a new group of shifts that only contains the one on this day
+                shiftsDay = shiftsOnDay(week[day], shifts);
+                // Loop through those shifts and add the individual shifts
+                for (shift = 0; shift < shiftsDay.length; shift++)
+                {
+                    // Generate a shift "button" for each shift
+                    if (shiftsDay[shift].is_open) { // If this shift is currently open, we want that to be apparent to the user
+                        $('#' + weekDays[day] + '-all-shifts .card-body').append( // Select the body of the current day we are looping through
+                            "<button type = 'button' id = '" + shiftsDay[shift].event_id  + "' class = 'btn btn-block bg-open shift-btn' data-toggle= 'modal' data-target= '#"
+                            + String(shiftsDay[shift].event_id) + "-modal' >"  // This line labels the modal we will make and the location of the shift
+                            + formatTimeRange(shiftsDay[shift].shift_start, shiftsDay[shift].shift_end) // This line lays out the time range of the shift using a handy method
+                            +"</button>"
+                        )
+                        // Generate a modal for each shift, this displays some information for the shift
+                        $('#all-shift-modals').append(
+                            "<div id = '" + String(shiftsDay[shift].event_id) + "-modal' class = 'modal fade'>"
+                            + "<div class='modal-dialog modal-lg'>"
+                            +    "<div class='modal-content'>"
+                            +        "<div class='modal-header'>"
+                            +            shiftsDay[shift].title
+                            +            "<button type='button' class='close' data-dismiss='modal'>&times;</button>"
+                            +            "<h4 class='modal-title'></h4>"
+                            +        "</div>"
+                            +        "<div class='modal-body'>"
+                            +            "<div class='shift-body'>"
+                            +                "<p id = shift-details></p>" // Once again we will fill this when the shift is clicked
+                            +                "<p id = cover-details-1></p>" // Open shifts have extra cover details that are filled on click
+                            +                "<p id = cover-details-2></p>"
+                            +            "</div>"
+                            +        "</div>"
+                            +        "<div class='modal-footer'>"
+                            +            "<button type='button' class='align-right btn btn-secondary' data-dismiss='modal'>Close</button>"
+                            +        "</div>"
+                            +    "</div>"
+                            +"</div>"
+                        +"</div>"
+                        );
+                    }
+                    else { // If the shift isn't open, we display normally
+                        $('#' + weekDays[day] + '-all-shifts .card-body').append( // Select the body of the current day we are looping through
+                            "<button type = 'button' id = '" + shiftsDay[shift].event_id  + "' class = 'btn btn-block btn-light shift-btn' data-toggle= 'modal' data-target= '#"
+                            + String(shiftsDay[shift].event_id) + "-modal' >" // This line labels the modal we will make and the location of the shift
+                            + formatTimeRange(shiftsDay[shift].shift_start, shiftsDay[shift].shift_end) // This line lays out the time range of the shift using a handy method
+                            +"</button>"
+                        )
+                        // Generate a modal for each shift
+                        $('#all-shift-modals').append(
+                            "<div id = '" + String(shiftsDay[shift].event_id) + "-modal' class = 'modal fade'>"
+                            + "<div class='modal-dialog modal-lg'>"
+                            +    "<div class='modal-content'>"
+                            +        "<div class='modal-header'>"
+                            +            shiftsDay[shift].title // The title of the shift becomes the title of the modal
+                            +            "<button type='button' class='close' data-dismiss='modal'>&times;</button>"
+                            +            "<h4 class='modal-title'></h4>"
+                            +        "</div>"
+                            +        "<div class='modal-body'>"
+                            +            "<div class='shift-body'>"
+                            +                "<p id = shift-details></p>" // We will fill this when we actually click a modal
+                            +            "</div>"
+                            +        "</div>"
+                            +        "<div class='modal-footer'>"
+                            +            "<button type='button' class='align-right btn btn-secondary' data-dismiss='modal'>Close</button>"
+                            +        "</div>"
+                            +    "</div>"
+                            +"</div>"
+                        +"</div>"
+                        )
                     }
                 }
             }
