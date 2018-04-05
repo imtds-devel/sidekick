@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.http import HttpResponse, HttpResponseRedirect
+from homebase.models import NotifySources
 from .models import Employees, Proficiencies, Discipline, Trophies
 from .forms import EmployeeForm, StarForm, CommentForm
 from sidekick.notify import notify_employee, notify_manager_team
@@ -38,6 +39,9 @@ def index(request):
         form = EmployeeForm(request.POST)
         if form.is_valid():
             form.save(commit=True)
+            NotifySources(
+                netid=request.POST['netid']
+            ).save()
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
     return views.load_page(request, 'roster/index.html', prep_context())
@@ -501,6 +505,10 @@ def delete_employee(request):
     employee.delete = True
     print(employee)
     employee.save()
+
+    # Delete all notification sources for the employee
+    NotifySources.objects.get(netid=about).delete()
+
     return HttpResponse(
         json.dumps({"status": "Employee successfully deleted!"}),
         content_type="application/json"

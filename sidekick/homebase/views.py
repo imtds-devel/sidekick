@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from sidekick import views
 from django.http import HttpResponseRedirect, JsonResponse, HttpResponse
-from homebase.models import Employees, Announcements, Events, StaffStatus
+from homebase.models import Employees, Announcements, Events, StaffStatus, NotifySources
 from .forms import StatusForm
 from shifts.models import Shifts
 import datetime
@@ -129,7 +129,6 @@ def post_checkin(request):
     request = views.get_current_user(request)
     shift_ids = request.POST.getlist('shift_ids[]')
     check_times = request.POST.getlist('check_times[]')
-
 
     # iterates through shift_ids and event_ids so they match up accordingly
     for count in range(0, len(shift_ids)):
