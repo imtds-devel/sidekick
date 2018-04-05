@@ -51,7 +51,15 @@ def notify_manager_team(subject: str, body: str):
 def notify_mods_in_range(subject: str, body: str, start: datetime, end: datetime):
     shifts = Shifts.objects.filter(
         Q(shift_start__lt=end, shift_end__gte=end) | Q(shift_end__gt=start, shift_start__lte=start)
-    ).filter(location='mod')
+    ).filter(location='mod').exclude(owner__isnull=True, owner__exact='')  # filter empty owners
+
+    if len(shifts) == 0:
+        # Notify night MoD for night shifts
+        shifts = [
+            Shifts.objects.filter(
+                shift_end__lte=start
+            ).first()
+        ]
 
     emps = list(set([shift.owner for shift in shifts]))  # Convert to a set to eliminate potential duplicates
 
