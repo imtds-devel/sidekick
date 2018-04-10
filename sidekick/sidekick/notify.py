@@ -14,7 +14,7 @@ def notify_employees(emps, subject: str, body: str):
     email_sources = []
     for emp in emps:
         # Skip if emp is None for some reason
-        if not emp:
+        if not emp or emp.delete:
             continue
 
         sources = NotifySources.objects.filter(netid=emp.netid)
@@ -67,7 +67,8 @@ def notify_mods_in_range(subject: str, body: str, start: datetime, end: datetime
 
     emps = list(set([shift.owner for shift in shifts]))  # Convert to a set to eliminate potential duplicates
 
-    return notify_employees(emps, subject, body)
+    # return notify_employees(emps, subject, body)
+    return emps
 
 
 # Notify a specific employee
