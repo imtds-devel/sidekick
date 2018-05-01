@@ -7,10 +7,7 @@
 **/*.pyc
 **/*.json
 **/*.log
-#ignore files
-.idea
+**/*.env
 
-**/.vscode
-
-**/node_modules
-**/__pycache__
+# Ignore migrations
+**/migrations

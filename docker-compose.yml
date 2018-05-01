@@ -1,0 +1,58 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:9.6
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASS}
+    networks:
+      - "postgres"
+
+  web:
+    build: ./web
+    command: >
+      bash -c
+      "python manage.py makemigrations
+      && python manage.py migrate
+      && python manage.py runserver 0.0.0.0:8000"
+    ports:
+      - "8000:8000"
+    # Mount our django files inside the web service container to enable live reloading
+    volumes:
+      - "./web:/home"
+    restart: unless-stopped
+    depends_on:
+      - db
+    networks:
+      - "postgres"
+    environment:
+      SK_PRODUCTION: ${SK_PRODUCTION:?SK_PRODUCTION undefined}
+      SK_DEBUG: ${SK_DEBUG:?SK_DEBUG undefined}
+      SK_DUMMY: ${SK_DUMMY:?SK_DUMMY undefined}
+      SK_SECRET_KEY: ${SK_SECRET_KEY:?SK_SECRET_KEY undefined}
+      CAS_URL: ${CAS_URL}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+      STATIC_URL: ${STATIC_URL}
+      CAL_ID_MA: ${CAL_ID_MA}
+      CAL_ID_DA: ${CAL_ID_DA}
+      CAL_ID_ST: ${CAL_ID_ST}
+      CAL_ID_SD: ${CAL_ID_SD}
+      CAL_ID_RC: ${CAL_ID_RC}
+      CAL_ID_MD: ${CAL_ID_MD}
+      CAL_ID_TE: ${CAL_ID_TE}
+      MAIL_HOST: ${MAIL_HOST}
+      MAIL_PORT: ${MAIL_PORT}
+      MAIL_BUGADDR: ${MAIL_BUGADDR}
+      HARAMBOT_NOTIFY_TARGET: ${HARAMBOT_NOTIFY_TARGET}
+      POSTGRES_HOST: ${POSTGRES_HOST}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_PASS: ${POSTGRES_PASS}
+      POSTGRES_PORT: ${POSTGRES_PORT}
+
+networks:
+  postgres:
+    driver: bridge
