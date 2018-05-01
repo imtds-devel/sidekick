@@ -2,7 +2,7 @@
 .idea
 
 **/node_modules
-**/__pycache__gco
+**/__pycache__
 **/*.ini
 **/*.pyc
 **/*.json
