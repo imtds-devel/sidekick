@@ -24,7 +24,6 @@ def require_env(name):
     return value
 
 
-
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
@@ -201,9 +200,8 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'America/Los_Angeles'
+LANGUAGE_CODE = require_env('LANG_CODE')
+TIME_ZONE = require_env('TIME_ZONE')
 
 USE_I18N = True
 
@@ -215,7 +213,7 @@ USE_TZ = False
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
-STATIC_URL = os.getenv('STATIC_URL')
+STATIC_URL = require_env('STATIC_URL')
 
 if PRODUCTION:
     STATIC_ROOT = os.path.join(BASE_DIR, "static")
