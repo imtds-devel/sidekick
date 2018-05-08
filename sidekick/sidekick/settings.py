@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
-import configparser
 import logging.config
 from django.core.exceptions import ImproperlyConfigured
 
