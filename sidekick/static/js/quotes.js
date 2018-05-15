@@ -43,7 +43,7 @@ $(document).ready(function () {
     // When a part is filled in and added
     $('#add-part').click(function(){
         var partName = $('input[name=part-name]').val();
-        var partCost = parseFloat($('input[name=part-price]').val().toFixed(2));
+        var partCost = parseFloat($('input[name=part-price]').val());
         var partCost = partCost.toFixed(2);
         // First we must ensure the user didn't leave the name blank
         if (partName.length == 0 || isNaN(partCost)) {
@@ -51,7 +51,7 @@ $(document).ready(function () {
             if(partName.length==0)
                 $('#part-name').addClass('required-field');
             else
-                $('#part-name').removeClass('require d-field');
+                $('#part-name').removeClass('required-field');
              if(isNaN(partCost))
                 $('#part-price').addClass('required-field')
             else
