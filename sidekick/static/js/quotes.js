@@ -43,33 +43,39 @@ $(document).ready(function () {
     // When a part is filled in and added
     $('#add-part').click(function(){
         var partName = $('input[name=part-name]').val();
-
+        var partCost = parseFloat($('input[name=part-price]').val().toFixed(2));
+        var partCost = partCost.toFixed(2);
         // First we must ensure the user didn't leave the name blank
-        if (partName.length == 0) {
+        if (partName.length == 0 || isNaN(partCost)) {
             // If it was blank we make it clear to the user that the field is required
-            $('#part-name').addClass('required-field');
+            if(partName.length==0)
+                $('#part-name').addClass('required-field');
+            else
+                $('#part-name').removeClass('require d-field');
+             if(isNaN(partCost))
+                $('#part-price').addClass('required-field')
+            else
+                $('#part-price').removeClass('required-field');
         }
         else{
             // We clear the required field class so it looks normal again, hopefully our user has learned
             $('#part-name').removeClass('required-field');
+            $('#part-price').removeClass('required-field');
             // Here we make a partID variable that looks like a normal id
             var partID = (partName.replace(/\s+/g, '-').toLowerCase() + "-part");
+            console.log(partName);
 
             // Here we check there isn't already a part of the same name
             if (document.querySelector('#' + partID) == null)
                 {
                     // Here we get the part and shipping cost from the input fields
                     // If the fields are left empty or the user didn't enter a number we
-                    // make them 0
-                    var partCost = parseFloat($('input[name=part-price]').val());
-                    if (isNaN(partCost)){
-                        partCost = 0;
-                    }
+                    // make them
                     var shippingCost = parseFloat($('input[name=shipping-price]').val());
                     if (isNaN(shippingCost)){
                         shippingCost = 0;
                     }
-        
+
                     // Here we generate the part visual
                     $('#quote-items').append("<li id='" + partID + "' class='list-group-item quoted-part'>"
                     +"<div class ='media'>"
@@ -79,51 +85,51 @@ $(document).ready(function () {
                         +"<span class='input-group-text'><i class='oi oi-wrench'></i></span>"
                         +"</div>"
                         +"<input id='part-name' type='text' readonly class='form-control input-sm'"
-                        +"placeholder='Part Name' value=" + partName +  " name='" + partID + "-name'></div>"
+                        +"placeholder='Part Name' value='" + partName +  "' name='" + partID + "-name'></div>"
                         +"<div class = 'input-group'>"
                         +"<div class = 'input-group-prepend'>"
                         +"<span class='input-group-text'><i class='oi oi-dollar'></i></span>"
                         +"</div>"
                         +"<input id='part-price' type='number' readonly class='form-control input-sm'"
-                        +"placeholder='Part Price' value=" + partCost + " name='" + partID +"-price'></div>"   
+                        +"placeholder='Part Price' value=" + partCost + " name='" + partID +"-price'></div>"
                         +"<div class = 'input-group'>"
                         +"<div class = 'input-group-prepend'>"
                         +"<span class='input-group-text'><i class='oi oi-envelope-closed'></i></span>"
                         +"</div>"
-                        +"<input id='shipping-price' type='number' readonly class='form-control input-sm'" 
-                        +"placeholder='Shipping Cost' value=" + shippingCost + " name='" + partID + "-shipping'></div>"                            
+                        +"<input id='shipping-price' type='number' readonly class='form-control input-sm'"
+                        +"placeholder='Shipping Cost' value=" + shippingCost + " name='" + partID + "-shipping'></div>"
                         +"</div>"
                         +"<div class ='media-right'>"
                         +"<button id ='remove-button' type='button' class='btn btn-danger remove-button'>"
-                        +"<i class='oi oi-trash'></i></button></div>"            
+                        +"<i class='oi oi-trash'></i></button></div>"
                     +"</div></li>");
-        
+
                     // Here we recalculate our numbers with the part and shipping cost we grabbed
-                    subTotal += parseFloat(partCost); 
+                    subTotal += parseFloat(partCost);
                     partsCost += parseFloat(partCost);
                     taxPartsCost = parseFloat(partsCost * taxRate);
                     shippingTotal += parseFloat(shippingCost);
                     total = parseFloat(subTotal + shippingTotal + taxPartsCost);
-        
+
                     // Now we update all totals fields of the visual quote
                     $('input[name=subtotal]').val("$ " + subTotal.toFixed(2));
-                    $('input[name=total]').val("$ " + total.toFixed(2));   
-                    $('input[name=shipping]').val("$ " + shippingTotal.toFixed(2));   
-                    $('input[name=tax]').val("$ " + taxPartsCost.toFixed(2));   
-                    
+                    $('input[name=total]').val("$ " + total.toFixed(2));
+                    $('input[name=shipping]').val("$ " + shippingTotal.toFixed(2));
+                    $('input[name=tax]').val("$ " + taxPartsCost.toFixed(2));
+
                     // Finally, we make the totals visible and display the text
                     checkTotalsDisplay();
                     updateTextQuote();
                 }
         }
     });
-    
+
     // When a service (non part) is clicked
     addService = function(serviceName, servicePrice, serviceCategory){
         // We use this service id to label the element that we create
         var serviceID = serviceName.replace(/ /g, "-").toLowerCase();
 
-        // We handle adding backup and labor a litte differently because we want to replace
+        // We handle adding backup and labor a little differently because we want to replace
         // differing sized services (ex. Small to Medium)
         if (serviceID.includes('backup') && document.querySelector("[id*=backup]") != null){
             // We get the id of the service that we want to remove (that matches the type of thing we are adding)
@@ -140,16 +146,16 @@ $(document).ready(function () {
                 $('#text-quote').empty();
                 $('input').val("");
                 }
-            // Else, we just update the value 
+            // Else, we just update the value
             else {
                 $('input[name=subtotal]').val("$ " + subTotal.toFixed(2));
-                $('input[name=total]').val("$ " + total.toFixed(2));   
+                $('input[name=total]').val("$ " + total.toFixed(2));
                 $('#' + removedServiceID).remove();
                 }
         }
         if (serviceID.includes('labor') && document.querySelector('[id*=labor]') != null){
             // We get the id of the service that we want to remove (that matches the type of thing we are adding)
-            var removedServiceID = $("[id*=labor]").attr('id');         
+            var removedServiceID = $("[id*=labor]").attr('id');
             // A lot happens here, but it allows us to pull the price as a float to a variable :)
             var removedServicePrice = parseFloat($('#' + removedServiceID).find('#service-price').text().slice(1));
             // Now we subtract the removed item from our total and refresh the totals display
@@ -162,15 +168,15 @@ $(document).ready(function () {
                 $('#text-quote').empty();
                 $('input').val("");
                 }
-            // Else, we just update the value 
+            // Else, we just update the value
             else {
                 $('input[name=subtotal]').val("$ " + subTotal.toFixed(2));
-                $('input[name=total]').val("$ " + total.toFixed(2));   
+                $('input[name=total]').val("$ " + total.toFixed(2));
                 $('#' + removedServiceID).remove();
                 }
         }
 
-        // If this returns null then the service hasn't been added already 
+        // If this returns null then the service hasn't been added already
         if (document.querySelector('#' + serviceID) == null){
             $('#quote-items').append("<li id='" + serviceID + "' class='list-group-item quoted-service'>"
             +"<div class ='media'>"
@@ -184,7 +190,7 @@ $(document).ready(function () {
                 +"<button id ='remove-button' type='button' class='btn btn-danger remove-button'>"
                 +"<i class='oi oi-trash'></i></button></div>"
                 +"</div></li>");
-    
+
             subTotal += parseFloat(servicePrice);
             total = parseFloat(subTotal + shippingTotal + taxPartsCost);
             $('input[name=subtotal]').val("$ " + subTotal.toFixed(2));
@@ -201,7 +207,7 @@ $(document).ready(function () {
         // We use this discount id to label the element that we create
         var serviceID = discountName.replace(/ /g, "-").toLowerCase() + "-discount";
 
-        // If this returns null then the service hasn't been added already 
+        // If this returns null then the service hasn't been added already
         if (document.querySelector('#' + serviceID) == null){
             $('#quote-items').append("<li id='" + serviceID + "' class='list-group-item quoted-discount'>"
             +"<div class ='media'>"
@@ -215,7 +221,7 @@ $(document).ready(function () {
                 +"<button id ='remove-button' type='button' class='btn btn-danger remove-button'>"
                 +"<i class='oi oi-trash'></i></button></div>"
                 +"</div></li>");
-    
+
             subTotal -= parseFloat(discountAmount);
             total = parseFloat(subTotal + shippingTotal + taxPartsCost);
             $('input[name=subtotal]').val("$ " + subTotal.toFixed(2));
@@ -256,17 +262,17 @@ $(document).ready(function () {
                 $('#quote-items').empty();
                 $('#text-quote').empty();
                 $('input').val("");
-                $('#quote-totals').addClass('hidden-quote');                
+                $('#quote-totals').addClass('hidden-quote');
                 }
-            // Else, we just update the value 
+            // Else, we just update the value
             else {
                 $('input[name=subtotal]').val("$ " + subTotal.toFixed(2));
                 $('input[name=total]').val("$ " + total.toFixed(2));
                 $('input[name=shipping]').val("$ " + shippingTotal.toFixed(2));
-                $('input[name=tax]').val("$ " + taxPartsCost.toFixed(2));                
+                $('input[name=tax]').val("$ " + taxPartsCost.toFixed(2));
                 $(id).remove();
-                updateTextQuote();                
-                }            
+                updateTextQuote();
+                }
             }
 
         // If it is a discount we also need to handle it differently
@@ -282,18 +288,18 @@ $(document).ready(function () {
                 $('#quote-items').empty();
                 $('#text-quote').empty();
                 $('input').val("");
-                $('#quote-totals').addClass('hidden-quote');                
+                $('#quote-totals').addClass('hidden-quote');
                 }
-            // Else, we just update the value 
+            // Else, we just update the value
             else {
                 $('input[name=subtotal]').val("$ " + subTotal.toFixed(2));
-                $('input[name=total]').val("$ " + total.toFixed(2));   
+                $('input[name=total]').val("$ " + total.toFixed(2));
                 $(id).remove();
-                updateTextQuote();                
+                updateTextQuote();
                 }
-            
+
         }
-                
+
 
         // If it is just a service, not a part or discount
         else{
@@ -308,14 +314,14 @@ $(document).ready(function () {
                 $('#quote-items').empty();
                 $('#text-quote').empty();
                 $('input').val("");
-                $('#quote-totals').addClass('hidden-quote');                
+                $('#quote-totals').addClass('hidden-quote');
                 }
-            // Else, we just update the value 
+            // Else, we just update the value
             else {
                 $('input[name=subtotal]').val("$ " + subTotal.toFixed(2));
-                $('input[name=total]').val("$ " + total.toFixed(2));   
+                $('input[name=total]').val("$ " + total.toFixed(2));
                 $(id).remove();
-                updateTextQuote();                
+                updateTextQuote();
                 }
         }
     })
@@ -332,7 +338,7 @@ $(document).ready(function () {
     // This function will make a formatted text quote everytime there is a change (must call the method)
     function updateTextQuote(){
         var quoteText = "";
-        // The power of jquery allows us to loop through each quoted-service and pass the id into a 
+        // The power of jquery allows us to loop through each quoted-service and pass the id into a
         // method that generates text from it
         $('.quoted-service').each(function() {
             quoteText += pullServiceText($(this).attr('id'));
@@ -378,6 +384,8 @@ $(document).ready(function () {
         }
 
         quoteText += "**Total: $" + total.toFixed(2) + "**";
+        var lines = quoteText.split(/\r\n|\r|\n/);
+        $('#text-quote').attr("rows", lines.length);
         $('#text-quote').text(quoteText);
         
     }
