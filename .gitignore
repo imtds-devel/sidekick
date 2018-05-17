@@ -4,13 +4,9 @@
 **/node_modules
 **/__pycache__
 **/*.ini
+**/*.env
 **/*.pyc
 **/*.json
 **/*.log
-#ignore files
-.idea
 
 **/.vscode
-
-**/node_modules
-**/__pycache__
