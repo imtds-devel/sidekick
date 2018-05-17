@@ -108,11 +108,11 @@ GOOGLE_OAUTH2_CLIENT_SECRETS_JSON = require_env('GOOGLE_CLIENT_SECRET')
 DEBUG = debug
 
 ALLOWED_HOSTS = [
-    '192.168.8.33',
-    'sidekick.devel.apu.edu',
-    '127.0.0.1',
-    '192.168.8.7',
-    'sidekick.apu.edu',
+    require_env('ALLOWED_HOST1'),
+    require_env('ALLOWED_HOST2'),
+    require_env('ALLOWED_HOST3'),
+    require_env('ALLOWED_HOST4'),
+    require_env('ALLOWED_HOST5'),
 ]
 
 
