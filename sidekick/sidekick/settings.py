@@ -11,17 +11,72 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
-import configparser
 import logging.config
+from django.core.exceptions import ImproperlyConfigured
 
-config = configparser.ConfigParser()
-config.read('config.ini')
-db = config['database']
-static_dir = config['static']
-cal = config['cal_ids']
-mail = config['mail']
-debug = config['prod']['debug'] == "True"
-PRODUCTION = config['prod']['prod'] == "True"
+
+def require_env(name):
+    # Raises an error if the environment variable isn't defined
+    value = os.getenv(name)
+    if value is None:
+        raise ImproperlyConfigured('Required environment variable "{}" is not set.'.format(name))
+    return value
+
+
+# Database
+# https://docs.djangoproject.com/en/1.11/ref/settings/#databases
+
+db_name = require_env('DB_NAME')
+db_user = require_env('DB_USER')
+db_password = require_env('DB_PASS')
+db_host = require_env('DB_HOST')
+db_port = require_env('DB_PORT')
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': db_name,
+        'USER': db_user,
+        'PASSWORD': db_password,
+        'HOST': db_host,
+        'PORT': db_port
+    }
+}
+
+
+# Google Cal Settings
+ma = require_env('CAL_MA')
+da = require_env('CAL_DA')
+st = require_env('CAL_ST')
+sd = require_env('CAL_SD')
+rc = require_env('CAL_RC')
+md = require_env('CAL_MD')
+te = require_env('CAL_TE')
+
+CALENDAR_LOCATION_IDS = {
+    'ma': ma,
+    'da': da,
+    'st': st,
+    'sd': sd,
+    'rc': rc,
+    'md': md,
+    'te': te
+}
+
+
+# EMAIL SERVER
+EMAIL_HOST = require_env('EMAIL_HOST')
+EMAIL_PORT = require_env('EMAIL_PORT')
+EMAIL_BUGADDR = require_env('EMAIL_BUGADDR')
+EMAIL_SUBJECT_PREFIX = require_env('EMAIL_SUBJECT')
+
+# HARMABOT
+HARAMBOT_NOTIFY = os.getenv('HARAMBOT_NOTIFY')
+
+
+debug = require_env('DEBUG') == "True"
+PRODUCTION = require_env('PROD') == "True"
+
 
 if PRODUCTION:
     print("Using SSL Encryption")
@@ -44,20 +99,20 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config['prod']['secret_key']
+SECRET_KEY = require_env('SECRET_KEY')
 
 # Location of client_secret.json goes here
-GOOGLE_OAUTH2_CLIENT_SECRETS_JSON = config['google']['client_secret']
+GOOGLE_OAUTH2_CLIENT_SECRETS_JSON = require_env('GOOGLE_CLIENT_SECRET')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = debug
 
 ALLOWED_HOSTS = [
-    '192.168.8.33',
-    'sidekick.devel.apu.edu',
-    '127.0.0.1',
-    '192.168.8.7',
-    'sidekick.apu.edu',
+    require_env('ALLOWED_HOST1'),
+    require_env('ALLOWED_HOST2'),
+    require_env('ALLOWED_HOST3'),
+    require_env('ALLOWED_HOST4'),
+    require_env('ALLOWED_HOST5'),
 ]
 
 
@@ -111,22 +166,8 @@ TEMPLATES = [
 WSGI_APPLICATION = 'sidekick.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/1.11/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': db['name'],
-        'USER': db['user'],
-        'PASSWORD': db['pass'],
-        'HOST': db['host'],
-        'PORT': db['port']
-    }
-}
-
 # Authentication
-CAS_SERVER_URL = config['cas']['url']
+CAS_SERVER_URL = require_env('CAS_URL')
 CAS_LOGOUT_COMPLETELY = True
 CAS_PROVIDE_URL_TO_LOGOUT = True
 CAS_FORCE_SSL_SERVICE_URL = False
@@ -158,9 +199,8 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'America/Los_Angeles'
+LANGUAGE_CODE = require_env('LANG_CODE')
+TIME_ZONE = require_env('TIME_ZONE')
 
 USE_I18N = True
 
@@ -172,7 +212,7 @@ USE_TZ = False
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
-STATIC_URL = static_dir['url']
+STATIC_URL = require_env('STATIC_URL')
 
 if PRODUCTION:
     STATIC_ROOT = os.path.join(BASE_DIR, "static")
@@ -181,16 +221,6 @@ else:
         os.path.join(BASE_DIR, "static")
     ]
 
-# Google Cal Settings
-CALENDAR_LOCATION_IDS = {
-    'ma': cal['ma'],
-    'da': cal['da'],
-    'st': cal['st'],
-    'sd': cal['sd'],
-    'rc': cal['rc'],
-    'md': cal['md'],
-    'te': cal['te']
-}
 
 LOGGING_CONFIG = None
 logging.config.dictConfig({
@@ -214,9 +244,9 @@ logging.config.dictConfig({
         'email': {
             'class': 'logging.handlers.SMTPHandler',
             'formatter': 'console',
-            'mailhost': (mail['host'], mail['port']),
+            'mailhost': (EMAIL_HOST, EMAIL_PORT),
             'fromaddr': 'bugmaster@sidekick.apu.edu',
-            'toaddrs': [mail['bugaddr']],
+            'toaddrs': [EMAIL_BUGADDR],
             'subject': 'Bug report!',
         }
     },
@@ -231,11 +261,3 @@ logging.config.dictConfig({
         }
     },
 })
-
-
-# Email Server settings
-EMAIL_HOST = mail['host']
-EMAIL_PORT = mail['port']
-EMAIL_SUBJECT_PREFIX = "[IMTDS] "
-
-HARAMBOT_NOTIFY = config['harambot']['notify_target']
