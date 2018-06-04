@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.db import models
+from django.utils import timezone
 
 
 class Employees(models.Model):
@@ -175,7 +176,7 @@ class StaffStatus(models.Model):
 
 class ModTasks(models.Model):
     task = models.TextField(default="")
-    created_date = models.DateTimeField(auto_now_add=True)
+    created_date = models.DateTimeField(default = timezone.now)
     poster = models.ForeignKey(Employees, related_name='taskPoster', on_delete=models.CASCADE)
     completed = models.BooleanField(default=False)
     completed_date = models.DateTimeField(null=True, blank=True)
