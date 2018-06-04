@@ -176,3 +176,11 @@ class StaffStatus(models.Model):
     netid = models.OneToOneField(Employees, on_delete=models.CASCADE, primary_key=True)
     status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='o')
     description = models.CharField(max_length=20, default="")
+
+class ModTasks(models.Model):
+    task = models.TextField(default="")
+    created_date = models.DateTimeField(auto_now_add=True)
+    poster = models.ForeignKey(Employees, related_name='taskPoster', on_delete=models.CASCADE)
+    completed = models.BooleanField(default=False)
+    completed_date = models.DateTimeField(null=True, blank=True)
+    completer = models.ForeignKey(Employees, related_name='taskCompleter', on_delete=models.CASCADE, null=True, blank=True)
