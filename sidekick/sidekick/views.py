@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from . import views
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from sidekick.settings import PRODUCTION
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from roster.models import Trophies
-from homebase.models import Employees
+from homebase.models import Employees, ModTasks
 from shifts.models import Shifts
 import datetime
 import pytz
@@ -80,3 +81,23 @@ def authorize(request):
 def oauth_handler(request):
     print(request.GET)
     return HttpResponse("Hi!")
+
+def new_task(request):
+    # Reject any non-POST request
+    if request.method != 'POST':
+        return JsonResponse({
+            'result': 'failure',
+            'desc': 'Bad request method'
+        }, status=500)
+
+    request = views.get_current_user(request)
+
+    ModTasks(
+        poster=Employees.objects.get(netid=str(request.user)),
+        task=request.POST.get('task', None),
+    ).save()
+
+    return JsonResponse({
+        'result': 'success',
+        'desc': 'Task was added successfully'
+    })

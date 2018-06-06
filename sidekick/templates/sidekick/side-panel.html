@@ -125,7 +125,30 @@
     <div class="card">
         <div class="card-header"><h4>MoD Checklist</h4></div>
         <div class="card-body">
-
+            <textarea></textarea>
+            <button role=button data-toggle="modal" data-target="#task-modal" class="button-box">Add To Do</button>
         </div>
     </div>
+</div>
+<div id="task-modal" tabindex="-1" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+
+                <div class="task-menu-body" id="cr-task-container">
+                    <h2>Create Task</h2>
+                    <br>
+                    <p><b>Task:</b></p>
+                    <input class="form-control" id="task-text" type="text" placeholder="Make a Burrito">
+                    <br>
+                    <button type="button" class="btn btn-success" id="task-submit">Submit</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+      </div>
 </div>

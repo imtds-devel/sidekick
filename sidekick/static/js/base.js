@@ -1,5 +1,31 @@
 $(document).ready(function(){
     $('[data-toggle="popover"]').popover();
+
+    $("#task-submit").click(function() {
+        //start by verifying submitted data
+        var task = $("#task-text").val();
+
+        //send data to server
+        $.ajax({
+            method:"POST",
+            dataType:"json",
+            url:"ajax/newtask",
+            data: {
+                'task': task,
+            },
+            success: function(data) {
+                if (data.result=="success") {
+                    alert("Task submitted successfully!");
+                    location.reload();
+                } else
+                    alert("Task posting failed! Please contact Mattaniah");
+            },
+            error: function(err) {
+                alert("Task posting failed! Please contact Mattaniah and give her the error details:\n"+err);
+                console.log(err);
+            }
+        });
+    });
 });
 $(window).load(function() {
     $("#modCarousel").carousel('cycle');
