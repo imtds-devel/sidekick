@@ -184,4 +184,4 @@ class ModTasks(models.Model):
     poster = models.ForeignKey(Employees, related_name='taskPoster', on_delete=models.CASCADE)
     completed = models.BooleanField(default=False)
     completed_date = models.DateTimeField(null=True)
-    completer = models.ForeignKey(Employees, related_name='taskCompleter', on_delete=models.CASCADE, null=True)
+    completer = models.ForeignKey(Employees, related_name='taskCompleter', null=True, on_delete=models.CASCADE)
