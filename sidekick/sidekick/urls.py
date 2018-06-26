@@ -19,7 +19,7 @@ from django.views.generic import RedirectView
 from django.conf import settings
 from django.conf.urls.static import static
 from cas import views
-from .views import new_task
+from .views import new_task, complete_task
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -32,5 +32,6 @@ urlpatterns = [
     path('shifts/', include('shifts.urls')),
     path('accounts/login/', views.login, name='login'),
     path('accounts/logout/', views.logout, name='logout'),
-    path('homebase/ajax/newtask', new_task),
+    path('ajax/newtask', new_task),
+    path('ajax/completetask', complete_task)
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

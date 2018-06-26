@@ -126,3 +126,25 @@ height:90%;
     flex-direction: row;
     flex-wrap: wrap;
 }
+
+/* Mod Checklist + Modals */
+.table-tasks, tr, th
+{
+    border: solid 1px;
+    border-collapse: collapse;
+    padding: 15px
+}
+tr:nth-child(odd) {
+    background-color: #b9d1f7
+}
+
+.btn-complete
+{
+    background-color: #0b62ed;
+    color: #ffffff;
+    padding left: 10px;
+}
+.modal-lg
+{
+    width: 1000px;
+}

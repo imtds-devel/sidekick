@@ -26,6 +26,96 @@ $(document).ready(function(){
             }
         });
     });
+    //This function enables the complete button when a checkbox is selected.
+    //Disables if no checkboxes are selected.
+    var checkBoxes = $('fieldset .task-checkbox');
+    checkBoxes.change(function () {
+        $('#task-complete').prop('disabled', checkBoxes.filter(':checked').length < 1);
+    });
+    checkBoxes.change(); // or add disabled="true" in the HTML
+
+    $('#task-complete').click(function() {
+        //Filters out all the unchecked checkboxes
+        checkBoxes = checkBoxes.filter(':checked');
+        //cycle through an array of checked checkboxes
+        var succeed = true
+        for(var i=0; i<checkBoxes.length; i++)
+        {
+            //Pull the task text from the checkbox label(nextElementSibling
+            var task = checkBoxes[i].nextElementSibling.textContent;
+
+            $.ajax({
+                url: 'ajax/completetask',
+                type: 'POST',
+                data: {
+                    'task': task,
+                },
+                dataType: 'json',
+                success: function(data) {
+                    console.log("task completed")
+                },
+                error: function(data) {
+                    i=checkBoxes.length;
+                    succeed=false
+                    alert("Something went wrong. Please contact Mattaniah.")
+                }
+            })
+            if(succeed=true){
+                alert("Tasks have been completed")
+                location.reload();
+            }
+        }
+    });
+
+    // This function gets cookie with a given name
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie != '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    var csrftoken = getCookie('csrftoken');
+     /*
+    The functions below will create a header with csrftoken
+    */
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+    function sameOrigin(url) {
+        // test that a given url is a same-origin URL
+        // url could be relative or scheme relative or absolute
+        var host = document.location.host; // host + port
+        var protocol = document.location.protocol;
+        var sr_origin = '//' + host;
+        var origin = protocol + sr_origin;
+        // Allow absolute or scheme relative URLs to same origin
+        return (url == origin || url.slice(0, origin.length + 1) == origin + '/') ||
+            (url == sr_origin || url.slice(0, sr_origin.length + 1) == sr_origin + '/') ||
+            // or any other URL that isn't scheme relative or absolute i.e relative.
+            !(/^(\/\/|http:|https:).*/.test(url));
+    }
+
+    $.ajaxSetup({
+        beforeSend: function(xhr, settings) {
+            if (!csrfSafeMethod(settings.type) && sameOrigin(settings.url)) {
+                // Send the token to same-origin, relative URLs only.
+                // Send the token only if the method warrants CSRF protection
+                // Using the CSRFToken value acquired earlier
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });
+
 });
 $(window).load(function() {
     $("#modCarousel").carousel('cycle');
@@ -83,9 +173,17 @@ $(window).load(function() {
             }
             break;
         }
-
+        UncheckAll();
         $("#shRoundsIn").text(parseInt((next_report - now) / 60000));
     }
 
-// Function that clears cookies from forms to cleanly submit forms
 });
+
+function UncheckAll(){
+      var w = document.getElementsByTagName('input');
+      for(var i = 0; i < w.length; i++){
+        if(w[i].type=='checkbox'){
+          w[i].checked = false;
+        }
+      }
+  }

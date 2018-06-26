@@ -55,7 +55,8 @@ def load_page(request, template: str, context: dict):
 
     context['trophy_list'] = Trophies.objects.filter(recipient=curr_user)
     context['curr_page'] = template.split("/")[0]
-
+    context['tasks'] = ModTasks.objects.filter(completed=False).order_by('created_date')
+    context['completed_tasks'] = ModTasks.objects.filter(completed=True).order_by('-completed_date')
     return render(request, template, context)
 
 
@@ -101,3 +102,30 @@ def new_task(request):
         'result': 'success',
         'desc': 'Task was added successfully'
     })
+
+def complete_task(request):
+    # Reject any non-POST request
+    if request.method != 'POST':
+        return JsonResponse({
+            'result': 'failure',
+            'desc': 'Bad request method'
+        }, status=500)
+
+    request = views.get_current_user(request)
+    tasktext = request.POST.get('task', None)
+    if tasktext is not None:
+        task = ModTasks.objects.get(task=tasktext)
+        task.completer = Employees.objects.get(netid=str(request.user))
+        task.completed_date = datetime.datetime.now()
+        task.completed = True
+        print(task)
+        task.save()
+        return JsonResponse({
+            'result': 'success',
+            'desc': 'Task was completed successfully'
+        })
+    else:
+        return JsonResponse({
+            'result': 'Failed',
+            'desc': 'No task was selected'
+        })

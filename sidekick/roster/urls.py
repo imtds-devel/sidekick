@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from sidekick.views import new_task, complete_task
 
 app_name = 'roster'
 urlpatterns = [
@@ -13,5 +14,7 @@ urlpatterns = [
     path('ajax/disciplinepost/', views.post_discipline),
     path('ajax/employeeupdate/', views.update_bio),
     path('ajax/employeedelete/', views.delete_employee),
-    path('ajax/proficienciesupdate/', views.update_prof)
+    path('ajax/proficienciesupdate/', views.update_prof),
+    path('ajax/newtask', new_task),
+    path('ajax/completetask', complete_task)
 ]
