@@ -181,3 +181,8 @@ class ModTasks(models.Model):
     completed = models.BooleanField(default=False)
     completed_date = models.DateTimeField(null=True)
     completer = models.ForeignKey(Employees, related_name='taskCompleter', on_delete=models.CASCADE, null=True)
+
+class ModNote (models.Model) :
+    note = models.TextField(default="")
+    poster = models.ForeignKey(Employees, related_name='notePoster', on_delete=models.CASCADE)
+    created_date = models.DateTimeField(default=timezone.now)
