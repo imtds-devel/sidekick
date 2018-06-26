@@ -34,6 +34,7 @@ $(document).ready(function(){
     });
     checkBoxes.change(); // or add disabled="true" in the HTML
 
+    //This function completes tasks in the database
     $('#task-complete').click(function() {
         //Filters out all the unchecked checkboxes
         checkBoxes = checkBoxes.filter(':checked');
@@ -66,6 +67,26 @@ $(document).ready(function(){
             }
         }
     });
+
+    $('#note-update').click(function() {
+        var note = document.getElementById("modnote").value
+
+        $.ajax({
+            url: 'ajax/updatenote',
+            type: 'POST',
+            data:{
+                'note': note,
+            },
+            dataType: 'json',
+            success: function(data) {
+                alert("Mod note has been updated"
+            },
+             error: function(err) {
+                alert("Note update failed! Please contact Mattaniah and give her the error details:\n"+err);
+                console.log(err);
+            }
+        })
+    })
 
     // This function gets cookie with a given name
     function getCookie(name) {

@@ -57,6 +57,7 @@ def load_page(request, template: str, context: dict):
     context['curr_page'] = template.split("/")[0]
     context['tasks'] = ModTasks.objects.filter(completed=False).order_by('created_date')
     context['completed_tasks'] = ModTasks.objects.filter(completed=True).order_by('-completed_date')
+    context['modnote'] = ModNote.objects
     return render(request, template, context)
 
 
@@ -128,4 +129,31 @@ def complete_task(request):
         return JsonResponse({
             'result': 'Failed',
             'desc': 'No task was selected'
+        })
+
+def update_note(request):
+    # Reject any non-POST request
+    if request.method != 'POST':
+        return JsonResponse({
+            'result': 'failure',
+            'desc': 'Bad request method'
+        }, status=500)
+
+    request = views.get_current_user(request)
+    notetext = request.POST.get('note', None)
+    if notetext is not None:
+        note = ModTasks.objects.get(id='1')
+        note.note = notetext
+        note.poster = Employees.objects.get(netid=str(request.user))
+        note.created_date = datetime.datetime.now
+        print(note)
+        note.save()
+        return JsonResponse({
+            'result': 'success',
+            'desc': 'Note was updated successfully'
+        })
+    else:
+        return JsonResponse({
+            'result': 'Failed',
+            'desc': 'No note was selected'
         })
