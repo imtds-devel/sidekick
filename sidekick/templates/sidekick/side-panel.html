@@ -139,6 +139,13 @@
         <div class="card-body">
             <fieldset id="task-checklist">
                 <legend>Current Tasks</legend>
+
+                {%for task in priority_tasks %}
+                <div class="task-list-hpr" style="display: flex;">
+                    <input type="checkbox" id="task-checkbox{{task.id}}" class="task-checkbox"/>
+                    <label for="task-checkbox{{task.id}}" style="padding-left: 15px">{{task.task}}</label>
+                </div>
+                {% endfor %}
                 {%for task in tasks %}
                 <div class="task-list" style="display: flex;">
                     <input type="checkbox" id="task-checkbox{{task.id}}" class="task-checkbox"/>
@@ -178,9 +185,9 @@
                     <fieldset id="task-pr">
                         <legend>Task Priority:</legend>
                         <div id="task-pr-list">
-                            <input type="radio" id="task-pr-high" name="priority" value="High" class="radio-button">
+                            <input type="radio" id="task-pr-high" name="priority" value='True' class="radio-button">
                             <label for="task-pr-high" style="padding-right: 5px">High</label>
-                            <input type="radio" id="task-pr-neutral" name="priority" value="Normal" class="radio-button">
+                            <input type="radio" id="task-pr-neutral" name="priority" value='False' class="radio-button">
                             <label for="task-pr-neutral" style="padding-right: 5px">Normal</label>
                         </div>
                     </fieldset>

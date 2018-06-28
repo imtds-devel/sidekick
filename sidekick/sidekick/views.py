@@ -55,7 +55,8 @@ def load_page(request, template: str, context: dict):
 
     context['trophy_list'] = Trophies.objects.filter(recipient=curr_user)
     context['curr_page'] = template.split("/")[0]
-    context['tasks'] = ModTasks.objects.filter(completed=False).order_by('created_date')
+    context['priority_tasks'] = ModTasks.objects.filter(completed=False).filter(priority=True).order_by('created_date')
+    context['tasks'] = ModTasks.objects.filter(completed=False).filter(priority=False).order_by('created_date')
     context['completed_tasks'] = ModTasks.objects.filter(completed=True).order_by('-completed_date')
     context['modnote'] = ModNote.objects.get(id='1')
     return render(request, template, context)
@@ -97,6 +98,7 @@ def new_task(request):
     ModTasks(
         poster=Employees.objects.get(netid=str(request.user)),
         task=request.POST.get('task', None),
+        priority=request.POST.get('priority', None)
     ).save()
 
     return JsonResponse({

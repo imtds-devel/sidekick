@@ -4,6 +4,7 @@ $(document).ready(function(){
     $("#task-submit").click(function() {
         //start by verifying submitted data
         var task = $("#task-text").val();
+        var priority = $("input[name='priority']:checked").val();
 
         //send data to server
         $.ajax({
@@ -12,6 +13,7 @@ $(document).ready(function(){
             url:"ajax/newtask",
             data: {
                 'task': task,
+                'priority': priority
             },
             success: function(data) {
                 if (data.result=="success") {

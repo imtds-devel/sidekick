@@ -181,6 +181,7 @@ class ModTasks(models.Model):
     completed = models.BooleanField(default=False)
     completed_date = models.DateTimeField(null=True)
     completer = models.ForeignKey(Employees, related_name='taskCompleter', on_delete=models.CASCADE, null=True)
+    priority = models.BooleanField(default=False)
 
 class ModNote(models.Model):
     note = models.TextField(default="")

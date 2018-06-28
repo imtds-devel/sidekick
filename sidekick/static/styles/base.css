@@ -148,3 +148,9 @@ tr:nth-child(odd) {
 {
     width: 1000px;
 }
+
+.task-list-hpr
+{
+color: #ff0000;
+font-weight: bold
+}
