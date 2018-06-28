@@ -239,7 +239,7 @@ function LoadNote() {
                 $('#modnote').val(data.note)
             },
              error: function(err) {
-                alert("Something went wrong with the mod note! Please contact Mattaniah and give her the error details:\n"+err);
+                //alert("Something went wrong with the mod note! Please contact Mattaniah and give her the error details:\n"+err);
                 console.log(err);
             }
     })
