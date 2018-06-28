@@ -69,7 +69,7 @@ $(document).ready(function(){
     });
 
     $('#note-update').click(function() {
-        var note = document.getElementById("modnote").value
+        var note = $('#modnote').val()
 
         $.ajax({
             url: 'ajax/updatenote',
@@ -79,10 +79,27 @@ $(document).ready(function(){
             },
             dataType: 'json',
             success: function(data) {
-                alert("Mod note has been updated"
+                alert("Mod note has been updated")
             },
              error: function(err) {
                 alert("Note update failed! Please contact Mattaniah and give her the error details:\n"+err);
+                console.log(err);
+            }
+        })
+    })
+
+    $('#note-clear').click(function()   {
+        $.ajax({
+            url: 'ajax/clearnote',
+            type: 'POST',
+            data:{},
+            dataType: 'json',
+            success: function(data) {
+                alert("Mod note has been cleared")
+                LoadNote();
+            },
+             error: function(err) {
+                alert("Note clear failed! Please contact Mattaniah and give her the error details:\n"+err);
                 console.log(err);
             }
         })
@@ -195,6 +212,7 @@ $(window).load(function() {
             break;
         }
         UncheckAll();
+        LoadNote();
         $("#shRoundsIn").text(parseInt((next_report - now) / 60000));
     }
 
@@ -208,3 +226,21 @@ function UncheckAll(){
         }
       }
   }
+function LoadNote() {
+    var id = 1;
+    $.ajax({
+         url: 'ajax/loadnote',
+            type: 'Get',
+            data:{
+                'id': id,
+            },
+            dataType: 'json',
+            success: function(data) {
+                $('#modnote').val(data.note)
+            },
+             error: function(err) {
+                alert("Something went wrong with the mod note! Please contact Mattaniah and give her the error details:\n"+err);
+                console.log(err);
+            }
+    })
+}

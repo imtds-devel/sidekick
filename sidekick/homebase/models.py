@@ -99,10 +99,6 @@ class Employees(models.Model):
         out = "%s%s%s%s%s".lower() % (self.fname, self.netid, self.nice_standing, self.nice_position, self.position)
         return out.lower()
 
-    @property
-    def phone_msg(self):
-        return "%s%s%s" % tuple(str(self.phone).split("-"))
-
 
 class NotifySources(models.Model):
     SOURCE_CHOICES = (
@@ -180,12 +176,13 @@ class StaffStatus(models.Model):
 
 class ModTasks(models.Model):
     task = models.TextField(default="")
-    created_date = models.DateTimeField(default=timezone.now)
+    created_date = models.DateTimeField(default = timezone.now)
     poster = models.ForeignKey(Employees, related_name='taskPoster', on_delete=models.CASCADE)
     completed = models.BooleanField(default=False)
     completed_date = models.DateTimeField(null=True)
-    completer = models.ForeignKey(Employees, related_name='taskCompleter', null=True, on_delete=models.CASCADE)
+    completer = models.ForeignKey(Employees, related_name='taskCompleter', on_delete=models.CASCADE, null=True)
 
 class ModNote(models.Model):
     note = models.TextField(default="")
-
+    poster = models.ForeignKey(Employees, related_name='notePoster', on_delete=models.CASCADE)
+    created_date = models.DateTimeField(default=timezone.now)

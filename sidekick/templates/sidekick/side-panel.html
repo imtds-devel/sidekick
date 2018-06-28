@@ -1,5 +1,6 @@
 {% load staticfiles %}
 {% load roster_extras %}
+{% load sidekick_extras %}
 
 <div class="side-panel">
     <div class="card">
@@ -122,6 +123,17 @@
             {% include 'trophycase/trophycase.html' with trophy_list=trophy_list %}
         </div>
     </div>
+    <div class='card' style="height: 100px">
+    <div class='userStd'>
+        <div class='sideUserText'>
+            <p><b>Logged in as:</b></p>
+            <p class='currentUser'>{{user_name}}</p>
+            <a class="logout" href="{% url 'logout' %}">Log out</a>
+        </div>
+        <img src="{% static user_img|img_exists %}" class='img rounded-circle sideMoDImg'>
+    </div>
+    </div>
+    {% if user_netid|has_access:"roster_modfb_all" %}
     <div class="card">
         <div class="card-header"><h4>MoD Checklist</h4></div>
         <div class="card-body">
@@ -140,12 +152,14 @@
             <br>
             <br>
             <h4>MoD Note</h4>
-            <textarea id="modnote" placeholder="Burritos are good"></textarea>
+            <p20>Last updated by: {{modnote.poster}} on {{modnote.created_date}}</p20>
+            <textarea id="modnote" placeholder="Burritos are good" rows="2"></textarea>
             <br>
             <button role="button" id="note-update" class="btn btn-success btn-sm">Update Note</button>
             <button role="buttone" id="note-clear" class="btn btn-danger btn-sm">Clear Note</button>
         </div>
     </div>
+    {%endif%}
 </div>
 <div id="task-modal" class="modal fade" role="dialog">
     <div class="modal-dialog">

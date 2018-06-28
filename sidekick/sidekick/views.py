@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from sidekick.settings import PRODUCTION
 from django.http import HttpResponse, JsonResponse
 from roster.models import Trophies
-from homebase.models import Employees, ModTasks
+from homebase.models import Employees, ModTasks, ModNote
 from shifts.models import Shifts
 import datetime
 import pytz
@@ -57,7 +57,7 @@ def load_page(request, template: str, context: dict):
     context['curr_page'] = template.split("/")[0]
     context['tasks'] = ModTasks.objects.filter(completed=False).order_by('created_date')
     context['completed_tasks'] = ModTasks.objects.filter(completed=True).order_by('-completed_date')
-    context['modnote'] = ModNote.objects
+    context['modnote'] = ModNote.objects.get(id='1')
     return render(request, template, context)
 
 
@@ -70,7 +70,7 @@ def get_current_user(request):
 
 def set_user_string(user):
     if not PRODUCTION:
-        return "cditter14"
+        return "bduggan14"
     else:
         return user
 
@@ -141,11 +141,12 @@ def update_note(request):
 
     request = views.get_current_user(request)
     notetext = request.POST.get('note', None)
+
     if notetext is not None:
-        note = ModTasks.objects.get(id='1')
+        note = ModNote.objects.get(id='1')
         note.note = notetext
         note.poster = Employees.objects.get(netid=str(request.user))
-        note.created_date = datetime.datetime.now
+        note.created_date = datetime.datetime.now()
         print(note)
         note.save()
         return JsonResponse({
@@ -157,3 +158,32 @@ def update_note(request):
             'result': 'Failed',
             'desc': 'No note was selected'
         })
+def load_note(request):
+    id = request.GET.get('id', None)
+    note = ModNote.objects.get(id=id)
+    data = {'note': note.note}
+    return JsonResponse(data)
+
+def clear_note(request):
+    # Reject any non-POST request
+    if request.method != 'POST':
+        return JsonResponse({
+            'result': 'failure',
+            'desc': 'Bad request method'
+        }, status=500)
+
+    request = views.get_current_user(request)
+    note = ModNote.objects.get(id='1')
+    note.note = ""
+    note.poster = Employees.objects.get(netid=str(request.user))
+    note.created_date = datetime.datetime.now()
+    print(note)
+    note.save()
+    return JsonResponse({
+        'result': 'success',
+        'desc': 'Note was cleared successfully'
+    })
+    return JsonResponse({
+        'result': 'Failed',
+        'desc': 'No note was selected'
+    })
