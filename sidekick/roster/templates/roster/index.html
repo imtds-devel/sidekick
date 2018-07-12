@@ -3,14 +3,14 @@
 {% load staticfiles %}
 {% load roster_extras %}
 {% load sidekick_extras %}
-<div class="row">
-    <div class="col-xs-9 col-mid-4 col-lg-4 search" align="left">
-        <form class="search-bar" style="margin:10px;">
+<div class="row justify-content-between">
+    <div class="col-7 search" align="left">
+        <form class="search-bar " style="margin:10px;">
             <span class="oi oi-magnifying-glass"></span>
             <input type="text" name="search" placeholder=" Search..." id="searchbar" value="">
         </form>
     </div>
-    <div class="col-xs-5 col-mid-8 col-lg-8 dropdown" align="right">
+    <div class="col-4" align="right">
      <div class="container" style="margin:10px">
         <select class="btn dropdown-toggle" name="position" style="padding-right:50px">
               <option selected="selected" value="all" >All</option>

@@ -68,6 +68,7 @@ def get_current_user(request):
 def set_user_string(user):
     if not PRODUCTION:
         return "jcaradonna15"
+        # return "maytenfsu14"
     else:
         return user
 
