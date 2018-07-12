@@ -128,14 +128,15 @@ height:90%;
 }
 
 /* Mod Checklist + Modals */
-.table-tasks, tr, th
+.table-tasks, td, th
 {
-    border: solid 1px;
+    border: 1px solid black;
     border-collapse: collapse;
     padding: 15px
 }
+
 tr:nth-child(odd) {
-    background-color: #b9d1f7
+    background-color: #b9d1f7;
 }
 
 .btn-complete

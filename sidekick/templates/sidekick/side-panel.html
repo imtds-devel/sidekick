@@ -155,7 +155,7 @@
             </fieldset>
             <button role=button data-toggle="modal" data-target="#task-modal" class="btn btn-success btn-sm">Add Task</button>
             <button type="button" id="task-complete" class="btn btn-sm btn-complete"  disabled>Complete</button>
-            <button role="button" data-toggle="modal" data-target="#view-modal" class="btn btn-sm">Full List</button>
+            <button role="button " data-toggle="modal" data-target="#view-modal"  class="btn btn-sm ">Full List</button>
             <br>
             <br>
             <h4>MoD Note</h4>
@@ -212,17 +212,15 @@
                     <h2>Uncompleted Tasks:</h2>
                     <table id="incomplete-tasks" class="table-tasks">
                         <tr>
-                            <th>Id</th>
                             <th>Task</th>
                             <th>Task Creator</th>
                             <th>Created Date</th>
                         </tr>
                         {%for task in tasks%}
                         <tr>
-                            <th>{{task.id}}</th>
-                            <th style="width: 300px">{{task.task}}</th>
-                            <th>{{task.poster}}</th>
-                            <th>{{task.created_date}}</th>
+                            <td style="width: 300px">{{task.task}}</td>
+                            <td>{{task.poster}}</td>
+                            <td>{{task.created_date}}</td>
                         </tr>
                         {%endfor%}
                     </table>
@@ -230,7 +228,6 @@
                     <h2>Completed Tasks</h2>
                     <table id="complete-tasks" class="table-tasks">
                         <tr>
-                            <th>Id</th>
                             <th>Task</th>
                             <th>Task Completer</th>
                             <th>Completed Date</th>
@@ -239,12 +236,11 @@
                         </tr>
                         {%for task in completed_tasks%}
                         <tr>
-                            <th>{{task.id}}</th>
-                            <th>{{task.task}}</th>
-                            <th>{{task.completer}}</th>
-                            <th>{{task.completed_date}}</th>
-                            <th>{{task.poster}}</th>
-                            <th>{{task.created_date}}</th>
+                            <td>{{task.task}}</td>
+                            <td>{{task.completer}}</td>
+                            <td>{{task.completed_date}}</td>
+                            <td>{{task.poster}}</td>
+                            <td>{{task.created_date}}</td>
                         </tr>
                         {%endfor%}
                     </table>
