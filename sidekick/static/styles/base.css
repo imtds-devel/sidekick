@@ -126,3 +126,32 @@ height:90%;
     flex-direction: row;
     flex-wrap: wrap;
 }
+
+/* Mod Checklist + Modals */
+.table-tasks, td, th
+{
+    border: 1px solid black;
+    border-collapse: collapse;
+    padding: 15px
+}
+
+tr:nth-child(odd) {
+    background-color: #b9d1f7;
+}
+
+.btn-complete
+{
+    background-color: #0b62ed;
+    color: #ffffff;
+    padding left: 10px;
+}
+.modal-lg
+{
+    width: 1000px;
+}
+
+.task-list-hpr
+{
+color: #ff0000;
+font-weight: bold
+}
