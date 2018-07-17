@@ -583,15 +583,13 @@ $('select[name="position"').change(function () {
     //(this) is whatever value is selected from the drop down menu
     var type = $(this).val();
 
-    // if the value is not 'all' , show all employees with the value containing 'type'
     if (type != 'all'){
-    $(".panelemp[id*=" + type + "]").fadeIn(150);
-     // fade out all values that do not have current value
-    $(".panelemp:not([id*=" + type + "])").fadeOut(100);
+      $(".panelemp[id*=" + type + "]").fadeIn(150);
+       // fade out all values that do not have current value
+      $(".panelemp:not([id*=" + type + "])").fadeOut(100);
     }
-        // else show all employees
     else {
-        $(".panelemp").fadeIn(150);
+      $(".panelemp").fadeIn(150);      // show all employees
     }
 });
 
