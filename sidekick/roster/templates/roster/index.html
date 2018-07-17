@@ -3,12 +3,29 @@
 {% load staticfiles %}
 {% load roster_extras %}
 {% load sidekick_extras %}
-    <div class="search" align="right">
-        <form class="search-bar" style="margin:10px;">
+<div class="row justify-content-between">
+    <div class="col-7 search" align="left">
+        <form class="search-bar " style="margin:10px;">
             <span class="oi oi-magnifying-glass"></span>
             <input type="text" name="search" placeholder=" Search..." id="searchbar" value="">
         </form>
     </div>
+    <div class="col-4" align="right">
+     <div class="container" style="margin:10px">
+        <select class="btn dropdown-toggle" name="position" style="padding-right:50px">
+              <option selected="selected" value="all" >All</option>
+              <option value="lbt" >Lab Technician</option>
+              <option value="spt" >Support Tech</option>
+              <option value="sst" >Senior Support Tech</option>
+              <option value="sdr" >Support Desk Rep</option>
+              <option value="llt" >Lead Lab Tech</option>
+              <option value="mgr" >Manager</option>
+              <option value="stt" >Staff Tech</option>
+              <option value="stm" >Staff Manager</option>
+        </select>
+      </div><br>
+    </div>
+</div>
     <div class='hero-cards'>
         {% if employee_list %}
         {% for employee, skills in employee_list %}
