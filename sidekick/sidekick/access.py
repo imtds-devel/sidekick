@@ -12,6 +12,7 @@ def get_access(netid, area):
     pos_fns = {
         "lbt": get_lbt_access,
         "spt": get_spt_access,
+        "sdr": get_sdr_access,
         "sst": get_sst_access,
         "llt": get_llt_access,
         "mgr": get_mgr_access,
@@ -38,6 +39,9 @@ def get_lbt_access(area):
 
         # Printer Status page
         "printer_labs", "printer_labs_edit",
+
+        # Support Desk Reps
+        "hide_from_sdr",
     ]
     return area in access_list
 
@@ -58,6 +62,26 @@ def get_spt_access(area):
 
         # Roster page
         # "roster_prof_all",
+
+        # Support Desk Reps
+        "hide_from_sdr",
+    ]
+    return area in access_list
+
+
+def get_sdr_access(area):
+    access_list = [
+        # Page access
+        "homebase_access", "passwords_access", "shift_access", "roster_access", "quote_access",
+
+        # Passwords page
+        "passwords_lab", "passwords_support",
+
+        # Shift Covers page
+        "shift_viewlabs", "shift_viewsupport",
+
+        # Support Desk Reps
+        "sdr_tools_access",
     ]
     return area in access_list
 
@@ -81,6 +105,9 @@ def get_sst_access(area):
 
         # Roster page
         "roster_prof_all",
+
+        # Support Desk Reps
+        "hide_from_sdr",
     ]
     return area in access_list
 
@@ -101,6 +128,9 @@ def get_llt_access(area):
 
         # Printer Status page
         "printer_labs", "printer_labs_edit",
+
+        # Support Desk Reps
+        "hide_from_sdr",
     ]
     return area in access_list
 
@@ -130,6 +160,10 @@ def get_mgr_access(area):
 
         # Passwords page
         "passwords_lab", "passwords_support", "passwords_manager",
+
+        # Support Desk Reps
+        "sdr_tools_access",
+        "hide_from_sdr"
     ]
     return area in access_list
 
@@ -159,6 +193,10 @@ def get_stt_access(area):
 
         # Passwords page
         "passwords_lab", "passwords_support", "passwords_manager",
+
+        # Support Desk Reps
+        "sdr_tools_access",
+        "hide_from_sdr",
     ]
     return area in access_list
 
@@ -188,6 +226,10 @@ def get_stm_access(area):
 
         # Passwords page
         "passwords_lab", "passwords_support", "passwords_manager",
+
+        # Support Desk Reps
+        "sdr_tools_access",
+        "hide_from_sdr",
     ]
     return area in access_list
 
@@ -214,6 +256,10 @@ def get_dev_access(area):
 
         # Passwords page
         "passwords_all",
+
+        #Support Desk Reps
+        "sdr_tools_access",
+        "hide_from_sdr",
     ]
     return area in access_list
 
@@ -273,4 +319,8 @@ MASTER_ACCESS_TEMPLATE = [
     "printer_all",                          # View all printers
     "printer_labs_edit",                    # Edit lab printer statuses
     "printer_all_edit",                     # Edit all printer statuses
+
+    # SD Rep Links under Tool drop down
+    "sdr_tools_access",                      # Access Trello & web checkout
+    "hide_from_sdr",                    # hiding permission of Slack, Papercut, and Time Adjustment
 ]
