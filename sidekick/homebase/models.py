@@ -20,6 +20,7 @@ class Employees(models.Model):
         ('spt', 'Support Tech'),
         ('sst', 'Senior Support Tech'),
         ('sdr', 'Support Desk Rep'),
+        ('sdl', 'Support Desk Lead'),
         ('llt', 'Lead Lab Tech'),
         ('mgr', 'Manager'),
         ('stt', 'Staff Tech'),
