@@ -189,6 +189,7 @@ CALENDAR_LOCATION_IDS = {
     'sd': cal['sd'],
     'rc': cal['rc'],
     'md': cal['md'],
+    'sr': cal['sr'],
     'te': cal['te']
 }
 
