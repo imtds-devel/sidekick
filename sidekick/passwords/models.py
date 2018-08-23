@@ -9,7 +9,6 @@ class Passwords(models.Model):
     name = models.CharField(max_length=20, default="")
     passwd = models.TextField(default="")
     description = models.TextField(default="")
-    permission = models.IntegerField(default=3)
 
     def __str__(self):
         return self.name + ": " + self.description
@@ -18,7 +17,8 @@ class Passwords(models.Model):
 class PassPermission(models.Model):
     PASS_PERM_OPTIONS = (
         ('lab', 'Lab Access'),
-        ('sup', 'Support Access'),
+        ('sup', 'Support Tech Access'),
+        ('sdr', 'SD Rep Access'),
         ('mgr', 'Manager Access'),
         ('dev', 'Developer Access'),
         ('all', 'All access'),
