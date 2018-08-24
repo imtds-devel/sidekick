@@ -160,6 +160,7 @@ def update_note(request):
             'result': 'Failed',
             'desc': 'No note was selected'
         })
+
 def load_note(request):
     id = request.GET.get('id', None)
     note = ModNote.objects.get(id=id)
@@ -176,16 +177,18 @@ def clear_note(request):
 
     request = views.get_current_user(request)
     note = ModNote.objects.get(id='1')
-    note.note = ""
-    note.poster = Employees.objects.get(netid=str(request.user))
-    note.created_date = datetime.datetime.now()
-    print(note)
-    note.save()
-    return JsonResponse({
-        'result': 'success',
-        'desc': 'Note was cleared successfully'
-    })
-    return JsonResponse({
-        'result': 'Failed',
-        'desc': 'No note was selected'
-    })
+    if note is not None:
+        note.note = ""
+        note.poster = Employees.objects.get(netid=str(request.user))
+        note.created_date = datetime.datetime.now()
+        print(note)
+        note.save()
+        return JsonResponse({
+            'result': 'success',
+            'desc': 'Note was cleared successfully'
+        })
+    else:
+        return JsonResponse({
+            'result': 'Failed',
+            'desc': 'No note was selected'
+        })

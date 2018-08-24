@@ -14,7 +14,7 @@ def synchronize(flush: bool=False, location: str=None):
 
     if location is None:
         # one for each calendar location
-        locations = ['ma', 'da', 'st', 'sd', 'rc', 'md']
+        locations = ['ma', 'da', 'st', 'sd', 'rc', 'md', 'sr']
         for loc in locations:
             sync_location(loc)
     else:
