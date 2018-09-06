@@ -97,6 +97,29 @@
                     {% endfor %}
                 </div>
             </div>
+            <div>
+                <div class='card services-card'>
+                    <div class='card-header'>iPhone Screen</div>
+                    {% for service in services_list %}
+                        {% if service.category == 'iphone_screen' %}
+                            <button id='service' type='button' class='btn btn-block service-btn'
+                            onclick="addService('{{service.service_name}}','{{service.price}}','{{service.category}}');">
+                                <div class ='media'>
+                                    <div id='service-name' class ='media-left'>
+                                    {{service.service_name}}
+                                    </div>
+                                    <div id='service-desc' class ='media-body'>
+                                    {{service.description}}
+                                    </div>
+                                    <div id='service-price' class ='media-right'>
+                                    ${{service.price}}
+                                    </div>
+                                </div>
+                            </button>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
             <div class = 'services-selection-container'>
                 <div class='card services-card'>
                     <div class='card-header'>Other</div>
