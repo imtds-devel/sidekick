@@ -191,11 +191,27 @@ $(document).ready(function () {
                 +"<i class='oi oi-trash'></i></button></div>"
                 +"</div></li>");
 
+
+            // If it's an iphone repair, we have to charge tax for the parts in stock
+            if(serviceID.includes('model-screens') || serviceID.includes('adhesive')){
+                if($('input[name=tax]').val() === ""){
+                    taxPartsCost = parseFloat(servicePrice * taxRate);
+                    $('input[name=tax]').val("$ " + taxPartsCost.toFixed(2));
+                }else{
+                    // get the old tax fee and add it to the new part's tax fee
+                    var prevTaxPartsCost = parseFloat($('input[name=tax]').val().substring(2));
+                    taxPartsCost = parseFloat(servicePrice * taxRate);
+                    taxPartsCost += prevTaxPartsCost;
+                    $('input[name=tax]').val("$ " + taxPartsCost.toFixed(2));
+                }
+            }
+
+
             subTotal += parseFloat(servicePrice);
             total = parseFloat(subTotal + shippingTotal + taxPartsCost);
             $('input[name=subtotal]').val("$ " + subTotal.toFixed(2));
             $('input[name=total]').val("$ " + total.toFixed(2));
-            }
+        }
 
             // Check these functions out at the bottom of this js :)
             checkTotalsDisplay();
