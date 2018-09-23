@@ -19,6 +19,7 @@ class PassPermission(models.Model):
     PASS_PERM_OPTIONS = (
         ('lab', 'Lab Access'),
         ('sup', 'Support Access'),
+        ('sdr', 'SD Reps Access'),
         ('mgr', 'Manager Access'),
         ('dev', 'Developer Access'),
         ('all', 'All access'),

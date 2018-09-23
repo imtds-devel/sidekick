@@ -16,6 +16,8 @@ def index(request):
         access_areas.append('lab')  # Notice that these correspond to the names from the passwords models file
     if access.get_access(str(request.user), "passwords_support"):
         access_areas.append('spt')
+    if access.get_access(str(request.user), "passwords_sd_reps"):
+        access_areas.append('sdr')
     if access.get_access(str(request.user), "passwords_manager"):
         access_areas.append('mgr')
     if access.get_access(str(request.user), "passwords_all"):

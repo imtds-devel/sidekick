@@ -75,13 +75,14 @@ def get_sdr_access(area):
         "homebase_access", "passwords_access", "shift_access", "roster_access", "quote_access",
 
         # Passwords page
-        "passwords_lab", "passwords_support",
+
 
         # Shift Covers page
         "shift_viewlabs", "shift_viewsupport",
 
         # Support Desk Reps
         "sdr_tools_access",
+        "passwords_sd_reps",
     ]
     return area in access_list
 
@@ -131,6 +132,7 @@ def get_llt_access(area):
 
         # Support Desk Reps
         "hide_from_sdr",
+
     ]
     return area in access_list
 
@@ -163,7 +165,8 @@ def get_mgr_access(area):
 
         # Support Desk Reps
         "sdr_tools_access",
-        "hide_from_sdr"
+        "hide_from_sdr",
+
     ]
     return area in access_list
 
@@ -197,6 +200,7 @@ def get_stt_access(area):
         # Support Desk Reps
         "sdr_tools_access",
         "hide_from_sdr",
+
     ]
     return area in access_list
 
@@ -230,6 +234,7 @@ def get_stm_access(area):
         # Support Desk Reps
         "sdr_tools_access",
         "hide_from_sdr",
+
     ]
     return area in access_list
 
