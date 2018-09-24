@@ -182,6 +182,7 @@ else:
     ]
 
 # Google Cal Settings
+#'sr': cal['sr'],
 CALENDAR_LOCATION_IDS = {
     'ma': cal['ma'],
     'da': cal['da'],

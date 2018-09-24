@@ -157,6 +157,7 @@ def get_llt_access(area):
         "printer_labs", "printer_labs_edit",
 
         "hide_from_sdr",
+
     ]
     return area in access_list
 
@@ -219,6 +220,7 @@ def get_stt_access(area):
         "passwords_lab", "passwords_support", "passwords_manager",
 
         "hide_from_sdr",
+
     ]
     return area in access_list
 
@@ -250,6 +252,7 @@ def get_stm_access(area):
         "passwords_lab", "passwords_support", "passwords_manager",
 
         "hide_from_sdr",
+
     ]
     return area in access_list
 
