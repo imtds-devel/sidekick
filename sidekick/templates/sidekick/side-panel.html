@@ -117,22 +117,6 @@
             </div>
         </div>
     </div>
-    <div class="card">
-        <div class="card-header"><h4>My Awards</h4></div>
-        <div class="card-body">
-            {% include 'trophycase/trophycase.html' with trophy_list=trophy_list %}
-        </div>
-    </div>
-    <div class='card' style="height: 100px">
-    <div class='userStd'>
-        <div class='sideUserText'>
-            <p><b>Logged in as:</b></p>
-            <p class='currentUser'>{{user_name}}</p>
-            <a class="logout" href="{% url 'logout' %}">Log out</a>
-        </div>
-        <img src="{% static user_img|img_exists %}" class='img rounded-circle sideMoDImg'>
-    </div>
-    </div>
     {% if user_netid|has_access:"roster_modfb_all" %}
     <div class="card">
         <div class="card-header"><h4>MoD Checklist</h4></div>
@@ -167,6 +151,22 @@
         </div>
     </div>
     {%endif%}
+    <div class="card">
+        <div class="card-header"><h4>My Awards</h4></div>
+        <div class="card-body">
+            {% include 'trophycase/trophycase.html' with trophy_list=trophy_list %}
+        </div>
+    </div>
+    <div class='card' style="height: 100px">
+    <div class='userStd'>
+        <div class='sideUserText'>
+            <p><b>Logged in as:</b></p>
+            <p class='currentUser'>{{user_name}}</p>
+            <a class="logout" href="{% url 'logout' %}">Log out</a>
+        </div>
+        <img src="{% static user_img|img_exists %}" class='img rounded-circle sideMoDImg'>
+    </div>
+    </div>
 </div>
 <div id="task-modal" class="modal fade" role="dialog">
     <div class="modal-dialog">

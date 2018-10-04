@@ -63,6 +63,50 @@
             {% endif %}
       </div>
     </div>
+       <div class="beacon">
+      <div class="beacon-left">
+        <p class="beacon-location">Building 5</p>
+        {% if user_netid|has_access:"homingbeacon_checkin" %}
+        <button role="button" class="btn btn-success btn-sm user-checkin">Checkin</button>
+        {% endif %}
+      </div>
+
+      <div class="beacon-right rc">
+        {% if support_shifts %}
+        {% for shift in support_shifts %}
+        <div class="info-emp">
+          <h4><b>{{shift.pretty_location}}</b></h4>
+          <div class="img-holder">
+             <img src="{% static shift.owner.picture|img_exists %}" alt="{{shift.owner}}"
+                             class="employee-pic
+                             {% if shift.is_open %} pic-open-shift {% else %}
+                                 {% if user_netid|has_access:'homingbeacon_checkin' %}
+                                     {% if shift.shift_start|time_since < 420 %}
+                                        {% if shift.checked_in == 'T' %}
+                                            employee-pic-green
+                                         {% else %}
+                                            employee-pic-yellow
+                                         {% endif%}
+                                     {% else %}
+                                         {% if shift.checked_in == 'T' %}
+                                            employee-pic-green
+                                         {% else %}
+                                            employee-pic-red
+                                         {% endif%}
+                                     {% endif %}
+                                 {% endif %}
+                             {% endif %}    ">
+          </div>
+          <div class="name-holder">
+            <p>{{shift.short_title}}</p>
+          </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <h3 style="margin-left:1rem;">No one's in Building 5 right now</h3>
+        {% endif %}
+      </div>
+    </div>
       <div class="beacon">
       <div class="beacon-left">
         <p class="beacon-location">Support Reps</p>
@@ -108,50 +152,7 @@
             {% endif %}
       </div>
     </div>
-    <div class="beacon">
-      <div class="beacon-left">
-        <p class="beacon-location">Building 5</p>
-        {% if user_netid|has_access:"homingbeacon_checkin" %}
-        <button role="button" class="btn btn-success btn-sm user-checkin">Checkin</button>
-        {% endif %}
-      </div>
 
-      <div class="beacon-right rc">
-        {% if support_shifts %}
-        {% for shift in support_shifts %}
-        <div class="info-emp">
-          <h4><b>{{shift.pretty_location}}</b></h4>
-          <div class="img-holder">
-             <img src="{% static shift.owner.picture|img_exists %}" alt="{{shift.owner}}"
-                             class="employee-pic
-                             {% if shift.is_open %} pic-open-shift {% else %}
-                                 {% if user_netid|has_access:'homingbeacon_checkin' %}
-                                     {% if shift.shift_start|time_since < 420 %}
-                                        {% if shift.checked_in == 'T' %}
-                                            employee-pic-green
-                                         {% else %}
-                                            employee-pic-yellow
-                                         {% endif%}
-                                     {% else %}
-                                         {% if shift.checked_in == 'T' %}
-                                            employee-pic-green
-                                         {% else %}
-                                            employee-pic-red
-                                         {% endif%}
-                                     {% endif %}
-                                 {% endif %}
-                             {% endif %}    ">
-          </div>
-          <div class="name-holder">
-            <p>{{shift.short_title}}</p>
-          </div>
-        </div>
-        {% endfor %}
-        {% else %}
-        <h3 style="margin-left:1rem;">No one's in Building 5 right now</h3>
-        {% endif %}
-      </div>
-    </div>  
 
     <div class="beacon">
 
