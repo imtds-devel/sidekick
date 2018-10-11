@@ -122,24 +122,7 @@
                     <div class="img-holder">
 
                         <img src="{% static shift.owner.picture|img_exists %}" alt="{{shift.owner}}"
-                             class="employee-pic
-                             {% if shift.is_open %} pic-open-shift {% else %}
-                                 {% if user_netid|has_access:'homingbeacon_checkin' %}
-                                     {% if shift.shift_start|time_since < 420 %}
-                                        {% if shift.checked_in == 'T' %}
-                                            employee-pic-green
-                                         {% else %}
-                                            employee-pic-yellow
-                                         {% endif%}
-                                     {% else %}
-                                         {% if shift.checked_in == 'T' %}
-                                            employee-pic-green
-                                         {% else %}
-                                            employee-pic-red
-                                         {% endif%}
-                                     {% endif %}
-                                 {% endif %}
-                             {% endif %}    ">
+                             class="employee-pic">
                     </div>
                     <div class="name-holder">
                         <p>{{shift.short_title}}</p>
@@ -198,9 +181,9 @@
                 <div id="check-form">
                     <form method="post"  id="checkform" >
                         {% csrf_token %}
-                        {% if lab_shifts %}
+                        {% if check_shifts %}
                             <h3>Tech Check In</h3>
-                            {% for shift in shifts %}
+                            {% for shift in check_shifts %}
                                 {% if not shift.is_open %}
 
                                 <div class="form-group" id="group {{shift.owner.netid}}">
