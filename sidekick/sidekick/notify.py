@@ -29,7 +29,8 @@ def notify_employees(emps, subject: str, body: str):
 
                 # TODO: Verify status and log on failure
             elif source.source == 't':
-                email_sources.append(str(emp.phone_msg)+"@"+source.details)
+                number = ''.join(i for i in emp.phone if i.isdigit())
+                email_sources.append(str(number)+"@"+source.details)
             elif source.source == 'e':
                 email_sources.append(str(emp.netid)+"@apu.edu")
 
