@@ -51,6 +51,7 @@ st = require_env('CAL_ST')
 sd = require_env('CAL_SD')
 rc = require_env('CAL_RC')
 md = require_env('CAL_MD')
+sr = require_env('CAL_SR')
 te = require_env('CAL_TE')
 
 CALENDAR_LOCATION_IDS = {
@@ -60,6 +61,7 @@ CALENDAR_LOCATION_IDS = {
     'sd': sd,
     'rc': rc,
     'md': md,
+    'sr': sr,
     'te': te
 }
 
