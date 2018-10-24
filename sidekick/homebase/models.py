@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.db import models
+from django.utils import timezone
 
 
 class Employees(models.Model):
@@ -19,6 +20,7 @@ class Employees(models.Model):
         ('spt', 'Support Tech'),
         ('sst', 'Senior Support Tech'),
         ('sdr', 'Support Desk Rep'),
+        ('sdl', 'Support Desk Lead'),
         ('llt', 'Lead Lab Tech'),
         ('mgr', 'Manager'),
         ('stt', 'Staff Tech'),
@@ -98,10 +100,6 @@ class Employees(models.Model):
         out = "%s%s%s%s%s".lower() % (self.fname, self.netid, self.nice_standing, self.nice_position, self.position)
         return out.lower()
 
-    @property
-    def phone_msg(self):
-        return "%s%s%s" % tuple(str(self.phone).split("-"))
-
 
 class NotifySources(models.Model):
     SOURCE_CHOICES = (
@@ -176,3 +174,17 @@ class StaffStatus(models.Model):
     netid = models.OneToOneField(Employees, on_delete=models.CASCADE, primary_key=True)
     status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='o')
     description = models.CharField(max_length=20, default="")
+
+class ModTasks(models.Model):
+    task = models.TextField(default="")
+    created_date = models.DateTimeField(default = timezone.now)
+    poster = models.ForeignKey(Employees, related_name='taskPoster', on_delete=models.CASCADE)
+    completed = models.BooleanField(default=False)
+    completed_date = models.DateTimeField(null=True)
+    completer = models.ForeignKey(Employees, related_name='taskCompleter', on_delete=models.CASCADE, null=True)
+    priority = models.BooleanField(default=False)
+
+class ModNote(models.Model):
+    note = models.TextField(default="")
+    poster = models.ForeignKey(Employees, related_name='notePoster', on_delete=models.CASCADE)
+    created_date = models.DateTimeField(default=timezone.now)

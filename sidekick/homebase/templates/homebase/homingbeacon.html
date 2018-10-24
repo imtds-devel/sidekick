@@ -63,7 +63,7 @@
             {% endif %}
       </div>
     </div>
-    <div class="beacon">
+       <div class="beacon">
       <div class="beacon-left">
         <p class="beacon-location">Building 5</p>
         {% if user_netid|has_access:"homingbeacon_checkin" %}
@@ -106,7 +106,36 @@
         <h3 style="margin-left:1rem;">No one's in Building 5 right now</h3>
         {% endif %}
       </div>
-    </div>  
+    </div>
+      <div class="beacon">
+      <div class="beacon-left">
+        <p class="beacon-location">Support Reps</p>
+        {% if user_netid|has_access:"homingbeacon_checkin" %}
+        <button role="button" class="btn btn-success btn-sm user-checkin">Checkin</button>
+        {% endif %}
+      </div>
+        <div class="beacon-right">
+            {% if rep_shifts %}
+                {% for shift in rep_shifts %}
+                <div class="info-emp">
+                    <h4><b>{{shift.pretty_location}}</b></h4>
+                    <div class="img-holder">
+
+                        <img src="{% static shift.owner.picture|img_exists %}" alt="{{shift.owner}}"
+                             class="employee-pic">
+                    </div>
+                    <div class="name-holder">
+                        <p>{{shift.short_title}}</p>
+                    </div>
+                </div>
+
+                {% endfor %}
+            {% else %}
+                <h3 style="margin-left: 1rem;">No one's in the support reps office right now</h3>
+            {% endif %}
+      </div>
+    </div>
+
 
     <div class="beacon">
 
@@ -152,9 +181,9 @@
                 <div id="check-form">
                     <form method="post"  id="checkform" >
                         {% csrf_token %}
-                        {% if lab_shifts %}
+                        {% if check_shifts %}
                             <h3>Tech Check In</h3>
-                            {% for shift in shifts %}
+                            {% for shift in check_shifts %}
                                 {% if not shift.is_open %}
 
                                 <div class="form-group" id="group {{shift.owner.netid}}">

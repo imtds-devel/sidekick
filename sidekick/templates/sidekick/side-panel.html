@@ -1,7 +1,8 @@
 {% load staticfiles %}
 {% load roster_extras %}
+{% load sidekick_extras %}
 
-<div>
+<div class="side-panel">
     <div class="card">
         <div class="card-header"><h4>MoD Tracker</h4></div>
         <div class="card-body">
@@ -116,10 +117,135 @@
             </div>
         </div>
     </div>
+    {% if user_netid|has_access:"roster_modfb_all" %}
+    <div class="card">
+        <div class="card-header"><h4>MoD Checklist</h4></div>
+        <div class="card-body">
+            <fieldset id="task-checklist">
+                <legend>Current Tasks</legend>
+
+                {%for task in priority_tasks %}
+                <div class="task-list-hpr" style="display: flex;">
+                    <input type="checkbox" id="task-checkbox{{task.id}}" class="task-checkbox"/>
+                    <label for="task-checkbox{{task.id}}" style="padding-left: 15px">{{task.task}}</label>
+                </div>
+                {% endfor %}
+                {%for task in tasks %}
+                <div class="task-list" style="display: flex;">
+                    <input type="checkbox" id="task-checkbox{{task.id}}" class="task-checkbox"/>
+                    <label for="task-checkbox{{task.id}}" style="padding-left: 15px">{{task.task}}</label>
+                </div>
+                {% endfor %}
+            </fieldset>
+            <button role=button data-toggle="modal" data-target="#task-modal" class="btn btn-success btn-sm">Add Task</button>
+            <button type="button" id="task-complete" class="btn btn-sm btn-complete"  disabled>Complete</button>
+            <button role="button " data-toggle="modal" data-target="#view-modal"  class="btn btn-sm ">Full List</button>
+            <br>
+            <br>
+            <h4>MoD Note</h4>
+            <p20 class="small">Last updated by: {{modnote.poster}} on {{modnote.created_date}}</p20>
+            <textarea id="modnote" class="form-control" placeholder="Burritos are good" rows="2"></textarea>
+            <br>
+            <button role="button" id="note-update" class="btn btn-success btn-sm">Update Note</button>
+            <button role="buttone" id="note-clear" class="btn btn-danger btn-sm">Clear Note</button>
+        </div>
+    </div>
+    {%endif%}
     <div class="card">
         <div class="card-header"><h4>My Awards</h4></div>
         <div class="card-body">
             {% include 'trophycase/trophycase.html' with trophy_list=trophy_list %}
         </div>
     </div>
+    <div class='card' style="height: 100px">
+    <div class='userStd'>
+        <div class='sideUserText'>
+            <p><b>Logged in as:</b></p>
+            <p class='currentUser'>{{user_name}}</p>
+            <a class="logout" href="{% url 'logout' %}">Log out</a>
+        </div>
+        <img src="{% static user_img|img_exists %}" class='img rounded-circle sideMoDImg'>
+    </div>
+    </div>
+</div>
+<div id="task-modal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="task-menu-body" id="cr-task-container">
+                    <h2>Create Task</h2>
+                    <br>
+                    <p><b>Task:</b></p>
+                    <input class="form-control" id="task-text" type="text" placeholder="Make a Burrito">
+                    <br>
+                    <fieldset id="task-pr">
+                        <legend>Task Priority:</legend>
+                        <div id="task-pr-list">
+                            <input type="radio" id="task-pr-high" name="priority" value='True' class="radio-button">
+                            <label for="task-pr-high" style="padding-right: 5px">High</label>
+                            <input type="radio" id="task-pr-neutral" name="priority" value='False' class="radio-button">
+                            <label for="task-pr-neutral" style="padding-right: 5px">Normal</label>
+                        </div>
+                    </fieldset>
+                    <br>
+                    <br>
+                    <button type="button" class="btn btn-success" id="task-submit">Submit</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+      </div>
+</div>
+<div id="view-modal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="task-menu-body" id="view-tasks-container">
+                    <h2>Uncompleted Tasks:</h2>
+                    <table id="incomplete-tasks" class="table-tasks">
+                        <tr>
+                            <th>Task</th>
+                            <th>Task Creator</th>
+                            <th>Created Date</th>
+                        </tr>
+                        {%for task in tasks%}
+                        <tr>
+                            <td style="width: 300px">{{task.task}}</td>
+                            <td>{{task.poster}}</td>
+                            <td>{{task.created_date}}</td>
+                        </tr>
+                        {%endfor%}
+                    </table>
+                    <br>
+                    <h2>Completed Tasks</h2>
+                    <table id="complete-tasks" class="table-tasks">
+                        <tr>
+                            <th>Task</th>
+                            <th>Task Completer</th>
+                            <th>Completed Date</th>
+                            <th>Task Creator</th>
+                            <th>Created Date</th>
+                        </tr>
+                        {%for task in completed_tasks%}
+                        <tr>
+                            <td>{{task.task}}</td>
+                            <td>{{task.completer}}</td>
+                            <td>{{task.completed_date}}</td>
+                            <td>{{task.poster}}</td>
+                            <td>{{task.created_date}}</td>
+                        </tr>
+                        {%endfor%}
+                    </table>
+                </div>
+            </div>
+        </div>
+      </div>
 </div>

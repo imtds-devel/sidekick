@@ -29,6 +29,7 @@ def index(request):
         'spt': "Support Tech",
         'sst': "Senior Support Tech",
         'sdr': "Support Desk Rep",
+        'sdl': "Support Desk Lead",
         'mgr': "Manager"
     }
     # The possible locations for a shift in the database
@@ -38,6 +39,7 @@ def index(request):
         'st': "Stamps",
         'rc': "Repair Center",
         'sd': "Support Desk",
+        'sr': "Support Reps",
         'md': "MoD Desk"
     }
 

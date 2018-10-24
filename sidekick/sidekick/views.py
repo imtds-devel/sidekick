@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from . import views
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from sidekick.settings import PRODUCTION
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from roster.models import Trophies
-from homebase.models import Employees
+from homebase.models import Employees, ModTasks, ModNote
 from shifts.models import Shifts
 import datetime
 import pytz
@@ -54,7 +55,10 @@ def load_page(request, template: str, context: dict):
 
     context['trophy_list'] = Trophies.objects.filter(recipient=curr_user)
     context['curr_page'] = template.split("/")[0]
-
+    context['priority_tasks'] = ModTasks.objects.filter(completed=False).filter(priority=True).order_by('created_date')
+    context['tasks'] = ModTasks.objects.filter(completed=False).filter(priority=False).order_by('created_date')
+    context['completed_tasks'] = ModTasks.objects.filter(completed=True).order_by('-completed_date')
+    context['modnote'] = ModNote.objects.get(id='1')
     return render(request, template, context)
 
 
@@ -80,3 +84,111 @@ def authorize(request):
 def oauth_handler(request):
     print(request.GET)
     return HttpResponse("Hi!")
+
+def new_task(request):
+    # Reject any non-POST request
+    if request.method != 'POST':
+        return JsonResponse({
+            'result': 'failure',
+            'desc': 'Bad request method'
+        }, status=500)
+
+    request = views.get_current_user(request)
+
+    ModTasks(
+        poster=Employees.objects.get(netid=str(request.user)),
+        task=request.POST.get('task', None),
+        priority=request.POST.get('priority', None)
+    ).save()
+
+    return JsonResponse({
+        'result': 'success',
+        'desc': 'Task was added successfully'
+    })
+
+def complete_task(request):
+    # Reject any non-POST request
+    if request.method != 'POST':
+        return JsonResponse({
+            'result': 'failure',
+            'desc': 'Bad request method'
+        }, status=500)
+
+    request = views.get_current_user(request)
+    tasktext = request.POST.get('task', None)
+    if tasktext is not None:
+        task = ModTasks.objects.get(task=tasktext)
+        task.completer = Employees.objects.get(netid=str(request.user))
+        task.completed_date = datetime.datetime.now()
+        task.completed = True
+        print(task)
+        task.save()
+        return JsonResponse({
+            'result': 'success',
+            'desc': 'Task was completed successfully'
+        })
+    else:
+        return JsonResponse({
+            'result': 'Failed',
+            'desc': 'No task was selected'
+        })
+
+def update_note(request):
+    # Reject any non-POST request
+    if request.method != 'POST':
+        return JsonResponse({
+            'result': 'failure',
+            'desc': 'Bad request method'
+        }, status=500)
+
+    request = views.get_current_user(request)
+    notetext = request.POST.get('note', None)
+
+    if notetext is not None:
+        note = ModNote.objects.get(id='1')
+        note.note = notetext
+        note.poster = Employees.objects.get(netid=str(request.user))
+        note.created_date = datetime.datetime.now()
+        print(note)
+        note.save()
+        return JsonResponse({
+            'result': 'success',
+            'desc': 'Note was updated successfully'
+        })
+    else:
+        return JsonResponse({
+            'result': 'Failed',
+            'desc': 'No note was selected'
+        })
+
+def load_note(request):
+    id = request.GET.get('id', None)
+    note = ModNote.objects.get(id=id)
+    data = {'note': note.note}
+    return JsonResponse(data)
+
+def clear_note(request):
+    # Reject any non-POST request
+    if request.method != 'POST':
+        return JsonResponse({
+            'result': 'failure',
+            'desc': 'Bad request method'
+        }, status=500)
+
+    request = views.get_current_user(request)
+    note = ModNote.objects.get(id='1')
+    if note is not None:
+        note.note = ""
+        note.poster = Employees.objects.get(netid=str(request.user))
+        note.created_date = datetime.datetime.now()
+        print(note)
+        note.save()
+        return JsonResponse({
+            'result': 'success',
+            'desc': 'Note was cleared successfully'
+        })
+    else:
+        return JsonResponse({
+            'result': 'Failed',
+            'desc': 'No note was selected'
+        })

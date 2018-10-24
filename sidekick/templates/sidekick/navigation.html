@@ -23,9 +23,11 @@
             <li class = "nav-item">
                 <a class = "nav-link" href = "{% url 'quotes:index' %}">Quote Tool</a>
             </li>
-            <li class = "nav-item">
-                <a class = "nav-link" href = "{% url 'printinfo:index' %}">Printer Info</a>
-            </li>
+            {% if user_netid|has_access:"printer_access" %}
+                <li class = "nav-item">
+                    <a class = "nav-link" href = "{% url 'printinfo:index' %}">Printer Info</a>
+                </li>
+            {% endif %}
         </ul>
         <!-- Dropdowns -->
         <ul class = "navbar-nav">
@@ -35,7 +37,9 @@
                 </a>
             </li>
             <li class = "nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Rounds Reports <b class="caret"></b></a>
+                {% if user_netid|has_access:"hide_from_sdr" %}
+                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Rounds Reports <b class="caret"></b></a>
+                {% endif %}
                 <div class = "dropdown-menu">
                     <a class = "dropdown-item" href="https://docs.google.com/a/apu.edu/forms/d/e/1FAIpQLSdq-oICEs4EM7bFO3ofPauO4r53k_ltyzTLBtI8RBb4DJCDEg/viewform" target="_blank">
                         Marshburn
@@ -47,22 +51,25 @@
                         Stamps
                     </a>
                     {% if user_netid|has_access:"nav_modtools" %}
-                    <div class = "dropdown-divider"></div>
-                    <a class = "dropdown-item" href="https://docs.google.com/a/apu.edu/forms/d/e/1FAIpQLSfO_tzuhNtOeJEQGknHlfxwQVBNn12QNNaMh22Eo7VVmmmSyQ/viewform" target="_blank">
-                        MoD Report
-                    </a>
+                        <div class = "dropdown-divider"></div>
+                        <a class = "dropdown-item" href="https://docs.google.com/a/apu.edu/forms/d/e/1FAIpQLSfO_tzuhNtOeJEQGknHlfxwQVBNn12QNNaMh22Eo7VVmmmSyQ/viewform" target="_blank">
+                            MoD Report
+                        </a>
                     {% endif %}
                 </div>
             </li>
             <li class = "nav-item dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Tools <b class="caret"></b></a>
                 <div class="dropdown-menu dropdown-menu-right">
-                    <a class = "dropdown-item" href="https://apuimt.slack.com/" target="_blank">Slack</a>
                     <a class = "dropdown-item" href="https://den.apu.edu/idm/admin" target="_blank">IDM</a>
+                    {% if user_netid|has_access:"hide_from_sdr" %}
+                    <a class = "dropdown-item" href="https://apuimt.slack.com/" target="_blank">Slack</a>
                     <a class = "dropdown-item" href="https://labprint.apu.edu/release" target="_blank">Papercut</a>
                     <a class = "dropdown-item" href="https://docs.google.com/a/apu.edu/forms/d/e/1FAIpQLSe_EPW562n79mbHaI7_YYWVfD9LxKzmo1__Y9UtZ13fzczuJQ/viewform" target="_blank">Time Adjustment Form</a>
+                   {% endif %}
                     <a class = "dropdown-item" href="https://apu.zendesk.com/agent/" target="_blank">Zendesk</a>
                     <a class = "dropdown-item" href="https://wiki.apu.edu/" target="_blank">Wiki</a>
+                    <a class = "dropdown-item" href="https://pcs.apu.edu/pcsportal/web/guest/home" target="_blank">OdysseyPCS</a>
                     {% if user_netid|has_access:"nav_modtools" %}
                     <div class = "dropdown-divider"></div>
                     <a class = "dropdown-item" href="https://ise-adm-1.ise.apu.edu/admin/login.jsp" target="_blank">ISE</a>
@@ -70,6 +77,11 @@
                     <a class = "dropdown-item" href="https://citrix.apu.edu/" target="_blank">Citrix</a>
                     <a class = "dropdown-item" href="/roster/overview" >Roster Overview</a>
                     <a class = "dropdown-item" href="https://labprint.apu.edu/app">Labprint Admin</a>
+                    {% endif %}
+                    {% if user_netid|has_access:"nav_sdrtools" %}
+                        <div class = "dropdown-divider"></div>
+                        <a class = "dropdown-item" href="https://trello.com/" target="_blank">Trello</a>
+                        <a class = "dropdown-item" href="https://webcheckout.apu.edu/wco" target="_blank">Web Check Out</a>
                     {% endif %}
                 </div>
             </li>
