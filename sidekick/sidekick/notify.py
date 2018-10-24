@@ -79,7 +79,12 @@ def notify_employee(subject: str, body: str, emp: Employees):
 
 # Notify all employees of a specific position
 def notify_position(subject: str, body: str, position: str):
-    emps = Employees.objects.filter(Q(position=position, notify_level__gte=2) | Q(notify_level=3)).filter(delete=False)
+    if position == "lbt":
+        # notify the lead lab techs too for lab tech things
+        emps = Employees.objects.filter(Q(position=position, notify_level__gte=2) | Q(position='llt') | Q(notify_level=3)).filter(delete=False)
+    else:
+        emps = Employees.objects.filter(Q(position=position, notify_level__gte=2) | Q(notify_level=3)).filter(delete=False)
+
     return notify_employees(emps, subject, body)
 
 
