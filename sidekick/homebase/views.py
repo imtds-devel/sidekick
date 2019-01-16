@@ -7,7 +7,8 @@ from shifts.models import Shifts
 import datetime
 import pytz
 import json
-
+import pdb
+import requests
 
 def index(request):
     # If this is a form submission
@@ -84,6 +85,8 @@ def prep_context():
 
     tz = pytz.timezone("America/Los_Angeles")
     now = tz.localize(datetime.datetime.now())
+
+#### old shifts retrieval start ####
     shifts = Shifts.objects.filter(shift_start__lte=now).filter(shift_end__gt=now).order_by('location')
     labs = []
     support = []
@@ -99,11 +102,28 @@ def prep_context():
             to_check_in.append(shift)
         elif shift.location == 'sr':
             rep.append(shift)
+#### old shifts retrieval end ####
 
     staff_stats = StaffStatus.objects.all().order_by('netid')
 
     ordered_list = order(announcement_list, event_list)
     s_form = StatusForm()
+
+
+#### sling retrieval start ####
+    timesheetURL = "https://api.sling.is/v1/reports/timesheets"
+    payload = {'dates': str(now.isoformat())}
+    headers = {'Accept': 'application/json', 'Authorization': '626d9c449139440995a7d9fe2a2bd0d6'}
+
+    r = requests.get(timesheetURL, params=payload, headers=headers)
+
+    # Transform json input to python objects
+    todays_shifts = r.json()
+    for shift in todays_shifts:
+        # convert string to datetime object
+        start_time = datetime.datetime.strptime(shift['dtstart'], "%Y-%m-%dT%H:%M:%S-z")
+        pdb.set_trace()
+
 
     return {
         'shifts': shifts,
