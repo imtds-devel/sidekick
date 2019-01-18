@@ -9,6 +9,7 @@ import pytz
 import json
 import pdb
 import requests
+from dateutil import parser
 
 def index(request):
     # If this is a form submission
@@ -110,22 +111,43 @@ def prep_context():
     s_form = StatusForm()
 
 
-#### sling retrieval start ####
-    timesheetURL = "https://api.sling.is/v1/reports/timesheets"
-    payload = {'dates': str(now.isoformat())}
+#### sling retrieval start
     headers = {'Accept': 'application/json', 'Authorization': '626d9c449139440995a7d9fe2a2bd0d6'}
+    positions_url = "https://api.sling.is/v1/labor/wages/position/"
+    users_url = "https://api.sling.is/v1/users"
+    users = requests.get(users_url, headers=headers).json()  # returns a list of dictionaries
 
-    r = requests.get(timesheetURL, params=payload, headers=headers)
+    timesheet_url = "https://api.sling.is/v1/reports/timesheets"
+    payload = {'dates': str(now.isoformat())}
+    todays_shifts = requests.get(timesheet_url, params=payload, headers=headers).json()
+    current_shifts = []
 
-    # Transform json input to python objects
-    todays_shifts = r.json()
+    # filter through all shifts toady to find one's that are happening right now
     for shift in todays_shifts:
-        # convert string to datetime object
-        start_time = datetime.datetime.strptime(shift['dtstart'], "%Y-%m-%dT%H:%M:%S-z")
-        pdb.set_trace()
+        # convert strings to datetime object
+        start_time = parser.parse(shift['dtstart'])
+        end_time = parser.parse(shift['dtend'])
+
+        if is_now_in_interval(start_time, end_time, now):
+            current_shifts.append(shift)
+
+    for shift in current_shifts:
+        # filters through all users json and finds the shift owner details via user_id
+        shift_owner = [d for d in users if d['id'] == shift['user']['id']]
+        # the filtering above returns a list, this is for formatting sake
+        shift_owner = shift_owner[0]
+
+        # add user info to shift json
+        shift['user']['fullName'] = shift_owner['name'] + " " + shift_owner['lastname']
+        shift['user']['netID'] = shift_owner['email'][:-8]      # parse out '@apu.edu'
+
+        # get position details for shift
+        position = requests.get(positions_url + str(shift['position']['id']), headers=headers).json()[0]
+        shift['position']['name'] = position['position']['name']    # add position details to shift
 
 
     return {
+        'sling_shifts': current_shifts,
         'shifts': shifts,
         'check_shifts': to_check_in,
         'lab_shifts': labs,
@@ -182,3 +204,10 @@ def post_checkin(request):
         json.dumps({"status": "Check in successfully made!"}),
         content_type="application/json"
     )
+
+
+def is_now_in_interval(startTime, endTime, nowTime):
+    if startTime < endTime:
+        return nowTime >= startTime and nowTime <= endTime
+    else:   # over midnight
+        return nowTime >= startTime or nowTime <= endTime

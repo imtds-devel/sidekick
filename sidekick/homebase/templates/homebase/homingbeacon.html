@@ -135,7 +135,31 @@
             {% endif %}
       </div>
     </div>
+<div class="beacon">
+      <div class="beacon-left">
+        <p class="beacon-location">Sling Slang</p>
+      </div>
+        <div class="beacon-right">
+            {% if sling_shifts %}
+                {% for shift in sling_shifts %}
+                <div class="info-emp">
+                    <h4><b>{{shift.user.fullName}}</b></h4>
+                    <div class="img-holder">
 
+                        <img src="{% static shift.owner.picture|img_exists %}" alt="{{shift.owner}}"
+                             class="employee-pic">
+                    </div>
+                    <div class="name-holder">
+                        <p>{{shift.short_title}}</p>
+                    </div>
+                </div>
+
+                {% endfor %}
+            {% else %}
+                <h3 style="margin-left: 1rem;">No one's in the support reps office right now</h3>
+            {% endif %}
+      </div>
+    </div>
 
     <div class="beacon">
 
