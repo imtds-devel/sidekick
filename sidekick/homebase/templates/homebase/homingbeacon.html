@@ -140,17 +140,17 @@
         <p class="beacon-location">Sling Slang</p>
       </div>
         <div class="beacon-right">
-            {% if sling_shifts %}
-                {% for shift in sling_shifts %}
+            {% if managerTechLead_shifts %}
+                {% for shift in managerTechLead_shifts %}
                 <div class="info-emp">
-                    <h4><b>{{shift.user.fullName}}</b></h4>
+                    <h4><b>{{shift.position.name}}</b></h4>
                     <div class="img-holder">
 
-                        <img src="{% static shift.owner.picture|img_exists %}" alt="{{shift.owner}}"
+                        <img src="{% static shift.user.netID|img_exists %}" alt="{{shift.user.netID}}"
                              class="employee-pic">
                     </div>
                     <div class="name-holder">
-                        <p>{{shift.short_title}}</p>
+                        <p>{{shift.user.fullName}}</p>
                     </div>
                 </div>
 
