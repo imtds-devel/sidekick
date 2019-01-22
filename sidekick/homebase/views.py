@@ -92,6 +92,10 @@ def prep_context():
     ordered_list = order(announcement_list, event_list)
     s_form = StatusForm()
 
+    # support reps are not on Sling so we retrieve their shifts
+    # from the database (which pulls from a google calendar)
+    rep_shifts = Shifts.objects.filter(shift_start__lte=now).filter(shift_end__gt=now).filter(location='sr')
+
     # make Sling API call
     headers = {'Accept': 'application/json', 'Authorization': '626d9c449139440995a7d9fe2a2bd0d6'}
     positions_url = "https://api.sling.is/v1/labor/wages/position/"
@@ -147,6 +151,7 @@ def prep_context():
         'support_shifts': support,
         'offLead_shifts': off_lead,
         'managerTechLead_shifts': mngr_tLead,
+        'rep_shifts': rep_shifts,
         'ordered_list': ordered_list,
         's_form': s_form,
         'staff_stats': staff_stats,
