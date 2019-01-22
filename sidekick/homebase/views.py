@@ -106,9 +106,9 @@ def prep_context():
     # filter through all shifts toady to find one's that are happening right now
     for shift in todays_shifts:
         # convert strings to datetime object
-        start_time = parser.parse(shift['dtstart'])
-        end_time = parser.parse(shift['dtend'])
-        if is_now_in_interval(start_time, end_time, now):
+        shift['dtstart'] = parser.parse(shift['dtstart'])
+        shift['dtend'] = parser.parse(shift['dtend'])
+        if is_now_in_interval(shift['dtstart'], shift['dtend'], now):
             current_shifts.append(shift)
 
     labs = []

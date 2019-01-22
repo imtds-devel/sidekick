@@ -4,47 +4,42 @@
 
 <!-- Creates the homing beacon-->
 <div class="card homebase-group">
-  <div class="card-header app-head">Homing Beacon</div>
-  <div class="card-block app-body">
+    <div class="card-header app-head">Homing Beacon</div>
+    <div class="card-block app-body">
 
-    <div class="beacon">
-      <div class="beacon-left">
-        <p class="beacon-location">Labs</p>
-        {% if user_netid|has_access:"homingbeacon_checkin" %}
-        <button role="button" class="btn btn-success btn-sm user-checkin">Checkin</button>
-        {% endif %}
-      </div>
-        <div class="beacon-right">
-            {% if lab_shifts %}
+        <div class="beacon">
+            <div class="beacon-left">
+                <p class="beacon-location">Lab Techs</p>
+            </div>
+            <div class="beacon-right">
+                {% if lab_shifts %}
                 {% for shift in lab_shifts %}
                 <div class="info-emp">
-                    <h4><b>{{shift.pretty_location}}</b></h4>
+                    <h4><b>{{shift.position.name}}</b></h4>
                     <div class="img-holder">
-
-                        <img src="{% static shift.owner.picture|img_exists %}" alt="{{shift.owner}}"
+                        <img src="{% static shift.user.netID|emp_img_exists %}" alt="{{shift.user.netID}}"
                              class="employee-pic
-                             {% if shift.is_open %} pic-open-shift {% else %}
-                                 {% if user_netid|has_access:'homingbeacon_checkin' %}
-                                     {% if shift.shift_start|time_since < 420 %}
-                                        {% if shift.checked_in == 'T' %}
-                                            employee-pic-green
-                                         {% else %}
-                                            employee-pic-yellow
-                                         {% endif%}
+                             {% if user_netid|has_access:'homingbeacon_checkin' %}
+                                 {% if shift.dtstart|time_since < 420 %}
+                                    {% if shift.timesheetProjections|has_content %}
+                                        employee-pic-green
                                      {% else %}
-                                         {% if shift.checked_in == 'T' %}
-                                            employee-pic-green
-                                         {% else %}
-                                            employee-pic-red
-                                         {% endif%}
-                                     {% endif %}
+                                        employee-pic-yellow
+                                     {% endif%}
+                                 {% else %}
+                                     {% if shift.timesheetProjections|has_content %}
+                                        employee-pic-green
+                                     {% else %}
+                                        employee-pic-red
+                                     {% endif%}
                                  {% endif %}
-                             {% endif %}    ">
+                             {% endif %}
+                             ">
 
                     </div>
 
                     <div class="name-holder">
-                        <p>{{shift.short_title}}</p>
+                        <p>{{shift.user.fullName}}</p>
                     </div>
                 </div>
 
@@ -52,70 +47,90 @@
 
                 {% if user_netid|has_access:"homingbeacon_requestpaper" %}
                 <div class="info-emp">
-                  <h4>Paper Count</h4>
-                  <div class="img-holder">
-                    <span class="oi oi-file"></span>
-                  </div>
+                    <h4>Paper Count</h4>
+                    <div class="img-holder">
+                        <span class="oi oi-file"></span>
+                    </div>
                 </div>
                 {% endif %}
-            {% else %}
+                {% else %}
                 <h3 style="margin-left: 1rem;">No one's in the labs right now</h3>
-            {% endif %}
-      </div>
-    </div>
-       <div class="beacon">
-      <div class="beacon-left">
-        <p class="beacon-location">Building 5</p>
-        {% if user_netid|has_access:"homingbeacon_checkin" %}
-        <button role="button" class="btn btn-success btn-sm user-checkin">Checkin</button>
-        {% endif %}
-      </div>
-
-      <div class="beacon-right rc">
-        {% if support_shifts %}
-        {% for shift in support_shifts %}
-        <div class="info-emp">
-          <h4><b>{{shift.pretty_location}}</b></h4>
-          <div class="img-holder">
-             <img src="{% static shift.owner.picture|img_exists %}" alt="{{shift.owner}}"
-                             class="employee-pic
-                             {% if shift.is_open %} pic-open-shift {% else %}
-                                 {% if user_netid|has_access:'homingbeacon_checkin' %}
-                                     {% if shift.shift_start|time_since < 420 %}
-                                        {% if shift.checked_in == 'T' %}
-                                            employee-pic-green
-                                         {% else %}
-                                            employee-pic-yellow
-                                         {% endif%}
-                                     {% else %}
-                                         {% if shift.checked_in == 'T' %}
-                                            employee-pic-green
-                                         {% else %}
-                                            employee-pic-red
-                                         {% endif%}
-                                     {% endif %}
-                                 {% endif %}
-                             {% endif %}    ">
-          </div>
-          <div class="name-holder">
-            <p>{{shift.short_title}}</p>
-          </div>
+                {% endif %}
+            </div>
         </div>
-        {% endfor %}
-        {% else %}
-        <h3 style="margin-left:1rem;">No one's in Building 5 right now</h3>
-        {% endif %}
-      </div>
-    </div>
-      <div class="beacon">
-      <div class="beacon-left">
-        <p class="beacon-location">Support Reps</p>
-        {% if user_netid|has_access:"homingbeacon_checkin" %}
-        <button role="button" class="btn btn-success btn-sm user-checkin">Checkin</button>
-        {% endif %}
-      </div>
-        <div class="beacon-right">
-            {% if rep_shifts %}
+
+        <div class="beacon">
+            <div class="beacon-left">
+                <p class="beacon-location">Support Techs</p>
+            </div>
+            <div class="beacon-right rc">
+                {% if support_shifts %}
+                {% for shift in support_shifts %}
+                <div class="info-emp">
+                    <h4><b>{{shift.position.name}}</b></h4>
+                    <div class="img-holder">
+                        <img src="{% static shift.user.netID|emp_img_exists %}" alt="{{shift.user.netID}}"
+                             class="employee-pic
+                             {% if user_netid|has_access:'homingbeacon_checkin' %}
+                                 {% if shift.dtstart|time_since < 420 %}
+                                    {% if shift.timesheetProjections|has_content %}
+                                        employee-pic-green
+                                     {% else %}
+                                        employee-pic-yellow
+                                     {% endif%}
+                                 {% else %}
+                                     {% if shift.timesheetProjections|has_content %}
+                                        employee-pic-green
+                                     {% else %}
+                                        employee-pic-red
+                                     {% endif%}
+                                 {% endif %}
+                             {% endif %}
+                             ">
+                    </div>
+                    <div class="name-holder">
+                        <p>{{shift.user.fullName}}</p>
+                    </div>
+                </div>
+                {% endfor %}
+                {% else %}
+                <h3 style="margin-left:1rem;">There are no support techs working right now</h3>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="beacon">
+            <div class="beacon-left">
+                <p class="beacon-location">Managers / Tech Leads</p>
+            </div>
+            <div class="beacon-right">
+                {% if managerTechLead_shifts %}
+                {% for shift in managerTechLead_shifts %}
+                <div class="info-emp">
+                    <h4><b>{{shift.position.name}}</b></h4>
+                    <div class="img-holder">
+
+                        <img src="{% static shift.user.netID|emp_img_exists %}" alt="{{shift.user.netID}}"
+                             class="employee-pic">
+                    </div>
+                    <div class="name-holder">
+                        <p>{{shift.user.fullName}}</p>
+                    </div>
+                </div>
+
+                {% endfor %}
+                {% else %}
+                <h3 style="margin-left: 1rem;">There are no managers/tech leads working right now</h3>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="beacon">
+            <div class="beacon-left">
+                <p class="beacon-location">Support Reps</p>
+            </div>
+            <div class="beacon-right">
+                {% if rep_shifts %}
                 {% for shift in rep_shifts %}
                 <div class="info-emp">
                     <h4><b>{{shift.pretty_location}}</b></h4>
@@ -130,62 +145,36 @@
                 </div>
 
                 {% endfor %}
-            {% else %}
-                <h3 style="margin-left: 1rem;">No one's in the support reps office right now</h3>
-            {% endif %}
-      </div>
-    </div>
-<div class="beacon">
-      <div class="beacon-left">
-        <p class="beacon-location">Sling Slang</p>
-      </div>
-        <div class="beacon-right">
-            {% if managerTechLead_shifts %}
-                {% for shift in managerTechLead_shifts %}
-                <div class="info-emp">
-                    <h4><b>{{shift.position.name}}</b></h4>
-                    <div class="img-holder">
+                {% else %}
+                <h3 style="margin-left: 1rem;">There are no support reps working right now</h3>
+                {% endif %}
+            </div>
+        </div>
 
-                        <img src="{% static shift.user.netID|img_exists %}" alt="{{shift.user.netID}}"
-                             class="employee-pic">
+        <div class="beacon">
+            <div class="beacon-left staff-beacon-left">
+                <p class="beacon-location">Staff</p>
+                {% if user_netid|has_access:"homingbeacon_updatestatus" %}
+                <button role="button" class="btn btn-success btn-sm staff-status">Update</button>
+                {% endif %}
+            </div>
+
+            <div class="beacon-right staff-beacon-right">
+                {% for staff in staff_stats %}
+                <div class="info-emp" title="{{staff.description}}">
+                    <h4><b>{{staff.get_status_display}}</b></h4>
+                    <div class="img-holder">
+                        <img src="{% static staff.netid.picture|img_exists %}" class="employee-pic">
                     </div>
-                    <div class="name-holder">
-                        <p>{{shift.user.fullName}}</p>
+                    <div class="name-holder staff-holder">
+                        <p>{{staff.netid.full_name}}</p>
+                        <div class="netid-meta" style="display:none">{{staff.netid.pk}}</div>
                     </div>
                 </div>
-
                 {% endfor %}
-            {% else %}
-                <h3 style="margin-left: 1rem;">No one's in the support reps office right now</h3>
-            {% endif %}
-      </div>
-    </div>
-
-    <div class="beacon">
-
-      <div class="beacon-left staff-beacon-left">
-        <p class="beacon-location">Staff</p>
-        {% if user_netid|has_access:"homingbeacon_updatestatus" %}
-        <button role="button" class="btn btn-success btn-sm staff-status">Update</button>
-        {% endif %}
-      </div>
-
-      <div class="beacon-right staff-beacon-right">
-        {% for staff in staff_stats %}
-        <div class="info-emp" title="{{staff.description}}">
-          <h4><b>{{staff.get_status_display}}</b></h4>
-          <div class="img-holder">
-            <img src="{% static staff.netid.picture|img_exists %}" class="employee-pic">
-          </div>
-          <div class="name-holder staff-holder">
-            <p>{{staff.netid.full_name}}</p>
-            <div class="netid-meta" style="display:none">{{staff.netid.pk}}</div>
-          </div>
+            </div>
         </div>
-        {% endfor %}
-      </div>
     </div>
-  </div>
 </div>
 
 
@@ -203,64 +192,66 @@
 
 
                 <div id="check-form">
-                    <form method="post"  id="checkform" >
+                    <form method="post" id="checkform">
                         {% csrf_token %}
                         {% if check_shifts %}
-                            <h3>Tech Check In</h3>
-                            {% for shift in check_shifts %}
-                                {% if not shift.is_open %}
+                        <h3>Tech Check In</h3>
+                        {% for shift in check_shifts %}
+                        {% if not shift.is_open %}
 
-                                <div class="form-group" id="group {{shift.owner.netid}}">
+                        <div class="form-group" id="group {{shift.owner.netid}}">
 
-                                    <input type="checkbox" name="checkBool" class="checkBool" id="checkBool" value="{{shift.event_id}}">
-                                    <label for="checkBool"> {{shift.owner}} </label>
-                                    <div class="reveal-if-checkBool">
-                                        <input type="time" name="check_time" class="check_time" id="check_time {{shift.owner.netid}}" >
-                                    </div>
+                            <input type="checkbox" name="checkBool" class="checkBool" id="checkBool"
+                                   value="{{shift.event_id}}">
+                            <label for="checkBool"> {{shift.owner}} </label>
+                            <div class="reveal-if-checkBool">
+                                <input type="time" name="check_time" class="check_time"
+                                       id="check_time {{shift.owner.netid}}">
+                            </div>
 
-                                </div>
+                        </div>
 
-                                {% endif %}
-                            {% endfor %}
+                        {% endif %}
+                        {% endfor %}
                         {% endif %}
 
-                        <button class="btn" id="submit-checkin"> Submit </button>
+                        <button class="btn" id="submit-checkin"> Submit</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-  </div>
+</div>
 {% endif %}
 
 {% if user_netid|has_access:"homingbeacon_updatestatus" %}
 <div class="modal fade" id="status-modal" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title">Update Status</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form method="post" class="form-horizontal" id="s-form">
-          {% csrf_token %}
-          {% for field in s_form.visible_fields %}
-          <div class="form-group">
-            {{field.errors}}
-            <label class="col-sm-2" for="{{field.id_for_label}}">{{field.label}}</label>
-            <div class="col-sm-10">
-              {{field}}
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Update Status</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
-          </div>
-          {% endfor %}
-          <button class="btn btn-success" name="s-form">Update</button>
-          <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-        </form>
-      </div>
+            <div class="modal-body">
+                <form method="post" class="form-horizontal" id="s-form">
+                    {% csrf_token %}
+                    {% for field in s_form.visible_fields %}
+                    <div class="form-group">
+                        {{field.errors}}
+                        <label class="col-sm-2" for="{{field.id_for_label}}">{{field.label}}</label>
+                        <div class="col-sm-10">
+                            {{field}}
+                        </div>
+                    </div>
+                    {% endfor %}
+                    <button class="btn btn-success" name="s-form">Update</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                </form>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 {% endif %}
 
@@ -283,6 +274,10 @@ $(document).ready(function() {
     $("#status-modal").modal('show');
   });
 });
+
+
+
+
 </script>
 
 <style>
@@ -312,4 +307,8 @@ $(document).ready(function() {
         transform: scale(1);
       }
     }
+
+
+
+
 </style>

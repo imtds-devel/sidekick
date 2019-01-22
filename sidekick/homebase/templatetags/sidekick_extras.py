@@ -28,3 +28,7 @@ def time_since(date, default="just now"):
     diff = now - date
     return diff.seconds
 
+# returns if a list is empty or not
+@register.filter(name='has_content')
+def has_content(list):
+    return len(list) > 0
