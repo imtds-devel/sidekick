@@ -7,7 +7,6 @@ from shifts.models import Shifts
 import datetime
 import pytz
 import json
-import pdb
 import requests
 from dateutil import parser
 
